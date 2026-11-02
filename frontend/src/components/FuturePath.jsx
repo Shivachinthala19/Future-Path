@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Sparkles,
+  Compass,
   ArrowRight,
   Target,
   GraduationCap,
@@ -119,7 +119,7 @@ export const FuturePath = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
         <div>
           <div className="text-[11px] font-bold uppercase tracking-wider text-indigo-600 flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5" />
+            <Compass className="w-3.5 h-3.5" />
             <span>Your Future Path</span>
           </div>
           <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5">

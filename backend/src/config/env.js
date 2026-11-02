@@ -10,5 +10,10 @@ export const ENV = {
   AI_API_KEY: process.env.AI_API_KEY || '',
   AI_MODEL: process.env.AI_MODEL || 'gemini-1.5-flash',
   FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:5173',
-  USE_MEMORY_DB_FALLBACK: process.env.USE_MEMORY_DB_FALLBACK !== 'false'
+  USE_MEMORY_DB_FALLBACK: process.env.USE_MEMORY_DB_FALLBACK !== 'false',
+  // Supabase Configuration (Secondary / Future Database)
+  SUPABASE_URL: process.env.SUPABASE_URL || '',
+  SUPABASE_PUBLISHABLE_KEY: process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_KEY || process.env.SUPABASE_ANON_KEY || '',
+  SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 };
+

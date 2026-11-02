@@ -4,23 +4,20 @@
 
 :root {
   --primary: #4F46E5;
-  --primary-light: #6366F1;
   --primary-dark: #3730A3;
   --secondary: #7C3AED;
-  --secondary-light: #9333EA;
   --accent: #06B6D4;
-  --accent-light: #38BDF8;
   --background: #F8FAFC;
   --surface: #FFFFFF;
-  --surface-translucent: rgba(255, 255, 255, 0.85);
   --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #94A3B8;
+  --text-secondary: #64748B;
   --border: #E2E8F0;
-  --border-light: #F1F5F9;
   --success: #10B981;
   --warning: #F59E0B;
   --error: #EF4444;
+
+  --brand-gradient: linear-gradient(135deg, #4F46E5, #7C3AED);
+  --subtle-gradient: linear-gradient(135deg, #EEF2FF, #F5F3FF);
 }
 
 @layer base {
@@ -30,72 +27,51 @@
     color: var(--text-primary);
     overflow-x: hidden;
   }
-  h1, h2, h3, h4, .font-display {
-    font-family: 'Plus Jakarta Sans', 'Outfit', 'Inter', -apple-system, sans-serif;
-    letter-spacing: -0.028em;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+    letter-spacing: -0.025em;
     color: var(--text-primary);
   }
 }
 
-/* Ambient Radiant Mesh Backgrounds */
-.hero-gradient-mesh {
-  background-color: #F8FAFC;
-  background-image:
-    radial-gradient(at 15% 15%, rgba(79, 70, 229, 0.10) 0px, transparent 45%),
-    radial-gradient(at 85% 20%, rgba(124, 58, 237, 0.08) 0px, transparent 40%),
-    radial-gradient(at 50% 80%, rgba(6, 182, 212, 0.07) 0px, transparent 50%),
-    radial-gradient(at 90% 85%, rgba(244, 63, 94, 0.04) 0px, transparent 35%);
-}
-
-.hero-mesh-dark {
-  background-color: #0B0F19;
-  background-image:
-    radial-gradient(at 10% 15%, rgba(79, 70, 229, 0.25) 0px, transparent 50%),
-    radial-gradient(at 90% 10%, rgba(124, 58, 237, 0.20) 0px, transparent 45%),
-    radial-gradient(at 50% 90%, rgba(6, 182, 212, 0.15) 0px, transparent 50%);
-}
-
-/* Glassmorphic Ultra-Clean Card */
+/* Card Styling: Clean 18px radius with 0 8px 24px rgba(15, 23, 42, 0.06) */
 .card-clean, .fp-card {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.85);
-  border-radius: 20px;
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  transition: transform 180ms ease-out, box-shadow 180ms ease-out, border-color 180ms ease-out;
 }
 
 .card-clean:hover, .fp-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(99, 102, 241, 0.35);
-  box-shadow: 0 16px 32px -4px rgba(79, 70, 229, 0.09), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.09);
+  border-color: #CBD5E1;
 }
 
-/* Glass Surface with Gradient Accent */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 24px;
+/* Brand gradient and subtle gradient utilities */
+.bg-brand-gradient {
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
+}
+
+.bg-subtle-gradient {
+  background: linear-gradient(135deg, #EEF2FF, #F5F3FF);
 }
 
 /* Elevated Primary Gradient Button */
 .btn-gradient {
-  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #6366F1 100%);
-  background-size: 200% 200%;
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
   color: #FFFFFF;
   font-weight: 700;
   border-radius: 14px;
   padding: 0.75rem 1.6rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 18px rgba(79, 70, 229, 0.28), 0 1px 2px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 18px rgba(79, 70, 229, 0.28);
+  border: none;
 }
 
 .btn-gradient:hover {

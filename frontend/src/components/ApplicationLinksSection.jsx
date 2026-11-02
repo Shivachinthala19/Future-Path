@@ -5,7 +5,6 @@ import {
   Building,
   Globe,
   CheckCircle2,
-  Sparkles,
   Send,
   ShieldCheck,
   Search
@@ -40,7 +39,7 @@ export const ApplicationLinksSection = ({ jobTitle = '', category = '', jobType 
       return <Building className="w-4 h-4 text-emerald-600" />;
     }
     if (type.includes('TECH') || type.includes('STARTUP')) {
-      return <Sparkles className="w-4 h-4 text-purple-600" />;
+      return <Globe className="w-4 h-4 text-purple-600" />;
     }
     return <Briefcase className="w-4 h-4 text-indigo-600" />;
   };

@@ -568,7 +568,7 @@ export const runSeed = async () => {
 };
 
 // If run directly via CLI
-if (process.argv[1].endsWith('runSeed.js')) {
+if (process.argv[1]?.endsWith('runSeed.js')) {
   runSeed().then(async () => {
     await closeDB();
     process.exit(0);

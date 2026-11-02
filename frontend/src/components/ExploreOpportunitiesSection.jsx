@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Briefcase,
@@ -6,7 +6,6 @@ import {
   Building,
   Award,
   ArrowRight,
-  Sparkles,
   ExternalLink,
   TrendingUp,
   CheckCircle2,
@@ -15,27 +14,33 @@ import {
   Layers,
   ChevronRight,
   Filter,
-  Search
+  Search,
+  RotateCw,
+  Compass,
+  Target
 } from 'lucide-react';
 import { useEducation } from '../context/EducationContext.jsx';
+import api from '../services/api.js';
 
 export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
-  const { currentEducation, changeTargetJob } = useEducation();
+  const { currentEducation, changeTargetJob, setToastMessage } = useEducation();
   const navigate = useNavigate();
 
   const studyName = currentEducation?.educationName || defaultEducation || 'B.Com';
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [opportunities, setOpportunities] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Comprehensive master opportunities catalog tailored to student's background
-  const getOpportunitiesData = (edu) => {
+  // Dynamic opportunities generator based on student's education background
+  const getOpportunitiesData = (edu, apiJobs = [], apiStudies = []) => {
     const lower = (edu || '').toLowerCase();
     const isTech = lower.includes('tech') || lower.includes('cs') || lower.includes('bca') || lower.includes('mca') || lower.includes('computer');
     const isCommerce = lower.includes('com') || lower.includes('bba') || lower.includes('mba') || lower.includes('finance') || lower.includes('account');
     const isScience = lower.includes('science') || lower.includes('b.sc') || lower.includes('12th science') || lower.includes('physics') || lower.includes('math');
     const isDiploma = lower.includes('diploma') || lower.includes('polytechnic') || lower.includes('iti');
 
-    return [
+    const defaultItems = [
       // 1. PRIVATE SECTOR JOBS
       {
         id: 'data-analyst',
@@ -48,8 +53,7 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
         hirers: ['Amazon', 'Deloitte', 'Flipkart', 'Accenture', 'Swiggy'],
         description: 'Transform raw enterprise data into executive dashboards, revenue models, and operational metrics.',
         tags: ['SQL', 'Power BI', 'Excel', 'Python'],
-        accent: 'from-indigo-500/10 to-cyan-500/10 border-indigo-200 text-indigo-900',
-        badgeColor: 'bg-indigo-100 text-indigo-800'
+        badgeColor: 'bg-indigo-50 text-[#4F46E5] border border-indigo-200'
       },
       {
         id: 'software-engineer',
@@ -62,22 +66,22 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
         hirers: ['Microsoft', 'Google', 'TCS Digital', 'Infosys', 'Razorpay'],
         description: 'Design, code, and deploy scalable cloud backend systems, frontend web apps, and distributed microservices.',
         tags: ['Full Stack', 'Java / Python', 'React', 'Databases'],
-        accent: 'from-purple-500/10 to-indigo-500/10 border-purple-200 text-purple-900',
-        badgeColor: 'bg-purple-100 text-purple-800'
+        badgeColor: 'bg-purple-50 text-[#7C3AED] border border-purple-200'
       },
       {
-        id: 'financial-analyst',
-        title: 'Corporate Financial Analyst',
-        category: 'Finance & Banking',
+        id: isCommerce ? 'financial-analyst' : 'product-operations-specialist',
+        title: isCommerce ? 'Corporate Financial Analyst' : 'Product Operations Specialist',
+        category: isCommerce ? 'Finance & Banking' : 'Business Operations',
         type: 'private_job',
         salary: '₹6.5 - 14.0 LPA',
         demand: 'High Corporate Demand',
-        eligibility: `${studyName} with financial modeling skills`,
+        eligibility: `${studyName} with quantitative / analytics skills`,
         hirers: ['J.P. Morgan', 'Morgan Stanley', 'HDFC Bank', 'KPMG', 'EY'],
-        description: 'Conduct company valuation, cash-flow forecasting, quarterly budgeting, and investment risk assessment.',
-        tags: ['Financial Modeling', 'DCF', 'Advanced Excel', 'Bloomberg'],
-        accent: 'from-blue-500/10 to-indigo-500/10 border-blue-200 text-blue-900',
-        badgeColor: 'bg-blue-100 text-blue-800'
+        description: isCommerce
+          ? 'Conduct company valuation, cash-flow forecasting, quarterly budgeting, and investment risk assessment.'
+          : 'Streamline digital product workflows, user onboarding metrics, and customer experience operations.',
+        tags: isCommerce ? ['Financial Modeling', 'DCF', 'Advanced Excel'] : ['Product Ops', 'Jira', 'SQL', 'Metrics'],
+        badgeColor: 'bg-cyan-50 text-[#0891B2] border border-cyan-200'
       },
 
       // 2. GOVERNMENT & DEFENCE OPPORTUNITIES
@@ -92,8 +96,7 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
         hirers: ['State Police Recruitment Boards', 'Delhi Police', 'BSF / CRPF / CISF'],
         description: 'Command police stations, maintain law & order, conduct criminal investigations, and lead armed units.',
         tags: ['Physical Standards', 'General Studies', 'Reasoning', 'Aptitude'],
-        accent: 'from-emerald-500/10 to-teal-500/10 border-emerald-200 text-emerald-900',
-        badgeColor: 'bg-emerald-100 text-emerald-800'
+        badgeColor: 'bg-emerald-50 text-emerald-800 border border-emerald-200'
       },
       {
         id: 'bank-po',
@@ -106,8 +109,7 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
         hirers: ['State Bank of India', 'Punjab National Bank', 'Bank of Baroda', 'Canara Bank'],
         description: 'Officer-level banking management handling retail credit underwriting, treasury, and commercial operations.',
         tags: ['Quantitative Aptitude', 'Banking Awareness', 'Data Interpretation'],
-        accent: 'from-amber-500/10 to-emerald-500/10 border-amber-200 text-amber-900',
-        badgeColor: 'bg-amber-100 text-amber-800'
+        badgeColor: 'bg-amber-50 text-amber-800 border border-amber-200'
       },
       {
         id: 'ssc-cgl',
@@ -120,8 +122,7 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
         hirers: ['Ministry of External Affairs', 'Income Tax Dept', 'Central Excise / GST', 'CBI'],
         description: 'Direct inspection, policy execution, and intelligence administration across premier central ministries.',
         tags: ['General Awareness', 'English', 'Math', 'Tier I & II Exams'],
-        accent: 'from-cyan-500/10 to-blue-500/10 border-cyan-200 text-cyan-900',
-        badgeColor: 'bg-cyan-100 text-cyan-800'
+        badgeColor: 'bg-blue-50 text-blue-800 border border-blue-200'
       },
 
       // 3. HIGHER EDUCATION & MASTERS PATHS
@@ -136,12 +137,11 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
         hirers: ['IIMs', 'XLRI', 'FMS Delhi', 'Symbiosis', 'Top Private Universities'],
         description: '2-year intensive program specializing in Finance, Marketing, Operations, Product, or Business Analytics.',
         tags: ['CAT / XAT', 'Case Studies', 'Leadership', 'Summer Internship'],
-        accent: 'from-purple-500/10 to-rose-500/10 border-purple-200 text-purple-900',
-        badgeColor: 'bg-purple-100 text-purple-800'
+        badgeColor: 'bg-purple-50 text-[#7C3AED] border border-purple-200'
       },
       {
-        id: 'm-tech-msc',
-        title: isCommerce ? 'Master of Commerce (M.Com) / CFA' : 'M.Tech / M.Sc Advanced Computing',
+        id: 'specialized-masters',
+        title: isCommerce ? 'Master of Commerce (M.Com) / CFA' : (isTech ? 'M.Tech / M.Sc Computer Science' : 'Master of Arts (MA) / Specialized PG'),
         category: 'Specialized Masters',
         type: 'higher_study',
         salary: '₹8.0 - 18.0 LPA',
@@ -150,8 +150,7 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
         hirers: ['IITs / NITs / Premier Universities', 'Global Research Centers'],
         description: 'Advanced academic and applied mastery preparing you for specialist roles, R&D, and higher advisory positions.',
         tags: ['Advanced Theory', 'Thesis Project', 'Research', 'Specialization'],
-        accent: 'from-indigo-500/10 to-purple-500/10 border-indigo-200 text-indigo-900',
-        badgeColor: 'bg-indigo-100 text-indigo-800'
+        badgeColor: 'bg-indigo-50 text-[#4F46E5] border border-indigo-200'
       },
 
       // 4. HIGH-ROI CERTIFICATIONS & FAST-TRACK
@@ -166,13 +165,44 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
         hirers: ['Microsoft (PL-300 / Azure)', 'Google Cloud', 'AWS Certified', 'NISM / ACCA'],
         description: 'Globally recognized credentials that prove production competence and fast-track automated ATS resume shortlisting.',
         tags: ['Industry Credential', 'Proctored Exam', 'LinkedIn Badge'],
-        accent: 'from-teal-500/10 to-cyan-500/10 border-teal-200 text-teal-900',
-        badgeColor: 'bg-teal-100 text-teal-800'
+        badgeColor: 'bg-teal-50 text-[#059669] border border-teal-200'
       }
     ];
+
+    return defaultItems;
   };
 
-  const opportunities = getOpportunitiesData(studyName);
+  useEffect(() => {
+    let isMounted = true;
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        const [jobsRes, studiesRes] = await Promise.allSettled([
+          api.get('/jobs'),
+          api.get('/studies')
+        ]);
+
+        const jobs = jobsRes.status === 'fulfilled' && Array.isArray(jobsRes.value.data) ? jobsRes.value.data : [];
+        const studies = studiesRes.status === 'fulfilled' && Array.isArray(studiesRes.value.data) ? studiesRes.value.data : [];
+
+        if (isMounted) {
+          const generated = getOpportunitiesData(studyName, jobs, studies);
+          setOpportunities(generated);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setOpportunities(getOpportunitiesData(studyName));
+        }
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    loadData();
+    return () => {
+      isMounted = false;
+    };
+  }, [studyName]);
 
   const filteredList = opportunities.filter((item) => {
     const matchesFilter =
@@ -195,58 +225,59 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
 
   const handleAction = (item) => {
     if (item.type === 'higher_study') {
-      navigate(`/study/${encodeURIComponent(item.title.toLowerCase().replace(/[^a-z0-9]/g, '-'))}`);
+      navigate(`/study-next`);
     } else {
       changeTargetJob(item.title);
-      navigate(`/job-roadmap?job=${encodeURIComponent(item.title)}`);
+      if (setToastMessage) {
+        setToastMessage(`🎯 Set "${item.title}" as your active target job.`);
+      }
+      navigate(`/jobs`);
     }
   };
 
   return (
-    <section id="explore-opportunities-hub" className="space-y-6 pt-4">
-      {/* Header Banner */}
-      <div className="card-clean p-6 sm:p-8 bg-gradient-to-r from-indigo-900 via-indigo-950 to-purple-950 text-white rounded-3xl shadow-xl space-y-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="space-y-1.5 max-w-2xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/30 text-indigo-200 text-xs font-bold border border-indigo-400/30">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
-              <span>Tailored Intelligence Engine</span>
+    <section id="explore-opportunities-hub" className="space-y-6">
+      {/* Header Banner - Standard Clean Styling */}
+      <div className="card-clean p-6 sm:p-8 bg-white border border-[#E2E8F0] space-y-5">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="space-y-1 max-w-2xl">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold">
+              <Compass className="w-3.5 h-3.5 text-[#4F46E5]" />
+              <span>Tailored Opportunities Engine</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+            <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#0F172A]">
               Explore All Opportunities for {studyName}
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#64748B]">
               Curated private jobs, official government vacancies, postgraduate degrees, and industry credentials accepting your qualification.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 self-start sm:self-auto">
-            <span className="px-3.5 py-1.5 rounded-full bg-white/10 text-white font-bold text-xs border border-white/20">
-              🎯 {opportunities.length} Verified Routes
+          <div className="flex items-center gap-2 self-start md:self-center flex-shrink-0">
+            <span className="px-3 py-1 rounded-full bg-[#F8FAFC] border border-[#E2E8F0] text-xs font-semibold text-[#0F172A]">
+              🎯 {opportunities.length} Verified Pathways
             </span>
           </div>
         </div>
 
         {/* Filter Pills and Quick Search */}
-        <div className="pt-2 flex flex-col md:flex-row items-center justify-between gap-3 border-t border-white/10">
+        <div className="pt-3 flex flex-col md:flex-row items-center justify-between gap-3 border-t border-[#E2E8F0]">
           <div className="flex flex-wrap items-center gap-1.5 text-xs w-full md:w-auto">
             {[
               { id: 'all', label: 'All Opportunities' },
               { id: 'jobs', label: 'All Careers & Jobs' },
               { id: 'private', label: 'Private & MNCs' },
               { id: 'govt', label: 'Government & Defence' },
-              { id: 'study', label: 'Higher Studies (Masters)' },
+              { id: 'study', label: 'Higher Studies' },
               { id: 'cert', label: 'Certifications' }
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveFilter(tab.id)}
-                className={`px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   activeFilter === tab.id
-                    ? 'bg-white text-indigo-950 shadow-md scale-105'
-                    : 'bg-white/10 text-slate-200 hover:bg-white/20'
+                    ? 'bg-[#4F46E5] text-white font-bold'
+                    : 'bg-[#F8FAFC] text-[#64748B] hover:bg-slate-100 hover:text-[#0F172A] border border-[#E2E8F0]'
                 }`}
               >
                 {tab.label}
@@ -255,93 +286,102 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
           </div>
 
           <div className="relative w-full md:w-64">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Filter by skill or title..."
-              className="w-full pl-8 pr-3 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+              placeholder="Filter by skill, title, recruiter..."
+              className="w-full pl-9 pr-3 py-1.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:bg-white transition-all"
             />
           </div>
         </div>
       </div>
 
       {/* Grid of Opportunities */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredList.map((item) => (
-          <div
-            key={item.id}
-            className={`card-clean p-5 bg-white border border-slate-200 hover:border-indigo-400 flex flex-col justify-between space-y-4 group rounded-2xl shadow-2xs hover:shadow-md transition-all`}
-          >
-            <div className="space-y-3">
-              {/* Category Badge & Estimated Salary */}
-              <div className="flex items-center justify-between gap-2">
-                <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-md ${item.badgeColor}`}>
-                  {item.category}
-                </span>
-                <span className="text-xs font-black text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-md border border-emerald-100">
-                  {item.salary}
-                </span>
-              </div>
+      {loading ? (
+        <div className="card-clean p-12 text-center space-y-3 bg-white border border-[#E2E8F0]">
+          <RotateCw className="w-6 h-6 text-[#4F46E5] animate-spin mx-auto" />
+          <p className="text-xs text-[#64748B] font-semibold">
+            Loading tailored opportunities for {studyName}...
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {filteredList.map((item) => (
+            <div
+              key={item.id}
+              className="card-clean p-6 bg-white border border-[#E2E8F0] hover:border-[#C7D2FE] flex flex-col justify-between space-y-4 group rounded-2xl shadow-[0_8px_24px_rgba(15,23,42,0.06)] hover:shadow-md transition-all"
+            >
+              <div className="space-y-3">
+                {/* Category Badge & Estimated Salary */}
+                <div className="flex items-center justify-between gap-2">
+                  <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full ${item.badgeColor}`}>
+                    {item.category}
+                  </span>
+                  <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100">
+                    {item.salary}
+                  </span>
+                </div>
 
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 group-hover:text-indigo-600 transition-colors">
-                  {item.title}
-                </h3>
-                <div className="text-[11px] text-slate-500 font-medium mt-0.5">
-                  <strong className="text-slate-700">Eligibility: </strong> {item.eligibility}
+                <div>
+                  <h3 className="text-lg font-extrabold text-[#0F172A] group-hover:text-[#4F46E5] transition-colors">
+                    {item.title}
+                  </h3>
+                  <div className="text-[11px] text-[#64748B] font-medium mt-0.5">
+                    <strong className="text-slate-700">Eligibility: </strong> {item.eligibility}
+                  </div>
+                </div>
+
+                <p className="text-xs text-[#64748B] leading-relaxed line-clamp-2">
+                  {item.description}
+                </p>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {item.tags.map((tg, idx) => (
+                    <span
+                      key={idx}
+                      className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-[#F8FAFC] text-[#0F172A] border border-[#E2E8F0]"
+                    >
+                      {tg}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Major Hirers / Institutions */}
+                <div className="pt-2 border-t border-[#E2E8F0] text-[11px] text-[#64748B]">
+                  <span className="font-bold text-slate-700">Top Recruiters: </span>
+                  <span>{item.hirers.slice(0, 3).join(', ')}</span>
                 </div>
               </div>
 
-              <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
-                {item.description}
-              </p>
-
-              {/* Tags */}
-              <div className="flex flex-wrap gap-1 pt-1">
-                {item.tags.map((tg, idx) => (
-                  <span
-                    key={idx}
-                    className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200"
-                  >
-                    {tg}
-                  </span>
-                ))}
-              </div>
-
-              {/* Major Hirers / Institutions */}
-              <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-500">
-                <span className="font-bold text-slate-700">Top Recruiters: </span>
-                <span>{item.hirers.slice(0, 3).join(', ')}</span>
+              {/* Action Button */}
+              <div className="pt-2">
+                <button
+                  onClick={() => handleAction(item)}
+                  className="w-full btn-primary !text-xs !py-2 !px-3 !rounded-xl justify-center flex items-center gap-1.5 cursor-pointer"
+                >
+                  {item.type === 'higher_study' ? (
+                    <>
+                      <GraduationCap className="w-3.5 h-3.5" />
+                      <span>View Study Syllabus & Exams →</span>
+                    </>
+                  ) : (
+                    <>
+                      <Briefcase className="w-3.5 h-3.5" />
+                      <span>Crack This Role & Apply →</span>
+                    </>
+                  )}
+                </button>
               </div>
             </div>
+          ))}
+        </div>
+      )}
 
-            {/* 1-Click Action Button */}
-            <div className="pt-2">
-              <button
-                onClick={() => handleAction(item)}
-                className="w-full py-2 px-3 rounded-xl bg-indigo-50 group-hover:bg-indigo-600 text-indigo-700 group-hover:text-white font-bold text-xs transition-all flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer"
-              >
-                {item.type === 'higher_study' ? (
-                  <>
-                    <GraduationCap className="w-3.5 h-3.5" />
-                    <span>View Study Syllabus & Exams →</span>
-                  </>
-                ) : (
-                  <>
-                    <Briefcase className="w-3.5 h-3.5" />
-                    <span>Crack This Role & Apply →</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {filteredList.length === 0 && (
-        <div className="p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-500 text-xs">
+      {!loading && filteredList.length === 0 && (
+        <div className="card-clean p-8 text-center bg-white rounded-2xl border border-[#E2E8F0] text-[#64748B] text-xs">
           No opportunities matched your search. Try clearing the filter or search query.
         </div>
       )}

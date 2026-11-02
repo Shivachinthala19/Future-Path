@@ -24,8 +24,32 @@ export const getAllExams = async (req, res, next) => {
       ];
     }
 
-    let exams = await Exam.find(filter).lean();
+    // Query Supabase exams first
+    const { SupabaseService } = await import('../services/supabase/supabaseService.js');
+    const supabaseExams = await SupabaseService.getExams({ category });
 
+    let exams = [];
+    if (supabaseExams && supabaseExams.length > 0) {
+      exams = supabaseExams.map(e => ({
+        id: e.slug || e.id,
+        _id: e.slug || e.id,
+        name: e.name,
+        shortName: e.short_name || e.name,
+        organization: e.organization,
+        category: e.category,
+        qualification: e.qualification,
+        overview: e.overview || e.description,
+        description: e.description || e.overview,
+        notificationUrl: e.notification_url
+      }));
+
+      if (searchQuery && searchQuery.trim()) {
+        const s = searchQuery.toLowerCase();
+        exams = exams.filter(e => e.name.toLowerCase().includes(s) || (e.shortName && e.shortName.toLowerCase().includes(s)));
+      }
+    } else {
+      exams = await Exam.find(filter).lean().catch(() => []);
+    }
     if (exams.length === 0) {
       // Fallback to Entity model
       const entityFilter = { type: { $in: ['EXAM', 'GOVERNMENT_JOB'] } };

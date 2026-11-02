@@ -85,22 +85,43 @@ export const getRelatedJobs = async (req, res, next) => {
       });
     }
 
-    // If NO target job is selected, show jobs related to the user's education (Section 1)
-    let jobs = await Job.find({}).lean();
+    // Query Supabase jobs first
+    const { SupabaseService } = await import('../services/supabase/supabaseService.js');
+    const supabaseJobs = await SupabaseService.getJobs({ category: type, search });
 
-    if (!jobs || jobs.length === 0) {
-      const entityJobs = await Entity.find({ type: { $in: ['JOB', 'PRIVATE_JOB', 'GOVERNMENT_JOB'] } }).lean();
-      jobs = entityJobs.map(e => ({
-        ...e,
-        title: e.title || e.name,
-        jobType: e.type === 'GOVERNMENT_JOB' ? 'Government' : 'Private'
+    let jobs = [];
+    if (supabaseJobs && supabaseJobs.length > 0) {
+      jobs = supabaseJobs.map(j => ({
+        id: j.slug || j.id,
+        _id: j.slug || j.id,
+        title: j.title,
+        jobType: j.category === 'Government' ? 'Government' : 'Private',
+        category: j.category || 'Private',
+        sector: j.sector || 'Technology & Industry',
+        overview: j.overview || j.description,
+        description: j.description || j.overview,
+        minimumEducation: j.minimum_education || 'Graduation',
+        requiredSkills: j.required_skills || [],
+        tools: j.tools || [],
+        topCompanies: j.top_companies || [],
+        salaryRange: { formatted: 'Competitive Market Rate' }
       }));
     } else {
-      jobs = jobs.map(j => ({
-        ...j,
-        title: j.title || j.name,
-        jobType: j.type === 'GOVERNMENT_JOB' ? 'Government' : 'Private'
-      }));
+      const dbJobs = await Job.find({}).lean().catch(() => []);
+      if (dbJobs.length > 0) {
+        jobs = dbJobs.map(j => ({
+          ...j,
+          title: j.title || j.name,
+          jobType: j.type === 'GOVERNMENT_JOB' ? 'Government' : 'Private'
+        }));
+      } else {
+        const entityJobs = await Entity.find({ type: { $in: ['JOB', 'PRIVATE_JOB', 'GOVERNMENT_JOB'] } }).lean().catch(() => []);
+        jobs = entityJobs.map(e => ({
+          ...e,
+          title: e.title || e.name,
+          jobType: e.type === 'GOVERNMENT_JOB' ? 'Government' : 'Private'
+        }));
+      }
     }
 
     // Apply job type / category filter if provided ('Private', 'Government', etc.)

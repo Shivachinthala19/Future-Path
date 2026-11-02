@@ -24,6 +24,7 @@ import adminRoutes from './routes/adminRoutes.js';
 import targetJobRoutes from './routes/targetJobRoutes.js';
 import eligibilityRoutes from './routes/eligibilityRoutes.js';
 import learnRoutes from './routes/learnRoutes.js';
+import healthRoutes from './routes/healthRoutes.js';
 import searchRoutes from './routes/searchRoutes.js';
 
 const app = express();
@@ -52,15 +53,8 @@ if (ENV.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'healthy',
-    product: 'Future Path API',
-    version: '1.0.0',
-    timestamp: new Date().toISOString(),
-  });
-});
+// Health check endpoints (Primary MongoDB & Secondary Supabase)
+app.use('/api/health', healthRoutes);
 
 // Mount API routes
 app.use('/api/search', searchRoutes);

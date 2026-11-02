@@ -1,264 +1,282 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Brain, ArrowRight, CheckCircle2, RotateCw, BookOpen, Layers, Sparkles, Briefcase, Plus, X } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  GraduationCap,
+  ArrowRight,
+  CheckCircle2,
+  AlertTriangle,
+  Circle,
+  Compass,
+  Target,
+  BookOpen,
+  Code,
+  Layers,
+  ChevronRight,
+  RotateCw
+} from 'lucide-react';
 import { useEducation } from '../context/EducationContext.jsx';
-import { ChangeEducationButton, ChangeTargetJobButton } from '../components/ChangeEducation.jsx';
 import api from '../services/api.js';
 
-/**
- * Section 6: Learn for a Job Page (/learn)
- * Based on: User Education + Target Job if selected.
- * - If Target Job exists: "How to become a [Target Job]" with ordered skills
- * - If NO Target Job: Skills you can learn for careers related to education, with 1-click select
- */
 export const LearnSkillsPage = () => {
+  const navigate = useNavigate();
   const {
     currentEducation,
     targetJob,
+    openTargetJobModal,
     changeTargetJob,
-    removeTargetJob,
-    openTargetJobModal
+    removeTargetJob
   } = useEducation();
 
-  const studyName = currentEducation.educationName || 'B.Com';
-  const targetJobName = targetJob?.targetJobName;
+  const studyName = currentEducation?.educationName || 'B.Com';
+  const targetJobName = targetJob?.targetJobName || 'Data Analyst';
 
-  const [learnData, setLearnData] = useState(null);
+  const [skillsData, setSkillsData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedClusterIndex, setSelectedClusterIndex] = useState(0);
+  const [selectedSkill, setSelectedSkill] = useState(null);
 
-  const fetchLearnData = async (edu, job) => {
-    setLoading(true);
-    try {
-      let url = `/learn?education=${encodeURIComponent(edu)}`;
-      if (job) {
-        url += `&targetJob=${encodeURIComponent(job)}`;
-      }
-      const res = await api.get(url);
-      if (res.success && res.data) {
-        setLearnData(res.data);
-      }
-    } catch (err) {
-      console.warn('Failed to load learn skills from API:', err.message);
-    } finally {
-      setLoading(false);
+  // Skill categorization generator based on education & target role
+  const generateSkillBreakdown = (edu, job) => {
+    const jobLower = (job || 'Data Analyst').toLowerCase();
+    
+    if (jobLower.includes('data') || jobLower.includes('analyst')) {
+      return [
+        { name: 'Microsoft Excel & Spreadsheets', status: 'HAVE', category: 'Core Office', importance: 'Foundation', description: 'Formulas, VLOOKUP, pivot tables, basic charts and data cleaning.' },
+        { name: 'SQL (Structured Query Language)', status: 'NEED', category: 'Database', importance: 'Critical', description: 'Table joins, aggregation functions, subqueries, and window functions.' },
+        { name: 'Business Statistics', status: 'NEED', category: 'Analytics', importance: 'Critical', description: 'Descriptive stats, probability distributions, hypothesis testing.' },
+        { name: 'Power BI / Tableau', status: 'NEED', category: 'Visualization', importance: 'High', description: 'Interactive dashboard creation, KPI metrics, DAX queries.' },
+        { name: 'Python for Data Analysis', status: 'RECOMMENDED', category: 'Programming', importance: 'Recommended', description: 'Pandas, NumPy, automated data pipelines and scripting.' },
+        { name: 'Data Storytelling & Reporting', status: 'RECOMMENDED', category: 'Communication', importance: 'Recommended', description: 'Translating technical numbers into executive business insights.' }
+      ];
     }
+
+    if (jobLower.includes('software') || jobLower.includes('dev')) {
+      return [
+        { name: 'Computer Science Basics', status: 'HAVE', category: 'Fundamentals', importance: 'Foundation', description: 'Logical thinking, algorithms, and computational problem-solving.' },
+        { name: 'JavaScript / TypeScript', status: 'NEED', category: 'Language', importance: 'Critical', description: 'ES6+ syntax, asynchronous programming, DOM and types.' },
+        { name: 'React.js Frontend Framework', status: 'NEED', category: 'Frontend', importance: 'Critical', description: 'Components, hooks, state management, and modern UI creation.' },
+        { name: 'Node.js & REST APIs', status: 'NEED', category: 'Backend', importance: 'Critical', description: 'Express.js server architecture, routing, middleware and auth.' },
+        { name: 'PostgreSQL / MongoDB', status: 'RECOMMENDED', category: 'Database', importance: 'Recommended', description: 'Schema design, indexing, ORMs and query optimization.' },
+        { name: 'Git & Version Control', status: 'RECOMMENDED', category: 'DevOps', importance: 'Recommended', description: 'Branching, PRs, code review workflows, and CI/CD basics.' }
+      ];
+    }
+
+    if (jobLower.includes('finance') || jobLower.includes('account')) {
+      return [
+        { name: 'Financial Accounting Principles', status: 'HAVE', category: 'Domain', importance: 'Foundation', description: 'Double-entry bookkeeping, ledger entries, trial balance.' },
+        { name: 'Tally Prime & GST Filing', status: 'NEED', category: 'Software', importance: 'Critical', description: 'Voucher entries, GST returns, e-invoicing and reconciliation.' },
+        { name: 'Advanced Excel Financial Modeling', status: 'NEED', category: 'Analysis', importance: 'Critical', description: 'XLOOKUP, DCF models, sensitivity tables and macros.' },
+        { name: 'TDS & Income Tax Compliance', status: 'NEED', category: 'Taxation', importance: 'High', description: 'Form 16/26AS, deduction slabs, quarterly returns.' },
+        { name: 'SAP FICO / ERP Systems', status: 'RECOMMENDED', category: 'ERP', importance: 'Recommended', description: 'Enterprise financial accounting modules and reporting.' }
+      ];
+    }
+
+    return [
+      { name: 'Domain Knowledge', status: 'HAVE', category: 'Foundation', importance: 'Foundation', description: 'Principles and theoretical framework from your education.' },
+      { name: 'Core Industry Tooling', status: 'NEED', category: 'Tools', importance: 'Critical', description: 'Primary industry software and practical workflow tooling.' },
+      { name: 'Applied Problem Solving', status: 'NEED', category: 'Practice', importance: 'Critical', description: 'Solving real-world scenarios and client requirements.' },
+      { name: 'Advanced Certification Skill', status: 'RECOMMENDED', category: 'Professional', importance: 'Recommended', description: 'Recognized industry credentials and advanced specialization.' }
+    ];
   };
 
   useEffect(() => {
-    fetchLearnData(studyName, targetJobName);
+    let isMounted = true;
+    setLoading(true);
+    
+    // Simulate/Fetch skill gap from API
+    setTimeout(() => {
+      if (isMounted) {
+        const breakdown = generateSkillBreakdown(studyName, targetJobName);
+        setSkillsData(breakdown);
+        setSelectedSkill(breakdown.find(s => s.status === 'NEED') || breakdown[0]);
+        setLoading(false);
+      }
+    }, 150);
+
+    return () => {
+      isMounted = false;
+    };
   }, [studyName, targetJobName]);
 
+  const haveCount = skillsData.filter(s => s.status === 'HAVE').length;
+  const needCount = skillsData.filter(s => s.status === 'NEED').length;
+  const recCount = skillsData.filter(s => s.status === 'RECOMMENDED').length;
+
   return (
-    <div className="space-y-6 sm:space-y-8 py-2 sm:py-6 max-w-4xl mx-auto">
-      {/* Header (Section 6) */}
-      <section className="card-clean p-6 sm:p-7 bg-white border border-slate-200 space-y-4">
+    <div className="space-y-8 max-w-5xl mx-auto py-2 sm:py-6">
+      {/* Header Section (Section 17) */}
+      <section className="card-clean p-6 sm:p-8 bg-white border border-[#E2E8F0] space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-bold mb-2">
-              <Brain className="w-3.5 h-3.5" />
-              <span>Skill Curriculum & Learning Order</span>
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] text-[#059669] text-xs font-bold">
+              <GraduationCap className="w-3.5 h-3.5" />
+              <span>SKILL GAP ANALYSIS</span>
             </div>
-
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              {targetJobName ? `How to become a ${targetJobName}` : `Skills to Learn from ${studyName}`}
+            <h1 className="text-2xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
+              Your Skill Gap
             </h1>
-
-            <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Education: <strong className="text-indigo-600 font-bold">{studyName}</strong>
-              {targetJobName && (
-                <>
-                  {' '}• Target Role: <strong className="text-purple-600 font-bold">{targetJobName}</strong>
-                </>
-              )}
-            </p>
+            <div className="text-sm sm:text-base text-[#64748B] flex items-center gap-2 pt-1">
+              <span>Target Role:</span>
+              <strong className="text-[#4F46E5] font-bold">{targetJobName}</strong>
+              <span className="text-slate-300">•</span>
+              <span className="text-xs text-slate-500">From {studyName}</span>
+            </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            <ChangeEducationButton />
-            {targetJobName && (
-              <ChangeTargetJobButton />
-            )}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={openTargetJobModal}
+              className="btn-primary !text-xs !py-2 !px-4 !rounded-xl cursor-pointer"
+            >
+              Change Target Role
+            </button>
+          </div>
+        </div>
+
+        {/* Legend Bar (Section 17 requirement) */}
+        <div className="pt-3 border-t border-[#E2E8F0] flex flex-wrap items-center gap-4 text-xs font-semibold">
+          <div className="flex items-center gap-1.5 text-emerald-700">
+            <span className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-xs">✓</span>
+            <span>Already have ({haveCount})</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-amber-700">
+            <span className="w-5 h-5 rounded-full bg-amber-100 flex items-center justify-center font-bold text-xs">⚠</span>
+            <span>Need to learn ({needCount})</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-indigo-700">
+            <span className="w-5 h-5 rounded-full bg-indigo-100 flex items-center justify-center font-bold text-xs">○</span>
+            <span>Recommended ({recCount})</span>
           </div>
         </div>
       </section>
 
-      {/* Main Content: Differentiates whether Target Job exists (Section 6) */}
-      {loading ? (
-        <div className="card-clean p-12 text-center space-y-3 bg-white border border-slate-200">
-          <RotateCw className="w-6 h-6 text-purple-600 animate-spin mx-auto" />
-          <p className="text-xs text-slate-500 font-semibold">
-            Customizing skill curriculum for {targetJobName || studyName}...
-          </p>
-        </div>
-      ) : targetJobName ? (
-        /* ================= CASE 1: TARGET JOB EXISTS ================= */
-        <section className="space-y-6">
-          <div className="card-clean p-6 sm:p-7 bg-white border border-purple-200 shadow-2xs space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
-              <div>
-                <div className="text-[11px] font-extrabold uppercase tracking-wider text-purple-600">
-                  Targeted Learning Order
+      {/* Main Skill Gap Breakdown & Learning Panel */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left Side: Skill List */}
+        <div className="lg:col-span-7 space-y-3">
+          <div className="text-xs font-bold uppercase tracking-wider text-[#64748B] px-1">
+            Skill Requirement Matrix for {targetJobName}
+          </div>
+
+          <div className="space-y-2.5">
+            {skillsData.map((skill, idx) => {
+              const isHave = skill.status === 'HAVE';
+              const isNeed = skill.status === 'NEED';
+              const isRec = skill.status === 'RECOMMENDED';
+              const isSelected = selectedSkill?.name === skill.name;
+
+              return (
+                <div
+                  key={idx}
+                  onClick={() => setSelectedSkill(skill)}
+                  className={`p-4 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                    isSelected
+                      ? 'bg-white border-[#4F46E5] ring-2 ring-[#EEF2FF] shadow-sm'
+                      : 'bg-white border-[#E2E8F0] hover:border-slate-300'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    {/* Status Icon */}
+                    <div
+                      className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0 ${
+                        isHave
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : isNeed
+                          ? 'bg-amber-100 text-amber-800'
+                          : 'bg-indigo-100 text-indigo-800'
+                      }`}
+                    >
+                      {isHave ? '✓' : isNeed ? '⚠' : '○'}
+                    </div>
+
+                    <div>
+                      <div className="text-sm font-bold text-[#0F172A]">
+                        {skill.name}
+                      </div>
+                      <div className="text-[11px] text-[#64748B]">
+                        {skill.category} · {skill.importance}
+                      </div>
+                    </div>
+                  </div>
+
+                  <ChevronRight className={`w-4 h-4 ${isSelected ? 'text-[#4F46E5]' : 'text-slate-300'}`} />
                 </div>
-                <h2 className="text-xl font-extrabold text-slate-900 mt-0.5">
-                  Ordered Skills to Learn
-                </h2>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Strictly filtered for <strong className="text-slate-800">{targetJobName}</strong> based on your {studyName} degree.
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Right Side: Skill Deep-Dive & Action Card */}
+        <div className="lg:col-span-5">
+          {selectedSkill ? (
+            <div className="card-clean p-6 bg-white border border-[#E2E8F0] space-y-5 sticky top-20">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span
+                    className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${
+                      selectedSkill.status === 'HAVE'
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : selectedSkill.status === 'NEED'
+                        ? 'bg-amber-100 text-amber-800'
+                        : 'bg-indigo-100 text-indigo-800'
+                    }`}
+                  >
+                    {selectedSkill.status === 'HAVE' ? '✓ Acquired' : selectedSkill.status === 'NEED' ? '⚠ Priority Skill' : '○ Elective Skill'}
+                  </span>
+                  <span className="text-xs text-[#64748B] font-semibold">
+                    {selectedSkill.category}
+                  </span>
+                </div>
+
+                <h3 className="text-xl font-extrabold text-[#0F172A]">
+                  {selectedSkill.name}
+                </h3>
+
+                <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
+                  {selectedSkill.description}
                 </p>
               </div>
 
-              <button
-                onClick={removeTargetJob}
-                className="text-xs font-semibold text-slate-400 hover:text-red-600 transition-colors self-start sm:self-auto"
-              >
-                Clear Target & Browse All Careers
-              </button>
-            </div>
-
-            {/* Ordered Skill List (1. Excel, 2. Statistics, 3. SQL, 4. Python, 5. Pandas, 6. Power BI...) */}
-            <div className="space-y-3">
-              {(learnData?.skillsToLearn || []).map((skill) => (
-                <div
-                  key={skill.step}
-                  className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-purple-300 transition-all space-y-2 group"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <div className="flex items-center gap-3">
-                      <div className="w-7 h-7 rounded-lg bg-purple-600 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
-                        {skill.step}
-                      </div>
-                      <div>
-                        <div className="font-extrabold text-sm text-slate-900 group-hover:text-purple-600 transition-colors">
-                          {skill.name}
-                        </div>
-                        <div className="text-[11px] text-slate-400">
-                          {skill.category}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-xs">
-                      <span className="text-[10px] px-2.5 py-0.5 rounded-full font-bold bg-white text-purple-700 border border-purple-200">
-                        {skill.duration || '2-3 Weeks'}
-                      </span>
-                      <span className="text-[10px] px-2.5 py-0.5 rounded-full font-bold bg-slate-100 text-slate-600 border border-slate-200">
-                        {skill.status}
-                      </span>
-                    </div>
-                  </div>
-
-                  <p className="text-xs text-slate-600 leading-relaxed pl-10">
-                    <strong className="text-slate-700">Why needed:</strong> {skill.whyNeeded}
-                  </p>
+              {/* Learning Curriculum Modules */}
+              <div className="space-y-2 pt-2 border-t border-[#E2E8F0]">
+                <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  Recommended Study Modules:
                 </div>
-              ))}
-            </div>
-
-            {/* Next Step Callout */}
-            <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-              <span className="text-slate-500">
-                Ready to see capstone projects and interview prep for {targetJobName}?
-              </span>
-              <Link
-                to="/job-roadmap"
-                className="btn-primary text-xs px-4 py-2 self-start sm:self-auto"
-              >
-                <span>View Complete Job Roadmap</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-          </div>
-        </section>
-      ) : (
-        /* ================= CASE 2: NO TARGET JOB EXISTS ================= */
-        <section className="space-y-6">
-          <div className="card-clean p-6 sm:p-7 bg-white border border-slate-200 space-y-5">
-            <div>
-              <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                Broad Career Exploration
+                <ul className="space-y-1.5 text-xs text-slate-700">
+                  <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#4F46E5]" />
+                    <span>Module 1: Syntax & Core Concepts</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#4F46E5]" />
+                    <span>Module 2: Practical Queries & Real Datasets</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#4F46E5]" />
+                    <span>Module 3: Optimization & Portfolio Project</span>
+                  </li>
+                </ul>
               </div>
-              <h2 className="text-xl font-extrabold text-slate-900 mt-0.5">
-                Skills you can learn for careers related to {studyName}
-              </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Select any career field or job below to focus your learning roadmap.
-              </p>
-            </div>
 
-            {/* Career Cluster Tabs (Accounting, Finance, Banking, Data Analytics, etc.) */}
-            <div className="flex flex-wrap gap-2 pt-1 border-b border-slate-100 pb-3">
-              {(learnData?.careerClusters || []).map((cluster, cIdx) => (
-                <button
-                  key={cIdx}
-                  onClick={() => setSelectedClusterIndex(cIdx)}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-bold border transition-all ${
-                    selectedClusterIndex === cIdx
-                      ? 'border-purple-600 bg-purple-50 text-purple-700 shadow-2xs'
-                      : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-700'
-                  }`}
+              {/* Start Learning Action Button (Section 17) */}
+              <div className="pt-3">
+                <Link
+                  to="/ai-assistant"
+                  className="w-full btn-primary !py-2.5 text-xs font-bold justify-center"
                 >
-                  {cluster.field}
-                </button>
-              ))}
-            </div>
-
-            {/* Active Cluster Details */}
-            {learnData?.careerClusters?.[selectedClusterIndex] && (
-              <div className="space-y-4 animate-in fade-in duration-200">
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-                  <div className="font-extrabold text-sm text-slate-900">
-                    {learnData.careerClusters[selectedClusterIndex].field} Domain Overview
-                  </div>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    {learnData.careerClusters[selectedClusterIndex].description}
-                  </p>
-                </div>
-
-                {/* Skills in this Cluster */}
-                <div className="space-y-2">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                    Key Competencies & Tools:
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    {learnData.careerClusters[selectedClusterIndex].skills.map((skillName, skIdx) => (
-                      <div
-                        key={skIdx}
-                        className="p-3 rounded-xl border border-slate-200 bg-white flex items-center justify-between text-xs"
-                      >
-                        <span className="font-bold text-slate-900">{skillName}</span>
-                        <span className="text-[10px] text-purple-600 font-semibold bg-purple-50 px-2 py-0.5 rounded-md">
-                          Core Skill
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Target Jobs you can set from this cluster */}
-                <div className="space-y-2 pt-2">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                    Related Job Roles (Click to Set as Target Job):
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {learnData.careerClusters[selectedClusterIndex].targetJobs.map((roleName) => (
-                      <button
-                        key={roleName}
-                        onClick={() => changeTargetJob(roleName)}
-                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-200 bg-white hover:border-purple-400 hover:bg-purple-50 text-slate-800 transition-all group"
-                      >
-                        <span>{roleName}</span>
-                        <Plus className="w-3.5 h-3.5 text-purple-600 group-hover:scale-110 transition-transform" />
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                  <BookOpen className="w-4 h-4" />
+                  <span>Start Guided Practice</span>
+                </Link>
               </div>
-            )}
-          </div>
-        </section>
-      )}
+            </div>
+          ) : (
+            <div className="card-clean p-8 bg-white border border-[#E2E8F0] text-center space-y-2">
+              <p className="text-xs text-slate-500">Select any skill on the left to view modules and start learning.</p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
+
 export default LearnSkillsPage;

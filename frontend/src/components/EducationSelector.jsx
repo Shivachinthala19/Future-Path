@@ -1,27 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, CheckCircle2, ArrowRight, RotateCw } from 'lucide-react';
+import { studiesApi } from '../api/studies.js';
 
 export const EducationSelector = ({ initialValue = '', onConfirm }) => {
   const [selectedStudy, setSelectedStudy] = useState(initialValue);
   const [confirmed, setConfirmed] = useState(false);
+  const [commonStudies, setCommonStudies] = useState([]);
 
-  const sampleStudies = [
-    '10th',
-    '12th Science',
-    '12th Commerce',
-    'B.Com',
-    'B.Tech Computer Science',
-    'B.Sc',
-    'MBA',
-    'ITI Electrician',
-    'Diploma Mechanical',
-    'MCA',
-    'MBBS',
-    'Nursing',
-    'Law (LLB)',
-    'B.Pharm',
-    'BA Psychology'
-  ];
+  useEffect(() => {
+    const fetchStudies = async () => {
+      try {
+        const res = await studiesApi.getAll();
+        if (res.success && res.data && res.data.length > 0) {
+          setCommonStudies(res.data.map(s => s.shortName || s.name));
+        }
+      } catch (err) {
+        // Safe fallback
+        setCommonStudies(['B.Com', 'B.Tech', '12th Science', '12th Commerce', '10th', 'MBA', 'B.Sc']);
+      }
+    };
+    fetchStudies();
+  }, []);
 
   const handleSelect = (study) => {
     setSelectedStudy(study);
@@ -68,27 +67,29 @@ export const EducationSelector = ({ initialValue = '', onConfirm }) => {
             </button>
           </form>
 
-          {/* Quick suggestions */}
-          <div className="space-y-2">
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Or Choose From Common Studies:
+          {/* Dynamic database suggestions */}
+          {commonStudies.length > 0 && (
+            <div className="space-y-2">
+              <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                Or Choose From Common Studies:
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {commonStudies.map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => handleSelect(s)}
+                    className="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-xs font-semibold text-slate-700 hover:border-indigo-500 hover:text-indigo-600 transition-colors"
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {sampleStudies.map((s) => (
-                <button
-                  key={s}
-                  type="button"
-                  onClick={() => handleSelect(s)}
-                  className="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-xs font-semibold text-slate-700 hover:border-indigo-500 hover:text-indigo-600 transition-colors"
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-          </div>
+          )}
         </div>
       ) : (
-        /* Confirmation step (Section 3) */
+        /* Confirmation step */
         <div className="space-y-6 text-center py-4">
           <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-6 h-6" />

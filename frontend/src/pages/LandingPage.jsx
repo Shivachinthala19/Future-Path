@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import {
   Search,
   ArrowRight,
-  Sparkles,
   Compass,
   Target,
   GraduationCap,
@@ -45,7 +44,7 @@ export const LandingPage = () => {
       <section className="text-center space-y-6 max-w-3xl mx-auto pt-2 sm:pt-4">
         {/* Subtle Badge */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-semibold shadow-2xs">
-          <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+          <Compass className="w-3.5 h-3.5 text-indigo-600" />
           <span>Your Education. Your Choices. Your Future.</span>
         </div>
 
@@ -206,8 +205,8 @@ export const LandingPage = () => {
       {/* ================================================================= */}
       <section className="card-clean p-6 sm:p-8 bg-gradient-to-r from-indigo-900 via-indigo-950 to-purple-950 text-white rounded-3xl shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="space-y-1 max-w-xl">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-amber-300 text-xs font-bold mb-1">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-cyan-300 text-xs font-bold mb-1">
+            <Compass className="w-3.5 h-3.5" />
             <span>AI Career Counselor</span>
           </div>
           <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
@@ -222,7 +221,7 @@ export const LandingPage = () => {
           to="/ai-assistant"
           className="self-start sm:self-auto px-5 py-2.5 rounded-xl bg-white text-slate-900 font-bold text-xs hover:bg-slate-100 transition-all shadow-md inline-flex items-center gap-2 whitespace-nowrap cursor-pointer"
         >
-          <span>Ask Future Path AI ✨</span>
+          <span>Ask Future Path AI</span>
         </Link>
       </section>
     </div>

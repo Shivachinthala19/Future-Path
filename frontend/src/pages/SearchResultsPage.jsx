@@ -6,7 +6,6 @@ import {
   GraduationCap,
   Briefcase,
   Layers,
-  Sparkles,
   BookOpen,
   Award,
   CheckCircle2,
@@ -145,7 +144,7 @@ export const SearchResultsPage = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <div className="text-[11px] font-extrabold uppercase tracking-wider text-indigo-600 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+              <Compass className="w-3.5 h-3.5 text-indigo-600" />
               <span>Universal Education & Career Registry</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-0.5">
@@ -237,7 +236,7 @@ export const SearchResultsPage = () => {
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-slate-100 pb-5">
             <div className="space-y-1">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-bold">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+                <Compass className="w-3.5 h-3.5 text-indigo-600" />
                 <span>Direct Guidance Engine</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">

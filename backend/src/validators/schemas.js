@@ -49,6 +49,7 @@ export const interviewAnswerSchema = z.object({
 
 export const aiChatSchema = z.object({
   message: z.string().min(1, 'Message cannot be empty'),
+  conversationId: z.string().optional(),
   context: z.record(z.any()).optional(),
 });
 

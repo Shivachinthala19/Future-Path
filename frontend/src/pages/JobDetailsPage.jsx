@@ -9,7 +9,6 @@ import {
   Clock,
   Layers,
   GraduationCap,
-  Sparkles,
   BookOpen,
   Code,
   FileText,

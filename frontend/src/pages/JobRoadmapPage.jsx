@@ -8,7 +8,6 @@ import {
   FileText,
   Code,
   Building,
-  Sparkles,
   ExternalLink,
   ShieldCheck,
   Calendar,
@@ -21,7 +20,9 @@ import {
   HelpCircle,
   Clock,
   DollarSign,
-  Target
+  Target,
+  Compass,
+  GraduationCap
 } from 'lucide-react';
 import { useEducation } from '../context/EducationContext.jsx';
 import { ChangeEducationButton, ChangeTargetJobButton } from '../components/ChangeEducation.jsx';
@@ -1326,7 +1327,7 @@ export const JobRoadmapPage = () => {
       case 'Needs Additional Skills':
         return {
           bg: 'bg-indigo-50 text-indigo-700 border-indigo-200',
-          icon: Sparkles,
+          icon: GraduationCap,
           text: 'Needs Additional Skills'
         };
       case 'Needs Additional Qualification':
@@ -1447,7 +1448,7 @@ export const JobRoadmapPage = () => {
             {/* Why Education is Relevant (Section 8 & 9) */}
             <div className="p-4 rounded-xl bg-indigo-50/40 border border-indigo-100 space-y-1.5">
               <div className="text-xs font-bold uppercase tracking-wider text-indigo-700 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+                <Compass className="w-3.5 h-3.5 text-indigo-600" />
                 <span>Why your education is relevant</span>
               </div>
               <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
@@ -1873,8 +1874,8 @@ export const JobRoadmapPage = () => {
 
                 <div className="p-5 rounded-xl bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-cyan-500/10 border border-indigo-200 space-y-3">
                   <div className="flex items-center gap-2 text-indigo-800 font-bold text-sm">
-                    <Sparkles className="w-4 h-4 text-indigo-600" />
-                    <span>Live AI Mock Interviewer</span>
+                    <Compass className="w-4 h-4 text-indigo-600" />
+                    <span>Live Mock Interview Simulation</span>
                   </div>
                   <p className="text-xs text-slate-600 leading-relaxed">
                     Practice answering real questions for <strong className="text-slate-900">{targetDetails.title}</strong> customized to your background in <strong className="text-slate-900">{studyName}</strong>.
@@ -1885,7 +1886,7 @@ export const JobRoadmapPage = () => {
                       to="/ai-assistant"
                       className="inline-flex items-center gap-2 btn-primary text-xs px-4 py-2"
                     >
-                      <Sparkles className="w-3.5 h-3.5" />
+                      <FileText className="w-3.5 h-3.5" />
                       <span>Start Practice Interview Session</span>
                     </Link>
                   </div>

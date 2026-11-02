@@ -5,7 +5,6 @@ import {
   GraduationCap,
   Briefcase,
   Layers,
-  Sparkles,
   Building,
   Award,
   X,
@@ -223,7 +222,7 @@ export const UniversalSearch = ({
             >
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-1.5 text-[11px] font-bold text-indigo-700">
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+                  <Compass className="w-3.5 h-3.5 text-indigo-600" />
                   <span>Future Path Instant Knowledge</span>
                 </div>
                 <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full border ${getTypeBadgeClass(directCard.type)}`}>

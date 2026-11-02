@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import {
   Briefcase,
@@ -9,13 +9,15 @@ import {
   BookOpen,
   Award,
   Layers,
-  Sparkles,
+  Compass,
   Target,
   Search,
-  Filter
+  Filter,
+  RotateCw
 } from 'lucide-react';
 import { useEducation } from '../context/EducationContext.jsx';
 import { ChangeEducationButton, ChangeTargetJobButton } from '../components/ChangeEducation.jsx';
+import { careersApi } from '../api/careers.js';
 
 export const CareersPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -30,237 +32,49 @@ export const CareersPage = () => {
   const studyName = currentEducation.educationName || 'B.Com';
   const activeTargetJobTitle = targetJob?.targetJobName;
 
+  const [careers, setCareers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCareerId, setSelectedCareerId] = useState(null);
   const [searchFilter, setSearchFilter] = useState('');
 
-  // Master catalog of grounded career fields
-  const getAllEducationCareers = (edu) => {
-    const lower = (edu || '').toLowerCase();
-
-    if (lower.includes('com') || lower.includes('commerce') || lower.includes('finance')) {
-      return [
-        {
-          id: 'data-analytics',
-          name: 'Data Analytics & Business Intelligence',
-          tag: 'High Growth',
-          growthOutlook: 'Exponential Growth (+24% YoY)',
-          demandScore: 95,
-          isTargetFocused: true, // Relevant to Data Analyst
-          overview: 'Extracting commercial value from structured enterprise records through SQL, Python, and Power BI dashboards.',
-          whyRelevant: 'Translates financial and business knowledge from B.Com into predictive and quantitative dashboards.',
-          requiredSkills: ['SQL', 'Power BI / Tableau', 'Python (Pandas)', 'Advanced Excel', 'Statistical Modeling'],
-          relatedJobs: ['Data Analyst', 'Business Intelligence Developer', 'Financial Data Analyst', 'Reporting Specialist'],
-          whatToStudy: ['Relational Database Systems', 'Business Metrics & KPIs', 'Data Storytelling & Executive Presentations'],
-          projects: ['Sales Revenue & Retention Interactive Dashboard', 'Customer Churn RFM Segmentation Model'],
-          certifications: ['Microsoft Certified: Power BI Data Analyst (PL-300)', 'Google Data Analytics Certificate'],
-          careerProgression: 'Junior Data Analyst → Senior BI Analyst → Lead Analytics Architect → Head of Data'
-        },
-        {
-          id: 'business-analytics',
-          name: 'Business Analytics & Decision Science',
-          tag: 'High Growth',
-          growthOutlook: 'High Expansion (+20% YoY)',
-          demandScore: 92,
-          isTargetFocused: true, // Relevant to Data Analyst
-          overview: 'Bridging technical data pipelines and management strategy to optimize corporate operational workflows and pricing models.',
-          whyRelevant: 'Leverages business management insights alongside analytical queries to drive executive decisions.',
-          requiredSkills: ['Business Process Mapping', 'SQL', 'Scenario Analysis', 'Data Visualization', 'A/B Testing'],
-          relatedJobs: ['Business Analyst', 'Commercial Strategy Analyst', 'Operations Analyst'],
-          whatToStudy: ['Management Information Systems (MIS)', 'Predictive Analytics', 'Managerial Decision Analysis'],
-          projects: ['Supply Chain Bottleneck Simulation', 'E-Commerce Pricing Elasticity Model'],
-          certifications: ['ECBA (Entry Certificate in Business Analysis)', 'CBAP'],
-          careerProgression: 'Business Analyst → Senior Strategy Consultant → VP of Business Intelligence'
-        },
-        {
-          id: 'accounting',
-          name: 'Accounting & Auditing',
-          tag: 'Core Commerce',
-          growthOutlook: 'Steady Demand (+12% YoY)',
-          demandScore: 88,
-          isTargetFocused: false,
-          overview: 'The discipline of recording, analyzing, auditing, and reporting corporate transactions and statutory balance sheets.',
-          whyRelevant: 'Direct core foundation of your B.Com degree curriculum.',
-          requiredSkills: ['Financial Accounting', 'Tally Prime / ERP', 'Advanced Excel', 'Auditing Standards'],
-          relatedJobs: ['Accountant', 'Accounts Executive', 'Internal Auditor', 'Billing Specialist'],
-          whatToStudy: ['Advanced Corporate Accounting', 'Indian Accounting Standards (Ind AS)', 'Direct & Indirect Taxes'],
-          projects: ['12-Month SME Financial Statements & Ledger', 'Bank Reconciliation & Internal Control Audit'],
-          certifications: ['CA Intermediate / Final', 'CMA India', 'Tally Professional Certification'],
-          careerProgression: 'Junior Accountant → Senior Accountant → Accounting Manager → Financial Controller → CFO'
-        },
-        {
-          id: 'finance',
-          name: 'Corporate Finance & Valuation',
-          tag: 'High Paying',
-          growthOutlook: 'High Demand (+16% YoY)',
-          demandScore: 92,
-          isTargetFocused: false,
-          overview: 'Allocating capital, evaluating investment proposals, building valuation models, and managing portfolio risk.',
-          whyRelevant: 'Direct extension of financial management coursework.',
-          requiredSkills: ['Financial Modeling', 'DCF Valuation', 'Corporate Finance', 'Capital Budgeting'],
-          relatedJobs: ['Junior Financial Analyst', 'Equity Research Associate', 'Investment Banking Analyst'],
-          whatToStudy: ['Corporate Finance Theory', 'Investment Banking Essentials', 'Mergers & Acquisitions'],
-          projects: ['Full 3-Statement Forecast Model of Listed Firm', 'Discounted Cash Flow (DCF) Equity Valuation Report'],
-          certifications: ['CFA (Chartered Financial Analyst)', 'NISM Research Analyst Certification', 'FRM'],
-          careerProgression: 'Financial Analyst → Senior Analyst → Portfolio Manager → Director of Investments'
-        },
-        {
-          id: 'banking',
-          name: 'Commercial & Retail Banking',
-          tag: 'High Volume',
-          growthOutlook: 'Large Volume (+14% YoY)',
-          demandScore: 86,
-          isTargetFocused: false,
-          overview: 'Commercial and retail banking operations, credit underwriting, treasury management, and retail lending.',
-          whyRelevant: 'B.Com graduates form the primary recruitment pool for banking officers and operations executives.',
-          requiredSkills: ['Banking Operations', 'Credit Risk Appraisal', 'KYC/AML Compliance', 'Customer Advisory'],
-          relatedJobs: ['Banking Associate', 'Probationary Officer (PO)', 'Credit Manager', 'Branch Relationship Officer'],
-          whatToStudy: ['Indian Financial System & RBI Guidelines', 'Retail & Corporate Lending', 'Negotiable Instruments Act'],
-          projects: ['Credit Scoring Model for SME Working Capital', 'Retail Branch Deposit Campaign Strategy'],
-          certifications: ['JAIIB / CAIIB (IIBF)', 'NISM Mutual Fund / Securities Certifications'],
-          careerProgression: 'Banking Associate → Branch Operations Head → Chief Manager → AGM / DGM'
-        },
-        {
-          id: 'taxation',
-          name: 'Taxation & Statutory Compliance',
-          tag: 'Specialized',
-          growthOutlook: 'Very High (+18% YoY)',
-          demandScore: 89,
-          isTargetFocused: false,
-          overview: 'Advising on corporate and direct/indirect tax liabilities, filing statutory returns, and handling scrutiny audits.',
-          whyRelevant: 'High commercial demand for B.Com candidates skilled in GST and income tax portal filing.',
-          requiredSkills: ['GST Regulations', 'Income Tax Act', 'TDS E-filing', 'Tax Computation'],
-          relatedJobs: ['Tax Assistant', 'GST Compliance Officer', 'Direct Tax Analyst', 'Tax Consultant'],
-          whatToStudy: ['Income Tax Law & Practice', 'Goods and Services Tax (GST) Act', 'International Taxation'],
-          projects: ['Comprehensive Old vs New Tax Regime Simulator', 'GSTR-9 Annual Return Audit Reconciliation'],
-          certifications: ['Diploma in Taxation Laws (DTL)', 'ICAI Certificate Course on GST'],
-          careerProgression: 'Tax Assistant → Tax Consultant → Senior Tax Manager → Partner (Taxation)'
-        },
-        {
-          id: 'operations',
-          name: 'Business Operations & Supply Chain',
-          tag: 'Operational',
-          growthOutlook: 'Steady Growth (+11% YoY)',
-          demandScore: 80,
-          isTargetFocused: false,
-          overview: 'Streamlining business processes, optimizing inventory replenishment, and coordinating logistical execution.',
-          whyRelevant: 'Leverages organizational and commerce skills to manage vendor contracts and warehouse efficiency.',
-          requiredSkills: ['Process Optimization', 'Vendor Negotiation', 'ERP Platforms', 'KPI Tracking'],
-          relatedJobs: ['Business Operations Executive', 'Supply Chain Analyst', 'Procurement Specialist'],
-          whatToStudy: ['Operations Research', 'Supply Chain Management', 'Procurement & Contract Law'],
-          projects: ['Warehouse Inventory Turnaround Optimization Model', 'Vendor SLA Performance Scorecard'],
-          certifications: ['APICS Certified Supply Chain Professional', 'Six Sigma Yellow/Green Belt'],
-          careerProgression: 'Operations Executive → Operations Lead → Supply Chain Director → COO'
-        }
-      ];
-    }
-
-    if (lower.includes('electrician') || lower.includes('iti')) {
-      return [
-        {
-          id: 'industrial-electrical',
-          name: 'Industrial Electrical & Power Systems',
-          tag: 'Core Trade',
-          growthOutlook: 'Steady Industrial Need (+14% YoY)',
-          demandScore: 90,
-          isTargetFocused: true,
-          overview: 'Installation and maintenance of industrial high-voltage distribution switchgear, transformer stations, and heavy motor controls.',
-          whyRelevant: 'Direct application of your ITI Electrician curriculum and wiring regulations.',
-          requiredSkills: ['Panel Wiring', 'Transformer Maintenance', 'LOTO Safety', 'Megger Insulation Testing'],
-          relatedJobs: ['Industrial Electrician', 'Panel Board Wireman', 'Maintenance Technician'],
-          whatToStudy: ['Indian Electricity Rules', 'AC/DC Motor Control Circuits', 'Switchgear & Protection'],
-          projects: ['DOL & Star-Delta Motor Starter Panel Installation', 'Transformer Earth Resistance Test Pit'],
-          certifications: ['State Electrical Inspectorate Wireman License', 'NAPS Apprenticeship Certificate'],
-          careerProgression: 'Apprentice → Junior Wireman → Master Electrician → Electrical Supervisor'
-        },
-        {
-          id: 'power-transmission',
-          name: 'Power Distribution & Renewable Energy',
-          tag: 'Government & Green Energy',
-          growthOutlook: 'Rapid Expansion (+22% YoY)',
-          demandScore: 92,
-          isTargetFocused: false,
-          overview: 'Overhead power transmission grid maintenance, state substation feeder operations, and solar PV array installations.',
-          whyRelevant: 'Qualifies directly for state DISCOM Lineman and solar technician vacancies.',
-          requiredSkills: ['Overhead Line Safety', 'Solar PV Installation', 'Substation Feeder Maintenance'],
-          relatedJobs: ['Junior Lineman (DISCOM)', 'Solar Installation Technician', 'Substation Operator'],
-          whatToStudy: ['Substation Layout & Equipment', 'Solar Inverter Topology', 'High-Voltage Safety Norms'],
-          projects: ['5kW Grid-Tied Solar Inverter Wiring Simulation', 'Substation Single Line Diagram Analysis'],
-          certifications: ['Surya Mitra Solar PV Technician', 'High Voltage Line Safety Pass'],
-          careerProgression: 'Junior Lineman → Line Inspector → Substation In-Charge'
-        }
-      ];
-    }
-
-    // Default Tech
-    return [
-      {
-        id: 'software-tech',
-        name: 'Software & Technology Solutions',
-        tag: 'Core Tech',
-        growthOutlook: 'Very High (+22% YoY)',
-        demandScore: 94,
-        isTargetFocused: true,
-        overview: 'Designing, building, testing, and maintaining distributed web applications, APIs, and microservices.',
-        whyRelevant: 'Direct alignment with programming, algorithmic, and software development coursework.',
-        requiredSkills: ['JavaScript / TypeScript', 'React.js', 'Node.js & Express', 'Databases (SQL & NoSQL)'],
-        relatedJobs: ['Frontend Developer', 'Backend Developer', 'Full Stack Engineer'],
-        whatToStudy: ['Data Structures & Algorithms', 'System Architecture', 'Modern Web Standards'],
-        projects: ['Full-Stack E-Commerce API', 'Real-Time Collaboration Platform with WebSockets'],
-        certifications: ['AWS Certified Developer', 'Meta Full-Stack Engineer Certificate'],
-        careerProgression: 'Software Engineer → Senior Engineer → Tech Lead → Engineering Director → CTO'
-      },
-      {
-        id: 'data-ai',
-        name: 'Data & Artificial Intelligence',
-        tag: 'High Growth',
-        growthOutlook: 'Rapid Expansion (+26% YoY)',
-        demandScore: 96,
-        isTargetFocused: true,
-        overview: 'Leveraging big data, machine learning pipelines, predictive analytics, and applied AI models.',
-        whyRelevant: 'Deep connection to data modeling and computer intelligence.',
-        requiredSkills: ['Python', 'SQL', 'Pandas', 'Machine Learning Models', 'Data Visualizations'],
-        relatedJobs: ['Data Analyst', 'Data Scientist', 'Machine Learning Engineer', 'BI Analyst'],
-        whatToStudy: ['Applied Machine Learning', 'Big Data Engineering', 'Statistical Inference'],
-        projects: ['Predictive Customer Churn Pipeline', 'Interactive KPI Intelligence Dashboard'],
-        certifications: ['Google Data Analytics', 'AWS Certified Machine Learning Specialist'],
-        careerProgression: 'Data Analyst → Data Scientist → AI Solutions Architect'
-      }
-    ];
-  };
-
-  const allCareers = getAllEducationCareers(studyName);
-
-  // SECTION 16: If Target Job is selected, focus on career fields related to the target job
   const hasTargetJob = Boolean(activeTargetJobTitle);
-  const targetJobLower = (activeTargetJobTitle || '').toLowerCase();
 
-  // Filter career fields based on target job if selected
-  const focusedCareers = hasTargetJob
-    ? allCareers.filter((c) => {
-        if (targetJobLower.includes('data') || targetJobLower.includes('analyst')) {
-          return c.id === 'data-analytics' || c.id === 'business-analytics' || c.id === 'finance';
+  useEffect(() => {
+    const fetchCareers = async () => {
+      setLoading(true);
+      try {
+        const res = await careersApi.getAll({
+          education: studyName,
+          targetJob: activeTargetJobTitle
+        });
+        if (res.success && res.data) {
+          setCareers(res.data);
+          if (res.data.length > 0) {
+            setSelectedCareerId(res.data[0].id || res.data[0].slug);
+          }
         }
-        if (targetJobLower.includes('accountant') || targetJobLower.includes('tax')) {
-          return c.id === 'accounting' || c.id === 'taxation' || c.id === 'finance';
-        }
-        if (targetJobLower.includes('electrician')) {
-          return c.id === 'industrial-electrical' || c.id === 'power-transmission';
-        }
-        return true;
-      })
-    : allCareers;
+      } catch (err) {
+        console.warn('Failed to fetch careers from API:', err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const displayCareers = focusedCareers.filter((c) => {
+    fetchCareers();
+  }, [studyName, activeTargetJobTitle]);
+
+  const displayCareers = careers.filter((c) => {
     if (!searchFilter.trim()) return true;
     const q = searchFilter.toLowerCase();
     return (
-      c.name.toLowerCase().includes(q) ||
-      c.overview.toLowerCase().includes(q) ||
-      c.requiredSkills.some(s => s.toLowerCase().includes(q))
+      (c.name && c.name.toLowerCase().includes(q)) ||
+      (c.description && c.description.toLowerCase().includes(q)) ||
+      (c.overview && c.overview.toLowerCase().includes(q)) ||
+      (c.requiredSkills && c.requiredSkills.some(s => typeof s === 'string' && s.toLowerCase().includes(q)))
     );
   });
 
-  const activeCareer = displayCareers.find(c => c.id === selectedCareerId) || displayCareers[0];
+  const activeCareer = displayCareers.find(c => (c.id === selectedCareerId || c.slug === selectedCareerId)) || displayCareers[0];
 
   return (
     <div className="space-y-8 py-2 sm:py-6 max-w-4xl mx-auto">
@@ -299,11 +113,11 @@ export const CareersPage = () => {
           </div>
         </div>
 
-        {/* Section 16 Notice Banner when Target Job is active */}
+        {/* Notice Banner when Target Job is active */}
         {hasTargetJob ? (
           <div className="p-3.5 rounded-xl bg-purple-50/70 border border-purple-200 text-xs text-purple-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-purple-600 flex-shrink-0" />
+              <Compass className="w-4 h-4 text-purple-600 flex-shrink-0" />
               <span>
                 Personalized for <strong>{activeTargetJobTitle}</strong>. Showing domain fields that lead to or closely complement this target.
               </span>
@@ -318,9 +132,9 @@ export const CareersPage = () => {
         ) : (
           <div className="p-3.5 rounded-xl bg-indigo-50/60 border border-indigo-200 text-xs text-indigo-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <Target className="w-4 h-4 text-indigo-600 flex-shrink-0" />
+              <Compass className="w-4 h-4 text-indigo-600 flex-shrink-0" />
               <span>
-                Showing all general career fields for <strong>{studyName}</strong>. Have a target job? Select one to focus your career view.
+                Want to see the fastest pathway to a specific goal? Set a Target Job.
               </span>
             </div>
             <button
@@ -333,179 +147,174 @@ export const CareersPage = () => {
         )}
       </section>
 
-      {/* Career Fields Grid */}
-      <section className="space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <h2 className="text-lg font-bold text-slate-900">
-            {displayCareers.length} Relevant Career {displayCareers.length === 1 ? 'Field' : 'Fields'}
-          </h2>
-
-          <div className="relative max-w-xs w-full">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={searchFilter}
-              onChange={(e) => setSearchFilter(e.target.value)}
-              placeholder="Search career fields..."
-              className="w-full pl-8 pr-3 py-1.5 rounded-xl border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
+      {/* Filter Bar */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div className="relative flex-1">
+          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            value={searchFilter}
+            onChange={(e) => setSearchFilter(e.target.value)}
+            placeholder="Filter career fields, domains, skills..."
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white shadow-2xs"
+          />
         </div>
+        <span className="text-xs font-semibold text-slate-500 px-1">
+          Showing {displayCareers.length} fields
+        </span>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {displayCareers.map((career) => {
-            const isSelected = activeCareer?.id === career.id;
+      {loading ? (
+        <div className="card-clean p-12 text-center space-y-3 bg-white border border-slate-200">
+          <RotateCw className="w-6 h-6 text-indigo-600 animate-spin mx-auto" />
+          <p className="text-xs text-slate-500 font-semibold">
+            Loading career fields from database...
+          </p>
+        </div>
+      ) : displayCareers.length === 0 ? (
+        <div className="card-clean p-10 text-center space-y-2 bg-white border border-slate-200">
+          <Layers className="w-8 h-8 text-slate-300 mx-auto" />
+          <p className="text-sm font-bold text-slate-700">No career fields match your filter</p>
+          <p className="text-xs text-slate-500">Try clearing the search query or changing your education.</p>
+        </div>
+      ) : (
+        /* Career Fields Layout */
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* Left: Interactive Field Cards */}
+          <div className="lg:col-span-5 space-y-3">
+            {displayCareers.map((c) => {
+              const isSelected = activeCareer && (activeCareer.id === c.id || activeCareer.slug === c.slug);
+              return (
+                <div
+                  key={c.id || c.slug || c.name}
+                  onClick={() => setSelectedCareerId(c.id || c.slug)}
+                  className={`card-clean p-4.5 cursor-pointer transition-all border ${
+                    isSelected
+                      ? 'border-indigo-600 bg-indigo-50/40 shadow-xs ring-1 ring-indigo-600'
+                      : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-slate-900">{c.name}</span>
+                        {c.category && (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                            {c.category}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                        {c.description || c.overview}
+                      </p>
+                    </div>
+                    <ChevronRight className={`w-4 h-4 flex-shrink-0 mt-1 transition-transform ${isSelected ? 'text-indigo-600 translate-x-0.5' : 'text-slate-400'}`} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
 
-            return (
-              <div
-                key={career.id}
-                onClick={() => setSelectedCareerId(career.id)}
-                className={`card-clean p-5 cursor-pointer transition-all border space-y-3.5 flex flex-col justify-between ${
-                  isSelected
-                    ? 'border-indigo-600 bg-indigo-50/20 ring-2 ring-indigo-500/20 shadow-xs'
-                    : 'bg-white border-slate-200 hover:border-slate-300 hover:-translate-y-0.5'
-                }`}
-              >
-                <div className="space-y-2">
+          {/* Right: Comprehensive Details for Selected Field */}
+          <div className="lg:col-span-7">
+            {activeCareer && (
+              <div className="card-clean p-6 sm:p-7 bg-white border border-slate-200 space-y-6 sticky top-20 shadow-2xs">
+                {/* Header */}
+                <div className="space-y-2 border-b border-slate-100 pb-4">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
-                      {career.tag}
+                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700">
+                      {activeCareer.category || 'Career Field'}
                     </span>
-                    <span className="text-xs font-bold text-emerald-600">
-                      {career.growthOutlook}
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="font-extrabold text-base text-slate-900">
-                      {career.name}
-                    </h3>
-                    <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
-                      {career.overview}
-                    </p>
-                  </div>
-
-                  {/* Why relevant */}
-                  <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-[11px] text-slate-600">
-                    <strong className="text-slate-800">Connection to {studyName}: </strong>
-                    {career.whyRelevant}
-                  </div>
-
-                  {/* Required skills */}
-                  <div className="flex flex-wrap gap-1 pt-1">
-                    {career.requiredSkills.slice(0, 4).map((sk, idx) => (
-                      <span key={idx} className="text-[10px] px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-700 font-medium">
-                        {sk}
+                    {activeCareer.averageSalary && (
+                      <span className="text-xs font-bold text-slate-700">
+                        {activeCareer.averageSalary.entry || activeCareer.averageSalary.mid || 'Competitive'}
                       </span>
-                    ))}
+                    )}
                   </div>
+
+                  <h2 className="text-xl font-bold text-slate-900">
+                    {activeCareer.name}
+                  </h2>
+
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {activeCareer.overview || activeCareer.description}
+                  </p>
                 </div>
 
-                {/* Sub-roles & Action */}
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                  <div className="text-[11px] text-slate-500">
-                    <span className="font-semibold text-slate-700">Key Roles: </span>
-                    {career.relatedJobs.slice(0, 2).join(', ')}
+                {/* Related Job Roles */}
+                {activeCareer.relatedJobs && activeCareer.relatedJobs.length > 0 && (
+                  <div className="space-y-2.5">
+                    <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                      <Briefcase className="w-3.5 h-3.5 text-indigo-600" />
+                      <span>Direct & Allied Job Roles</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {activeCareer.relatedJobs.map((role, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800"
+                        >
+                          {role}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <span className="font-bold text-indigo-600 flex items-center gap-1">
-                    {isSelected ? 'Viewing Details' : 'Explore Field →'}
-                  </span>
+                )}
+
+                {/* Required Skills */}
+                {activeCareer.requiredSkills && activeCareer.requiredSkills.length > 0 && (
+                  <div className="space-y-2.5">
+                    <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                      <Compass className="w-3.5 h-3.5 text-purple-600" />
+                      <span>Key Skills & Stack</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {activeCareer.requiredSkills.map((sk, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 text-[11px] font-semibold border border-purple-100"
+                        >
+                          {sk}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Career Growth / Progression */}
+                {activeCareer.careerGrowth && activeCareer.careerGrowth.length > 0 && (
+                  <div className="space-y-2 pt-2 border-t border-slate-100">
+                    <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                      <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Career Progression Hierarchy</span>
+                    </div>
+                    <div className="space-y-1.5 text-xs text-slate-600">
+                      {activeCareer.careerGrowth.map((stage, idx) => (
+                        <div key={idx} className="flex items-center gap-2">
+                          <span className="w-5 h-5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold flex items-center justify-center flex-shrink-0">
+                            {idx + 1}
+                          </span>
+                          <span>{stage}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Action CTA */}
+                <div className="pt-2">
+                  <Link
+                    to={`/jobs?education=${encodeURIComponent(studyName)}`}
+                    className="btn-primary w-full text-xs py-2.5 flex items-center justify-center gap-2"
+                  >
+                    <span>Explore Jobs in {activeCareer.name}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
               </div>
-            );
-          })}
+            )}
+          </div>
         </div>
-      </section>
-
-      {/* Selected Career Deep Dive */}
-      {activeCareer && (
-        <section className="card-clean p-6 sm:p-8 bg-white border border-indigo-200 shadow-xs space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
-            <div>
-              <div className="text-xs font-extrabold uppercase tracking-wider text-indigo-600">
-                Detailed Field Breakdown
-              </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5">
-                {activeCareer.name}
-              </h2>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                Demand Score: {activeCareer.demandScore}/100
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            {/* Roles inside this field */}
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-              <div className="font-bold text-slate-900 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                <Briefcase className="w-3.5 h-3.5 text-indigo-600" />
-                <span>Job Roles in this Field</span>
-              </div>
-              <div className="space-y-1.5 pt-1">
-                {activeCareer.relatedJobs.map((role, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-2 rounded-lg bg-white border border-slate-200">
-                    <span className="font-bold text-slate-800">{role}</span>
-                    <button
-                      onClick={() => changeTargetJob(role)}
-                      className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 hover:bg-indigo-600 hover:text-white transition-colors"
-                    >
-                      Set as Target Job
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* What to study */}
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-              <div className="font-bold text-slate-900 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-purple-600" />
-                <span>What to Study for this Field</span>
-              </div>
-              <ul className="space-y-1.5 text-slate-600 list-disc list-inside pt-1">
-                {activeCareer.whatToStudy.map((item, idx) => (
-                  <li key={idx} className="leading-relaxed">{item}</li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Recommended Projects */}
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-              <div className="font-bold text-slate-900 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                <Layers className="w-3.5 h-3.5 text-cyan-600" />
-                <span>Recommended Projects to Build</span>
-              </div>
-              <ul className="space-y-1.5 text-slate-600 list-disc list-inside pt-1">
-                {activeCareer.projects.map((proj, idx) => (
-                  <li key={idx} className="leading-relaxed">{proj}</li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Certifications & Progression */}
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-              <div className="font-bold text-slate-900 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                <Award className="w-3.5 h-3.5 text-amber-600" />
-                <span>Industry Certifications</span>
-              </div>
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                {activeCareer.certifications.map((cert, idx) => (
-                  <span key={idx} className="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 font-semibold text-[11px]">
-                    {cert}
-                  </span>
-                ))}
-              </div>
-              <div className="pt-2">
-                <span className="font-bold text-slate-800 text-[11px]">Career Progression: </span>
-                <p className="text-indigo-600 font-semibold text-[11px] mt-0.5">
-                  {activeCareer.careerProgression}
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
       )}
     </div>
   );

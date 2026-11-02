@@ -10,17 +10,15 @@ import {
   AlertTriangle,
   CheckCircle2,
   ChevronRight,
-  Code,
-  FileText,
-  Building,
-  RotateCw,
-  Sparkles,
+  Clock,
   ShieldCheck,
-  Search,
-  ExternalLink
+  Check,
+  Play,
+  Lock,
+  ExternalLink,
+  RotateCcw
 } from 'lucide-react';
 import { useEducation } from '../context/EducationContext.jsx';
-import { ApplicationLinksSection } from '../components/ApplicationLinksSection.jsx';
 import api from '../services/api.js';
 
 export const FuturePathPage = () => {
@@ -39,10 +37,117 @@ export const FuturePathPage = () => {
   const targetJobName = targetJob?.targetJobName;
 
   const [pathData, setPathData] = useState(null);
+  const [steps, setSteps] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch from unified Future Path API
+  // Default steps generator based on current education & target job
+  const generateRoadmapSteps = (edu, tgt) => {
+    const jobTitle = tgt || 'Data Analyst';
+    return [
+      {
+        stepNumber: 1,
+        title: 'Eligibility & Prerequisite Check',
+        description: `Verify degree credentials and entry pathways from ${edu} to ${jobTitle}.`,
+        status: 'COMPLETED',
+        estimatedEffort: '1 Day',
+        relatedSkills: ['Degree Verification', 'Subject Prerequisites'],
+        actionText: 'Verified ✓',
+        actionUrl: null
+      },
+      {
+        stepNumber: 2,
+        title: 'Core Fundamentals & Spreadsheets',
+        description: 'Master data tables, formulas, VLOOKUP/XLOOKUP, and structured data handling.',
+        status: 'COMPLETED',
+        estimatedEffort: '1–2 Weeks',
+        relatedSkills: ['Advanced Excel', 'Formulas', 'Data Modeling'],
+        actionText: 'Review Skills',
+        actionUrl: '/learn'
+      },
+      {
+        stepNumber: 3,
+        title: 'Structured Query Language (SQL)',
+        description: 'Learn database queries, filtering, joins, aggregations, and window functions.',
+        status: 'CURRENT',
+        estimatedEffort: '3–4 Weeks',
+        relatedSkills: ['SQL', 'PostgreSQL', 'Joins & Indexes'],
+        actionText: 'Start Learning →',
+        actionUrl: '/learn'
+      },
+      {
+        stepNumber: 4,
+        title: 'Business Statistics & Analysis',
+        description: 'Understand probability, distributions, descriptive statistics, and hypothesis testing.',
+        status: 'UPCOMING',
+        estimatedEffort: '2 Weeks',
+        relatedSkills: ['Statistics', 'Hypothesis Testing', 'Data Analysis'],
+        actionText: 'View Syllabus',
+        actionUrl: '/learn'
+      },
+      {
+        stepNumber: 5,
+        title: 'Business Intelligence & Dashboards',
+        description: 'Build interactive executive dashboards, DAX queries, and KPI reports in Power BI / Tableau.',
+        status: 'UPCOMING',
+        estimatedEffort: '3 Weeks',
+        relatedSkills: ['Power BI', 'Tableau', 'Data Visualization'],
+        actionText: 'View Syllabus',
+        actionUrl: '/learn'
+      },
+      {
+        stepNumber: 6,
+        title: 'Build Real-World Industry Projects',
+        description: 'Complete 3 end-to-end portfolio projects using real sales, customer, and financial datasets.',
+        status: 'UPCOMING',
+        estimatedEffort: '4 Weeks',
+        relatedSkills: ['Project Architecture', 'GitHub', 'Documentation'],
+        actionText: 'Project Ideas',
+        actionUrl: '/jobs'
+      },
+      {
+        stepNumber: 7,
+        title: 'Create Portfolio & Showcase',
+        description: 'Deploy public dashboard links and publish GitHub repositories with clear READMEs.',
+        status: 'UPCOMING',
+        estimatedEffort: '1 Week',
+        relatedSkills: ['Portfolio Building', 'GitHub Pages'],
+        actionText: 'Guidance',
+        actionUrl: '/ai-assistant'
+      },
+      {
+        stepNumber: 8,
+        title: 'Prepare ATS-Optimized Resume',
+        description: 'Highlight measurable metrics, technical keywords, and relevant business impact.',
+        status: 'UPCOMING',
+        estimatedEffort: '3 Days',
+        relatedSkills: ['Resume Crafting', 'ATS Keywords'],
+        actionText: 'Resume Assistant',
+        actionUrl: '/ai-assistant'
+      },
+      {
+        stepNumber: 9,
+        title: 'Interview Preparation & Mock Tests',
+        description: 'Practice technical SQL/problem-solving questions and behavioral STAR technique answers.',
+        status: 'UPCOMING',
+        estimatedEffort: '2 Weeks',
+        relatedSkills: ['STAR Method', 'SQL Queries Live', 'Case Studies'],
+        actionText: 'Mock Interview',
+        actionUrl: '/ai-assistant'
+      },
+      {
+        stepNumber: 10,
+        title: `Apply for ${jobTitle} Roles`,
+        description: 'Target entry and associate positions on LinkedIn, job boards, and industry portals.',
+        status: 'UPCOMING',
+        estimatedEffort: 'Ongoing',
+        relatedSkills: ['Job Applications', 'Networking', 'Follow-ups'],
+        actionText: 'Find Jobs',
+        actionUrl: '/jobs'
+      }
+    ];
+  };
+
   useEffect(() => {
     let isMounted = true;
     const fetchPath = async () => {
@@ -55,15 +160,20 @@ export const FuturePathPage = () => {
         }
         const res = await api.get(url);
         if (isMounted) {
-          if (res && res.data) {
-            setPathData(res.data);
-          } else if (res) {
-            setPathData(res);
+          const data = res?.data || res;
+          setPathData(data);
+          
+          if (data?.roadmap?.steps && data.roadmap.steps.length > 0) {
+            setSteps(data.roadmap.steps);
+          } else {
+            setSteps(generateRoadmapSteps(studyName, targetJobName));
           }
         }
       } catch (err) {
         console.error('[FuturePathPage] Fetch error:', err);
-        if (isMounted) setError('Unable to load future path intelligence.');
+        if (isMounted) {
+          setSteps(generateRoadmapSteps(studyName, targetJobName));
+        }
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -75,454 +185,289 @@ export const FuturePathPage = () => {
     };
   }, [studyName, targetJobName, currentEducation?.status]);
 
-  // Section 28: Target compatibility calculation
-  const isTargetMismatched = Boolean(
-    targetJobName && (
-      (targetJobName.toLowerCase().includes('account') && studyName.toLowerCase().includes('tech')) ||
-      (targetJobName.toLowerCase().includes('software') && studyName.toLowerCase().includes('b.com')) ||
-      (targetJobName.toLowerCase().includes('electrician') && studyName.toLowerCase().includes('mbbs'))
-    )
-  );
+  const toggleStepStatus = (stepIdx) => {
+    setSteps(prev => {
+      const updated = [...prev];
+      const cur = updated[stepIdx];
+      if (cur.status === 'COMPLETED') {
+        cur.status = 'CURRENT';
+      } else if (cur.status === 'CURRENT') {
+        cur.status = 'COMPLETED';
+      } else {
+        cur.status = 'CURRENT';
+      }
+      return updated;
+    });
+  };
+
+  const completedCount = steps.filter(s => s.status === 'COMPLETED').length;
+  const progressPercent = steps.length > 0 ? Math.round((completedCount / steps.length) * 100) : 0;
 
   return (
-    <div className="space-y-6 sm:space-y-8 max-w-4xl mx-auto py-2 sm:py-6">
-      {/* Page Header */}
-      <section className="card-clean p-6 sm:p-7 bg-white border border-slate-200 space-y-4 shadow-2xs">
+    <div className="space-y-8 max-w-4xl mx-auto py-2 sm:py-6">
+      {/* Header Banner */}
+      <section className="card-clean p-6 sm:p-8 bg-white border border-[#E2E8F0] space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold mb-1">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold">
               <Compass className="w-3.5 h-3.5" />
-              <span>Universal Future Path Engine</span>
+              <span>CAREER ROADMAP</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              My Future Path
+            <h1 className="text-2xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
+              My Career Path
             </h1>
-            <p className="text-xs sm:text-sm text-slate-500">
-              Personalized navigation showing where you can go from where you are now, and what exactly you should do.
+            <p className="text-xs sm:text-sm text-[#64748B]">
+              Step-by-step verified pathway from <span className="font-semibold text-[#0F172A]">{studyName}</span> to <span className="font-semibold text-[#4F46E5]">{targetJobName || 'Your Target Career'}</span>.
             </p>
           </div>
 
           <div className="flex items-center gap-2 self-start flex-shrink-0">
             <button
               onClick={openChangeModal}
-              className="px-3.5 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+              className="px-3.5 py-2 rounded-xl border border-[#E2E8F0] text-xs font-bold text-[#0F172A] hover:bg-slate-50 transition-colors cursor-pointer"
             >
               Change Education
             </button>
             <button
               onClick={openTargetJobModal}
-              className="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold transition-colors shadow-2xs"
+              className="btn-primary !text-xs !py-2 !px-4 !rounded-xl cursor-pointer"
             >
-              {targetJobName ? 'Change Target' : '+ Add Target Job'}
+              {targetJobName ? 'Change Target' : '+ Choose Target Job'}
             </button>
           </div>
         </div>
 
-        {/* SECTION 28: EDUCATION CHANGED RECALCULATION & COMPATIBILITY NOTICE */}
-        {isTargetMismatched && (
-          <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs space-y-2">
-            <div className="font-bold flex items-center gap-1.5">
-              <AlertTriangle className="w-4 h-4 text-amber-600" />
-              <span>Education Updated – Target Job Compatibility Notice</span>
+        {/* Progress Bar */}
+        {targetJobName && steps.length > 0 && (
+          <div className="pt-2 border-t border-[#E2E8F0] space-y-2">
+            <div className="flex items-center justify-between text-xs font-semibold">
+              <span className="text-[#64748B]">Roadmap Completion</span>
+              <span className="text-[#4F46E5] font-bold">{completedCount} of {steps.length} Steps Completed ({progressPercent}%)</span>
             </div>
-            <p className="text-slate-600">
-              Your target is: <strong className="text-slate-900">{targetJobName}</strong>.<br />
-              Your new education is: <strong className="text-slate-900">{studyName}</strong>.<br />
-              This target is still saved. You can choose to keep it or explore targets tailored for {studyName}.
-            </p>
-            <div className="flex items-center gap-2 pt-1">
-              <button
-                onClick={() => {}}
-                className="px-3 py-1 rounded-lg bg-amber-600 text-white font-bold text-xs"
-              >
-                Keep Target
-              </button>
-              <button
-                onClick={openTargetJobModal}
-                className="px-3 py-1 rounded-lg bg-white border border-amber-300 text-amber-900 font-bold text-xs hover:bg-amber-100"
-              >
-                Explore New Targets
-              </button>
+            <div className="w-full h-2.5 rounded-full bg-[#F1F5F9] overflow-hidden">
+              <div
+                className="h-full bg-brand-gradient rounded-full transition-all duration-300"
+                style={{ width: `${progressPercent}%` }}
+              />
             </div>
           </div>
         )}
       </section>
 
-      {/* Loading State */}
-      {loading && (
-        <div className="card-clean p-16 text-center bg-white border border-slate-200 space-y-3">
-          <RotateCw className="w-8 h-8 text-indigo-600 animate-spin mx-auto" />
-          <p className="text-sm text-slate-500 font-semibold">
-            Synthesizing personalized education → study → career → job path...
-          </p>
-        </div>
-      )}
-
-      {/* SECTION 26: CENTRAL FUTURE PATH WITH TARGET JOB */}
-      {!loading && targetJobName && (
-        <>
-        <section className="card-clean p-6 sm:p-7 bg-white border border-slate-200 space-y-6 shadow-2xs">
-          <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-              Step-by-Step Path
-            </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5">
-              Path from {studyName} to {targetJobName}
+      {/* No Target Job Empty State (Section 23 requirement) */}
+      {!targetJobName && !loading && (
+        <section className="card-clean p-12 bg-white border border-[#E2E8F0] text-center space-y-4">
+          <div className="w-14 h-14 rounded-2xl bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center mx-auto shadow-2xs">
+            <Target className="w-7 h-7" />
+          </div>
+          <div className="space-y-1 max-w-md mx-auto">
+            <h2 className="text-xl font-bold text-[#0F172A]">
+              No target job selected
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Every step is actionable. Click any step to open deep guidance, resources, and requirements.
+            <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
+              Choose a career goal and we'll build a personalized step-by-step roadmap for you based on your {studyName} background.
             </p>
           </div>
-
-          {/* Connected Clickable Timeline Flow (Section 26) */}
-          <div className="space-y-3 relative before:absolute before:left-4 before:top-4 before:bottom-4 before:w-0.5 before:bg-indigo-100">
-            {/* 1. CURRENT POSITION */}
-            <div
-              onClick={openChangeModal}
-              className="relative pl-10 group cursor-pointer"
-            >
-              <div className="absolute left-2 top-2 w-4 h-4 rounded-full bg-indigo-600 border-2 border-white ring-2 ring-indigo-200 group-hover:scale-125 transition-transform" />
-              <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200 group-hover:border-indigo-300 transition-all flex items-center justify-between">
-                <div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                    CURRENT POSITION
-                  </div>
-                  <div className="text-base font-extrabold text-slate-900 mt-0.5">
-                    {studyName} — <span className="text-indigo-600">{statusLabel}</span>
-                  </div>
-                </div>
-                <button className="text-xs font-bold text-indigo-600 group-hover:underline">
-                  Change
-                </button>
-              </div>
-            </div>
-
-            {/* 2. TARGET */}
-            <div
-              onClick={() => navigate(`/job/${encodeURIComponent(targetJobName.toLowerCase().replace(/[^a-z0-9]/g, '-'))}`)}
-              className="relative pl-10 group cursor-pointer"
-            >
-              <div className="absolute left-2 top-2 w-4 h-4 rounded-full bg-purple-600 border-2 border-white ring-2 ring-purple-200 group-hover:scale-125 transition-transform" />
-              <div className="p-4 rounded-xl bg-purple-50/40 border border-purple-200 group-hover:border-purple-400 transition-all flex items-center justify-between">
-                <div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-purple-600">
-                    TARGET
-                  </div>
-                  <div className="text-base font-extrabold text-slate-900 mt-0.5">
-                    {targetJobName}
-                  </div>
-                </div>
-                <ChevronRight className="w-4 h-4 text-purple-600" />
-              </div>
-            </div>
-
-            {/* 3. ELIGIBILITY */}
-            <div
-              onClick={() => navigate(`/job/${encodeURIComponent(targetJobName.toLowerCase().replace(/[^a-z0-9]/g, '-'))}`)}
-              className="relative pl-10 group cursor-pointer"
-            >
-              <div className="absolute left-2 top-2 w-4 h-4 rounded-full bg-emerald-600 border-2 border-white ring-2 ring-emerald-200 group-hover:scale-125 transition-transform" />
-              <div className="p-4 rounded-xl bg-emerald-50/40 border border-emerald-200 group-hover:border-emerald-400 transition-all flex items-center justify-between">
-                <div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">
-                    ELIGIBILITY
-                  </div>
-                  <div className="text-base font-extrabold text-slate-900 mt-0.5">
-                    {pathData?.eligibility?.status || 'Potentially Eligible'}
-                  </div>
-                  <div className="text-xs text-slate-500 mt-0.5">
-                    {pathData?.eligibility?.explanation || 'Your degree provides relevant foundational knowledge.'}
-                  </div>
-                </div>
-                <span className="text-xs font-bold text-emerald-700">View Rules</span>
-              </div>
-            </div>
-
-            {/* 4. SKILL GAP */}
-            <div
-              onClick={() => navigate('/learn')}
-              className="relative pl-10 group cursor-pointer"
-            >
-              <div className="absolute left-2 top-2 w-4 h-4 rounded-full bg-amber-500 border-2 border-white ring-2 ring-amber-200 group-hover:scale-125 transition-transform" />
-              <div className="p-4 rounded-xl bg-amber-50/40 border border-amber-200 group-hover:border-amber-400 transition-all space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700">
-                    SKILL GAP (IDENTIFIED)
-                  </div>
-                  <span className="text-xs font-bold text-amber-700 flex items-center gap-1">
-                    <span>Learn Skills</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {(pathData?.skillGap && pathData.skillGap.length > 0
-                    ? pathData.skillGap.map(s => s.name || s)
-                    : ['SQL', 'Statistics', 'Power BI', 'Python']
-                  ).map((sk, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2.5 py-0.5 rounded-md bg-white border border-amber-300 text-xs font-semibold text-amber-900 shadow-2xs"
-                    >
-                      ✗ {sk}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* 5. LEARNING */}
-            <div
-              onClick={() => navigate('/learn')}
-              className="relative pl-10 group cursor-pointer"
-            >
-              <div className="absolute left-2 top-2 w-4 h-4 rounded-full bg-indigo-600 border-2 border-white ring-2 ring-indigo-200 group-hover:scale-125 transition-transform" />
-              <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200 group-hover:border-indigo-300 transition-all flex items-center justify-between">
-                <div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                    LEARNING
-                  </div>
-                  <div className="text-sm font-extrabold text-slate-900 mt-0.5">
-                    Complete Structured Learning Curriculum
-                  </div>
-                  <div className="text-xs text-slate-500">
-                    Guided tutorials, practice quizzes, and documentation for missing tools.
-                  </div>
-                </div>
-                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-indigo-600" />
-              </div>
-            </div>
-
-            {/* 6. PROJECTS */}
-            <div
-              onClick={() => navigate(`/job/${encodeURIComponent(targetJobName.toLowerCase().replace(/[^a-z0-9]/g, '-'))}`)}
-              className="relative pl-10 group cursor-pointer"
-            >
-              <div className="absolute left-2 top-2 w-4 h-4 rounded-full bg-purple-600 border-2 border-white ring-2 ring-purple-200 group-hover:scale-125 transition-transform" />
-              <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200 group-hover:border-purple-300 transition-all flex items-center justify-between">
-                <div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                    PROJECTS
-                  </div>
-                  <div className="text-sm font-extrabold text-slate-900 mt-0.5">
-                    Build 3–4 Relevant Portfolio Projects
-                  </div>
-                  <div className="text-xs text-slate-500">
-                    End-to-end industry datasets with GitHub code repository and live deployment.
-                  </div>
-                </div>
-                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-purple-600" />
-              </div>
-            </div>
-
-            {/* 7. RESUME */}
-            <div
-              onClick={() => navigate('/ai-assistant')}
-              className="relative pl-10 group cursor-pointer"
-            >
-              <div className="absolute left-2 top-2 w-4 h-4 rounded-full bg-cyan-600 border-2 border-white ring-2 ring-cyan-200 group-hover:scale-125 transition-transform" />
-              <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200 group-hover:border-cyan-300 transition-all flex items-center justify-between">
-                <div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                    RESUME
-                  </div>
-                  <div className="text-sm font-extrabold text-slate-900 mt-0.5">
-                    Create Targeted ATS-Optimized Resume
-                  </div>
-                  <div className="text-xs text-slate-500">
-                    Emphasize transferable analytical strengths from {studyName} and technical projects.
-                  </div>
-                </div>
-                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-cyan-600" />
-              </div>
-            </div>
-
-            {/* 8. INTERVIEW */}
-            <div
-              onClick={() => navigate('/ai-assistant')}
-              className="relative pl-10 group cursor-pointer"
-            >
-              <div className="absolute left-2 top-2 w-4 h-4 rounded-full bg-indigo-600 border-2 border-white ring-2 ring-indigo-200 group-hover:scale-125 transition-transform" />
-              <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200 group-hover:border-indigo-300 transition-all flex items-center justify-between">
-                <div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                    INTERVIEW
-                  </div>
-                  <div className="text-sm font-extrabold text-slate-900 mt-0.5">
-                    Technical Assessment + Domain Case Study + HR
-                  </div>
-                  <div className="text-xs text-slate-500">
-                    Interactive AI Interview Practice & behavioral situational questions.
-                  </div>
-                </div>
-                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-indigo-600" />
-              </div>
-            </div>
-
-            {/* 9. APPLICATION */}
-            <div
-              onClick={() => navigate('/job-roadmap')}
-              className="relative pl-10 group cursor-pointer"
-            >
-              <div className="absolute left-2 top-2 w-4 h-4 rounded-full bg-emerald-600 border-2 border-white ring-2 ring-emerald-200 group-hover:scale-125 transition-transform" />
-              <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200 group-hover:border-emerald-300 transition-all flex items-center justify-between">
-                <div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                    APPLICATION
-                  </div>
-                  <div className="text-sm font-extrabold text-slate-900 mt-0.5">
-                    Apply to Suitable Entry-Level & Trainee Roles
-                  </div>
-                  <div className="text-xs text-slate-500">
-                    Job portals, company career pages, and campus/off-campus recruitment drives.
-                  </div>
-                </div>
-                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-600" />
-              </div>
-            </div>
-
-            {/* 10. CAREER OUTCOME */}
-            <div className="relative pl-10">
-              <div className="absolute left-2 top-2 w-4 h-4 rounded-full bg-purple-600 border-2 border-white ring-2 ring-purple-200" />
-              <div className="p-4 rounded-xl bg-purple-600 text-white flex items-center justify-between shadow-2xs">
-                <div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-purple-200">
-                    CAREER GOAL
-                  </div>
-                  <div className="text-lg font-extrabold mt-0.5">
-                    {targetJobName}
-                  </div>
-                </div>
-                <CheckCircle2 className="w-6 h-6 text-white" />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Master Targeted Application Links for Selected Target Job */}
-        <ApplicationLinksSection
-          jobTitle={targetJobName}
-          category={pathData?.targetJobDetails?.sector || ''}
-          jobType={pathData?.targetJobDetails?.category || ''}
-        />
-        </>
-      )}
-
-      {/* SECTION 27: IF USER HAS NO TARGET JOB */}
-      {!loading && !targetJobName && (
-        <section className="card-clean p-6 sm:p-7 bg-white border border-slate-200 space-y-6 shadow-2xs">
-          <div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-              You Studied
-            </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5">
-              {studyName} — <span className="text-indigo-600 font-semibold">{statusLabel}</span>
-            </h2>
-            <p className="text-sm text-slate-600 mt-1">
-              Here are all your verified directions based strictly on this education:
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* 1. Study Further */}
-            <Link
-              to="/study-next"
-              className="p-5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-300 transition-all flex flex-col justify-between space-y-3 group shadow-2xs"
-            >
-              <div className="space-y-1">
-                <div className="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-lg">
-                  🎓
-                </div>
-                <div className="font-extrabold text-base text-slate-900 group-hover:text-indigo-600 transition-colors">
-                  Study Further
-                </div>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  Accredited Master degrees, professional certifications, and postgraduate programs.
-                </p>
-              </div>
-              <div className="text-xs font-bold text-indigo-600 flex items-center gap-1">
-                <span>Explore Study Options</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </Link>
-
-            {/* 2. Career Fields */}
-            <Link
-              to="/careers"
-              className="p-5 rounded-xl bg-slate-50 hover:bg-purple-50/50 border border-slate-200 hover:border-purple-300 transition-all flex flex-col justify-between space-y-3 group shadow-2xs"
-            >
-              <div className="space-y-1">
-                <div className="w-10 h-10 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-lg">
-                  🚀
-                </div>
-                <div className="font-extrabold text-base text-slate-900 group-hover:text-purple-600 transition-colors">
-                  Career Fields
-                </div>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  Major industry domains and career paths connected to your study specialization.
-                </p>
-              </div>
-              <div className="text-xs font-bold text-purple-600 flex items-center gap-1">
-                <span>Explore Careers</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </Link>
-
-            {/* 3. Private Jobs */}
-            <Link
-              to="/job-roadmap"
-              className="p-5 rounded-xl bg-slate-50 hover:bg-cyan-50/50 border border-slate-200 hover:border-cyan-300 transition-all flex flex-col justify-between space-y-3 group shadow-2xs"
-            >
-              <div className="space-y-1">
-                <div className="w-10 h-10 rounded-lg bg-cyan-100 text-cyan-700 flex items-center justify-center font-bold text-lg">
-                  💼
-                </div>
-                <div className="font-extrabold text-base text-slate-900 group-hover:text-cyan-600 transition-colors">
-                  Private Sector Jobs
-                </div>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  Roles where your academic foundation gives you direct or strong eligibility.
-                </p>
-              </div>
-              <div className="text-xs font-bold text-cyan-600 flex items-center gap-1">
-                <span>View Jobs</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </Link>
-
-            {/* 4. Government / Public Sector */}
-            <Link
-              to="/job-roadmap"
-              className="p-5 rounded-xl bg-slate-50 hover:bg-amber-50/50 border border-slate-200 hover:border-amber-300 transition-all flex flex-col justify-between space-y-3 group shadow-2xs"
-            >
-              <div className="space-y-1">
-                <div className="w-10 h-10 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-lg">
-                  🏛️
-                </div>
-                <div className="font-extrabold text-base text-slate-900 group-hover:text-amber-600 transition-colors">
-                  Government & Public Jobs
-                </div>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  Official recruitment exams and public sector vacancies accepting your degree.
-                </p>
-              </div>
-              <div className="text-xs font-bold text-amber-700 flex items-center gap-1">
-                <span>View Public Roles</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </Link>
-          </div>
-
-          <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <span className="text-xs text-slate-500 font-medium">
-              Want a personalized step-by-step roadmap for a specific job?
-            </span>
+          <div className="pt-2">
             <button
               onClick={openTargetJobModal}
-              className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-2xs flex items-center gap-1.5 self-start sm:self-auto"
+              className="btn-gradient !py-2.5 !px-6 text-sm font-bold inline-flex items-center gap-2 cursor-pointer"
             >
               <Target className="w-4 h-4" />
-              <span>Choose a Target Job</span>
+              <span>Choose Target Job</span>
             </button>
+          </div>
+        </section>
+      )}
+
+      {/* VERTICAL ROADMAP SECTION (Section 11) */}
+      {targetJobName && (
+        <section className="space-y-6">
+          {/* Start Origin Node */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[#E2E8F0] flex items-center justify-between shadow-2xs">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+                <GraduationCap className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  STARTING POINT
+                </div>
+                <div className="text-base font-extrabold text-[#0F172A]">
+                  {studyName} <span className="text-xs font-semibold text-emerald-600">({statusLabel})</span>
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={openChangeModal}
+              className="text-xs font-semibold text-[#4F46E5] hover:underline cursor-pointer"
+            >
+              Change
+            </button>
+          </div>
+
+          {/* Vertical Stepper Nodes */}
+          <div className="space-y-0 relative pl-4 sm:pl-6">
+            {steps.map((step, idx) => {
+              const isCompleted = step.status === 'COMPLETED';
+              const isCurrent = step.status === 'CURRENT';
+              const isBlocked = step.status === 'BLOCKED';
+              const isLast = idx === steps.length - 1;
+
+              return (
+                <div key={idx} className="relative pb-8 group">
+                  {/* Vertical Connector Line */}
+                  {!isLast && (
+                    <div
+                      className={`absolute left-4 top-10 bottom-0 w-0.5 ${
+                        isCompleted ? 'bg-emerald-400' : 'bg-[#E2E8F0]'
+                      }`}
+                    />
+                  )}
+
+                  {/* Step Row */}
+                  <div className="flex items-start gap-4">
+                    {/* Node Icon / Status Indicator */}
+                    <button
+                      onClick={() => toggleStepStatus(idx)}
+                      title="Click to toggle status"
+                      className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs flex-shrink-0 transition-transform cursor-pointer group-hover:scale-110 ${
+                        isCompleted
+                          ? 'bg-emerald-500 text-white shadow-xs'
+                          : isCurrent
+                          ? 'bg-[#4F46E5] text-white ring-4 ring-[#EEF2FF] shadow-xs'
+                          : isBlocked
+                          ? 'bg-amber-500 text-white'
+                          : 'bg-white text-[#64748B] border-2 border-[#E2E8F0]'
+                      }`}
+                    >
+                      {isCompleted ? (
+                        <Check className="w-4 h-4 stroke-[3]" />
+                      ) : isCurrent ? (
+                        <span>{step.stepNumber || idx + 1}</span>
+                      ) : isBlocked ? (
+                        <AlertTriangle className="w-3.5 h-3.5" />
+                      ) : (
+                        <span>{step.stepNumber || idx + 1}</span>
+                      )}
+                    </button>
+
+                    {/* Step Card */}
+                    <div
+                      className={`flex-1 p-5 rounded-2xl border transition-all ${
+                        isCurrent
+                          ? 'bg-white border-[#4F46E5] shadow-[0_8px_24px_rgba(79,70,229,0.08)] ring-1 ring-[#EEF2FF]'
+                          : isCompleted
+                          ? 'bg-[#F8FAFC] border-emerald-200'
+                          : 'bg-white border-[#E2E8F0]'
+                      }`}
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                        <div className="space-y-1.5 flex-1">
+                          {/* Top Status & Time Badge */}
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${
+                                isCompleted
+                                  ? 'bg-emerald-100 text-emerald-800'
+                                  : isCurrent
+                                  ? 'bg-[#EEF2FF] text-[#4F46E5]'
+                                  : isBlocked
+                                  ? 'bg-amber-100 text-amber-800'
+                                  : 'bg-slate-100 text-[#64748B]'
+                              }`}
+                            >
+                              {step.status}
+                            </span>
+                            {step.estimatedEffort && (
+                              <span className="inline-flex items-center gap-1 text-[11px] text-[#64748B]">
+                                <Clock className="w-3 h-3" />
+                                <span>{step.estimatedEffort}</span>
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Step Title */}
+                          <h3
+                            className={`text-base sm:text-lg font-bold ${
+                              isCurrent ? 'text-[#4F46E5]' : 'text-[#0F172A]'
+                            }`}
+                          >
+                            {step.title}
+                          </h3>
+
+                          {/* Step Description */}
+                          <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
+                            {step.description}
+                          </p>
+
+                          {/* Related Skills */}
+                          {step.relatedSkills && step.relatedSkills.length > 0 && (
+                            <div className="flex flex-wrap gap-1.5 pt-1.5">
+                              {step.relatedSkills.map((sk, skIdx) => (
+                                <span
+                                  key={skIdx}
+                                  className="text-[11px] px-2 py-0.5 rounded-md bg-[#F1F5F9] text-[#0F172A] font-medium"
+                                >
+                                  {sk}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Action CTA */}
+                        <div className="flex items-center gap-2 self-start sm:self-center flex-shrink-0 pt-2 sm:pt-0">
+                          {step.actionUrl ? (
+                            <Link
+                              to={step.actionUrl}
+                              className={`text-xs font-bold px-3.5 py-2 rounded-xl inline-flex items-center gap-1.5 transition-colors ${
+                                isCurrent
+                                  ? 'btn-primary'
+                                  : 'bg-[#F8FAFC] hover:bg-[#EEF2FF] text-[#0F172A] hover:text-[#4F46E5] border border-[#E2E8F0]'
+                              }`}
+                            >
+                              <span>{step.actionText || 'Proceed'}</span>
+                              <ArrowRight className="w-3.5 h-3.5" />
+                            </Link>
+                          ) : (
+                            <button
+                              onClick={() => toggleStepStatus(idx)}
+                              className="text-xs font-semibold px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer"
+                            >
+                              {isCompleted ? 'Mark Incomplete' : 'Mark Done'}
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Destination Goal Node */}
+          <div className="p-5 rounded-2xl bg-brand-gradient text-white flex items-center justify-between shadow-lg">
+            <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center text-xl">
+                🎯
+              </div>
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-purple-200">
+                  CAREER MILESTONE
+                </div>
+                <div className="text-xl font-extrabold text-white">
+                  {targetJobName}
+                </div>
+              </div>
+            </div>
+            <Link
+              to="/jobs"
+              className="px-4 py-2 rounded-xl bg-white text-[#4F46E5] text-xs font-bold hover:bg-slate-50 transition-colors shadow-xs"
+            >
+              Explore Job Roles
+            </Link>
           </div>
         </section>
       )}

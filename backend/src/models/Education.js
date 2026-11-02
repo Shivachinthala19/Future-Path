@@ -56,4 +56,5 @@ const educationSchema = new mongoose.Schema(
 
 educationSchema.index({ name: 'text', aliases: 'text', description: 'text', branch: 'text' });
 
-export const Education = mongoose.model('Education', educationSchema);
+export const Education = mongoose.models.Education || mongoose.model('Education', educationSchema);
+export default Education;

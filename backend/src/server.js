@@ -6,15 +6,26 @@ import { runSeed } from './seeds/runSeed.js';
 
 const startServer = async () => {
   try {
-    await connectDB();
+    // Attempt MongoDB connection gracefully if available
+    try {
+      await connectDB();
+      const educationCount = await Education.countDocuments().catch(() => 0);
+      if (educationCount === 0) {
+        console.log('[Server] MongoDB is empty. Seeding skipped or handled via Supabase.');
+      } else {
+        console.log(`[Server] MongoDB contains ${educationCount} legacy records.`);
+      }
+    } catch (dbErr) {
+      console.warn(`[Server] MongoDB not connected (${dbErr.message}). Running 100% on Supabase PostgreSQL.`);
+    }
 
-    // Auto-seed if database is empty
-    const educationCount = await Education.countDocuments();
-    if (educationCount === 0) {
-      console.log('[Server] Database is empty. Running initial development seed...');
-      await runSeed();
+    // Verify Supabase Connection
+    const { SupabaseService } = await import('./services/supabase/supabaseService.js');
+    const supabaseStatus = await SupabaseService.checkConnection();
+    if (supabaseStatus.connected) {
+      console.log(`[Server] ✅ Connected to Supabase PostgreSQL database.`);
     } else {
-      console.log(`[Server] Database contains ${educationCount} education records. Ready.`);
+      console.log(`[Server] ℹ️ Supabase status: ${supabaseStatus.message}`);
     }
 
     const server = app.listen(ENV.PORT, '0.0.0.0', () => {

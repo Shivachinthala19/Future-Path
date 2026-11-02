@@ -17,34 +17,61 @@ export const getAllStudyOptions = async (req, res, next) => {
     const education = await KnowledgeGraphService.identifyEducation(educationQuery).catch(() => null);
     const eduName = education ? education.name : educationQuery;
 
-    let studyList = [];
+    // Query Supabase studies first
+    const { SupabaseService } = await import('../services/supabase/supabaseService.js');
+    const supabaseStudies = await SupabaseService.getStudies({ category, search: searchQuery });
 
-    // Query Study collection first
-    const studiesFromDb = await Study.find({}).lean();
-    if (studiesFromDb && studiesFromDb.length > 0) {
-      studyList = studiesFromDb.map(s => ({
-        id: s.id || s._id,
+    if (supabaseStudies && supabaseStudies.length > 0) {
+      studyList = supabaseStudies.map(s => ({
+        id: s.slug || s.id,
         name: s.name,
-        shortName: s.shortName,
-        slug: s.id,
-        degreeLevel: s.educationLevel || 'Undergraduate',
+        shortName: s.short_name || s.name,
+        slug: s.slug,
+        degreeLevel: s.education_level || 'Undergraduate',
         duration: s.duration || '3-4 Years',
-        field: s.category || s.field || 'General',
+        field: s.category || 'General',
         relationshipCategory: 'Directly Related',
         relationshipType: 'DIRECT',
         rationale: s.overview || `Accredited program pathway for ${s.name}.`,
-        eligibility: typeof s.eligibility === 'string' ? s.eligibility : s.eligibility?.minimumRequirements?.[0] || s.eligibility?.qualification || 'Pass in qualifying examination.',
-        admissionRequirements: Array.isArray(s.admissionRequirements) ? s.admissionRequirements.join('; ') : s.admissionRequirements || 'Merit / Entrance score',
-        subjects: s.subjects || [],
-        specializations: s.specializations || [],
-        entranceExams: s.entranceExams || [],
-        careerOpportunities: s.relatedJobs || s.jobRoles || [],
-        higherStudyOptions: s.higherStudies?.map(h => typeof h === 'string' ? h : h.name || h.program) || [],
-        officialSource: s.officialSource || s.sources?.[0]?.title || 'UGC / AICTE',
-        officialUrl: s.notificationUrl || s.sources?.[0]?.url || 'https://ugc.gov.in',
-        lastVerified: s.lastVerified || 'September 2026',
-        verificationStatus: s.verificationStatus || 'VERIFIED'
+        eligibility: s.description || 'Pass in qualifying examination.',
+        admissionRequirements: 'Merit / Entrance score',
+        subjects: [],
+        specializations: [],
+        entranceExams: [],
+        careerOpportunities: s.career_options || [],
+        higherStudyOptions: s.higher_studies || [],
+        officialSource: 'UGC / AICTE',
+        officialUrl: 'https://ugc.gov.in',
+        lastVerified: 'September 2026',
+        verificationStatus: 'VERIFIED'
       }));
+    } else {
+      const studiesFromDb = await Study.find({}).lean().catch(() => []);
+      if (studiesFromDb && studiesFromDb.length > 0) {
+        studyList = studiesFromDb.map(s => ({
+          id: s.id || s._id,
+          name: s.name,
+          shortName: s.shortName,
+          slug: s.id,
+          degreeLevel: s.educationLevel || 'Undergraduate',
+          duration: s.duration || '3-4 Years',
+          field: s.category || s.field || 'General',
+          relationshipCategory: 'Directly Related',
+          relationshipType: 'DIRECT',
+          rationale: s.overview || `Accredited program pathway for ${s.name}.`,
+          eligibility: typeof s.eligibility === 'string' ? s.eligibility : s.eligibility?.minimumRequirements?.[0] || 'Pass in qualifying examination.',
+          admissionRequirements: Array.isArray(s.admissionRequirements) ? s.admissionRequirements.join('; ') : s.admissionRequirements || 'Merit / Entrance score',
+          subjects: s.subjects || [],
+          specializations: s.specializations || [],
+          entranceExams: s.entranceExams || [],
+          careerOpportunities: s.relatedJobs || s.jobRoles || [],
+          higherStudyOptions: s.higherStudies?.map(h => typeof h === 'string' ? h : h.name || h.program) || [],
+          officialSource: s.officialSource || 'UGC / AICTE',
+          officialUrl: s.notificationUrl || 'https://ugc.gov.in',
+          lastVerified: s.lastVerified || 'September 2026',
+          verificationStatus: s.verificationStatus || 'VERIFIED'
+        }));
+      }
     }
 
     // Also include entities from universal Entity model if available
@@ -109,18 +136,31 @@ export const getAllStudyOptions = async (req, res, next) => {
 export const getStudyOptionById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    let entity = null;
 
-    // Check in universal Entity collection first
-    entity = await Entity.findOne({
-      $or: [
-        { id: id.toLowerCase() },
-        { id: id.toLowerCase().replace(/[^a-z0-9]/g, '-') },
-        { name: { $regex: new RegExp(`^${id}$`, 'i') } },
-        { name: { $regex: id.replace(/-/g, ' '), $options: 'i' } },
-        { aliases: { $regex: new RegExp(`^${id}$`, 'i') } }
-      ]
-    }).lean();
+    // Check Supabase first
+    const { SupabaseService } = await import('../services/supabase/supabaseService.js');
+    const supabaseStudy = await SupabaseService.getStudyById(id);
+    if (supabaseStudy) {
+      return res.json({
+        success: true,
+        data: {
+          id: supabaseStudy.slug || supabaseStudy.id,
+          name: supabaseStudy.name,
+          shortName: supabaseStudy.short_name || supabaseStudy.name,
+          educationLevel: supabaseStudy.education_level || 'Undergraduate',
+          category: supabaseStudy.category || 'General',
+          duration: supabaseStudy.duration || '3-4 Years',
+          description: supabaseStudy.description || supabaseStudy.overview,
+          overview: supabaseStudy.overview || supabaseStudy.description,
+          eligibility: supabaseStudy.description || 'Pass in qualifying examination',
+          careerOpportunities: supabaseStudy.career_options || [],
+          higherStudies: supabaseStudy.higher_studies || [],
+          webSearchUrl: googleSearchUrl(`${supabaseStudy.name} course eligibility admission syllabus`),
+          lastVerified: 'September 2026',
+          verificationStatus: 'VERIFIED'
+        }
+      });
+    }
 
     if (entity && entity.type === 'STUDY') {
       const formattedStudy = {

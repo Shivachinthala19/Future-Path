@@ -1,5 +1,5 @@
 import React from 'react';
-import { GraduationCap, Briefcase, Monitor, Brain, Award, Sparkles, Activity } from 'lucide-react';
+import { GraduationCap, Briefcase, Monitor, Brain, Award, Activity } from 'lucide-react';
 
 export const CountsBanner = ({ counts = {}, title = 'Verified Options Connected to Your Education' }) => {
   const items = [

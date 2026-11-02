@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheck, Sparkles, Compass } from 'lucide-react';
+import { ShieldCheck, Compass } from 'lucide-react';
 import { FuturePathLogo } from './FuturePathLogo.jsx';
 
 export const Footer = () => {
@@ -38,7 +38,7 @@ export const Footer = () => {
             Intelligent Guidance
           </h4>
           <ul className="space-y-2 text-sm text-slate-600">
-            <li><Link to="/ai-assistant" className="hover:text-indigo-600 transition-colors flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5 text-amber-500" /> Future Path AI</Link></li>
+            <li><Link to="/ai-assistant" className="hover:text-indigo-600 transition-colors flex items-center gap-1.5"><Compass className="w-3.5 h-3.5 text-[#4F46E5]" /> Future Path AI</Link></li>
             <li><Link to="/search" className="hover:text-indigo-600 transition-colors">Universal Search Engine</Link></li>
             <li><Link to="/profile" className="hover:text-indigo-600 transition-colors">Education & Goals Profile</Link></li>
             <li><Link to="/login" className="hover:text-indigo-600 transition-colors">Sign In</Link></li>

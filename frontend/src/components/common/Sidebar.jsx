@@ -12,7 +12,6 @@ import {
   FileText,
   Mic,
   Radar,
-  Sparkles,
   User,
   ShieldAlert
 } from 'lucide-react';
@@ -22,7 +21,7 @@ export const Sidebar = ({ onOpenAssistant }) => {
   const { isAdmin } = useAuth();
 
   const links = [
-    { label: 'Future Path (AI)', to: '/education/analyze', icon: Compass, badge: 'Core' },
+    { label: 'Future Path', to: '/education/analyze', icon: Compass, badge: 'Core' },
     { label: 'Education Directory', to: '/education', icon: GraduationCap },
     { label: 'Career Fields', to: '/careers', icon: Briefcase },
     { label: 'Job Roles', to: '/jobs', icon: Monitor },
@@ -39,19 +38,19 @@ export const Sidebar = ({ onOpenAssistant }) => {
   return (
     <aside className="hidden lg:flex flex-col w-64 border-r border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md p-4 space-y-6 flex-shrink-0">
       {/* AI Assistant Quick Trigger Card */}
-      <div className="p-3.5 rounded-2xl bg-gradient-to-br from-brand-600 via-ai-600 to-ai-700 text-white shadow-md shadow-brand-500/20">
+      <div className="p-3.5 rounded-2xl bg-[#4F46E5] text-white shadow-md">
         <div className="flex items-center gap-2 mb-1.5">
-          <Sparkles className="w-4 h-4 text-amber-300" />
-          <span className="text-xs font-bold uppercase tracking-wider text-amber-200">AI Navigator</span>
+          <Compass className="w-4 h-4 text-amber-300" />
+          <span className="text-xs font-bold uppercase tracking-wider text-amber-200">Career Navigator</span>
         </div>
-        <p className="text-xs text-brand-100 mb-3 leading-relaxed">
+        <p className="text-xs text-indigo-100 mb-3 leading-relaxed">
           Ask questions about your study, career switches, and skill roadmaps.
         </p>
         <button
           onClick={onOpenAssistant}
-          className="w-full py-1.5 px-3 rounded-xl bg-white text-slate-900 text-xs font-bold hover:bg-slate-50 transition-colors shadow-xs"
+          className="w-full py-1.5 px-3 rounded-xl bg-white text-[#0F172A] text-xs font-bold hover:bg-slate-50 transition-colors shadow-xs cursor-pointer"
         >
-          ✨ Ask Future Path
+          Ask Future Path
         </button>
       </div>
 

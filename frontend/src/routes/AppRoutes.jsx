@@ -11,6 +11,8 @@ import { HomePage } from '../pages/HomePage.jsx';
 import { StudyNextPage } from '../pages/StudyNextPage.jsx';
 import { LearnSkillsPage } from '../pages/LearnSkillsPage.jsx';
 import { JobRoadmapPage } from '../pages/JobRoadmapPage.jsx';
+import { JobsPage } from '../pages/JobsPage.jsx';
+import { ExamsPage } from '../pages/ExamsPage.jsx';
 import { CareersPage } from '../pages/CareersPage.jsx';
 import { AIAssistantPage } from '../pages/AIAssistantPage.jsx';
 import { ProfilePage } from '../pages/ProfilePage.jsx';
@@ -45,7 +47,8 @@ export const AppRoutes = () => {
         <Route path="/study-next" element={<StudyNextPage />} />
         <Route path="/study-next/:id" element={<StudyDetailsPage />} />
 
-        {/* Job Details & Target Path (Section 12 - 24) */}
+        {/* Jobs Discovery & Detail Pages */}
+        <Route path="/jobs" element={<JobsPage />} />
         <Route path="/job/:id" element={<JobDetailsPage />} />
         <Route path="/job-roadmap" element={<JobRoadmapPage />} />
         <Route path="/learn" element={<LearnSkillsPage />} />
@@ -54,7 +57,7 @@ export const AppRoutes = () => {
         {/* Careers & Exams */}
         <Route path="/careers" element={<CareersPage />} />
         <Route path="/careers/:id" element={<CareersPage />} />
-        <Route path="/exams" element={<SearchResultsPage />} />
+        <Route path="/exams" element={<ExamsPage />} />
 
         {/* AI Assistant & Profile */}
         <Route path="/ai-assistant" element={<AIAssistantPage />} />

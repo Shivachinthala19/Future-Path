@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  Sparkles,
   Send,
   User,
   RotateCw,
@@ -13,31 +12,56 @@ import {
   HelpCircle,
   Briefcase,
   Layers,
-  Award
+  Award,
+  BookOpen,
+  ClipboardCheck
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useEducation } from '../context/EducationContext.jsx';
 import { ChangeEducationButton, ChangeTargetJobButton } from '../components/ChangeEducation.jsx';
-import { MarkdownRenderer } from '../components/common/MarkdownRenderer.jsx';
+import { StructuredAIResponse } from '../components/ai/StructuredAIResponse.jsx';
 import api from '../services/api.js';
 
 export const AIAssistantPage = () => {
-  const { profile } = useAuth();
+  const { profile, user } = useAuth();
   const { currentEducation, targetJob } = useEducation();
   const studyName = currentEducation.educationName || 'B.Com';
   const targetJobName = targetJob?.targetJobName || 'Data Analyst';
+  const rawName = user?.name || profile?.name;
+  const userName = rawName ? rawName.trim().split(' ')[0] : 'there';
 
+  const [conversationId, setConversationId] = useState(() => `conv-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`);
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
       content: `### 🧭 Welcome to Future Path AI!
 
-I am your personal education and career guide—ready to answer **any question** about your education, target career, job transitions, competitive exams, and interview strategy.
+I am your personal education and career counselor. Ask me **any question** about your education, eligible careers, competitive exams, salary benchmarks, skill gap analysis, or step-by-step roadmaps.
 
-* **Your Current Education**: \`${studyName}\`
-* **Active Target Goal**: \`${targetJobName}\`
+* **Current Education**: \`${studyName}\`
+* **Target Goal**: \`${targetJobName}\`
 
-Feel free to ask me anything—like *"How can I transition into ${targetJobName}?"*, *"What is the difference between CA and CMA?"*, *"What can I study after ${studyName}?"*, or *"Give me top technical interview questions."*`
+How can I help guide your future path today?`,
+      structuredData: {
+        answer: `### 🧭 Welcome to Future Path AI!\n\nI am your personal education and career counselor. Ask me **any question** about your education, eligible careers, competitive exams, salary benchmarks, skill gap analysis, or step-by-step roadmaps.\n\n* **Current Education**: \`${studyName}\`\n* **Target Goal**: \`${targetJobName}\`\n\nHow can I help guide your future path today?`,
+        intent: 'GENERAL_CAREER',
+        confidence: 'HIGH',
+        personalized: true,
+        userContextSummary: {
+          education: studyName,
+          targetJob: targetJobName
+        },
+        keyPoints: [
+          `Verified AI Guidance engine grounded in official databases.`,
+          `Personalized specifically around your background in ${studyName} and target ${targetJobName}.`
+        ],
+        relatedActions: [
+          { label: `View ${targetJobName} Roadmap`, to: '/my-path', icon: 'roadmap' },
+          { label: `Check Skill Gap`, to: '/learn', icon: 'skills' },
+          { label: `Explore Jobs for ${studyName}`, to: '/jobs', icon: 'jobs' },
+          { label: `Explore Higher Studies`, to: '/study-next', icon: 'study' }
+        ]
+      }
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
@@ -57,35 +81,36 @@ Feel free to ask me anything—like *"How can I transition into ${targetJobName}
 
   const promptCategories = {
     target: [
-      `How can I crack ${targetJobName} with my ${studyName} background?`,
+      `Can I become a ${targetJobName} after ${studyName}?`,
+      `What skills am I missing for ${targetJobName}?`,
+      `Give me a complete roadmap to become a ${targetJobName}`,
       `What are the top 5 technical interview questions for ${targetJobName}?`,
-      `What portfolio projects will impress recruiters for ${targetJobName}?`,
-      `What is the realistic salary and career growth for ${targetJobName}?`
+      `What portfolio projects will impress recruiters for ${targetJobName}?`
     ],
     comparisons: [
-      'What is the difference between CA and CMA?',
-      'BCA vs B.Tech CSE: Which one is better?',
-      'Data Analyst vs Data Scientist: Key differences?',
-      'Private sector job vs Government job: An honest breakdown',
-      'SSC CGL vs Bank PO: Which one should I choose?'
+      'BCA vs B.Tech Computer Science: Which is better?',
+      'CA vs CMA: Difference, salary, and statutory powers?',
+      'Data Analyst vs Business Analyst: Which fits B.Com?',
+      'Private sector job vs Government job: Honest comparison',
+      'SSC CGL vs Bank PO: Career growth & exam difficulty'
     ],
     studies: [
       `What can I study next after ${studyName}?`,
+      'What is MBA and what is the eligibility?',
       'Can I do an MBA without appearing for CAT?',
-      'Is a 1-year Executive MBA better than a 2-year Regular MBA?',
-      'What are the best professional certifications in 2026?'
+      'What are the best professional certifications after graduation?'
     ],
     skills: [
-      `What specific skills and tools do I need for ${targetJobName}?`,
-      'How to write an ATS-friendly resume for freshers?',
-      'How to answer "Tell me about yourself" in an interview?',
+      `What skills do I need for ${targetJobName}?`,
+      'What should I learn first as a beginner?',
+      'How to build an ATS-friendly resume for freshers?',
       'How can I switch from a non-IT background to tech?'
     ],
     exams: [
-      'How to prepare for the UPSC Civil Services Examination?',
+      'What government jobs can I apply for after graduation?',
       'Explain the complete syllabus and exam pattern for SSC CGL',
       'How to prepare for Bank PO (SBI / IBPS) in 6 months?',
-      'What is the CTET exam and how do I clear Paper 1 and 2?'
+      'What entrance exams are required for MBA admissions?'
     ]
   };
 
@@ -101,6 +126,7 @@ Feel free to ask me anything—like *"How can I transition into ${targetJobName}
     try {
       const res = await api.post('/ai/chat', {
         message: text.trim(),
+        conversationId,
         context: {
           currentEducation: studyName,
           specialization: currentEducation.specialization || '',
@@ -109,26 +135,47 @@ Feel free to ask me anything—like *"How can I transition into ${targetJobName}
         }
       });
 
-      if (res && res.reply) {
-        setMessages((prev) => [...prev, { role: 'assistant', content: res.reply }]);
-      } else if (res && res.data && res.data.reply) {
-        setMessages((prev) => [...prev, { role: 'assistant', content: res.data.reply }]);
-      } else {
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: 'assistant',
-            content: `### 🧭 Career Guidance Strategy\n\nRegarding your query on **"${text}"**:\n\n* **Academic Alignment**: With your foundation in **${studyName}**, focus on building practical demonstrable competence.\n* **Next Action**: Master the core operational software tools, build 2 capstone projects, and tailor your resume around quantifiable metrics.\n\nFeel free to ask for specific project ideas, salary benchmarks, or interview practice!`
-          }
-        ]);
+      if (res?.conversationId) {
+        setConversationId(res.conversationId);
       }
+
+      const structuredPayload = res?.data || res?.structuredData || res?.data?.data || null;
+      const textReply = res?.reply || res?.data?.reply || structuredPayload?.answer || 'Guidance received.';
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: textReply,
+          structuredData: structuredPayload
+        }
+      ]);
     } catch (err) {
       console.warn('[AIAssistantPage] Chat error:', err.message);
       setMessages((prev) => [
         ...prev,
         {
           role: 'assistant',
-          content: `### 🧭 Career Guidance\n\nRegarding **"${text}"**:\n\nTo advance toward **${targetJobName}** from **${studyName}**, focus on acquiring practical tools, building verified portfolio projects on GitHub or NovyPro, and practicing behavioral STAR interview answers.`
+          content: `### 🧭 Career Guidance Strategy\n\nRegarding **"${text}"**:\n\n* **Background Alignment**: Your **${studyName}** background provides quantitative & analytical fundamentals.\n* **Target Strategy**: Focus on practical tooling, verifiable projects, and targeting ${targetJobName} pathways.\n\n*Please verify latest statutory dates and eligibility criteria with official recruitment boards.*`,
+          structuredData: {
+            answer: `### 🧭 Career Guidance Strategy\n\nRegarding **"${text}"**:\n\n* **Background Alignment**: Your **${studyName}** background provides quantitative & analytical fundamentals.\n* **Target Strategy**: Focus on practical tooling, verifiable projects, and targeting ${targetJobName} pathways.`,
+            intent: 'JOB_ELIGIBILITY',
+            confidence: 'HIGH',
+            personalized: true,
+            userContextSummary: {
+              education: studyName,
+              targetJob: targetJobName
+            },
+            keyPoints: [
+              `Your ${studyName} degree qualifies you for standard recruitment and analytical transitions.`,
+              `Prioritize building portfolio projects that prove hands-on tool mastery.`
+            ],
+            relatedActions: [
+              { label: `View ${targetJobName} Roadmap`, to: '/my-path', icon: 'roadmap' },
+              { label: `Check Skill Gap`, to: '/learn', icon: 'skills' },
+              { label: `Explore Jobs for ${studyName}`, to: '/jobs', icon: 'jobs' }
+            ]
+          }
         }
       ]);
     } finally {
@@ -143,49 +190,74 @@ Feel free to ask me anything—like *"How can I transition into ${targetJobName}
     setTimeout(() => setCopiedIdx(null), 2000);
   };
 
-  const handleClearChat = () => {
+  const handleClearChat = async () => {
+    if (conversationId) {
+      try {
+        await api.delete(`/ai/conversations/${conversationId}`);
+      } catch (err) {
+        // Safe ignore
+      }
+    }
+
+    const newId = `conv-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    setConversationId(newId);
     setMessages([
       {
         role: 'assistant',
-        content: `### 🧭 Chat Cleared!\n\nI am ready for your next question. Ask me about careers, higher studies, competitive exams, salary comparisons, or interview preparation!`
+        content: `### 🧭 Chat Cleared!\n\nI am ready for your next question. Ask me about careers, higher studies, competitive exams, salary comparisons, or interview preparation!`,
+        structuredData: {
+          answer: `### 🧭 Chat Cleared!\n\nI am ready for your next question. Ask me about careers, higher studies, competitive exams, salary comparisons, or interview preparation!`,
+          intent: 'GENERAL_CAREER',
+          confidence: 'HIGH',
+          personalized: true,
+          userContextSummary: {
+            education: studyName,
+            targetJob: targetJobName
+          },
+          relatedActions: [
+            { label: `View ${targetJobName} Roadmap`, to: '/my-path', icon: 'roadmap' },
+            { label: `Check Skill Gap`, to: '/learn', icon: 'skills' },
+            { label: `Explore Jobs for ${studyName}`, to: '/jobs', icon: 'jobs' }
+          ]
+        }
       }
     ]);
   };
 
   return (
     <div className="space-y-6 py-2 sm:py-6 max-w-4xl mx-auto">
-      {/* Header */}
-      <section className="card-clean p-6 bg-white border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-2xs">
+      {/* Header Banner */}
+      <section className="card-clean p-6 bg-white border border-[#E2E8F0] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-semibold mb-2">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-            <span>AI Career & Education Intelligence</span>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-xs font-semibold mb-2">
+            <Compass className="w-3.5 h-3.5 text-[#4F46E5]" />
+            <span>AI Career & Education Intelligence Engine</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
             Future Path AI
           </h1>
-          <p className="text-xs text-slate-500 mt-1">
-            Your personal education and career guide.
+          <p className="text-xs text-[#64748B] mt-1">
+            Personalized, verified, and structured guidance for your education and career choices.
           </p>
-          <div className="text-xs text-slate-500 mt-1 flex flex-wrap items-center gap-1.5 font-medium">
-            <span>Context:</span>
-            <span className="font-bold text-indigo-600">{studyName}</span>
+          <div className="text-xs text-[#64748B] mt-1.5 flex flex-wrap items-center gap-1.5 font-medium">
+            <span>Profile Context:</span>
+            <span className="font-bold text-[#4F46E5]">{studyName}</span>
             {targetJobName && (
               <>
                 <span className="text-slate-400">→</span>
-                <span className="font-bold text-purple-600">{targetJobName}</span>
+                <span className="font-bold text-[#7C3AED]">{targetJobName}</span>
               </>
             )}
           </div>
         </div>
 
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        <div className="flex items-center gap-2 self-start sm:self-auto flex-shrink-0">
           <ChangeTargetJobButton label="Change Target" />
           <ChangeEducationButton />
           <button
             onClick={handleClearChat}
             title="Clear Chat History"
-            className="p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-400 hover:text-rose-600 transition-colors"
+            className="p-2.5 rounded-xl border border-[#E2E8F0] hover:bg-slate-50 text-slate-400 hover:text-rose-600 transition-colors cursor-pointer"
           >
             <Trash2 className="w-4 h-4" />
           </button>
@@ -193,58 +265,58 @@ Feel free to ask me anything—like *"How can I transition into ${targetJobName}
       </section>
 
       {/* Suggested Inquiries with Category Tabs */}
-      <div className="card-clean p-4 bg-white border border-slate-200 space-y-3 shadow-2xs">
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+      <div className="card-clean p-4 sm:p-5 bg-white border border-[#E2E8F0] space-y-3 shadow-2xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B]">
             Suggested Inquiries (Click to Ask):
           </span>
-          <div className="flex items-center gap-1 text-xs">
+          <div className="flex flex-wrap items-center gap-1 text-xs">
             <button
               onClick={() => setActiveCategoryTab('target')}
-              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors ${
+              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer ${
                 activeCategoryTab === 'target'
-                  ? 'bg-indigo-600 text-white shadow-2xs'
-                  : 'text-slate-600 hover:bg-slate-100'
+                  ? 'bg-[#4F46E5] text-white shadow-2xs'
+                  : 'text-[#64748B] hover:bg-slate-100'
               }`}
             >
               🎯 My Target Job
             </button>
             <button
               onClick={() => setActiveCategoryTab('comparisons')}
-              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors ${
+              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer ${
                 activeCategoryTab === 'comparisons'
-                  ? 'bg-indigo-600 text-white shadow-2xs'
-                  : 'text-slate-600 hover:bg-slate-100'
+                  ? 'bg-[#4F46E5] text-white shadow-2xs'
+                  : 'text-[#64748B] hover:bg-slate-100'
               }`}
             >
               ⚖️ Comparisons
             </button>
             <button
               onClick={() => setActiveCategoryTab('studies')}
-              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors ${
+              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer ${
                 activeCategoryTab === 'studies'
-                  ? 'bg-indigo-600 text-white shadow-2xs'
-                  : 'text-slate-600 hover:bg-slate-100'
+                  ? 'bg-[#4F46E5] text-white shadow-2xs'
+                  : 'text-[#64748B] hover:bg-slate-100'
               }`}
             >
               🎓 Studies
             </button>
             <button
               onClick={() => setActiveCategoryTab('skills')}
-              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors ${
+              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer ${
                 activeCategoryTab === 'skills'
-                  ? 'bg-indigo-600 text-white shadow-2xs'
-                  : 'text-slate-600 hover:bg-slate-100'
+                  ? 'bg-[#4F46E5] text-white shadow-2xs'
+                  : 'text-[#64748B] hover:bg-slate-100'
               }`}
             >
               💼 Skills & Resume
             </button>
             <button
               onClick={() => setActiveCategoryTab('exams')}
-              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors ${
+              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer ${
                 activeCategoryTab === 'exams'
-                  ? 'bg-indigo-600 text-white shadow-2xs'
-                  : 'text-slate-600 hover:bg-slate-100'
+                  ? 'bg-[#4F46E5] text-white shadow-2xs'
+                  : 'text-[#64748B] hover:bg-slate-100'
               }`}
             >
               🏛️ Govt Exams
@@ -257,7 +329,7 @@ Feel free to ask me anything—like *"How can I transition into ${targetJobName}
             <button
               key={idx}
               onClick={() => handleSend(q)}
-              className="px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 text-slate-700 text-xs font-semibold transition-all shadow-2xs text-left"
+              className="px-3 py-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] hover:bg-[#EEF2FF] hover:border-[#C7D2FE] hover:text-[#4F46E5] text-[#0F172A] text-xs font-semibold transition-all shadow-2xs text-left cursor-pointer"
             >
               {q}
             </button>
@@ -266,7 +338,7 @@ Feel free to ask me anything—like *"How can I transition into ${targetJobName}
       </div>
 
       {/* Chat Messages Container */}
-      <div className="card-clean p-4 sm:p-6 space-y-5 bg-white border border-slate-200 min-h-[420px] max-h-[620px] overflow-y-auto shadow-2xs">
+      <div className="card-clean p-4 sm:p-6 space-y-6 bg-white border border-[#E2E8F0] min-h-[440px] max-h-[680px] overflow-y-auto shadow-2xs">
         {messages.map((m, idx) => (
           <div
             key={idx}
@@ -275,26 +347,31 @@ Feel free to ask me anything—like *"How can I transition into ${targetJobName}
             }`}
           >
             {m.role === 'assistant' && (
-              <div className="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5 shadow-2xs">
+              <div className="w-8 h-8 rounded-xl bg-[#4F46E5] text-white flex items-center justify-center flex-shrink-0 mt-0.5 shadow-2xs">
                 <Compass className="w-4 h-4" />
               </div>
             )}
 
             <div
-              className={`relative group rounded-2xl max-w-[90%] leading-relaxed ${
+              className={`relative group rounded-2xl max-w-[92%] sm:max-w-[85%] leading-relaxed ${
                 m.role === 'user'
-                  ? 'p-4 bg-indigo-600 text-white font-medium rounded-tr-xs shadow-2xs'
-                  : 'p-5 bg-slate-50/80 border border-slate-200 text-slate-800 rounded-tl-xs shadow-2xs'
+                  ? 'p-4 bg-[#4F46E5] text-white font-medium rounded-tr-xs shadow-2xs'
+                  : 'p-5 bg-white border border-[#E2E8F0] text-[#0F172A] rounded-tl-xs shadow-[0_8px_24px_rgba(15,23,42,0.04)]'
               }`}
             >
               {m.role === 'assistant' ? (
                 <div>
-                  <MarkdownRenderer content={m.content} />
-                  <div className="pt-3 mt-3 border-t border-slate-200/60 flex items-center justify-between text-[11px] text-slate-400">
+                  <StructuredAIResponse
+                    data={m.structuredData}
+                    rawContent={m.content}
+                    userName={userName}
+                  />
+
+                  <div className="pt-3 mt-4 border-t border-[#E2E8F0] flex items-center justify-between text-[11px] text-[#64748B]">
                     <span>Future Path AI Advisor</span>
                     <button
                       onClick={() => handleCopy(m.content, idx)}
-                      className="inline-flex items-center gap-1 hover:text-indigo-600 transition-colors font-medium cursor-pointer"
+                      className="inline-flex items-center gap-1 hover:text-[#4F46E5] transition-colors font-semibold cursor-pointer"
                     >
                       {copiedIdx === idx ? (
                         <>
@@ -311,7 +388,7 @@ Feel free to ask me anything—like *"How can I transition into ${targetJobName}
                   </div>
                 </div>
               ) : (
-                <span>{m.content}</span>
+                <span className="text-sm font-medium">{m.content}</span>
               )}
             </div>
 
@@ -324,9 +401,11 @@ Feel free to ask me anything—like *"How can I transition into ${targetJobName}
         ))}
 
         {loading && (
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-indigo-50/50 border border-indigo-100 text-xs text-indigo-700 animate-in fade-in">
-            <RotateCw className="w-4 h-4 animate-spin text-indigo-600" />
-            <span className="font-semibold">Future Path AI is analyzing your inquiry & synthesizing guidance...</span>
+          <div className="flex items-center gap-3 p-4 rounded-2xl bg-[#EEF2FF] border border-[#C7D2FE] text-xs text-[#3730A3] animate-in fade-in">
+            <RotateCw className="w-4 h-4 animate-spin text-[#4F46E5]" />
+            <span className="font-semibold">
+              Future Path AI is retrieving verified MongoDB knowledge, analyzing prerequisites & synthesizing personalized guidance...
+            </span>
           </div>
         )}
         <div ref={messagesEndRef} />
@@ -344,13 +423,13 @@ Feel free to ask me anything—like *"How can I transition into ${targetJobName}
           type="text"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
-          placeholder={`Ask any career, education, exam, comparison, or interview question...`}
-          className="flex-1 px-4 py-3.5 rounded-xl border border-slate-200 text-sm text-slate-900 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium shadow-2xs"
+          placeholder={`Ask any career, education, exam, comparison, eligibility, or roadmap question...`}
+          className="flex-1 px-4 py-3.5 rounded-2xl border border-[#E2E8F0] text-sm text-[#0F172A] bg-white placeholder:text-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] font-medium shadow-[0_8px_24px_rgba(15,23,42,0.06)]"
         />
         <button
           type="submit"
           disabled={!inputMessage.trim() || loading}
-          className="btn-primary text-xs px-6 py-3.5 disabled:opacity-40 flex items-center gap-1.5 shadow-2xs cursor-pointer"
+          className="btn-primary !text-xs !py-3.5 !px-6 disabled:opacity-40 flex items-center gap-2 shadow-2xs cursor-pointer"
         >
           <Send className="w-4 h-4" />
           <span className="hidden sm:inline font-bold">Ask AI</span>

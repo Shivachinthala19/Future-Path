@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { User } from '../models/User.js';
+import { SupabaseService } from '../services/supabase/supabaseService.js';
 import { ENV } from '../config/env.js';
 
 export const protect = async (req, res, next) => {
@@ -17,7 +17,7 @@ export const protect = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, ENV.JWT_SECRET);
-    const user = await User.findById(decoded.id).select('-password');
+    const user = await SupabaseService.findUserById(decoded.id);
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -43,7 +43,7 @@ export const optionalAuth = async (req, res, next) => {
   if (token) {
     try {
       const decoded = jwt.verify(token, ENV.JWT_SECRET);
-      const user = await User.findById(decoded.id).select('-password');
+      const user = await SupabaseService.findUserById(decoded.id);
       if (user) {
         req.user = user;
       }

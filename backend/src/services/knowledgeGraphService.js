@@ -18,30 +18,31 @@ export class KnowledgeGraphService {
     const safeRegex = cleanQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
     // 1. Direct case-insensitive exact name or slug match
-    let education = await Education.findOne({
-      $or: [
-        { name: { $regex: new RegExp(`^${safeRegex}$`, 'i') } },
-        { slug: cleanQuery.toLowerCase().replace(/[^a-z0-9]/g, '-') },
-        { aliases: { $in: [new RegExp(`^${safeRegex}$`, 'i')] } }
-      ]
-    });
-
-    if (education) return education;
-
-    // 2. Partial regex match against aliases or name
-    education = await Education.findOne({
-      $or: [
-        { name: { $regex: safeRegex, $options: 'i' } },
-        { aliases: { $regex: safeRegex, $options: 'i' } },
-        { branch: { $regex: safeRegex, $options: 'i' } },
-        { specialization: { $regex: safeRegex, $options: 'i' } }
-      ]
-    });
-
-    if (education) return education;
-
-    // 3. Text search match
+    let education = null;
     try {
+      education = await Education.findOne({
+        $or: [
+          { name: { $regex: new RegExp(`^${safeRegex}$`, 'i') } },
+          { slug: cleanQuery.toLowerCase().replace(/[^a-z0-9]/g, '-') },
+          { aliases: { $in: [new RegExp(`^${safeRegex}$`, 'i')] } }
+        ]
+      });
+
+      if (education) return education;
+
+      // 2. Partial regex match against aliases or name
+      education = await Education.findOne({
+        $or: [
+          { name: { $regex: safeRegex, $options: 'i' } },
+          { aliases: { $regex: safeRegex, $options: 'i' } },
+          { branch: { $regex: safeRegex, $options: 'i' } },
+          { specialization: { $regex: safeRegex, $options: 'i' } }
+        ]
+      });
+
+      if (education) return education;
+
+      // 3. Text search match
       const textMatches = await Education.find(
         { $text: { $search: cleanQuery } },
         { score: { $meta: 'textScore' } }
@@ -50,19 +51,19 @@ export class KnowledgeGraphService {
       if (textMatches && textMatches.length > 0) {
         return textMatches[0];
       }
-    } catch (e) {
-      // Fallback if text index is not ready
-    }
 
-    // 4. Tokenized keyword search
-    const words = cleanQuery.split(/[\s,.-]+/).filter(w => w.length > 2);
-    if (words.length > 0) {
-      education = await Education.findOne({
-        $or: words.map(w => ({ name: { $regex: w, $options: 'i' } }))
-      });
-    }
+      // 4. Tokenized keyword search
+      const words = cleanQuery.split(/[\s,.-]+/).filter(w => w.length > 2);
+      if (words.length > 0) {
+        education = await Education.findOne({
+          $or: words.map(w => ({ name: { $regex: w, $options: 'i' } }))
+        });
+      }
 
-    if (education) return education;
+      if (education) return education;
+    } catch (_) {
+      // MongoDB offline or empty, proceed to dynamic synthesis & Supabase
+    }
 
     // 5. Intelligent dynamic synthesis for ANY study entered (Section 1)
     const lower = cleanQuery.toLowerCase();
