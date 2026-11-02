@@ -10,20 +10,26 @@ const sanitizeUri = (uri) => {
 };
 
 export const connectDB = async () => {
+  if (mongoose.connection.readyState === 1) {
+    return;
+  }
+
   const safeUri = sanitizeUri(ENV.MONGODB_URI);
 
   try {
     // Attempt connecting to configured URI
     await mongoose.connect(ENV.MONGODB_URI, {
-      serverSelectionTimeoutMS: 3000,
+      serverSelectionTimeoutMS: 1500,
     });
     console.log(`[Database] Connected successfully to MongoDB at: ${safeUri}`);
   } catch (err) {
     if (ENV.USE_MEMORY_DB_FALLBACK) {
-      console.warn(`[Database] Could not connect to remote MongoDB at ${safeUri}. Initializing embedded in-memory MongoDB fallback...`);
+      console.warn(`[Database] Local/remote MongoDB unreachable (${err.message}). Starting embedded in-memory MongoDB fallback...`);
       try {
         const { MongoMemoryServer } = await import('mongodb-memory-server');
-        mongod = await MongoMemoryServer.create();
+        if (!mongod) {
+          mongod = await MongoMemoryServer.create();
+        }
         const memoryUri = mongod.getUri();
         await mongoose.connect(memoryUri);
         console.log(`[Database] Connected to in-memory MongoDB instance at: ${memoryUri}`);

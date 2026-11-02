@@ -11,12 +11,14 @@ const startServer = async () => {
       await connectDB();
       const educationCount = await Education.countDocuments().catch(() => 0);
       if (educationCount === 0) {
-        console.log('[Server] MongoDB is empty. Seeding skipped or handled via Supabase.');
+        console.log('[Server] Database is empty. Seeding verified education and knowledge graph dataset...');
+        await runSeed();
+        console.log('[Server] ✅ Database seeded successfully! Knowledge graph ready.');
       } else {
-        console.log(`[Server] MongoDB contains ${educationCount} legacy records.`);
+        console.log(`[Server] ✅ MongoDB connected. Loaded ${educationCount} verified educations.`);
       }
     } catch (dbErr) {
-      console.warn(`[Server] MongoDB not connected (${dbErr.message}). Running 100% on Supabase PostgreSQL.`);
+      console.warn(`[Server] Database notice: ${dbErr.message}`);
     }
 
     // Verify Supabase Connection
