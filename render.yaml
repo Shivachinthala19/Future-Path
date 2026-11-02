@@ -2,7 +2,7 @@ services:
   # 1. Backend Web Service (Node.js API)
   - type: web
     name: futurepath-backend
-    env: node
+    runtime: node
     plan: free
     rootDir: backend
     buildCommand: npm install
@@ -34,14 +34,13 @@ services:
       - key: AI_MODEL
         value: gemini-1.5-flash
 
-  # 2. Frontend Static Site (Vite React)
+  # 2. Frontend Static Site (Vite React SPA)
   - type: web
     name: futurepath-frontend
-    env: static
-    plan: free
+    runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
-    staticPublishPath: dist
+    staticPublishPath: ./dist
     routes:
       - type: rewrite
         source: /*
