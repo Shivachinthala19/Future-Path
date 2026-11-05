@@ -27,8 +27,8 @@ export const MainLayout = () => {
         onClose={() => setAiDrawerOpen(false)}
       />
 
-      {/* Brand Footer */}
-      <Footer />
+      {/* Brand Footer (Hidden on Login screen) */}
+      {!isAuthPage && <Footer />}
 
       {/* Mobile Bottom Navigation (Hidden on Login screen) */}
       {!isAuthPage && <MobileNav onOpenAssistant={() => setAiDrawerOpen(true)} />}
