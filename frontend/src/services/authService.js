@@ -20,7 +20,9 @@ export const authService = {
   logout: () => {
     localStorage.removeItem('futurepath_token');
     localStorage.removeItem('futurepath_user');
+    localStorage.removeItem('futurepath_profile');
     localStorage.removeItem('careercompass_token');
     localStorage.removeItem('careercompass_user');
+    localStorage.removeItem('careercompass_profile');
   }
 };

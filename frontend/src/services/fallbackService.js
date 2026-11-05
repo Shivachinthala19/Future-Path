@@ -480,23 +480,73 @@ export const handleFallbackRequest = (config = {}) => {
     };
   }
 
-  // 8. Auth Endpoints (Login / Register / Me)
-  if (cleanUrl.includes('auth/login') || cleanUrl.includes('auth/register') || cleanUrl.includes('auth/me')) {
+  // 8. Auth Endpoints (Login / Register / Me / Profile)
+  if (cleanUrl.includes('auth/login') || cleanUrl.includes('auth/register') || cleanUrl.includes('auth/me') || cleanUrl.includes('user/profile')) {
+    let userName = '';
+    let userEmail = '';
+    let userDegree = 'B.Tech';
+    let userStream = 'Computer Science';
+    let userTargetJob = 'Software Development Engineer (SDE)';
+
+    try {
+      const stored = localStorage.getItem('careercompass_user');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.name) userName = parsed.name;
+        if (parsed.email) userEmail = parsed.email;
+      }
+      const storedProf = localStorage.getItem('careercompass_profile');
+      if (storedProf) {
+        const parsedProf = JSON.parse(storedProf);
+        if (parsedProf.name && !userName) userName = parsedProf.name;
+        if (parsedProf.degree) userDegree = parsedProf.degree;
+        if (parsedProf.specialization) userStream = parsedProf.specialization;
+        if (parsedProf.targetJob) userTargetJob = parsedProf.targetJob;
+      }
+    } catch {}
+
+    // Check payload data if provided in config.data
+    try {
+      if (config.data) {
+        const data = typeof config.data === 'string' ? JSON.parse(config.data) : config.data;
+        if (data) {
+          if (data.email) {
+            userEmail = data.email;
+            if (!userName) {
+              const part = data.email.split('@')[0];
+              userName = part.charAt(0).toUpperCase() + part.slice(1);
+            }
+          }
+          if (data.username) {
+            userName = data.username.charAt(0).toUpperCase() + data.username.slice(1);
+          }
+          if (data.name) {
+            userName = data.name;
+          }
+          if (data.degree) userDegree = data.degree;
+          if (data.specialization) userStream = data.specialization;
+        }
+      }
+    } catch {}
+
+    if (!userName) userName = 'Explorer';
+    if (!userEmail) userEmail = `${userName.toLowerCase().replace(/\s+/g, '')}@futurepath.ai`;
+
     return {
       success: true,
       token: 'jwt-futurepath-active-session',
       user: {
         id: 'usr-futurepath-active',
-        name: 'Shiva',
-        email: 'shiva@careercompass.ai',
+        name: userName,
+        email: userEmail,
         role: 'user',
         profile: {
           education: {
-            degreeName: 'B.Tech',
-            stream: 'Computer Science'
+            degreeName: userDegree,
+            stream: userStream
           },
           targetCareer: {
-            title: 'Software Development Engineer (SDE)'
+            title: userTargetJob
           }
         }
       }

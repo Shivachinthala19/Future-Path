@@ -44,8 +44,8 @@ export const ProfilePage = () => {
   const activeTargetJobTitle = targetJob?.targetJobName || user?.careerGoal?.targetJobRole || profile?.targetJob || 'Software Development Engineer (SDE)';
   const specializationVal = currentEducation?.specialization || profile?.specialization || user?.specialization || '';
 
-  const rawName = user?.name || profile?.name || 'Shiva';
-  const userName = rawName.trim().split(' ')[0] || 'Shiva';
+  const rawName = user?.name || profile?.name || 'Explorer';
+  const userName = rawName.trim().split(' ')[0] || 'Explorer';
   const headline = user?.headline || profile?.headline || 'Active Learner & Future Path Explorer';
 
   const userSkills = Array.isArray(user?.skills) && user.skills.length > 0
@@ -63,13 +63,19 @@ export const ProfilePage = () => {
   ];
 
   // Profile Edit Form State
-  const [name, setName] = useState(user?.name || profile?.name || 'Shiva');
-  const [email] = useState(user?.email || 'shiva@example.com');
+  const [name, setName] = useState(user?.name || profile?.name || '');
+  const [email] = useState(user?.email || '');
   const [specialization, setSpecialization] = useState(specializationVal);
   const [currentJob, setCurrentJob] = useState(profile?.currentJob || user?.currentJob || '');
   const [location, setLocation] = useState(user?.location?.city || profile?.location || '');
   const [savedSuccess, setSavedSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (user?.name || profile?.name) {
+      setName(user?.name || profile?.name);
+    }
+  }, [user?.name, profile?.name]);
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -118,7 +124,7 @@ export const ProfilePage = () => {
   return (
     <div className="space-y-8 sm:space-y-10 py-4 sm:py-8 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* ============================================================ */}
-      {/* 1. SHIVA EXPLORATION PROFILE HERO DASHBOARD CONTAINER        */}
+      {/* 1. PERSONAL EXPLORATION PROFILE HERO DASHBOARD CONTAINER     */}
       {/* ============================================================ */}
       <section className="card-clean p-6 sm:p-8 bg-gradient-to-br from-white via-[#F8FAFC] to-[#EEF2FF]/40 border border-[#E2E8F0] rounded-3xl shadow-xs space-y-6">
         {/* Top: User Identity & Quick Action Badges */}

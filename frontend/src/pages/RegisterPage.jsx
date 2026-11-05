@@ -66,7 +66,7 @@ export const RegisterPage = () => {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Shiva"
+              placeholder="e.g. Alex Morgan"
               required
               className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />

@@ -4,12 +4,12 @@ import { authService } from '../services/authService.js';
 const AuthContext = createContext(null);
 
 const DEFAULT_PROFILE = {
-  name: 'Shiva',
+  name: '',
   degree: 'B.Tech',
   specialization: 'Computer Science',
   studyText: 'B.Tech Computer Science',
   goal: 'Both', // 'Study Further', 'Get a Job', 'Both', 'Not Sure'
-  targetJob: 'fullstack Developer',
+  targetJob: 'Software Development Engineer (SDE)',
 };
 
 export const AuthProvider = ({ children }) => {
@@ -44,12 +44,12 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('careercompass_user', JSON.stringify(res.user));
             if (res.user.profile?.education?.degreeName) {
               const userProf = {
-                name: res.user.name || 'Shiva',
+                name: res.user.name || '',
                 degree: res.user.profile.education.degreeName,
                 specialization: res.user.profile.education.stream || '',
                 studyText: `${res.user.profile.education.degreeName} ${res.user.profile.education.stream || ''}`.trim(),
                 goal: res.user.profile.targetCareer?.title ? 'Get a Job' : 'Both',
-                targetJob: res.user.profile.targetCareer?.title || 'Backend Developer',
+                targetJob: res.user.profile.targetCareer?.title || 'Software Development Engineer (SDE)',
               };
               setProfile(userProf);
               localStorage.setItem('careercompass_profile', JSON.stringify(userProf));
@@ -113,6 +113,13 @@ export const AuthProvider = ({ children }) => {
     authService.logout();
     setToken(null);
     setUser(null);
+    setProfile(DEFAULT_PROFILE);
+    localStorage.removeItem('careercompass_token');
+    localStorage.removeItem('careercompass_user');
+    localStorage.removeItem('careercompass_profile');
+    localStorage.removeItem('futurepath_token');
+    localStorage.removeItem('futurepath_user');
+    localStorage.removeItem('futurepath_profile');
   };
 
   const saveProfile = (newProfile) => {
