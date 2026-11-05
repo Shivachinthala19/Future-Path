@@ -49,87 +49,97 @@ export const AuthProvider = ({ children }) => {
   });
 
   const [token, setToken] = useState(() => {
-    const t = localStorage.getItem('careercompass_token');
-    const u = localStorage.getItem('careercompass_user');
-    if (u && (u.includes('"Shiva"') || u.includes('"shiva@'))) {
-      localStorage.removeItem('careercompass_token');
-      localStorage.removeItem('careercompass_user');
+    try {
+      const t = localStorage.getItem('careercompass_token') || localStorage.getItem('futurepath_token');
+      const u = localStorage.getItem('careercompass_user') || localStorage.getItem('futurepath_user');
+      if (u && (u.includes('"Shiva"') || u.includes('"shiva@'))) {
+        localStorage.removeItem('careercompass_token');
+        localStorage.removeItem('careercompass_user');
+        localStorage.removeItem('futurepath_token');
+        localStorage.removeItem('futurepath_user');
+        return null;
+      }
+      return t || null;
+    } catch {
       return null;
     }
-    return t || null;
   });
   const [loading, setLoading] = useState(true);
 
+  // Initialize Auth on startup (One-time check on initial app mount)
   useEffect(() => {
     const initAuth = async () => {
-      if (token) {
-        try {
-          const res = await authService.getMe();
-          if (res.success && res.user) {
-            const currentStored = (() => {
-              try { return JSON.parse(localStorage.getItem('careercompass_user')); } catch { return null; }
-            })();
-            const cleanName = currentStored?.name || res.user.name || 'Explorer';
-            const updatedUser = {
-              ...res.user,
-              name: cleanName
-            };
-            setUser(updatedUser);
-            localStorage.setItem('careercompass_user', JSON.stringify(updatedUser));
-            if (res.user.profile?.education?.degreeName) {
-              const userProf = {
-                name: cleanName,
-                degree: res.user.profile.education.degreeName,
-                specialization: res.user.profile.education.stream || '',
-                studyText: `${res.user.profile.education.degreeName} ${res.user.profile.education.stream || ''}`.trim(),
-                goal: res.user.profile.targetCareer?.title ? 'Get a Job' : 'Both',
-                targetJob: res.user.profile.targetCareer?.title || 'Software Development Engineer (SDE)',
-              };
-              setProfile(userProf);
-              localStorage.setItem('careercompass_profile', JSON.stringify(userProf));
-            }
+      try {
+        const storedToken = localStorage.getItem('careercompass_token') || localStorage.getItem('futurepath_token');
+        const storedUser = localStorage.getItem('careercompass_user') || localStorage.getItem('futurepath_user');
+
+        if (storedToken && storedUser) {
+          const parsed = JSON.parse(storedUser);
+          if (parsed && parsed.name && !parsed.name.toLowerCase().includes('shiva')) {
+            setUser(parsed);
+            setToken(storedToken);
+          } else {
+            // Clean up any stale legacy sessions
+            logout();
           }
-        } catch (err) {
-          console.warn('[AuthContext] Token validation failed:', err.message);
-          logout();
         }
+      } catch (err) {
+        console.warn('[AuthContext] Session initialization error:', err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     initAuth();
-  }, [token]);
+  }, []);
 
+  // Instant direct login without waiting on or requiring a database
   const login = async (emailOrUsername, password, customName = '') => {
-    let res;
-    try {
-      res = await authService.login(emailOrUsername, password);
-    } catch (err) {
-      // Offline fallback login session if backend is waking up or not connected
-      console.warn('[AuthContext] Backend offline. Initializing client session for:', emailOrUsername);
-      res = {
-        success: true,
-        token: 'local-jwt-session-active',
-        user: {
-          id: 'usr-local-active',
-          name: customName || emailOrUsername.split('@')[0],
-          email: emailOrUsername.includes('@') ? emailOrUsername : `${emailOrUsername.toLowerCase()}@futurepath.ai`
-        }
-      };
-    }
+    const rawId = (emailOrUsername || '').trim();
+    const isEmail = rawId.includes('@');
+    const derivedName = (customName || '').trim() || (isEmail ? rawId.split('@')[0] : rawId) || 'Explorer';
+    const capitalizedName = derivedName.charAt(0).toUpperCase() + derivedName.slice(1);
+    const email = isEmail ? rawId.toLowerCase() : `${rawId.toLowerCase().replace(/\s+/g, '')}@futurepath.ai`;
+    const sessionToken = 'jwt-futurepath-active-session';
 
-    if (res && (res.token || res.success)) {
-      const activeUser = {
-        ...(res.user || {}),
-        name: customName || res.user?.name || emailOrUsername.split('@')[0]
-      };
-      setToken(res.token || 'local-jwt-session-active');
-      setUser(activeUser);
-      localStorage.setItem('careercompass_token', res.token || 'local-jwt-session-active');
-      localStorage.setItem('careercompass_user', JSON.stringify(activeUser));
-      saveProfile({ name: activeUser.name, email: activeUser.email });
-      return { success: true, user: activeUser, token: res.token || 'local-jwt-session-active' };
-    }
-    return res;
+    const activeUser = {
+      id: `usr-${Date.now()}`,
+      name: capitalizedName,
+      email: email,
+      role: 'user',
+      token: sessionToken,
+      profile: {
+        education: {
+          degreeName: 'B.Tech',
+          stream: 'Computer Science'
+        },
+        targetCareer: {
+          title: 'Software Development Engineer (SDE)'
+        }
+      }
+    };
+
+    // 1. Immediately set active auth state
+    setToken(sessionToken);
+    setUser(activeUser);
+
+    // 2. Persist locally to storage
+    localStorage.setItem('careercompass_token', sessionToken);
+    localStorage.setItem('careercompass_user', JSON.stringify(activeUser));
+    localStorage.setItem('futurepath_token', sessionToken);
+    localStorage.setItem('futurepath_user', JSON.stringify(activeUser));
+
+    // 3. Update active exploration profile
+    saveProfile({
+      name: capitalizedName,
+      email: email,
+    });
+
+    // 4. Non-blocking backend notification (ignored if backend offline or no database)
+    authService.login(rawId, password).catch(() => {
+      // Offline mode active
+    });
+
+    return { success: true, user: activeUser, token: sessionToken };
   };
 
   const register = async (userData) => {

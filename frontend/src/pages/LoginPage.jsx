@@ -79,20 +79,24 @@ export const LoginPage = () => {
       // Sign in locally (no database requirement)
       await login(cleanId, cleanPass, displayName);
 
-      // Save user education details for personalized home page
+      // Save user education details for personalized home page (non-blocking)
       if (activeDegree) {
-        await changeEducation(activeDegree, {
-          status: 'currently_studying',
-          specialization: ''
-        });
+        try {
+          changeEducation(activeDegree, {
+            status: 'currently_studying',
+            specialization: ''
+          });
+        } catch (e) {
+          console.warn('[LoginPage] Education preset notice:', e);
+        }
       }
 
       if (setToastMessage) {
         setToastMessage(`👋 Welcome, ${displayName}! Signed in successfully.`);
       }
 
-      // Enter website home page
-      navigate('/dashboard');
+      // Enter website home page immediately
+      navigate('/dashboard', { replace: true });
     } catch (err) {
       console.error('[LoginPage] Sign in error:', err);
       setError(err.message || 'Unable to sign in. Please try again.');
