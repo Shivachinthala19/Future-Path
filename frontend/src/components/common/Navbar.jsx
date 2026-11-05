@@ -107,40 +107,52 @@ export const Navbar = ({ onOpenAssistant }) => {
 
         {/* Right: Education Switcher + Profile / Login */}
         <div className="hidden md:flex items-center gap-2.5">
-          {/* Current Education Quick Pill */}
-          <button
-            onClick={openChangeModal}
-            title="Click to change education"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#F8FAFC] hover:bg-[#EEF2FF] text-[#0F172A] hover:text-[#4F46E5] transition-colors border border-[#E2E8F0] hover:border-[#C7D2FE] cursor-pointer"
-          >
-            <GraduationCap className="w-3.5 h-3.5 text-[#4F46E5]" />
-            <span className="max-w-[130px] truncate">{currentStudyName}</span>
-          </button>
+          {isAuthenticated ? (
+            <>
+              {/* Current Education Quick Pill - After Login Only */}
+              <button
+                onClick={openChangeModal}
+                title="Click to change education"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#F8FAFC] hover:bg-[#EEF2FF] text-[#0F172A] hover:text-[#4F46E5] transition-colors border border-[#E2E8F0] hover:border-[#C7D2FE] cursor-pointer"
+              >
+                <GraduationCap className="w-3.5 h-3.5 text-[#4F46E5]" />
+                <span className="max-w-[130px] truncate">{currentStudyName}</span>
+              </button>
 
-          {/* Profile link */}
-          <Link
-            to="/profile"
-            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-semibold transition-colors border ${isActive('/profile')
-                ? 'bg-[#EEF2FF] text-[#4F46E5] border-[#C7D2FE] font-bold shadow-2xs'
-                : 'bg-white hover:bg-slate-50 text-[#0F172A] border-[#E2E8F0]'
-              }`}
-          >
-            <div className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-700 text-xs font-extrabold flex items-center justify-center">
-              {userName.charAt(0).toUpperCase()}
-            </div>
-            <span>{userName}</span>
-          </Link>
+              {/* Profile link - After Login Only */}
+              <Link
+                to="/profile"
+                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-semibold transition-colors border ${isActive('/profile')
+                    ? 'bg-[#EEF2FF] text-[#4F46E5] border-[#C7D2FE] font-bold shadow-2xs'
+                    : 'bg-white hover:bg-slate-50 text-[#0F172A] border-[#E2E8F0]'
+                  }`}
+              >
+                <div className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-700 text-xs font-extrabold flex items-center justify-center">
+                  {userName.charAt(0).toUpperCase()}
+                </div>
+                <span>{userName}</span>
+              </Link>
 
-          {/* Sign In / Switch Account */}
-          <Link
-            to="/login"
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${isActive('/login')
-                ? 'bg-[#4F46E5] text-white border-[#4F46E5]'
-                : 'text-[#4F46E5] bg-[#EEF2FF] hover:bg-indigo-100/80 border-indigo-200'
-              }`}
-          >
-            {isAuthenticated ? 'Switch User' : 'Sign In'}
-          </Link>
+              {/* Switch User */}
+              <Link
+                to="/login"
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${isActive('/login')
+                    ? 'bg-[#4F46E5] text-white border-[#4F46E5]'
+                    : 'text-[#4F46E5] bg-[#EEF2FF] hover:bg-indigo-100/80 border-indigo-200'
+                  }`}
+              >
+                Switch User
+              </Link>
+            </>
+          ) : (
+            /* Login page / Unauthenticated: ONLY Sign In button, NO profile button */
+            <Link
+              to="/login"
+              className="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-[#4F46E5] hover:bg-[#4338CA] text-white shadow-2xs"
+            >
+              Sign In
+            </Link>
+          )}
         </div>
 
         {/* Mobile Navbar Hamburger & Quick AI */}
@@ -400,41 +412,44 @@ export const Navbar = ({ onOpenAssistant }) => {
           {/* Bottom Action Strip: Profile & Login */}
           <div className="pt-3 border-t border-[#E2E8F0] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div className="flex items-center gap-2">
-              <Link
-                to="/profile"
-                onClick={handleMobileNavClick}
-                className={`flex-1 sm:flex-initial flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-colors ${isActive('/profile')
-                    ? 'bg-[#EEF2FF] text-[#4F46E5] border-indigo-200 shadow-2xs'
-                    : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200'
-                  }`}
-              >
-                <User className="w-4 h-4 text-indigo-600" />
-                <span>My Profile</span>
-              </Link>
+              {isAuthenticated ? (
+                <>
+                  <Link
+                    to="/profile"
+                    onClick={handleMobileNavClick}
+                    className={`flex-1 sm:flex-initial flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-colors ${isActive('/profile')
+                        ? 'bg-[#EEF2FF] text-[#4F46E5] border-indigo-200 shadow-2xs'
+                        : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200'
+                      }`}
+                  >
+                    <User className="w-4 h-4 text-indigo-600" />
+                    <span>My Profile</span>
+                  </Link>
 
-              <Link
-                to="/login"
-                onClick={handleMobileNavClick}
-                className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-[#EEF2FF] text-[#4F46E5] border border-indigo-200 text-xs font-bold hover:bg-indigo-100 transition-colors shadow-2xs"
-              >
-                <span>{isAuthenticated ? 'Switch User' : 'Sign In'}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      logout();
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer self-start sm:self-auto"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>Log Out</span>
+                  </button>
+                </>
+              ) : (
+                /* Unauthenticated: Only Sign In button */
+                <Link
+                  to="/login"
+                  onClick={handleMobileNavClick}
+                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#4F46E5] text-white text-xs font-bold hover:bg-[#4338CA] transition-colors shadow-2xs"
+                >
+                  <span>Sign In</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              )}
             </div>
-
-            {isAuthenticated && (
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  logout();
-                }}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer self-start sm:self-auto"
-              >
-                <LogOut className="w-3.5 h-3.5" />
-                <span>Log Out</span>
-              </button>
-            )}
           </div>
         </div>
       )}

@@ -16,7 +16,16 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     try {
       const stored = localStorage.getItem('careercompass_user');
-      return stored ? JSON.parse(stored) : null;
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed?.name?.toLowerCase() === 'shiva' || parsed?.email?.toLowerCase().includes('shiva')) {
+          localStorage.removeItem('careercompass_user');
+          localStorage.removeItem('careercompass_token');
+          return null;
+        }
+        return parsed;
+      }
+      return null;
     } catch {
       return null;
     }
@@ -25,13 +34,30 @@ export const AuthProvider = ({ children }) => {
   const [profile, setProfile] = useState(() => {
     try {
       const stored = localStorage.getItem('careercompass_profile');
-      return stored ? JSON.parse(stored) : DEFAULT_PROFILE;
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed?.name?.toLowerCase() === 'shiva' || parsed?.email?.toLowerCase().includes('shiva')) {
+          localStorage.removeItem('careercompass_profile');
+          return DEFAULT_PROFILE;
+        }
+        return parsed;
+      }
+      return DEFAULT_PROFILE;
     } catch {
       return DEFAULT_PROFILE;
     }
   });
 
-  const [token, setToken] = useState(() => localStorage.getItem('careercompass_token') || null);
+  const [token, setToken] = useState(() => {
+    const t = localStorage.getItem('careercompass_token');
+    const u = localStorage.getItem('careercompass_user');
+    if (u && (u.includes('"Shiva"') || u.includes('"shiva@'))) {
+      localStorage.removeItem('careercompass_token');
+      localStorage.removeItem('careercompass_user');
+      return null;
+    }
+    return t || null;
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -40,11 +66,19 @@ export const AuthProvider = ({ children }) => {
         try {
           const res = await authService.getMe();
           if (res.success && res.user) {
-            setUser(res.user);
-            localStorage.setItem('careercompass_user', JSON.stringify(res.user));
+            const currentStored = (() => {
+              try { return JSON.parse(localStorage.getItem('careercompass_user')); } catch { return null; }
+            })();
+            const cleanName = currentStored?.name || res.user.name || 'Explorer';
+            const updatedUser = {
+              ...res.user,
+              name: cleanName
+            };
+            setUser(updatedUser);
+            localStorage.setItem('careercompass_user', JSON.stringify(updatedUser));
             if (res.user.profile?.education?.degreeName) {
               const userProf = {
-                name: res.user.name || '',
+                name: cleanName,
                 degree: res.user.profile.education.degreeName,
                 specialization: res.user.profile.education.stream || '',
                 studyText: `${res.user.profile.education.degreeName} ${res.user.profile.education.stream || ''}`.trim(),
