@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   Sparkles,
@@ -26,6 +26,13 @@ export const Navbar = ({ onOpenAssistant }) => {
   const { currentEducation, openChangeModal } = useEducation();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isLoginPage = location.pathname === '/login' || location.pathname === '/register';
+
+  useEffect(() => {
+    if (isLoginPage) {
+      setMobileMenuOpen(false);
+    }
+  }, [isLoginPage]);
 
   const rawName = user?.name || profile?.name || 'Explorer';
   const userName = rawName.trim().split(' ')[0] || 'Explorer';
@@ -144,40 +151,44 @@ export const Navbar = ({ onOpenAssistant }) => {
           )}
         </div>
 
-        {/* Mobile Navbar Hamburger & Quick AI */}
+        {/* Mobile Navbar Hamburger & Quick AI (Hamburger removed on login page) */}
         <div className="flex md:hidden items-center gap-2">
-          {onOpenAssistant ? (
-            <button
-              onClick={onOpenAssistant}
-              className="p-2 rounded-xl bg-[#EEF2FF] text-[#4F46E5] cursor-pointer"
-              title="AI Assistant"
-            >
-              <Sparkles className="w-4 h-4" />
-            </button>
-          ) : (
-            <Link
-              to="/ai-assistant"
-              className="p-2 rounded-xl bg-[#EEF2FF] text-[#4F46E5]"
-              title="AI Assistant"
-            >
-              <Sparkles className="w-4 h-4" />
-            </Link>
+          {isAuthenticated && (
+            onOpenAssistant ? (
+              <button
+                onClick={onOpenAssistant}
+                className="p-2 rounded-xl bg-[#EEF2FF] text-[#4F46E5] cursor-pointer"
+                title="AI Assistant"
+              >
+                <Sparkles className="w-4 h-4" />
+              </button>
+            ) : (
+              <Link
+                to="/ai-assistant"
+                className="p-2 rounded-xl bg-[#EEF2FF] text-[#4F46E5]"
+                title="AI Assistant"
+              >
+                <Sparkles className="w-4 h-4" />
+              </Link>
+            )
           )}
 
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2.5 rounded-xl bg-slate-50 text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer border border-slate-200/80"
-            aria-label="Toggle navigation menu"
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          {!isLoginPage && (
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2.5 rounded-xl bg-slate-50 text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer border border-slate-200/80"
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          )}
         </div>
       </div>
 
       {/* ============================================================ */}
       {/* MOBILE HAMBURGER MENU DRAWER (STRUCTURED IN COLUMNS)        */}
       {/* ============================================================ */}
-      {mobileMenuOpen && (
+      {mobileMenuOpen && !isLoginPage && (
         <div className="md:hidden border-t border-[#E2E8F0] bg-white/98 backdrop-blur-xl px-4 sm:px-6 py-5 space-y-5 shadow-xl animate-in slide-in-from-top-2 duration-200 max-h-[85vh] overflow-y-auto">
           {/* Top: User Greeting & Current Education Capsule */}
           <div className="p-4 rounded-2xl bg-gradient-to-r from-[#F8FAFC] to-[#EEF2FF]/50 border border-[#E2E8F0] flex items-center justify-between gap-3">
