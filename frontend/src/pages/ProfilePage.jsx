@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   User,
@@ -64,7 +64,7 @@ export const ProfilePage = () => {
 
   // Profile Edit Form State
   const [name, setName] = useState(user?.name || profile?.name || '');
-  const [email] = useState(user?.email || '');
+  const [email, setEmail] = useState(user?.email || profile?.email || '');
   const [specialization, setSpecialization] = useState(specializationVal);
   const [currentJob, setCurrentJob] = useState(profile?.currentJob || user?.currentJob || '');
   const [location, setLocation] = useState(user?.location?.city || profile?.location || '');
@@ -75,7 +75,10 @@ export const ProfilePage = () => {
     if (user?.name || profile?.name) {
       setName(user?.name || profile?.name);
     }
-  }, [user?.name, profile?.name]);
+    if (user?.email || profile?.email) {
+      setEmail(user?.email || profile?.email);
+    }
+  }, [user?.name, profile?.name, user?.email, profile?.email]);
 
   const handleSave = async (e) => {
     e.preventDefault();
