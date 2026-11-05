@@ -531,3 +531,4 @@ export const handleFallbackRequest = (config = {}) => {
     data: FALLBACK_CAREERS
   };
 };
+
