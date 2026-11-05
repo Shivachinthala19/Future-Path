@@ -143,6 +143,11 @@ export const Dashboard = () => {
       {/* SECTION 5: HERO SECTION                                      */}
       {/* ============================================================ */}
       <section className="text-center space-y-4 pt-4 sm:pt-6">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EEF2FF] border border-[#C7D2FE] text-xs font-bold text-[#4F46E5] shadow-2xs">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Welcome, {userName}! Pathways tailored for {studyName} ({statusLabel})</span>
+        </div>
+
         <div className="space-y-3 max-w-3xl mx-auto">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight leading-tight">
             Build the future you want.

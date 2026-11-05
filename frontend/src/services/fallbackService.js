@@ -477,7 +477,30 @@ export const handleFallbackRequest = (config = {}) => {
     };
   }
 
-  // 8. Future Path / Target Job Roadmap
+  // 8. Auth Endpoints (Login / Register / Me)
+  if (cleanUrl.includes('auth/login') || cleanUrl.includes('auth/register') || cleanUrl.includes('auth/me')) {
+    return {
+      success: true,
+      token: 'jwt-futurepath-active-session',
+      user: {
+        id: 'usr-futurepath-active',
+        name: 'Shiva',
+        email: 'shiva@careercompass.ai',
+        role: 'user',
+        profile: {
+          education: {
+            degreeName: 'B.Tech',
+            stream: 'Computer Science'
+          },
+          targetCareer: {
+            title: 'Software Development Engineer (SDE)'
+          }
+        }
+      }
+    };
+  }
+
+  // 9. Future Path / Target Job Roadmap
   if (cleanUrl.includes('future-path') || cleanUrl.includes('target-job') || cleanUrl.includes('job-roadmap')) {
     return {
       success: true,
