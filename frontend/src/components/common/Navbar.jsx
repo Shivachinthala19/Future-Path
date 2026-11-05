@@ -132,17 +132,6 @@ export const Navbar = ({ onOpenAssistant }) => {
                 </div>
                 <span>{userName}</span>
               </Link>
-
-              {/* Switch User */}
-              <Link
-                to="/login"
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${isActive('/login')
-                    ? 'bg-[#4F46E5] text-white border-[#4F46E5]'
-                    : 'text-[#4F46E5] bg-[#EEF2FF] hover:bg-indigo-100/80 border-indigo-200'
-                  }`}
-              >
-                Switch User
-              </Link>
             </>
           ) : (
             /* Login page / Unauthenticated: ONLY Sign In button, NO profile button */
