@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Entity } from '../models/Entity.js';
 import { Job } from '../models/Job.js';
 import { JobRole } from '../models/JobRole.js';
@@ -23,7 +24,10 @@ export const getRelatedJobs = async (req, res, next) => {
     const targetJobQuery = req.query.targetJob || req.query.job || req.user?.targetJob?.targetJobName;
     const { type, sector, search } = req.query;
 
-    const education = await KnowledgeGraphService.identifyEducation(educationQuery);
+    let education = null;
+    if (mongoose.connection.readyState === 1) {
+      education = await KnowledgeGraphService.identifyEducation(educationQuery).catch(() => null);
+    }
     const eduName = education ? education.name : educationQuery;
 
     // RULE: If Target Job is selected, Target Job MUST control the job section! (Section 8)
@@ -106,7 +110,7 @@ export const getRelatedJobs = async (req, res, next) => {
         topCompanies: j.top_companies || [],
         salaryRange: { formatted: 'Competitive Market Rate' }
       }));
-    } else {
+    } else if (mongoose.connection.readyState === 1) {
       const dbJobs = await Job.find({}).lean().catch(() => []);
       if (dbJobs.length > 0) {
         jobs = dbJobs.map(j => ({
@@ -547,21 +551,76 @@ export const getAllCareers = async (req, res, next) => {
     const educationQuery = req.query.education || req.user?.educationName || req.user?.currentEducation?.name || 'B.Com';
     const targetJobQuery = req.query.targetJob || req.query.job || req.user?.targetJob?.targetJobName;
 
-    const education = await KnowledgeGraphService.identifyEducation(educationQuery);
+    let education = null;
+    if (mongoose.connection.readyState === 1) {
+      education = await KnowledgeGraphService.identifyEducation(educationQuery).catch(() => null);
+    }
     const eduName = education ? education.name : educationQuery;
 
-    let careers = await Career.find({}).lean();
+    let careers = [];
 
-    if (!careers || careers.length === 0) {
-      careers = await Entity.find({ type: 'CAREER' }).lean();
+    // 1. Query Supabase careers first
+    const { SupabaseService } = await import('../services/supabase/supabaseService.js');
+    const { isSupabaseConfigured } = await import('../config/supabase.js');
+
+    if (isSupabaseConfigured()) {
+      const supabaseCareers = await SupabaseService.getCareers();
+      if (supabaseCareers && supabaseCareers.length > 0) {
+        careers = supabaseCareers.map(c => ({
+          id: c.slug || c.id,
+          slug: c.slug,
+          name: c.name,
+          category: c.category || 'General',
+          sector: c.sector || 'Industry & Enterprise',
+          overview: c.overview || c.description,
+          description: c.description || c.overview,
+          demandScore: c.demand_score || 88,
+          growthOutlook: c.growth_outlook || 'High Demand (+20% YoY)',
+          averageSalary: {
+            entry: c.average_salary ? c.average_salary.split('-')[0]?.trim() || '₹4.5 LPA' : '₹5.0 LPA',
+            mid: c.average_salary ? c.average_salary.split('-')[1]?.trim() || c.average_salary : '₹10.5 LPA'
+          },
+          relatedJobs: c.typical_roles && c.typical_roles.length > 0 ? c.typical_roles : [
+            'Associate / Specialist',
+            'Senior Consultant / Analyst',
+            'Lead / Manager',
+            'Domain Director'
+          ],
+          requiredSkills: c.required_skills && c.required_skills.length > 0 ? c.required_skills : [
+            'Analytical Thinking',
+            'Domain Methodologies',
+            'Modern Tooling & Software',
+            'Cross-Functional Communication'
+          ],
+          topHirers: c.top_hirers || [],
+          careerGrowth: [
+            'Junior / Entry-Level Specialist (0-2 yrs)',
+            'Mid-Level Professional (2-5 yrs)',
+            'Senior Lead / Principal (5-8 yrs)',
+            'Domain Director / Executive (8+ yrs)'
+          ]
+        }));
+      }
+    }
+
+    // 2. Fallback to Mongoose if available
+    if (careers.length === 0 && mongoose.connection.readyState === 1) {
+      const dbCareers = await Career.find({}).lean().catch(() => []);
+      if (dbCareers && dbCareers.length > 0) {
+        careers = dbCareers;
+      } else {
+        careers = await Entity.find({ type: 'CAREER' }).lean().catch(() => []);
+      }
     }
 
     // If target job is selected, focus on related career fields (Section 16)
     if (targetJobQuery && careers.length > 0) {
       const lowerTarget = targetJobQuery.toLowerCase();
-      if (lowerTarget.includes('data') || lowerTarget.includes('analyst')) {
-        careers.sort((a, b) => (b.name?.toLowerCase().includes('analyst') || b.name?.toLowerCase().includes('finance') ? 1 : -1));
-      }
+      careers.sort((a, b) => {
+        const aMatch = a.name?.toLowerCase().includes(lowerTarget.split(' ')[0]) || a.description?.toLowerCase().includes(lowerTarget.split(' ')[0]);
+        const bMatch = b.name?.toLowerCase().includes(lowerTarget.split(' ')[0]) || b.description?.toLowerCase().includes(lowerTarget.split(' ')[0]);
+        return (bMatch ? 1 : 0) - (aMatch ? 1 : 0);
+      });
     }
 
     res.json({
@@ -579,29 +638,75 @@ export const getAllCareers = async (req, res, next) => {
 export const getCareerById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const cleanId = id.trim();
+    const cleanId = id.trim().toLowerCase();
     let career = null;
 
-    if (cleanId.match(/^[0-9a-fA-F]{24}$/)) {
-      career = await Career.findById(cleanId).lean();
-    } else {
-      career = await Career.findOne({
-        $or: [
-          { slug: cleanId.toLowerCase() },
-          { id: cleanId.toLowerCase() },
-          { name: { $regex: new RegExp(`^${cleanId}$`, 'i') } }
-        ]
-      }).lean();
+    // Check Supabase first
+    const { SupabaseService } = await import('../services/supabase/supabaseService.js');
+    const { isSupabaseConfigured } = await import('../config/supabase.js');
+
+    if (isSupabaseConfigured()) {
+      const allCareers = await SupabaseService.getCareers();
+      const match = allCareers.find(c => c.slug === cleanId || c.id === cleanId || c.name.toLowerCase().includes(cleanId));
+      if (match) {
+        career = {
+          id: match.slug || match.id,
+          slug: match.slug,
+          name: match.name,
+          category: match.category || 'General',
+          sector: match.sector,
+          overview: match.overview || match.description,
+          description: match.description || match.overview,
+          demandScore: match.demand_score || 88,
+          growthOutlook: match.growth_outlook || 'Rapid Growth (+22% annually)',
+          averageSalary: {
+            entry: match.average_salary ? match.average_salary.split('-')[0]?.trim() || '₹4.5 LPA' : '₹5.0 LPA',
+            mid: match.average_salary || '₹10.5 LPA'
+          },
+          relatedJobs: match.typical_roles && match.typical_roles.length > 0 ? match.typical_roles : [
+            'Associate / Specialist',
+            'Senior Consultant',
+            'Domain Lead',
+            'Practice Director'
+          ],
+          requiredSkills: match.required_skills && match.required_skills.length > 0 ? match.required_skills : [
+            'Analytical Problem Solving',
+            'Domain Best Practices',
+            'Data Driven Execution',
+            'Team Leadership'
+          ],
+          careerGrowth: [
+            'Associate (Years 0-2)',
+            'Specialist (Years 2-5)',
+            'Senior Lead (Years 5-8)',
+            'Practice Director (Years 8+)'
+          ]
+        };
+      }
     }
 
-    if (!career) {
-      career = await Entity.findOne({
-        type: 'CAREER',
-        $or: [
-          { id: cleanId.toLowerCase() },
-          { name: { $regex: new RegExp(`^${cleanId}$`, 'i') } }
-        ]
-      }).lean();
+    if (!career && mongoose.connection.readyState === 1) {
+      if (cleanId.match(/^[0-9a-fA-F]{24}$/)) {
+        career = await Career.findById(cleanId).lean().catch(() => null);
+      } else {
+        career = await Career.findOne({
+          $or: [
+            { slug: cleanId },
+            { id: cleanId },
+            { name: { $regex: new RegExp(`^${cleanId}$`, 'i') } }
+          ]
+        }).lean().catch(() => null);
+      }
+
+      if (!career) {
+        career = await Entity.findOne({
+          type: 'CAREER',
+          $or: [
+            { id: cleanId },
+            { name: { $regex: new RegExp(`^${cleanId}$`, 'i') } }
+          ]
+        }).lean().catch(() => null);
+      }
     }
 
     if (!career) {

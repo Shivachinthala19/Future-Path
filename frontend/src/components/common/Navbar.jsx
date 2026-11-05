@@ -13,7 +13,7 @@ export const Navbar = ({ onOpenAssistant }) => {
 
   const navLinks = [
     { label: 'Home', to: '/dashboard' },
-    { label: 'Explore', to: '/search' },
+    { label: 'Explore', to: '/explore' },
     { label: 'Study', to: '/study-next' },
     { label: 'Jobs', to: '/jobs' },
     { label: 'My Path', to: '/my-path' },
@@ -26,7 +26,7 @@ export const Navbar = ({ onOpenAssistant }) => {
     if (path === '/dashboard') {
       return location.pathname === '/' || location.pathname === '/dashboard' || location.pathname === '/home';
     }
-    if (path === '/search') {
+    if (path === '/explore' || path === '/search') {
       return location.pathname.startsWith('/search') || location.pathname.startsWith('/explore');
     }
     return location.pathname.startsWith(path);

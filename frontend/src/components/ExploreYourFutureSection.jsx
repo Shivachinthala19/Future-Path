@@ -6,49 +6,52 @@ import {
   Compass,
   ClipboardCheck,
   GraduationCap,
-  ArrowRight
+  ArrowRight,
+  Sparkles
 } from 'lucide-react';
 import { useEducation } from '../context/EducationContext.jsx';
 
 export const ExploreYourFutureSection = () => {
   const { currentEducation } = useEducation();
-  const studyName = currentEducation?.educationName;
+  const studyName = currentEducation?.educationName || 'B.Tech Computer Science';
 
-  // 1. Primary exploration cards (Study, Jobs, Careers)
+  // 1. Primary exploration cards (Jobs, Study, Careers)
   const primaryCards = [
     {
-      id: 'study',
-      title: 'Study',
-      icon: BookOpen,
-      iconColor: '#4F46E5',
-      iconBg: 'bg-[#EEF2FF] text-[#4F46E5]',
-      desc: 'Discover what you can study next.',
-      action: 'Explore →',
-      to: '/study-next',
-      isFeatured: true,
-      badge: 'RECOMMENDED'
+      id: 'jobs',
+      title: 'Jobs & Openings',
+      icon: Briefcase,
+      iconBg: 'bg-cyan-50 text-cyan-700 border border-cyan-200/80',
+      badgeBg: 'bg-cyan-50 text-cyan-700 border border-cyan-200',
+      accentColor: '#0891B2',
+      badge: 'HIGH DEMAND',
+      desc: 'Browse 22+ high-demand private sector positions and government vacancies eligible from your qualification.',
+      action: 'Explore Jobs',
+      to: '/jobs'
     },
     {
-      id: 'jobs',
-      title: 'Jobs',
-      icon: Briefcase,
-      iconColor: '#0891B2',
-      iconBg: 'bg-[#ECFEFF] text-[#0891B2]',
-      desc: 'Find jobs you can target from your education.',
-      action: 'Explore →',
-      to: '/jobs',
-      isFeatured: false
+      id: 'study',
+      title: 'Study Next',
+      icon: BookOpen,
+      iconBg: 'bg-[#EEF2FF] text-[#4F46E5] border border-indigo-200/80',
+      badgeBg: 'bg-[#EEF2FF] text-[#4F46E5] border border-indigo-200',
+      accentColor: '#4F46E5',
+      badge: 'RECOMMENDED',
+      desc: 'Discover 35+ verified master\'s degrees, specialized diplomas, and academic pathways eligible from your education.',
+      action: 'Explore Degrees',
+      to: '/study-next'
     },
     {
       id: 'careers',
-      title: 'Careers',
+      title: 'Career Fields',
       icon: Compass,
-      iconColor: '#7C3AED',
-      iconBg: 'bg-[#F5F3FF] text-[#7C3AED]',
-      desc: 'Explore career paths and growth.',
-      action: 'Explore →',
-      to: '/careers',
-      isFeatured: false
+      iconBg: 'bg-purple-50 text-[#7C3AED] border border-purple-200/80',
+      badgeBg: 'bg-purple-50 text-[#7C3AED] border border-purple-200',
+      accentColor: '#7C3AED',
+      badge: 'STRATEGIC DOMAINS',
+      desc: 'Explore 13 strategic career sectors, executive progression ladders, salaries, and allied roles.',
+      action: 'Explore Careers',
+      to: '/careers'
     }
   ];
 
@@ -56,22 +59,26 @@ export const ExploreYourFutureSection = () => {
   const secondaryCards = [
     {
       id: 'exams',
-      title: 'Exams',
+      title: 'Competitive Exams',
       icon: ClipboardCheck,
-      iconColor: '#D97706',
-      iconBg: 'bg-[#FFFBEB] text-[#D97706]',
-      desc: 'Find entrance and competitive exams.',
-      action: 'Explore →',
+      iconBg: 'bg-amber-50 text-amber-700 border border-amber-200/80',
+      badgeBg: 'bg-amber-50 text-amber-700 border border-amber-200',
+      accentColor: '#D97706',
+      badge: 'CENTRAL & STATE',
+      desc: 'Check eligibility, syllabi, and official notification portals for national entrance & civil services exams.',
+      action: 'Explore Exams',
       to: '/exams'
     },
     {
       id: 'skills',
-      title: 'Skills',
+      title: 'Skills & Learning',
       icon: GraduationCap,
-      iconColor: '#059669',
-      iconBg: 'bg-[#ECFDF5] text-[#059669]',
-      desc: 'Discover the skills you need.',
-      action: 'Explore →',
+      iconBg: 'bg-emerald-50 text-emerald-700 border border-emerald-200/80',
+      badgeBg: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
+      accentColor: '#059669',
+      badge: 'PORTFOLIO READY',
+      desc: 'Master industry-validated technical tools, frameworks, and portfolio credentials required for ATS shortlisting.',
+      action: 'Explore Skills',
       to: '/learn'
     }
   ];
@@ -79,38 +86,44 @@ export const ExploreYourFutureSection = () => {
   return (
     <section
       aria-labelledby="explore-heading"
-      className="card-clean p-6 sm:p-8 bg-white border border-[#E2E8F0] space-y-6"
+      className="card-clean p-7 sm:p-9 bg-white border border-[#E2E8F0] space-y-8 rounded-3xl shadow-xs"
     >
       {/* ================================================================= */}
       {/* SECTION HEADING                                                   */}
       {/* ================================================================= */}
-      <div className="text-center space-y-2 max-w-2xl mx-auto">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#E2E8F0]/80 pb-6">
+        <div className="space-y-2 max-w-2xl">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold border border-indigo-100">
+            <Compass className="w-3.5 h-3.5 text-[#4F46E5]" />
+            <span>DISCOVERY MATRIX</span>
+          </div>
 
-        <h2
-          id="explore-heading"
-          className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight"
-        >
-          Explore Your Future
-        </h2>
+          <h2
+            id="explore-heading"
+            className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight"
+          >
+            Explore Your Future Pathways
+          </h2>
 
-        <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
-          Discover what you can study, which careers you can build, what jobs you can target, and the skills you need to get there.
-        </p>
+          <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
+            Discover verified jobs, degrees, strategic career domains, and skills matched with your background.
+          </p>
+        </div>
 
         {studyName && (
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FF] border border-[#C7D2FE] text-[#4F46E5] text-xs font-semibold mt-1">
-            <span>Based on your education:</span>
-            <strong className="font-bold">{studyName}</strong>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-2xl bg-slate-50 border border-[#E2E8F0] text-xs text-[#0F172A] self-start sm:self-auto shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Tailored for <strong className="text-[#4F46E5] font-extrabold">{studyName}</strong></span>
           </div>
         )}
       </div>
 
       {/* ================================================================= */}
-      {/* 5 EXPLORATION OPTIONS HIERARCHY                                   */}
+      {/* 5 EXPLORATION CARDS (3 PRIMARY + 2 SECONDARY)                     */}
       {/* ================================================================= */}
       <div className="space-y-6">
-        {/* PRIMARY EXPLORATION (Study, Jobs, Careers) - Desktop: 3 Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+        {/* ROW 1: JOBS, STUDY, CAREERS (3 Columns) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {primaryCards.map((card) => {
             const Icon = card.icon;
             return (
@@ -118,39 +131,25 @@ export const ExploreYourFutureSection = () => {
                 key={card.id}
                 to={card.to}
                 aria-label={`${card.title}: ${card.desc}`}
-                className={`group relative flex flex-col justify-between p-4 rounded-2xl border transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-[0_14px_35px_rgba(15,23,42,0.08)] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F46E5] ${card.isFeatured
-                  ? 'border-[#C7D2FE] shadow-[0_8px_30px_rgba(79,70,229,0.06)]'
-                  : 'bg-[#FFFFFF] border-[#E2E8F0] hover:border-[#C7D2FE] shadow-[0_8px_30px_rgba(15,23,42,0.04)]'
-                  }`}
-                style={
-                  card.isFeatured
-                    ? {
-                      background: 'linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 100%)'
-                    }
-                    : {
-                      background: '#FFFFFF'
-                    }
-                }
+                className="group relative flex flex-col justify-between p-6 sm:p-7 rounded-3xl bg-gradient-to-b from-white to-slate-50/50 border border-[#E2E8F0] hover:border-indigo-300 shadow-2xs hover:shadow-md transition-all duration-300 hover:-translate-y-1.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
               >
                 <div className="space-y-4">
-                  {/* Top Bar: Icon + Optional Featured Pill */}
+                  {/* Top Bar: Icon + Badge */}
                   <div className="flex items-center justify-between">
                     <div
-                      className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-transform duration-200 group-hover:scale-110 shadow-2xs ${card.iconBg}`}
+                      className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shadow-2xs ${card.iconBg}`}
                     >
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-6 h-6" />
                     </div>
 
-                    {card.isFeatured && (
-                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#4F46E5] text-[#FFFFFF] uppercase tracking-wider shadow-2xs">
-                        {card.badge}
-                      </span>
-                    )}
+                    <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${card.badgeBg}`}>
+                      {card.badge}
+                    </span>
                   </div>
 
                   {/* Title & Description */}
-                  <div className="space-y-1">
-                    <h3 className="text-xl font-bold text-[#0F172A] tracking-tight group-hover:text-[#4F46E5] transition-colors">
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-extrabold text-[#0F172A] tracking-tight group-hover:text-[#4F46E5] transition-colors">
                       {card.title}
                     </h3>
                     <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
@@ -159,18 +158,18 @@ export const ExploreYourFutureSection = () => {
                   </div>
                 </div>
 
-                {/* Bottom Action Link */}
-                <div className="pt-3 border-t border-[#E2E8F0]/60 mt-4 flex items-center justify-between text-xs sm:text-sm font-bold text-[#4F46E5]">
+                {/* Bottom Action CTA */}
+                <div className="pt-4 border-t border-slate-100 mt-6 flex items-center justify-between text-xs font-extrabold text-[#4F46E5] group-hover:text-[#4338CA]">
                   <span>{card.action}</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
                 </div>
               </Link>
             );
           })}
         </div>
 
-        {/* SECONDARY EXPLORATION (Exams, Skills) - Desktop: 2 Columns Centered */}
-        <div className="grid grid-cols-2 md:grid-cols-2 max-w-3xl mx-auto gap-4 sm:gap-6">
+        {/* ROW 2: EXAMS & SKILLS (2 Columns) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {secondaryCards.map((card) => {
             const Icon = card.icon;
             return (
@@ -178,31 +177,37 @@ export const ExploreYourFutureSection = () => {
                 key={card.id}
                 to={card.to}
                 aria-label={`${card.title}: ${card.desc}`}
-                className="group relative flex flex-col justify-between p-5 sm:p-6 rounded-2xl bg-[#FFFFFF] border border-[#E2E8F0] hover:border-[#C7D2FE] shadow-[0_8px_30px_rgba(15,23,42,0.03)] hover:shadow-[0_14px_35px_rgba(15,23,42,0.07)] transition-all duration-200 ease-out hover:-translate-y-1 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                className="group relative flex flex-col justify-between p-6 sm:p-7 rounded-3xl bg-gradient-to-b from-white to-slate-50/50 border border-[#E2E8F0] hover:border-indigo-300 shadow-2xs hover:shadow-md transition-all duration-300 hover:-translate-y-1.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
               >
-                <div className="space-y-3">
-                  {/* Icon */}
-                  <div
-                    className={`w-10 h-10 sm:w-11 sm:h-11 rounded-2xl flex items-center justify-center transition-transform duration-200 group-hover:scale-110 shadow-2xs ${card.iconBg}`}
-                  >
-                    <Icon className="w-5 h-5 sm:w-5 sm:h-5" />
+                <div className="space-y-4">
+                  {/* Top Bar: Icon + Badge */}
+                  <div className="flex items-center justify-between">
+                    <div
+                      className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shadow-2xs ${card.iconBg}`}
+                    >
+                      <Icon className="w-6 h-6" />
+                    </div>
+
+                    <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${card.badgeBg}`}>
+                      {card.badge}
+                    </span>
                   </div>
 
                   {/* Title & Description */}
-                  <div className="space-y-1">
-                    <h3 className="text-base sm:text-lg font-bold text-[#0F172A] tracking-tight group-hover:text-[#4F46E5] transition-colors">
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-extrabold text-[#0F172A] tracking-tight group-hover:text-[#4F46E5] transition-colors">
                       {card.title}
                     </h3>
-                    <p className="text-[11px] sm:text-xs text-[#64748B] leading-relaxed line-clamp-2">
+                    <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
                       {card.desc}
                     </p>
                   </div>
                 </div>
 
-                {/* Bottom Action Link */}
-                <div className="pt-3 sm:pt-4 border-t border-[#E2E8F0]/60 mt-3 flex items-center justify-between text-xs font-bold text-[#4F46E5]">
+                {/* Bottom Action CTA */}
+                <div className="pt-4 border-t border-slate-100 mt-6 flex items-center justify-between text-xs font-extrabold text-[#4F46E5] group-hover:text-[#4338CA]">
                   <span>{card.action}</span>
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
                 </div>
               </Link>
             );

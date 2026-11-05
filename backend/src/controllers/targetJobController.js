@@ -2,6 +2,7 @@ import { User } from '../models/User.js';
 import { JobRole } from '../models/JobRole.js';
 import { EligibilityService } from '../services/eligibilityService.js';
 import { KnowledgeGraphService } from '../services/knowledgeGraphService.js';
+import { getSupabaseClient, isSupabaseConfigured } from '../config/supabase.js';
 
 /**
  * Target Job Controller
@@ -74,14 +75,27 @@ export const updateUserTargetJob = async (req, res, next) => {
     const jobCategory = resolvedJob?.jobType || category;
 
     if (req.user) {
-      await User.findByIdAndUpdate(req.user._id, {
+      const uid = req.user._id || req.user.id;
+      if (isSupabaseConfigured()) {
+        try {
+          const client = getSupabaseClient();
+          if (client) {
+            await client.from('profiles').update({
+              target_job: jobTitle,
+              target_career: jobTitle,
+              updated_at: new Date().toISOString()
+            }).eq('id', uid);
+          }
+        } catch (_) {}
+      }
+      await User.findByIdAndUpdate(uid, {
         $set: {
           'targetJob.targetJobId': jobId,
           'targetJob.targetJobName': jobTitle,
           'targetJob.category': jobCategory,
           'targetJob.setAt': new Date()
         }
-      });
+      }).catch(() => null);
     }
 
     const educationName = req.user?.educationName || req.user?.currentEducation?.name || 'B.Com';

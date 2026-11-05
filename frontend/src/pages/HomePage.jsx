@@ -1,8 +1,8 @@
 import React from 'react';
-import { LandingPage } from './LandingPage.jsx';
+import { Dashboard } from './Dashboard.jsx';
 
 export const HomePage = () => {
-  return <LandingPage />;
+  return <Dashboard />;
 };
 
 export default HomePage;

@@ -8,7 +8,14 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "seed": "node src/seed/seedDatabase.js",
-    "seed:reset": "node src/seed/seedDatabase.js --reset"
+    "seed:reset": "node src/seed/seedDatabase.js --reset",
+    "seed:supabase": "node scripts/seedAllToSupabase.js",
+    "migrate:supabase": "node scripts/seedAllToSupabase.js"
+  },
+  "config": {
+    "mongodbMemoryServer": {
+      "disablePostinstall": "1"
+    }
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.3",

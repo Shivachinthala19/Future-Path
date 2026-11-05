@@ -1,697 +1,803 @@
 /**
- * Structured Job Database Seed
- * Covers: Technology, Software, Data, AI, Cybersecurity, Cloud, DevOps,
- * Finance, Accounting, Banking, Healthcare, Nursing, Engineering, Government / Public Sector.
+ * ==============================================================================
+ * FUTURE PATH — MASTER JOB ROLES & CAREER OCCUPATIONS DATASET
+ * ==============================================================================
+ * Comprehensive coverage across all sectors:
+ * - Software & AI Systems (SDE, ML Engineer, Cloud Architect, DevOps, Cyber, Full Stack)
+ * - Data, Analytics & Product (Data Analyst, Quant Analyst, Product Manager)
+ * - Finance, Accounting & Banking (Chartered Accountant, Investment Banker, Financial Analyst, Bank PO, RBI Grade B)
+ * - Healthcare & Clinical Sciences (Physician / MBBS, Pharmacist, Nurse, Physiotherapist, Lab Technologist)
+ * - Core Engineering & Deep Tech (Mechanical, Electrical, Civil, Chemical, Aerospace / ISRO)
+ * - Law & Legal Advisory (Corporate Counsel, Litigation Advocate, Compliance Officer)
+ * - Civil Services, Public Sector & Defence (IAS, IPS, Defence Officer, SSC CGL Inspector, RRB Station Master)
+ * - Design, Architecture & Media (UI/UX Designer, Architect, 3D/VFX Artist)
+ * - Academics, Research & Agriculture (University Professor, Research Physicist, Psychologist, Agri Scientist)
+ * ==============================================================================
  */
 
 export const structuredJobs = [
-  // ==========================================
-  // 1. DATA ANALYST
-  // ==========================================
+  // --------------------------------------------------------------------------
+  // 1. SOFTWARE & ARTIFICIAL INTELLIGENCE
+  // --------------------------------------------------------------------------
+  {
+    id: 'software-development-engineer',
+    name: 'Software Development Engineer (SDE)',
+    title: 'Software Development Engineer (SDE)',
+    shortName: 'SDE',
+    type: 'JOB',
+    category: 'Technology & Software',
+    sector: 'Information Technology',
+    aliases: ['Software Engineer', 'Software Developer', 'SDE 1', 'Backend Developer', 'Frontend Developer', 'Full Stack Engineer'],
+    description: 'Designs, develops, tests, and deploys high-scale software applications, microservices, and distributed systems solving complex computational and business problems.',
+    overview: 'Core engineering role responsible for writing clean, performant code, architecting relational and NoSQL databases, implementing REST/GraphQL APIs, and maintaining robust CI/CD deployment pipelines.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: Computer Science / Engineering Degree (B.Tech CSE/IT, MCA, BCA)',
+        title: 'Formal Computer Science Path',
+        degrees: ['B.Tech Computer Science', 'B.Tech IT', 'MCA', 'BCA'],
+        skills: ['Data Structures & Algorithms', 'System Design', 'JavaScript / TypeScript', 'Node.js / Java / Python', 'SQL & Databases'],
+        timeline: 'Direct Placement / 3-6 Months Structured Prep'
+      },
+      {
+        routeName: 'Route 2: STEM Degree + Full-Stack Software Engineering Bootcamps',
+        title: 'Transition Path for Science & Engineering Graduates',
+        degrees: ['B.Sc Computer Science', 'B.Tech Core Branches', 'M.Sc CS'],
+        skills: ['Web Development', 'React', 'Node.js', 'PostgreSQL', 'Git / GitHub'],
+        timeline: '6 Months Project-Driven Transition'
+      }
+    ],
+    requiredSkills: ['Data Structures & Algorithms', 'JavaScript / TypeScript', 'Node.js or Python or Java', 'SQL / PostgreSQL', 'Git & Version Control', 'RESTful APIs'],
+    preferredSkills: ['System Design', 'Docker & Containerization', 'AWS / Cloud Deployment', 'Microservices Architecture', 'Redis Caching', 'CI/CD Pipelines'],
+    tools: ['VS Code', 'Git', 'Docker', 'Postman', 'Supabase / PostgreSQL', 'AWS', 'Linux'],
+    topCompanies: ['Google', 'Microsoft', 'Amazon', 'Flipkart', 'Zomato', 'Swiggy', 'Infosys', 'TCS', 'Leading Tech Startups'],
+    salaryRange: { min: 600000, max: 2400000, currency: 'INR', formatted: '₹6.0 - ₹24.0 LPA' },
+    minimumEducation: 'B.Tech / B.E. / BCA / MCA / B.Sc Computer Science',
+    eligibility: 'Graduation in Engineering / Computer Applications / Science with sound programming and algorithmic problem-solving foundations.'
+  },
+  {
+    id: 'ai-machine-learning-engineer',
+    name: 'AI & Machine Learning Engineer',
+    title: 'AI & Machine Learning Engineer',
+    shortName: 'ML Engineer',
+    type: 'JOB',
+    category: 'Technology & Software',
+    sector: 'Artificial Intelligence & Data',
+    aliases: ['Machine Learning Engineer', 'ML Engineer', 'AI Engineer', 'Deep Learning Engineer', 'LLM Engineer'],
+    description: 'Builds, trains, fine-tunes, and deploys machine learning models, neural networks, and generative AI systems into production software environments.',
+    overview: 'Develops predictive algorithms, natural language processing (NLP) pipelines, computer vision models, and transformer architectures to solve high-value enterprise problems.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: Degree in CS, Data Science, AI or Mathematics (B.Tech / M.Tech / M.Sc)',
+        degrees: ['B.Tech CS / AI', 'M.Tech CSE', 'M.Sc Data Science', 'B.Sc Statistics / Math'],
+        skills: ['Python', 'Linear Algebra & Calculus', 'Scikit-learn', 'PyTorch / TensorFlow', 'Hugging Face Transformers'],
+        timeline: '6 - 9 Months Deep Learning Specialization'
+      }
+    ],
+    requiredSkills: ['Python Programming', 'PyTorch or TensorFlow', 'Linear Algebra & Statistics', 'Machine Learning Algorithms', 'Data Preprocessing', 'Model Evaluation'],
+    preferredSkills: ['Large Language Models (LLMs)', 'RAG Pipelines (Retrieval Augmented Generation)', 'Vector Databases', 'MLOps & Model Deployment', 'Docker', 'CUDA / GPU Optimization'],
+    tools: ['Jupyter Notebooks', 'PyTorch', 'TensorFlow', 'Hugging Face', 'LangChain', 'Pinecone / ChromaDB', 'Docker'],
+    topCompanies: ['OpenAI', 'Google DeepMind', 'Microsoft', 'NVIDIA', 'Amazon AWS', 'Adobe', 'Fractal Analytics', 'Tiger Analytics'],
+    salaryRange: { min: 800000, max: 3200000, currency: 'INR', formatted: '₹8.0 - ₹32.0 LPA' },
+    minimumEducation: 'B.Tech / M.Sc / M.Tech in CS, AI, Data Science or Mathematics',
+    eligibility: 'Strong foundation in Python programming, applied linear algebra, calculus, probability, and machine learning architectures.'
+  },
+  {
+    id: 'cloud-solutions-architect',
+    name: 'Cloud Solutions Architect',
+    title: 'Cloud Solutions Architect',
+    shortName: 'Cloud Architect',
+    type: 'JOB',
+    category: 'Technology & Software',
+    sector: 'Cloud Infrastructure & DevOps',
+    aliases: ['Cloud Architect', 'AWS Solutions Architect', 'Azure Architect', 'Cloud Infrastructure Engineer'],
+    description: 'Architects, secures, and oversees enterprise cloud computing environments across Amazon Web Services (AWS), Microsoft Azure, or Google Cloud Platform (GCP).',
+    overview: 'Designs highly available, fault-tolerant, scalable, and cost-optimized multi-region cloud infrastructures incorporating container orchestration, serverless compute, and zero-trust security.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: Engineering Degree + Professional Cloud Certifications',
+        degrees: ['B.Tech CSE/IT/ECE', 'MCA', 'B.Sc Computer Science'],
+        skills: ['AWS / Azure / GCP', 'Terraform / IaC', 'Kubernetes & Docker', 'Networking & Subnetting', 'Cloud Security'],
+        timeline: '1 - 2 Years progressive cloud infrastructure engineering'
+      }
+    ],
+    requiredSkills: ['Cloud Architecture (AWS / Azure / GCP)', 'Infrastructure as Code (Terraform)', 'Kubernetes & Docker', 'Virtual Networks & VPCs', 'Identity & Access Management (IAM)', 'Cost Optimization'],
+    preferredSkills: ['Multi-Cloud Strategy', 'CI/CD Pipelines', 'Zero-Trust Architecture', 'Disaster Recovery Planning', 'FinOps'],
+    tools: ['AWS Console', 'Terraform', 'Kubernetes', 'Docker', 'Ansible', 'Prometheus', 'Grafana'],
+    topCompanies: ['Amazon Web Services', 'Microsoft', 'Google Cloud', 'Wipro', 'Cognizant', 'Accenture', 'Deloitte', 'HCLTech'],
+    salaryRange: { min: 1200000, max: 3800000, currency: 'INR', formatted: '₹12.0 - ₹38.0 LPA' },
+    minimumEducation: 'B.Tech / B.E. / MCA / Relevant Cloud Certifications',
+    eligibility: 'Background in IT systems, computer networking, server administration, and hands-on public cloud platforms.'
+  },
+  {
+    id: 'cybersecurity-analyst',
+    name: 'Cybersecurity Analyst & Ethical Hacker',
+    title: 'Cybersecurity Analyst & Ethical Hacker',
+    shortName: 'Cybersecurity Analyst',
+    type: 'JOB',
+    category: 'Technology & Software',
+    sector: 'Information Security',
+    aliases: ['Security Analyst', 'SOC Analyst', 'Penetration Tester', 'Ethical Hacker', 'Information Security Officer'],
+    description: 'Safeguards computer networks, cloud servers, databases, and digital assets against unauthorized access, cyber attacks, data breaches, and ransomware.',
+    overview: 'Monitors security operations center (SOC) alerts, conducts penetration testing, performs vulnerability assessments, and enforces corporate security protocols.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: CS/IT Degree + Security Certifications (CEH, CompTIA Security+)',
+        degrees: ['B.Tech CSE/IT', 'BCA', 'B.Sc Cyber Security / CS'],
+        skills: ['Network Protocols (TCP/IP, DNS, SSL)', 'Linux Administration', 'Penetration Testing (Kali Linux)', 'SIEM Tools', 'Cryptography'],
+        timeline: '4 - 8 Months Security Lab Training'
+      }
+    ],
+    requiredSkills: ['Computer Networking & Protocols', 'Vulnerability Assessment', 'Incident Response & Threat Analysis', 'Linux CLI', 'SIEM & SOC Operations', 'Identity & Access Management'],
+    preferredSkills: ['Penetration Testing (Burp Suite, Metasploit)', 'Cloud Security (AWS/Azure)', 'Reverse Engineering', 'Malware Analysis', 'ISO 27001 Compliance'],
+    tools: ['Wireshark', 'Kali Linux', 'Burp Suite', 'Splunk', 'Nessus', 'Metasploit', 'Nmap'],
+    topCompanies: ['PwC', 'EY', 'KPMG', 'Deloitte', 'Quick Heal', 'Palo Alto Networks', 'CrowdStrike', 'Cisco', 'Banks & Defense Agencies'],
+    salaryRange: { min: 550000, max: 1800000, currency: 'INR', formatted: '₹5.5 - ₹18.0 LPA' },
+    minimumEducation: 'B.Tech / BCA / B.Sc IT / Industry Certifications',
+    eligibility: 'Understanding of network protocols, operating systems, threat vectors, and defensive security measures.'
+  },
+  {
+    id: 'full-stack-developer',
+    name: 'Full Stack Web Developer',
+    title: 'Full Stack Web Developer',
+    shortName: 'Full Stack Developer',
+    type: 'JOB',
+    category: 'Technology & Software',
+    sector: 'Information Technology',
+    aliases: ['MERN Stack Developer', 'Web Developer', 'Software Engineer', 'React & Node Developer'],
+    description: 'Builds end-to-end web applications managing everything from interactive client-side browser user interfaces to server logic, APIs, and relational databases.',
+    overview: 'Develops user-facing frontend components with React/Next.js and Tailwind CSS while implementing server endpoints with Node.js/Express and managing Supabase/PostgreSQL databases.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: Computer Science / Applications Degree or Coding Bootcamp',
+        degrees: ['B.Tech CSE/IT', 'BCA', 'MCA', 'B.Sc Computer Science', 'Any Graduate with portfolio'],
+        skills: ['HTML5 / CSS3 / JavaScript', 'React.js', 'Node.js & Express', 'PostgreSQL / MongoDB', 'Git & Deployment'],
+        timeline: '3 - 6 Months intensive full-stack project building'
+      }
+    ],
+    requiredSkills: ['JavaScript (ES6+) & TypeScript', 'React.js & State Management', 'Node.js & Express.js', 'Relational Databases (PostgreSQL / MySQL)', 'RESTful API Design', 'HTML5 & Modern CSS / Tailwind'],
+    preferredSkills: ['Next.js / Server Components', 'Supabase / Firebase', 'Docker & Cloud Deployment', 'GraphQL', 'Automated Testing (Jest / Cypress)'],
+    tools: ['VS Code', 'Git & GitHub', 'Postman', 'Supabase', 'Vercel', 'Tailwind CSS', 'Docker'],
+    topCompanies: ['Razorpay', 'CRED', 'Paytm', 'Freshworks', 'Zoho', 'Infosys', 'Global Tech Agencies'],
+    salaryRange: { min: 500000, max: 1800000, currency: 'INR', formatted: '₹5.0 - ₹18.0 LPA' },
+    minimumEducation: 'B.Tech / BCA / MCA / B.Sc CS or demonstrated web portfolio',
+    eligibility: 'Proficiency in modern JavaScript, frontend frameworks, backend server creation, and database modeling.'
+  },
+
+  // --------------------------------------------------------------------------
+  // 2. DATA, ANALYTICS & PRODUCT MANAGEMENT
+  // --------------------------------------------------------------------------
   {
     id: 'data-analyst',
-    name: 'Data Analyst',
+    name: 'Data Analyst & Business Intelligence Specialist',
+    title: 'Data Analyst & Business Intelligence Specialist',
     shortName: 'Data Analyst',
     type: 'JOB',
-    category: 'Technology & Analytics',
-    aliases: ['Data Analyst', 'Junior Data Analyst', 'Business Data Analyst', 'Analytics Specialist', 'Commercial Analyst'],
-    description: 'Collects, cleans, models, and analyzes structured and unstructured datasets to uncover patterns, generate business insights, and drive executive decision-making through interactive dashboards.',
-    overview: 'Data Analysts bridge business operations with technical analytics. They extract data using SQL, perform statistical computations with Excel and Python, and create executive-ready dashboards with Power BI or Tableau.',
+    category: 'Data & Analytics',
+    sector: 'Business Intelligence & Data',
+    aliases: ['Data Analyst', 'BI Analyst', 'Business Data Analyst', 'Commercial Analytics Specialist'],
+    description: 'Collects, cleans, models, and analyzes structured datasets to uncover patterns, generate business insights, and drive executive decision-making through interactive dashboards.',
+    overview: 'Bridges business operations with technical analytics. Extracts data using SQL, performs statistical computations in Excel and Python, and creates executive dashboards in Power BI or Tableau.',
     educationRoutes: [
       {
         routeName: 'Route 1: Quantitative / Commerce Degree (B.Com, BBA, Economics, Statistics)',
-        title: 'Commerce & Economics Background Route',
-        type: 'Domain & Business Analytical Path',
         degrees: ['B.Com', 'BBA', 'BA Economics', 'B.Sc Statistics'],
-        skills: ['Advanced Excel', 'SQL Queries', 'Business Statistics', 'Power BI / Tableau', 'Financial Analytics'],
-        timeline: '3 - 6 Months focused analytical bridging',
-        description: 'Leverages domain business understanding and financial literacy, supplemented with database querying and business intelligence tools.',
-        steps: [
-          'Master Advanced Excel (Pivot Tables, XLOOKUP, Index-Match, Power Query)',
-          'Learn Relational Databases & SQL (Joins, Window Functions, Aggregations, CTEs)',
-          'Learn Data Visualization in Power BI or Tableau',
-          'Learn basic Python for Exploratory Data Analysis (Pandas, NumPy, Matplotlib)',
-          'Build 3 portfolio projects solving business case studies',
-          'Apply for entry-level analyst roles and business intelligence associate positions'
-        ]
+        skills: ['Advanced Excel', 'SQL Queries', 'Power BI / Tableau', 'Business Statistics'],
+        timeline: '3 - 6 Months analytical prep'
       },
       {
-        routeName: 'Route 2: Technical / Computer Science Degree (B.Tech CSE/IT, BCA, B.Sc CS)',
-        title: 'Direct Technical Degree Route',
-        type: 'Technical & Computational Path',
-        degrees: ['B.Tech CSE / IT', 'BCA', 'B.Sc Computer Science'],
-        skills: ['Python', 'SQL', 'Database Schema Design', 'Statistics', 'Cloud Data Warehousing'],
-        timeline: 'Direct Campus Placement / 2 - 4 Months',
-        description: 'Utilizes foundational coding and database knowledge to quickly master business intelligence dashboards and statistical modeling.',
-        steps: [
-          'Solidify SQL complex analytical queries and database indexing',
-          'Deepen Python data wrangling (Pandas, Seaborn, Scikit-learn basics)',
-          'Master interactive dashboard storytelling in Tableau or Power BI',
-          'Deploy automated ETL pipelines using Python and cloud storage',
-          'Build GitHub portfolio with interactive dashboards and documented case studies'
-        ]
-      },
-      {
-        routeName: 'Route 3: Any Recognized Degree + Professional Analytics Certification',
-        title: 'Career Switch / Non-Technical Degree Route',
-        type: 'Skill-Driven Transition Path',
-        degrees: ['Any Bachelor Degree (BA, B.Sc General, etc.)'],
-        skills: ['Data Literacy', 'Excel', 'SQL', 'Power BI', 'Portfolio Projects'],
-        timeline: '6 Months intensive self-paced / bootcamp training',
-        description: 'Designed for candidates transitioning into data from non-quantitative disciplines through project proof of work.',
-        steps: [
-          'Complete accredited certification (e.g. Google Data Analytics Professional Certificate)',
-          'Build 4 domain-specific data analysis projects on GitHub/Kaggle',
-          'Publish case studies on LinkedIn demonstrating business impact',
-          'Practice live technical SQL assessments and case study interviews'
-        ]
+        routeName: 'Route 2: Technical Degree (B.Tech, BCA, B.Sc CS)',
+        degrees: ['B.Tech CSE/IT', 'BCA', 'B.Sc Computer Science'],
+        skills: ['Python', 'SQL', 'Data Warehousing', 'Data Modeling'],
+        timeline: 'Direct Placement / 2 - 4 Months'
       }
     ],
-    requiredSkills: [
-      'Advanced MS Excel (Formulas, Power Query, Macros)',
-      'Relational Databases & SQL (Joins, CTEs, Window Functions)',
-      'Data Visualization (Power BI or Tableau)',
-      'Descriptive & Inferential Statistics',
-      'Data Cleaning, Transformation & Quality Assurance'
-    ],
-    preferredSkills: [
-      'Python (Pandas, NumPy, Matplotlib, Seaborn)',
-      'Cloud Data Warehouses (Google BigQuery, Snowflake, AWS Redshift)',
-      'Git & Version Control',
-      'Basic Machine Learning Concepts',
-      'Storytelling with Data & Stakeholder Presentation'
-    ],
-    certifications: [
-      'Google Data Analytics Professional Certificate (Coursera)',
-      'Microsoft Certified: Power BI Data Analyst Associate (PL-300)',
-      'Tableau Certified Data Analyst',
-      'IBM Data Analyst Professional Certificate',
-      'AWS Certified Data Analytics - Specialty'
-    ],
-    experience: {
-      entryLevel: true,
-      level: 'Entry Level (0 - 2 Years)',
-      minYears: 0,
-      maxYears: 2
-    },
-    salaryRange: {
-      min: 450000,
-      max: 950000,
-      currency: 'INR',
-      formatted: '₹4.5 - ₹9.5 LPA'
-    },
-    roadmap: [
-      {
-        step: 1,
-        title: 'Master Spreadsheet Data Modeling & Excel',
-        type: 'FUNDAMENTALS',
-        description: 'Acquire proficiency in spreadsheet calculations, dynamic array formulas, nested lookups, data validation, and Power Query automation.',
-        whatToLearn: 'XLOOKUP, INDEX-MATCH, SUMIFS, Pivot Tables, Power Pivot, Data Modeling, DAX basics.',
-        whyItMatters: '90% of business reporting begins in spreadsheets; mastering Excel provides immediate commercial utility.'
-      },
-      {
-        step: 2,
-        title: 'Master Relational Databases & SQL Querying',
-        type: 'TECHNICAL_CORE',
-        description: 'Understand relational schemas, table joins, group aggregations, window functions, and subqueries to extract enterprise data.',
-        whatToLearn: 'SELECT, GROUP BY, HAVING, INNER/LEFT/RIGHT JOINs, RANK(), DENSE_RANK(), LEAD/LAG, CASE WHEN, CTEs (WITH clause).',
-        whyItMatters: 'SQL is the universal language of enterprise databases and the primary filter in technical interviews.'
-      },
-      {
-        step: 3,
-        title: 'Statistical Thinking & Quantitative Reasoning',
-        type: 'ANALYTICAL_SKILLS',
-        description: 'Apply descriptive statistics, probability distributions, hypothesis testing, A/B testing, and correlation vs causation analysis.',
-        whatToLearn: 'Mean, Median, Mode, Standard Deviation, Percentiles, Normal Distribution, Confidence Intervals, p-values.',
-        whyItMatters: 'Ensures business conclusions are statistically valid rather than coincidental.'
-      },
-      {
-        step: 4,
-        title: 'Interactive Business Intelligence Dashboards (Power BI / Tableau)',
-        type: 'VISUALIZATION',
-        description: 'Transform raw data tables into insightful visual dashboards with drill-downs, filters, and KPI cards for leadership.',
-        whatToLearn: 'Data modeling, DAX measures, calculated columns, storytelling, layout design, dashboard publishing.',
-        whyItMatters: 'Decision-makers consume dashboards; clear visual communication drives business adoption.'
-      },
-      {
-        step: 5,
-        title: 'Python for Data Analysis & Automation',
-        type: 'PROGRAMMING',
-        description: 'Learn fundamental scripting in Python to clean complex datasets, handle missing values, and automate repetitive tasks.',
-        whatToLearn: 'Jupyter Notebooks, Pandas DataFrames, NumPy arrays, Matplotlib and Seaborn visualization libraries.',
-        whyItMatters: 'Enables handling large datasets that exceed spreadsheet memory limits.'
-      },
-      {
-        step: 6,
-        title: 'Build Real-World Industry Portfolio Projects',
-        type: 'PORTFOLIO',
-        description: 'Create 3 comprehensive portfolio projects: 1) Sales & Revenue Performance Dashboard, 2) Customer Churn Analysis, 3) Supply Chain / Financial Metrics.',
-        whatToLearn: 'Data cleaning, business problem definition, insightful visualizations, executive summary documentation.',
-        whyItMatters: 'A live portfolio proves tangible capability and replaces lack of prior experience.'
-      },
-      {
-        step: 7,
-        title: 'ATS-Optimized Resume & LinkedIn Profile Optimization',
-        type: 'APPLICATION',
-        description: 'Structure a single-page resume with quantified impact bullets (e.g. "Automated weekly sales report reducing manual hours by 30%").',
-        whatToLearn: 'Action verbs, keywords matching job descriptions, GitHub/Portfolio link placement.',
-        whyItMatters: 'Passes automated applicant tracking systems (ATS) used by top employers.'
-      },
-      {
-        step: 8,
-        title: 'Technical Assessments & SQL Interview Preparation',
-        type: 'INTERVIEW_PREP',
-        description: 'Solve SQL challenges on LeetCode/HackerRank and practice answering business scenario case questions.',
-        whatToLearn: 'Writing SQL on whiteboard/coderpad, explaining assumptions, answering behavioral questions using STAR method.',
-        whyItMatters: 'Converts technical rounds into confirmed job offers.'
-      },
-      {
-        step: 9,
-        title: 'Targeted Applications & Networking',
-        type: 'JOB_HUNTING',
-        description: 'Apply strategically on LinkedIn, Naukri, AngelList/Wellfound, and network with hiring managers and senior analysts.',
-        whatToLearn: 'Writing personalized cold outreach messages, following up, negotiating entry-level salary packages.',
-        whyItMatters: 'Direct referrals increase interview callback probability by over 400%.'
-      }
-    ],
-    projects: [
-      {
-        name: 'Executive E-Commerce Sales & Profitability Dashboard (Power BI)',
-        tech: 'Power BI, DAX, Power Query, Excel',
-        desc: 'Interactive 3-page dashboard analyzing ₹50M sales dataset across 4 regions with profitability drill-downs and customer segmentation.'
-      },
-      {
-        name: 'Customer Churn & Retention Analysis (SQL & Python)',
-        tech: 'PostgreSQL, Python, Pandas, Seaborn',
-        desc: 'Identified key drivers of customer attrition in a telecom subscription database using cohort analysis and SQL window functions.'
-      },
-      {
-        name: 'Financial Performance & Expense Optimization Model',
-        tech: 'Advanced Excel, Financial Modeling, Power Pivot',
-        desc: 'Built a dynamic 5-year budgeting forecast model incorporating scenario analysis, sensitivity matrices, and variance reporting.'
-      }
-    ],
-    interviewPreparation: [
-      {
-        category: 'SQL Technical',
-        question: 'What is the difference between WHERE and HAVING clause, and how do Window Functions differ from GROUP BY?',
-        answerGuidance: 'WHERE filters rows before aggregation, while HAVING filters grouped rows after aggregation. GROUP BY collapses multiple rows into a single summary row, whereas Window Functions perform calculations across rows while preserving individual row identity.'
-      },
-      {
-        category: 'Business Analytics Scenario',
-        question: 'If our website traffic increased by 20% last month but revenue declined by 5%, how would you investigate?',
-        answerGuidance: 'Break down metrics: Check conversion rate, average order value (AOV), traffic source mix (organic vs paid/low-intent), device types (mobile checkout issues), and product categories to isolate root cause.'
-      },
-      {
-        category: 'Technical Tooling',
-        question: 'How do you handle missing or corrupt data values in a critical business report?',
-        answerGuidance: 'Analyze the mechanism of missingness (MCAR, MAR, MNAR), consult domain stakeholders, and determine whether imputation (mean, median, forward fill) or exclusion is appropriate without introducing bias.'
-      }
-    ],
-    howToApply: 'Build public GitHub portfolio with README case studies, optimize LinkedIn with "Data Analyst | SQL | Power BI | Python", and apply on LinkedIn Jobs, Naukri, Instahyre, and Hirist.',
-    careerGrowth: [
-      'Junior Data Analyst (Years 0-2)',
-      'Senior Data Analyst / BI Developer (Years 2-5)',
-      'Analytics Team Lead / Analytics Manager (Years 5-8)',
-      'Director of Analytics / Head of Business Intelligence (Years 8-12)',
-      'Chief Data Officer (CDO) / VP of Analytics (Years 12+)'
-    ],
-    higherStudies: [
-      'M.Sc in Data Science & Business Analytics',
-      'Master of Business Administration (MBA in Business Analytics)',
-      'M.Tech in Data Engineering / Computational Systems'
-    ],
-    sources: [
-      {
-        title: 'NASSCOM FutureSkills Prime Career Pathway: Data Analyst',
-        url: 'https://futureskillsprime.in',
-        sourceType: 'OFFICIAL',
-        lastVerified: 'September 2026'
-      },
-      {
-        title: 'Microsoft Learn Certified Data Analyst Certification Guide',
-        url: 'https://learn.microsoft.com/en-us/credentials/certifications/data-analyst-associate/',
-        sourceType: 'OFFICIAL',
-        lastVerified: 'September 2026'
-      }
-    ],
-    lastVerified: 'September 2026'
+    requiredSkills: ['Advanced MS Excel (Pivot Tables, Power Query)', 'Relational Databases & SQL (Joins, Window Functions)', 'Data Visualization (Power BI or Tableau)', 'Descriptive & Inferential Statistics', 'Data Cleaning & Transformation'],
+    preferredSkills: ['Python (Pandas, NumPy, Seaborn)', 'Cloud Data Warehouses (BigQuery, Snowflake)', 'ETL Pipeline Design', 'Business Storytelling'],
+    tools: ['Excel', 'Power BI', 'Tableau', 'PostgreSQL', 'Python (Pandas)', 'Jupyter', 'Snowflake'],
+    topCompanies: ['Deloitte', 'McKinsey & Company', 'Mu Sigma', 'Fractal Analytics', 'Amazon', 'Accenture', 'HDFC Bank'],
+    salaryRange: { min: 450000, max: 1200000, currency: 'INR', formatted: '₹4.5 - ₹12.0 LPA' },
+    minimumEducation: 'Bachelor’s degree in Commerce, Economics, Engineering, Math or Computer Applications',
+    eligibility: 'Aptitude for numbers, relational databases, business metrics, and graphical presentation.'
   },
-
-  // ==========================================
-  // 2. SOFTWARE DEVELOPER / SOFTWARE ENGINEER
-  // ==========================================
   {
-    id: 'software-developer',
-    name: 'Software Developer',
-    shortName: 'Software Developer',
+    id: 'product-manager',
+    name: 'Product Manager (Tech & Growth)',
+    title: 'Product Manager (Tech & Growth)',
+    shortName: 'Product Manager',
     type: 'JOB',
-    category: 'Technology & Software',
-    aliases: ['Software Developer', 'Software Engineer', 'SDE', 'Full Stack Developer', 'Backend Developer', 'Frontend Developer'],
-    description: 'Designs, develops, tests, and maintains software applications, web platforms, APIs, and scalable backend microservices using modern programming languages and frameworks.',
-    overview: 'Software Developers build user-facing interfaces and backend architectures powering modern industry. They write clean, testable code, implement REST/GraphQL APIs, manage database transactions, and deploy applications to cloud servers.',
+    category: 'Product & Strategy',
+    sector: 'Technology & Enterprise',
+    aliases: ['PM', 'Associate Product Manager', 'APM', 'Technical Product Manager', 'Growth Product Manager'],
+    description: 'Leads cross-functional engineering, design, and business teams to conceptualize, define, build, and launch customer-centric digital products and features.',
+    overview: 'Acts as the intersection of business strategy, UX design, and technology. Defines product roadmaps, conducts user research, writes product requirement documents (PRDs), and tracks product metrics.',
     educationRoutes: [
       {
-        routeName: 'Route 1: Formal Computer Science Degree (B.Tech CSE/IT, BCA, MCA)',
-        title: 'Computer Science & Engineering Pathway',
-        type: 'Standard Formal Education',
-        degrees: ['B.Tech CSE', 'B.Tech IT', 'BCA', 'MCA'],
-        skills: ['Data Structures & Algorithms', 'Object Oriented Programming', 'DBMS', 'Web Development'],
-        timeline: 'Direct Campus Placement / 0 - 3 Months',
-        description: 'Standard accredited path providing comprehensive computer science theory and direct campus recruitment access.',
-        steps: ['Master DSA in Java/C++/Python', 'Build full-stack web applications (MERN / Spring Boot)', 'Participate in hackathons & open source', 'Crack campus or off-campus technical coding rounds']
-      },
-      {
-        routeName: 'Route 2: Any Engineering Branch (Mechanical, Electrical, Civil) to Software',
-        title: 'Non-CS Engineering Transition Pathway',
-        type: 'Technical Transition Route',
-        degrees: ['B.Tech in Any Discipline', 'BE in Any Discipline'],
-        skills: ['DSA', 'Java/JavaScript/Python', 'System Design basics', 'Git'],
-        timeline: '4 - 6 Months focused preparation',
-        description: 'Engineers with strong logical backgrounds transition into software engineering through focused self-study in algorithms and web stacks.',
-        steps: ['Master one core language (Java, JavaScript, Python, or C++)', 'Solve 150+ LeetCode DSA problems', 'Build 2 full-stack projects with databases', 'Apply for off-campus SDE roles']
-      },
-      {
-        routeName: 'Route 3: Non-Tech Graduate to Full-Stack Developer',
-        title: 'Portfolio & Bootcamp Driven Pathway',
-        type: 'Skill-Based Direct Entry',
-        degrees: ['B.Com', 'B.Sc', 'BA', 'Any Graduate'],
-        skills: ['JavaScript / TypeScript', 'React', 'Node.js', 'PostgreSQL / MongoDB', 'Git'],
-        timeline: '6 - 9 Months intensive practice',
-        description: 'A project-first approach demonstrating working web applications, GitHub commits, and freelance/internship experience.',
-        steps: ['HTML, CSS, Modern JavaScript (ES6+)', 'Frontend mastery (React, Tailwind CSS)', 'Backend & APIs (Node.js, Express, PostgreSQL)', 'Deploy live full-stack web apps on Vercel/Render', 'Apply for Junior Web Developer positions']
+        routeName: 'Route 1: Engineering / Tech Degree + MBA in Product / General Management',
+        degrees: ['B.Tech + MBA', 'B.Tech CSE/IT', 'BBA + Experience in Tech'],
+        skills: ['Product Strategy', 'User Experience (UX)', 'Agile / Scrum', 'Data Analysis (SQL)', 'A/B Testing'],
+        timeline: 'Campus Placement from top B-Schools or Internal Tech-to-PM Transition'
       }
     ],
-    requiredSkills: [
-      'Core Programming (JavaScript/TypeScript, Python, Java, or C++)',
-      'Data Structures & Algorithms (Arrays, Trees, Graphs, Dynamic Programming)',
-      'Relational / NoSQL Databases (PostgreSQL, MySQL, MongoDB)',
-      'RESTful API Design & HTTP Protocols',
-      'Git & GitHub Version Control'
-    ],
-    preferredSkills: [
-      'Frontend Frameworks (React, Next.js, Vue)',
-      'Backend Frameworks (Node.js/Express, Spring Boot, FastAPI, Django)',
-      'Docker & Containerization Basics',
-      'Cloud Deployment (AWS, Vercel, Firebase)',
-      'Unit Testing & CI/CD Pipelines'
-    ],
-    certifications: [
-      'AWS Certified Developer - Associate',
-      'Meta Front-End / Back-End Developer Professional Certificate (Coursera)',
-      'Oracle Certified Professional: Java SE Programmer',
-      'Google Cloud Associate Cloud Engineer'
-    ],
-    experience: {
-      entryLevel: true,
-      level: 'Entry Level (0 - 2 Years)',
-      minYears: 0,
-      maxYears: 2
-    },
-    salaryRange: {
-      min: 550000,
-      max: 1400000,
-      currency: 'INR',
-      formatted: '₹5.5 - ₹14.0 LPA'
-    },
-    roadmap: [
+    requiredSkills: ['Product Roadmap Planning', 'User Research & Wireframing', 'PRD & Feature Specification Writing', 'Data-Driven Decision Making (SQL, Amplitude)', 'Agile / Scrum Methodologies', 'Stakeholder Management'],
+    preferredSkills: ['Technical Architecture Comprehension', 'Growth Experimentation & Funnel Analysis', 'Go-To-Market Strategy', 'Figma Prototyping'],
+    tools: ['Jira', 'Figma', 'Amplitude / Mixpanel', 'SQL', 'Notion', 'Google Analytics'],
+    topCompanies: ['Google', 'Microsoft', 'Uber', 'Flipkart', 'Swiggy', 'CRED', 'MakeMyTrip', 'Groww'],
+    salaryRange: { min: 1400000, max: 3600000, currency: 'INR', formatted: '₹14.0 - ₹36.0 LPA' },
+    minimumEducation: 'B.Tech / MBA / Bachelor’s degree with relevant tech product experience',
+    eligibility: 'Strong analytical reasoning, communication, customer empathy, and collaborative execution abilities.'
+  },
+  {
+    id: 'quantitative-analyst',
+    name: 'Quantitative Analyst (Quant) & Financial Modeler',
+    title: 'Quantitative Analyst (Quant) & Financial Modeler',
+    shortName: 'Quant Analyst',
+    type: 'JOB',
+    category: 'Finance & Analytics',
+    sector: 'Investment Banking & Capital Markets',
+    aliases: ['Quant', 'Quantitative Researcher', 'Algorithmic Trader', 'Risk Modeler', 'Financial Engineer'],
+    description: 'Develops complex mathematical models and algorithmic trading strategies for hedge funds, investment banks, asset management firms, and proprietary trading desks.',
+    overview: 'Applies stochastic calculus, statistical arbitrage, probability theory, and machine learning to price exotic derivatives, assess portfolio risk, and automate high-frequency market execution.',
+    educationRoutes: [
       {
-        step: 1,
-        title: 'Master Programming Foundations & Memory Models',
-        type: 'FOUNDATIONS',
-        description: 'Choose one primary language (Java, Python, C++, or JavaScript/TypeScript) and master syntax, data types, control flow, functions, OOP, and memory management.',
-        whatToLearn: 'Variables, loops, arrays, objects, OOP principles (Encapsulation, Inheritance, Polymorphism), error handling.',
-        whyItMatters: 'Fluency in one core language allows quick adaptation to any framework.'
-      },
-      {
-        step: 2,
-        title: 'Data Structures & Algorithmic Problem Solving',
-        type: 'COMPUTER_SCIENCE',
-        description: 'Learn computational complexity (Big O) and core data structures: Arrays, Strings, HashMaps, Linked Lists, Stacks, Queues, Trees, Heaps, and Graphs.',
-        whatToLearn: 'Binary Search, Two Pointers, Sliding Window, DFS/BFS, Recursion, Dynamic Programming.',
-        whyItMatters: 'Standard screening benchmark for product engineering interviews worldwide.'
-      },
-      {
-        step: 3,
-        title: 'Web & API Fundamentals',
-        type: 'DEVELOPMENT',
-        description: 'Understand how the internet works, HTTP/HTTPS request-response cycles, status codes, headers, and RESTful API architecture.',
-        whatToLearn: 'JSON, REST verbs (GET, POST, PUT, DELETE), CORS, Authentication (JWT, OAuth), Cookies & Sessions.',
-        whyItMatters: 'Essential for connecting frontend clients with backend servers.'
-      },
-      {
-        step: 4,
-        title: 'Database Design & SQL / NoSQL Mastery',
-        type: 'DATABASES',
-        description: 'Design normalized relational database schemas and write optimized queries in PostgreSQL/MySQL or handle documents in MongoDB.',
-        whatToLearn: 'Primary/Foreign keys, indexing, ACID transactions, Prisma/Mongoose ORMs.',
-        whyItMatters: 'Every software application requires reliable, secure data persistence.'
-      },
-      {
-        step: 5,
-        title: 'Full-Stack Application Development',
-        type: 'FRAMEWORKS',
-        description: 'Build end-to-end full-stack applications with modern frameworks: React/Next.js on frontend + Node.js/Express or Spring Boot on backend.',
-        whatToLearn: 'Component state management, responsive UI, API integration, middleware, error handling.',
-        whyItMatters: 'Demonstrates ability to ship real working products from scratch.'
-      },
-      {
-        step: 6,
-        title: 'DevOps, Docker & Cloud Deployment',
-        type: 'DEPLOYMENT',
-        description: 'Containerize applications using Docker and deploy them to cloud platforms with CI/CD automation.',
-        whatToLearn: 'Dockerfile, docker-compose, AWS EC2/S3, Vercel, Render, GitHub Actions.',
-        whyItMatters: 'Distinguishes junior coders from engineers who can take code into production.'
-      },
-      {
-        step: 7,
-        title: 'Build 2 High-Impact Production Capstone Projects',
-        type: 'PORTFOLIO',
-        description: 'Develop and deploy: 1) SaaS Productivity / Collaboration App, 2) E-Commerce / FinTech Platform with payment integration.',
-        whatToLearn: 'Authentication, Stripe/Razorpay payments, real-time WebSockets, clean architecture.',
-        whyItMatters: 'Working deployed applications speak louder than resume bullet points.'
-      },
-      {
-        step: 8,
-        title: 'System Design Basics & Interview Rounds',
-        type: 'INTERVIEWS',
-        description: 'Prepare for technical coding interviews, object-oriented design, and system architecture fundamentals (caching, load balancing, databases).',
-        whatToLearn: 'Scalability concepts, microservices vs monolith, LeetCode medium problem solving under timed pressure.',
-        whyItMatters: 'Clearing technical rounds consistently leads to multiple top offers.'
-      },
-      {
-        step: 9,
-        title: 'Job Applications & Technical Networking',
-        type: 'CAREER_LAUNCH',
-        description: 'Apply on AngelList/Wellfound, LinkedIn, Instahyre, and participate in tech meetups and open-source GitHub contributions.',
-        whatToLearn: 'Cold messaging founders and tech leads, pitching portfolio projects, negotiating offer terms.',
-        whyItMatters: 'Maximizes interview pipeline and compensation.'
+        routeName: 'Route 1: Rigorous Degree in Mathematics, Statistics, Physics or Engineering',
+        degrees: ['B.Tech / Dual Degree IIT/BITS', 'M.Sc Mathematics / Statistics', 'M.Tech Computational Finance'],
+        skills: ['Stochastic Calculus', 'Python / C++', 'Financial Derivatives Pricing', 'Statistical Arbitrage'],
+        timeline: 'Direct quantitative campus hiring or specialized Financial Engineering degree'
       }
     ],
-    projects: [
-      {
-        name: 'Full-Stack Enterprise Team Collaboration Platform',
-        tech: 'React, Node.js, Express, PostgreSQL, Socket.io, TailwindCSS',
-        desc: 'Real-time team messaging, task Kanban boards, role-based access control, and live notifications with 99.9% uptime deployment.'
-      },
-      {
-        name: 'FinTech Subscription & Payment Processing Engine',
-        tech: 'Next.js, TypeScript, PostgreSQL, Prisma, Stripe API, Docker',
-        desc: 'Multi-tenant subscription billing platform with automated invoice generation, webhook listeners, and idempotent payment processing.'
-      }
-    ],
-    interviewPreparation: [
-      {
-        category: 'Data Structures & Algorithms',
-        question: 'Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target in O(N) time.',
-        answerGuidance: 'Use a HashMap to store the complement (target - num) and its index while iterating through the array in a single pass.'
-      },
-      {
-        category: 'System Architecture',
-        question: 'What is the difference between SQL (Relational) and NoSQL databases, and when would you choose which?',
-        answerGuidance: 'SQL databases are relational, structured, schema-bound, and ACID compliant (ideal for financial transactions). NoSQL databases are document/key-value/graph based, schema-flexible, and horizontally scalable (ideal for rapid prototyping, real-time analytics, and high-velocity unstructured data).'
-      }
-    ],
-    howToApply: 'Maintain an active GitHub with clear commit history, deploy live links for all projects on Vercel/AWS, and apply on LinkedIn, Instahyre, Wellfound, and company career portals.',
-    careerGrowth: [
-      'Junior Software Engineer / SDE-1 (Years 0-2)',
-      'Software Development Engineer / SDE-2 (Years 2-5)',
-      'Senior Software Engineer / SDE-3 (Years 5-8)',
-      'Staff Software Engineer / Engineering Manager (Years 8-12)',
-      'Principal Architect / VP of Engineering / CTO (Years 12+)'
-    ],
-    higherStudies: [
-      'M.Tech in Computer Science & Engineering (via GATE)',
-      'MS in Computer Science (International)',
-      'Executive MBA in Technology Strategy'
-    ],
-    sources: [
-      {
-        title: 'IEEE Computer Society Software Engineering Body of Knowledge (SWEBOK)',
-        url: 'https://computer.org',
-        sourceType: 'OFFICIAL',
-        lastVerified: 'September 2026'
-      }
-    ],
-    lastVerified: 'September 2026'
+    requiredSkills: ['Advanced Mathematics & Probability Theory', 'Python / C++ Programming', 'Derivatives Pricing (Black-Scholes, Monte Carlo)', 'Time-Series Analysis', 'Statistical Modeling'],
+    preferredSkills: ['Algorithmic Trading Systems', 'High-Frequency Trading Infrastructure', 'Deep Learning for Finance', 'KDB+/Q'],
+    tools: ['Python (NumPy, SciPy)', 'C++', 'R', 'Bloomberg Terminal', 'MATLAB', 'Git'],
+    topCompanies: ['Goldman Sachs', 'Morgan Stanley', 'J.P. Morgan', 'Jane Street', 'WorldQuant', 'Tower Research Capital', 'DE Shaw'],
+    salaryRange: { min: 1800000, max: 5000000, currency: 'INR', formatted: '₹18.0 - ₹50.0 LPA' },
+    minimumEducation: 'Master’s or Bachelor’s from premier institutes in Mathematics, Physics, Statistics, Computer Science, or Engineering',
+    eligibility: 'Exceptional mathematical problem solving, coding efficiency in C++/Python, and analytical rigor.'
   },
 
-  // ==========================================
-  // 3. GOVERNMENT RECRUITMENT: SSC CHSL
-  // ==========================================
+  // --------------------------------------------------------------------------
+  // 3. FINANCE, ACCOUNTING & BANKING
+  // --------------------------------------------------------------------------
   {
-    id: 'ssc-chsl',
-    name: 'SSC CHSL (Combined Higher Secondary Level)',
-    shortName: 'SSC CHSL',
-    type: 'GOVERNMENT_JOB',
-    category: 'Government & Public Sector',
-    organization: 'Staff Selection Commission (SSC), Government of India',
-    aliases: ['SSC CHSL', 'CHSL', 'Combined Higher Secondary Level', 'Lower Division Clerk SSC', 'DEO SSC'],
-    description: 'National competitive recruitment conducted by Staff Selection Commission for various Central Government ministries, departments, and offices.',
-    overview: 'SSC CHSL recruits 12th-pass candidates for key administrative posts including Lower Division Clerk (LDC), Junior Secretariat Assistant (JSA), and Data Entry Operator (DEO) across Central Government ministries.',
-    posts: [
-      'Lower Division Clerk (LDC) / Junior Secretariat Assistant (JSA) - Pay Level 2 (₹19,900 - ₹63,200)',
-      'Data Entry Operator (DEO) - Pay Level 4 (₹25,500 - ₹81,100) and Pay Level 5 (₹29,200 - ₹92,300)',
-      'Data Entry Operator Grade A - Pay Level 4 (₹25,500 - ₹81,100)'
-    ],
-    qualification: 'Must have passed 12th Standard or equivalent examination from a recognized Board or University. (For DEO in CAG office: 12th Standard pass in Science stream with Mathematics).',
-    ageLimit: 'Typically 18 to 27 years (Age relaxation applicable for OBC, SC, ST, PwBD, Ex-Servicemen as per official Central Government rules). Please verify exact cut-off dates in the active notification.',
-    eligibility: {
-      qualification: '12th Standard / Higher Secondary / Intermediate in any stream (Science with Math for DEO Grade A CAG)',
-      streams: ['Arts', 'Commerce', 'Science', 'Vocational'],
-      minimumRequirements: ['12th standard pass certificate from a recognized board before closing date of notification.'],
-      ageLimit: '18 - 27 Years (with category relaxations)'
-    },
-    exams: [
-      'Tier-1: Computer Based Examination (Objective Multiple Choice - 100 Questions / 200 Marks)',
-      'Tier-2: Computer Based Examination (Section I: Math & Reasoning; Section II: English & GA; Section III: Computer & Typing Skill Test)'
-    ],
-    subjects: [
-      'Quantitative Aptitude (Arithmetic & Advanced Math)',
-      'General Intelligence & Logical Reasoning',
-      'English Language & Comprehension',
-      'General Awareness (History, Geography, Polity, Science, Current Affairs)',
-      'Computer Knowledge Module (Qualifying)',
-      'Typing / Skill Test (Qualifying: English 35 WPM / Hindi 30 WPM)'
-    ],
-    roadmap: [
+    id: 'chartered-accountant',
+    name: 'Chartered Accountant (CA) & Statutory Auditor',
+    title: 'Chartered Accountant (CA) & Statutory Auditor',
+    shortName: 'Chartered Accountant',
+    type: 'JOB',
+    category: 'Finance & Accounting',
+    sector: 'Accounting, Audit & Taxation',
+    aliases: ['CA', 'Auditor', 'Tax Consultant', 'Financial Controller', 'Partner Audit Firm'],
+    description: 'Manages statutory audit, corporate taxation, forensic accounting, financial controllership, and international financial reporting (Ind AS / IFRS).',
+    overview: 'Certified professional authorized under the Chartered Accountants Act to audit financial statements, represent corporate clients before tax authorities, and advise executive boards on capital structuring.',
+    educationRoutes: [
       {
-        step: 1,
-        title: 'Understand Exam Pattern & Official Syllabus',
-        type: 'ORIENTATION',
-        description: 'Read the latest SSC CHSL official notification carefully to understand revised scheme of Tier-1 and Tier-2 examination.',
-        whatToLearn: 'Marking scheme (+2, -0.5 in Tier 1; +3, -1 in Tier 2), sectional cutoffs, typing test requirements.',
-        whyItMatters: 'Prevents misdirected preparation and aligns practice with actual testing standards.'
-      },
-      {
-        step: 2,
-        title: 'Master Quantitative Aptitude & Arithmetic',
-        type: 'MATH',
-        description: 'Build strong conceptual clarity and calculation speed in arithmetic, algebra, geometry, trigonometry, and data interpretation.',
-        whatToLearn: 'Percentages, Profit & Loss, Ratio, Time & Work, Algebra, Geometry, Mensuration.',
-        whyItMatters: 'Quant carries high weightage and requires high accuracy under time constraints.'
-      },
-      {
-        step: 3,
-        title: 'General Intelligence & Logical Reasoning',
-        type: 'REASONING',
-        description: 'Practice verbal and non-verbal reasoning, analogies, series completion, coding-decoding, syllogisms, and matrix puzzles.',
-        whatToLearn: 'Fast pattern recognition, elimination techniques, spatial visualization.',
-        whyItMatters: 'Highest scoring section where top rankers score 45+ out of 50.'
-      },
-      {
-        step: 4,
-        title: 'English Language & Grammar Rules',
-        type: 'ENGLISH',
-        description: 'Master English grammar rules (Subject-Verb Agreement, Tenses, Prepositions), vocabulary (Synonyms/Antonyms, Idioms), and reading comprehension.',
-        whatToLearn: 'Spotting errors, sentence improvement, active-passive voice, direct-indirect speech, cloze tests.',
-        whyItMatters: 'Crucial in both Tier-1 and Tier-2 Section II.'
-      },
-      {
-        step: 5,
-        title: 'General Awareness & Current Affairs',
-        type: 'GENERAL_AWARENESS',
-        description: 'Study NCERT static GK (Indian Polity, Modern History, Geography, Economics, General Science) and monthly current affairs.',
-        whatToLearn: 'Constitutional articles, government schemes, awards, sports, scientific discoveries.',
-        whyItMatters: 'Provides rapid scoring without calculation time.'
-      },
-      {
-        step: 6,
-        title: 'Daily Typing Speed Practice',
-        type: 'SKILL_TEST',
-        description: 'Practice English typing for 30 minutes daily to achieve 35+ words per minute with 95%+ accuracy.',
-        whatToLearn: 'Touch typing on standard QWERTY keyboard without looking at keys.',
-        whyItMatters: 'Typing test is mandatory qualifying; failing it disqualifies despite high Tier-2 marks.'
-      },
-      {
-        step: 7,
-        title: 'Full-Length Mock Tests & Time Management',
-        type: 'MOCK_TESTS',
-        description: 'Attempt 30+ full-length computer-based mock tests on exact TCS examination interface and analyze weak areas.',
-        whatToLearn: 'Question skipping strategy, negative mark management, sectional time allocation.',
-        whyItMatters: 'Simulates exam pressure and boosts speed by 25-40%.'
-      },
-      {
-        step: 8,
-        title: 'Appear in Tier-1 & Tier-2 Examination',
-        type: 'EXAMINATION',
-        description: 'Appear in Tier-1, qualify for Tier-2, clear Computer Module and Typing Test.',
-        whatToLearn: 'Exam day calm, document verification prep.',
-        whyItMatters: 'Final merit is prepared based on aggregate marks in Tier-2.'
-      },
-      {
-        step: 9,
-        title: 'Post Preference & Document Verification',
-        type: 'APPOINTMENT',
-        description: 'Fill online post preferences (LDC vs DEO vs Ministry preference) and attend document verification.',
-        whatToLearn: 'Central Government department selection criteria.',
-        whyItMatters: 'Secures permanent Central Government appointment and joining letter.'
+        routeName: 'Route 1: ICAI Professional Certification (Foundation -> Inter -> Articleship -> Final)',
+        degrees: ['10+2 Pass -> CA Foundation', 'Direct Entry for Commerce Graduates (55%+) or Other Graduates (60%+)'],
+        skills: ['Statutory Auditing Standards (SAs)', 'Direct & Indirect Taxes (GST, Income Tax)', 'Ind AS / IFRS', 'Company Law & Corporate Governance'],
+        timeline: '3 - 5 Years including mandatory 2-year practical articleship training'
       }
     ],
-    salaryRange: {
-      min: 240000,
-      max: 480000,
-      currency: 'INR',
-      formatted: 'Pay Level 2 to Level 5 (₹19,900 - ₹92,300 basic + DA, HRA, TA)'
-    },
-    careerGrowth: [
-      'Lower Division Clerk (LDC) / DEO (Entry Level)',
-      'Upper Division Clerk (UDC) / Senior Secretariat Assistant (After 3-5 Years)',
-      'Assistant Section Officer (ASO - via Departmental Exam / Promotion)',
-      'Section Officer (SO - Gazetted Group B)',
-      'Under Secretary (Central Secretariat Service - Group A)'
-    ],
-    sources: [
-      {
-        title: 'Staff Selection Commission (SSC) Official Website',
-        url: 'https://ssc.gov.in',
-        sourceType: 'GOVERNMENT',
-        lastVerified: 'September 2026'
-      }
-    ],
-    officialSource: 'Staff Selection Commission (SSC)',
-    notificationUrl: 'https://ssc.gov.in',
-    lastVerified: 'September 2026'
+    requiredSkills: ['Financial Accounting & Reporting (Ind AS / IFRS)', 'Statutory Auditing & Internal Controls', 'Direct & Indirect Taxation (GST / Income Tax)', 'Corporate Law Compliance', 'Financial Statement Analysis'],
+    preferredSkills: ['Forensic Audit & Fraud Examination', 'SAP / Oracle ERP Financials', 'Mergers & Acquisitions Valuation', 'Transfer Pricing'],
+    tools: ['Tally Prime', 'SAP ERP FICO', 'Advanced Excel', 'Tax Cloud Software', 'Audit Documentation Systems'],
+    topCompanies: ['Deloitte', 'PwC', 'EY', 'KPMG', 'BDO', 'Grant Thornton', 'Reliance Industries', 'Tata Sons', 'Major Banks'],
+    salaryRange: { min: 800000, max: 2500000, currency: 'INR', formatted: '₹8.0 - ₹25.0 LPA' },
+    minimumEducation: 'ICAI Chartered Accountancy (CA) Final Qualification',
+    eligibility: 'Membership of the Institute of Chartered Accountants of India (ICAI) following completion of exams and articleship.'
   },
-
-  // ==========================================
-  // 4. RAILWAYS RECRUITMENT: RRB NTPC
-  // ==========================================
   {
-    id: 'rrb-ntpc',
-    name: 'RRB NTPC (Non-Technical Popular Categories)',
-    shortName: 'RRB NTPC',
-    type: 'GOVERNMENT_JOB',
-    category: 'Government & Public Sector',
-    organization: 'Railway Recruitment Control Board (RRB), Ministry of Railways',
-    aliases: ['RRB NTPC', 'NTPC Railway', 'Station Master', 'Goods Train Manager', 'Commercial Clerk'],
-    description: 'National recruitment by Indian Railways for non-technical posts across graduate and undergraduate categories including Station Master, Goods Train Manager, Commercial Apprentice, and Clerical cadres.',
-    overview: 'RRB NTPC is one of India’s largest employment notifications offering central government railway career stability, quarters, medical benefits, and promotion ladders.',
-    posts: [
-      'Graduate Posts (Level 4, 5, 6): Station Master, Goods Train Manager, Junior Accounts Assistant, Senior Commercial cum Ticket Clerk',
-      'Undergraduate Posts (Level 2, 3): Commercial cum Ticket Clerk, Accounts Clerk cum Typist, Junior Clerk cum Typist, Trains Clerk'
-    ],
-    qualification: 'Graduation from a recognized university for Graduate-level posts; 12th (+2 Stage) or its equivalent with not less than 50% marks for Undergraduate posts.',
-    ageLimit: 'Typically 18 to 30 years for 12th-level posts; 18 to 33/36 years for Graduate posts (with standard OBC/SC/ST/PwBD relaxations). Refer to current official notification.',
-    eligibility: {
-      qualification: '12th Standard or Bachelor Degree (depending on the post)',
-      streams: ['Any Discipline'],
-      minimumRequirements: ['Educational qualification from a recognized board/university as on notification closing date.'],
-      ageLimit: '18 - 33 Years (Graduate) / 18 - 30 Years (Undergraduate)'
-    },
-    exams: [
-      '1st Stage Computer Based Test (CBT-1) - Screening (100 Questions / 100 Marks)',
-      '2nd Stage Computer Based Test (CBT-2) - (120 Questions / 120 Marks)',
-      'Computer Based Aptitude Test (CBAT - for Station Master) / Typing Skill Test (for Clerical posts)',
-      'Document Verification and Medical Fitness Examination'
-    ],
-    salaryRange: {
-      min: 240000,
-      max: 600000,
-      currency: 'INR',
-      formatted: 'Pay Level 2 to Level 6 (₹19,900 - ₹1,12,400 + Railway Allowances & Passes)'
-    },
-    careerGrowth: [
-      'Station Master / Goods Guard / Ticket Clerk (Entry Level)',
-      'Station Superintendent / Yard Master / Chief Commercial Inspector',
-      'Assistant Operations Manager (AOM) / Assistant Commercial Manager (ACM - Group B Gazetted)',
-      'Divisional Operations Manager (DOM) / Senior DCM (Group A Indian Railway Traffic Service)'
-    ],
-    sources: [
+    id: 'investment-banker',
+    name: 'Investment Banker (M&A & Corporate Finance)',
+    title: 'Investment Banker (M&A & Corporate Finance)',
+    shortName: 'Investment Banker',
+    type: 'JOB',
+    category: 'Finance & Banking',
+    sector: 'Investment Banking & Capital Markets',
+    aliases: ['Investment Banking Analyst', 'IB Associate', 'M&A Analyst', 'Corporate Finance Associate'],
+    description: 'Advises corporate executives, institutional investors, and governments on mergers, acquisitions, initial public offerings (IPOs), and large debt/equity capital raising.',
+    overview: 'Builds comprehensive 3-statement financial models, discounted cash flow (DCF) valuations, leveraged buyout (LBO) structures, and creates investor pitchbooks.',
+    educationRoutes: [
       {
-        title: 'Indian Railways Official Recruitment Portal',
-        url: 'https://indianrailways.gov.in',
-        sourceType: 'GOVERNMENT',
-        lastVerified: 'September 2026'
+        routeName: 'Route 1: Top Tier MBA Finance / Chartered Financial Analyst (CFA) / CA Rankers',
+        degrees: ['MBA Finance (IIMs/XLRI/ISB)', 'B.Com / B.Tech + CFA', 'Chartered Accountant'],
+        skills: ['Financial Modeling & DCF Valuation', 'Pitchbook Creation', 'LBO & M&A Analysis', 'Capital Markets Law'],
+        timeline: 'Campus recruitment or financial advisory boutique progression'
       }
     ],
-    officialSource: 'Railway Recruitment Control Board (RRB)',
-    notificationUrl: 'https://indianrailways.gov.in',
-    lastVerified: 'September 2026'
+    requiredSkills: ['Advanced Financial Modeling (DCF, Comps, Precedent Transactions)', 'M&A Structuring & Due Diligence', 'Corporate Valuation & LBO Modeling', 'Capital Markets & IPO Processes', 'Executive Presentation & Pitching'],
+    preferredSkills: ['CFA Credential', 'Cross-Border M&A Regulations', 'Syndicated Debt Financing', 'Private Equity Deal Sourcing'],
+    tools: ['Microsoft Excel (Advanced Macros)', 'Bloomberg Terminal', 'CapIQ (Capital IQ)', 'FactSet', 'PowerPoint'],
+    topCompanies: ['Goldman Sachs', 'Morgan Stanley', 'J.P. Morgan', 'Avendus Capital', 'Kotak Investment Banking', 'JM Financial', 'Axis Capital'],
+    salaryRange: { min: 1400000, max: 4000000, currency: 'INR', formatted: '₹14.0 - ₹40.0 LPA' },
+    minimumEducation: 'MBA Finance / CFA / CA / Top Tier Undergraduate Degree',
+    eligibility: 'Exemplary quantitative analysis, financial statement accounting, commercial valuation, and presentation poise.'
   },
-
-  // ==========================================
-  // 5. BANKING: BANK PO & CLERK
-  // ==========================================
   {
-    id: 'bank-po',
+    id: 'bank-probationary-officer',
     name: 'Bank Probationary Officer (IBPS PO / SBI PO)',
+    title: 'Bank Probationary Officer (IBPS PO / SBI PO)',
     shortName: 'Bank PO',
     type: 'GOVERNMENT_JOB',
     category: 'Banking & Financial Services',
-    organization: 'Institute of Banking Personnel Selection (IBPS) & State Bank of India (SBI)',
-    aliases: ['Bank PO', 'IBPS PO', 'SBI PO', 'Probationary Officer', 'Scale 1 Officer Bank'],
-    description: 'Management-track recruitment for officer grade (Junior Management Grade Scale-I) in Public Sector Banks and State Bank of India.',
-    overview: 'Bank POs manage retail banking operations, loan credit appraisals, foreign exchange, treasury operations, and branch management, with rapid promotion channels to executive leadership.',
-    posts: [
-      'Probationary Officer / Management Trainee (JMGS-I: Scale-I Officer in Public Sector Banks)',
-      'State Bank of India (SBI) Probationary Officer (JMGS-I)'
-    ],
-    qualification: 'A degree (Graduation) in any discipline from a recognized University or any equivalent qualification recognized as such by the Central Government.',
-    ageLimit: '20 to 30 years (as on reference date specified in official advertisement, with category relaxations).',
-    eligibility: {
-      qualification: 'Bachelor Degree in any discipline (B.Com, B.Tech, B.Sc, BA, BBA)',
-      streams: ['Any Stream'],
-      minimumRequirements: ['Graduation pass certificate before registration deadline.'],
-      ageLimit: '20 - 30 Years'
-    },
-    exams: [
-      'Preliminary Examination (Objective: Reasoning, Quant, English - 100 Marks)',
-      'Main Examination (Objective + Descriptive Letter/Essay Writing - 225 Marks)',
-      'Psychometric Test, Group Discussion & Personal Interview (100 Marks)'
-    ],
-    salaryRange: {
-      min: 650000,
-      max: 1050000,
-      currency: 'INR',
-      formatted: '₹6.5 - ₹10.5 LPA (Basic ₹48,480/mo as per 12th Bipartite Settlement + DA, HRA, CCA)'
-    },
-    careerGrowth: [
-      'Scale I: Assistant Manager / Probationary Officer',
-      'Scale II: Manager (Branch Head / Specialist)',
-      'Scale III: Senior Manager',
-      'Scale IV: Chief Manager',
-      'Scale V: Assistant General Manager (AGM)',
-      'Scale VI: Deputy General Manager (DGM)',
-      'Scale VII: General Manager (GM) / Chief General Manager (CGM)',
-      'Executive Director (ED) & Managing Director (MD & CEO)'
-    ],
-    sources: [
+    sector: 'Public Sector Banking',
+    aliases: ['Bank PO', 'SBI PO', 'IBPS PO', 'Assistant Manager Bank', 'Public Sector Banker'],
+    description: 'Executive managerial cadre in public sector banks managing branch banking, loan underwriting, commercial credit sanctioning, foreign exchange, and retail operations.',
+    overview: 'Entry-level managerial appointment leading to senior executive leadership (Scale I to Scale VII General Manager / Executive Director) within nationalized and commercial banks.',
+    educationRoutes: [
       {
-        title: 'Institute of Banking Personnel Selection (IBPS) Official Website',
-        url: 'https://ibps.in',
-        sourceType: 'OFFICIAL',
-        lastVerified: 'September 2026'
-      },
-      {
-        title: 'State Bank of India (SBI) Careers Portal',
-        url: 'https://sbi.co.in/careers',
-        sourceType: 'OFFICIAL',
-        lastVerified: 'September 2026'
+        routeName: 'Route 1: Any Graduation + IBPS PO / SBI PO Competitive Examination',
+        degrees: ['Any Bachelor’s Degree (B.Com, B.Tech, B.Sc, BA, BBA)'],
+        skills: ['Banking & Financial Awareness', 'Quantitative Aptitude', 'Reasoning & Logic', 'English Comprehension', 'Credit Assessment'],
+        timeline: '6 - 12 Months competitive examination preparation'
       }
     ],
-    officialSource: 'IBPS / State Bank of India',
-    notificationUrl: 'https://ibps.in',
-    lastVerified: 'September 2026'
+    requiredSkills: ['Retail & Commercial Banking Operations', 'Credit Analysis & Loan Appraisal', 'Financial Regulations & KYC/AML Guidelines', 'Customer Relationship Management', 'Risk Assessment & NPA Management'],
+    preferredSkills: ['JAIIB & CAIIB Certifications', 'Treasury Operations', 'Trade Finance', 'Foreign Exchange (Forex)'],
+    tools: ['Finacle Core Banking Solution (CBS)', 'Bancs24', 'Credit Appraisal Software', 'RBI Portals'],
+    topCompanies: ['State Bank of India (SBI)', 'Punjab National Bank (PNB)', 'Bank of Baroda (BoB)', 'Canara Bank', 'Union Bank of India'],
+    salaryRange: { min: 700000, max: 1200000, currency: 'INR', formatted: '₹7.0 - ₹12.0 LPA (Scale I + Perks & Quarters)' },
+    minimumEducation: 'Graduation in any stream from a recognized university',
+    eligibility: 'Indian citizen, age 20-30 years, cleared IBPS PO or SBI PO multi-tier examination and personal interview.'
+  },
+  {
+    id: 'rbi-grade-b-officer',
+    name: 'RBI Grade B Officer (Central Banking & Policy)',
+    title: 'RBI Grade B Officer (Central Banking & Policy)',
+    shortName: 'RBI Grade B Officer',
+    type: 'GOVERNMENT_JOB',
+    category: 'Banking & Financial Services',
+    sector: 'Central Banking & Financial Regulation',
+    aliases: ['RBI Officer', 'Reserve Bank Grade B', 'Central Bank Manager', 'Monetary Policy Analyst'],
+    description: 'Direct-entry Class A regulatory officer at India’s central bank, shaping monetary policy, banking regulation, foreign exchange reserves management, and financial sector stability.',
+    overview: 'Prestigious career leading to Chief General Manager, Executive Director, and Deputy Governor appointments at the Reserve Bank of India.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: Graduation with min 60% + Clear RBI Grade B Examination',
+        degrees: ['Graduation in Any Stream (Economics, Commerce, Engineering, Finance prioritized)'],
+        skills: ['Macroeconomics & Monetary Policy', 'Financial Markets', 'Management Principles', 'Descriptive English Writing'],
+        timeline: '9 - 15 Months dedicated preparation'
+      }
+    ],
+    requiredSkills: ['Macroeconomic Analysis & Monetary Economics', 'Banking Regulation & Basel Accords', 'Financial Markets Operations', 'Policy Formulation & Economic Writing', 'Quantitative Research'],
+    preferredSkills: ['Master’s in Economics / Finance', 'CFA / FRM Certification', 'Data Science for Macro Research'],
+    tools: ['Econometric Software (Stata, R)', 'Bloomberg Terminal', 'Reserve Bank CBS & NEFT/RTGS Core Systems'],
+    topCompanies: ['Reserve Bank of India (RBI)', 'International Monetary Fund (IMF / Deputation)', 'Bank for International Settlements (BIS)'],
+    salaryRange: { min: 1400000, max: 2200000, currency: 'INR', formatted: '₹14.0 - ₹22.0 LPA (Class A Officer + Central Housing & Allowances)' },
+    minimumEducation: 'Graduation with min 60% marks (50% for SC/ST) or Post-Graduation with min 55%',
+    eligibility: 'Age 21-30 years, Indian national, successful qualification in RBI Services Board Phase-I, Phase-II descriptive papers, and interview.'
+  },
+
+  // --------------------------------------------------------------------------
+  // 4. HEALTHCARE, MEDICINE & CLINICAL SCIENCES
+  // --------------------------------------------------------------------------
+  {
+    id: 'physician-resident-medical-officer',
+    name: 'Physician / Resident Medical Officer (MBBS / MD)',
+    title: 'Physician / Resident Medical Officer (MBBS / MD)',
+    shortName: 'Physician / Doctor',
+    type: 'JOB',
+    category: 'Healthcare & Clinical Sciences',
+    sector: 'Healthcare & Hospital Medicine',
+    aliases: ['Doctor', 'Medical Officer', 'MBBS Doctor', 'General Physician', 'Resident Doctor', 'Clinical Specialist'],
+    description: 'Diagnoses clinical ailments, prescribes therapies, manages acute and chronic medical conditions, performs clinical examinations, and oversees emergency patient care.',
+    overview: 'Licensed medical practitioner registered with the National Medical Commission (NMC). Works in tertiary hospitals, community health centers, multi-specialty clinics, or pursues specialist MD/MS residency.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: 10+2 PCB -> NEET-UG -> MBBS Degree (4.5 yrs + 1 yr Internship)',
+        degrees: ['Bachelor of Medicine and Bachelor of Surgery (MBBS)', 'MD General Medicine', 'MS General Surgery'],
+        skills: ['Clinical Diagnosis', 'Pharmacology & Therapeutics', 'Emergency Resuscitation (ACLS/BLS)', 'Patient Care & Ethics'],
+        timeline: '5.5 Years standard graduation route followed by mandatory rotating internship'
+      }
+    ],
+    requiredSkills: ['Clinical Patient Examination', 'Medical Diagnosis & Differential Diagnostics', 'Emergency Medicine & Trauma Care', 'Pharmacology & Prescription Management', 'Infection Control & Bio-safety', 'Doctor-Patient Communication'],
+    preferredSkills: ['Postgraduate Specialization (MD/MS/DNB)', 'Advanced Cardiac Life Support (ACLS)', 'Ultrasound / Diagnostic Imaging Interpretation', 'Clinical Research Protocols'],
+    tools: ['Stethoscope', 'Diagnostic Monitoring Systems', 'Electronic Health Records (EHR)', 'Hospital Information Systems (HIS)', 'ICU Ventilators'],
+    topCompanies: ['Apollo Hospitals', 'Fortis Healthcare', 'Max Healthcare', 'Manipal Hospitals', 'AIIMS', 'Government Medical Colleges & Hospitals'],
+    salaryRange: { min: 800000, max: 2400000, currency: 'INR', formatted: '₹8.0 - ₹24.0 LPA (Scales rapidly with MD/MS specialization)' },
+    minimumEducation: 'MBBS Degree recognized by NMC + State Medical Council Registration',
+    eligibility: 'Cleared NEET-UG, completed 4.5-year MBBS course, 12-month rotating internship, and holds permanent NMC registration.'
+  },
+  {
+    id: 'clinical-pharmacist',
+    name: 'Clinical Pharmacist & Drug Safety Specialist',
+    title: 'Clinical Pharmacist & Drug Safety Specialist',
+    shortName: 'Clinical Pharmacist',
+    type: 'JOB',
+    category: 'Healthcare & Pharmaceuticals',
+    sector: 'Pharmaceuticals & Clinical Healthcare',
+    aliases: ['Pharmacist', 'Drug Safety Associate', 'Pharmacovigilance Specialist', 'Hospital Pharmacist', 'Formulation Scientist'],
+    description: 'Dispenses prescription medications, evaluates drug interactions, monitors adverse drug reactions (ADRs), conducts clinical trials, and ensures pharmaceutical quality standards.',
+    overview: 'Licensed healthcare professional operating at the intersection of chemistry, medicine, and human physiology. Works in hospitals, pharmaceutical research corporations, and clinical trial research organizations.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: 10+2 Science (PCM/PCB) -> Bachelor of Pharmacy (B.Pharm / Pharm.D)',
+        degrees: ['Bachelor of Pharmacy (B.Pharm - 4 Years)', 'Doctor of Pharmacy (Pharm.D - 6 Years)', 'M.Pharm'],
+        skills: ['Pharmacology & Toxicology', 'Drug Dispensing & Quality Control', 'Pharmacovigilance (MedDRA, Argus)', 'Regulatory Affairs (US FDA / CDSCO)'],
+        timeline: '4 - 6 Years professional pharmacy education'
+      }
+    ],
+    requiredSkills: ['Pharmacology & Therapeutics', 'Pharmacovigilance & Adverse Drug Reaction Reporting', 'Prescription Verification & Dispensing', 'Good Manufacturing Practices (GMP)', 'Clinical Trial Protocol Compliance'],
+    preferredSkills: ['Argus Safety Database', 'Medical Coding (MedDRA, WHO-DD)', 'Regulatory Submissions (DMF, CTD)', 'Formulation Development'],
+    tools: ['Argus Safety Database', 'Pharmacy Management Software', 'Spectrophotometer', 'HPLC Systems', 'Drug Interaction Databases (Lexicomp)'],
+    topCompanies: ['Sun Pharma', 'Dr. Reddy’s Laboratories', 'Cipla', 'Novartis', 'Pfizer', 'IQVIA', 'Apollo Pharmacy', 'Max Healthcare'],
+    salaryRange: { min: 400000, max: 1100000, currency: 'INR', formatted: '₹4.0 - ₹11.0 LPA' },
+    minimumEducation: 'B.Pharm / Pharm.D / M.Pharm + State Pharmacy Council Registration',
+    eligibility: 'Recognized pharmacy degree and active license from the Pharmacy Council of India (PCI).'
+  },
+  {
+    id: 'registered-nurse-specialist',
+    name: 'Registered Nurse (Critical Care & Hospital Operations)',
+    title: 'Registered Nurse (Critical Care & Hospital Operations)',
+    shortName: 'Registered Nurse',
+    type: 'JOB',
+    category: 'Healthcare & Clinical Sciences',
+    sector: 'Hospital & Patient Care Services',
+    aliases: ['Staff Nurse', 'Nursing Officer', 'ICU Nurse', 'Operation Theatre Nurse', 'Clinical Nurse Specialist'],
+    description: 'Administers continuous patient care, monitors vital signs, executes medical treatments, operates life-support systems in ICUs, and assists surgeons in operating theatres.',
+    overview: 'Essential pillar of healthcare delivery with high global demand (India, UK NHS, US NCLEX, Gulf countries). Career paths include Nursing Supervisor, Infection Control Officer, and Hospital Administrator.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: 10+2 PCB -> B.Sc Nursing (4-Year Degree) or GNM Diploma',
+        degrees: ['B.Sc Nursing (4 Years)', 'General Nursing and Midwifery (GNM - 3 Years)', 'M.Sc Nursing'],
+        skills: ['Patient Monitoring & Assessment', 'Medication Administration & IV Therapy', 'ICU Life Support Management', 'Infection Control Protocols'],
+        timeline: '4 Years accredited university clinical education'
+      }
+    ],
+    requiredSkills: ['Patient Vital Signs & Triage Monitoring', 'IV Cannulation & Medication Infusion', 'Emergency Resuscitation (BLS / ACLS)', 'Infection Control & Sterilization', 'Critical Care & Ventilator Support', 'Documentation & Shift Handover'],
+    preferredSkills: ['Operating Theatre Assisting', 'Neonatal Intensive Care (NICU)', 'Chemotherapy Administration', 'IELTS / OET for International Nursing'],
+    tools: ['Patient Monitors', 'Infusion Pumps', 'Defibrillators', 'Ventilators', 'Electronic Medical Records (EMR)'],
+    topCompanies: ['Apollo Hospitals', 'Medanta The Medicity', 'Max Healthcare', 'Fortis Healthcare', 'AIIMS Nursing Cadre', 'UK NHS / Global Healthcare'],
+    salaryRange: { min: 380000, max: 950000, currency: 'INR', formatted: '₹3.8 - ₹9.5 LPA (₹25 - ₹45 LPA for overseas nursing in UK/US/Gulf)' },
+    minimumEducation: 'B.Sc Nursing / GNM + State Nursing Council Registration',
+    eligibility: 'Pass in B.Sc Nursing from an INC-approved college, registered as Nurse and Midwife (RN/RM).'
+  },
+
+  // --------------------------------------------------------------------------
+  // 5. CORE ENGINEERING & DEEP TECH
+  // --------------------------------------------------------------------------
+  {
+    id: 'mechanical-design-engineer',
+    name: 'Mechanical Design & Robotics Engineer',
+    title: 'Mechanical Design & Robotics Engineer',
+    shortName: 'Mechanical Engineer',
+    type: 'JOB',
+    category: 'Core Engineering',
+    sector: 'Automotive, Aerospace & Manufacturing',
+    aliases: ['Mechanical Engineer', 'CAD Design Engineer', 'R&D Engineer', 'Automotive Engineer', 'Product Design Engineer Mechanical'],
+    description: 'Develops 3D CAD mechanical components, analyzes thermal/structural stresses using FEA/CFD, and designs automated robotic systems for manufacturing and aerospace.',
+    overview: 'Translates functional engineering specifications into manufacturable machine designs, optimizing material selection, aerodynamics, structural rigidity, and production costs.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: 10+2 PCM -> B.Tech Mechanical Engineering / Mechatronics',
+        degrees: ['B.Tech Mechanical Engineering', 'B.Tech Mechatronics & Robotics', 'M.Tech Machine Design'],
+        skills: ['SolidWorks / CATIA 3D Modeling', 'Finite Element Analysis (ANSYS FEA)', 'Thermodynamics & Fluid Dynamics', 'GD&T (Geometric Dimensioning & Tolerancing)'],
+        timeline: '4-Year Engineering Degree + CAD/FEA project portfolio'
+      }
+    ],
+    requiredSkills: ['3D CAD Modeling (SolidWorks / CATIA / Creo)', 'Finite Element Analysis (FEA / ANSYS)', 'Geometric Dimensioning & Tolerancing (GD&T)', 'Manufacturing Processes & Materials Science', 'Kinematics & Machine Design'],
+    preferredSkills: ['Computational Fluid Dynamics (CFD)', 'Robotics & PLC Automation', 'Automotive Powertrain / EV Battery Pack Design', 'DFM / DFA (Design for Manufacturing)'],
+    tools: ['SolidWorks', 'CATIA', 'ANSYS', 'AutoCAD', 'MATLAB / Simulink', 'Creo Parametric'],
+    topCompanies: ['Tata Motors', 'Mahindra & Mahindra', 'Larsen & Toubro (L&T)', 'ISRO', 'DRDO', 'Boeing India', 'Bosch', 'Siemens'],
+    salaryRange: { min: 450000, max: 1400000, currency: 'INR', formatted: '₹4.5 - ₹14.0 LPA' },
+    minimumEducation: 'B.Tech / B.E. in Mechanical / Automobile / Production / Aerospace Engineering',
+    eligibility: 'Engineering graduation with strong fundamentals in mechanics, materials, CAD modeling, and FEA simulation.'
+  },
+  {
+    id: 'civil-structural-engineer',
+    name: 'Civil & Structural Infrastructure Engineer',
+    title: 'Civil & Structural Infrastructure Engineer',
+    shortName: 'Civil Engineer',
+    type: 'JOB',
+    category: 'Core Engineering',
+    sector: 'Construction & Civil Infrastructure',
+    aliases: ['Civil Engineer', 'Structural Engineer', 'Site Engineer', 'Project Engineer Infrastructure', 'Bridge & Highway Engineer'],
+    description: 'Plans, analyzes, designs, and supervises construction of high-rise structures, bridges, expressways, metro rail networks, and smart city infrastructure.',
+    overview: 'Ensures structural stability, seismic earthquake resistance, geotechnical foundation safety, and regulatory municipal compliance for modern infrastructure developments.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: 10+2 PCM -> B.Tech Civil Engineering / Structural M.Tech',
+        degrees: ['B.Tech Civil Engineering', 'M.Tech Structural Engineering', 'Polytechnic Diploma in Civil'],
+        skills: ['Structural Analysis (STAAD.Pro / ETABS)', 'AutoCAD & Revit BIM', 'RCC & Steel Structural Design', 'Project Estimation & Site Execution'],
+        timeline: '4 Years Graduation + On-Site Project Experience'
+      }
+    ],
+    requiredSkills: ['Structural Analysis & Design (STAAD.Pro / ETABS)', 'Building Information Modeling (Revit BIM / AutoCAD)', 'Reinforced Concrete (RCC) & Structural Steel Design (IS 456, IS 800)', 'Quantity Surveying & Estimation', 'Quality Assurance & Concrete Technology'],
+    preferredSkills: ['Seismic Analysis & Foundation Engineering', 'Green Building (LEED / GRIHA) Standards', 'Primavera / MS Project Management'],
+    tools: ['STAAD.Pro', 'ETABS', 'AutoCAD', 'Revit', 'MS Project', 'Total Station Surveying'],
+    topCompanies: ['Larsen & Toubro (L&T Construction)', 'Tata Projects', 'Shapoorji Pallonji', 'Afcons Infrastructure', 'NHAI', 'DMRC', 'CPWD'],
+    salaryRange: { min: 420000, max: 1300000, currency: 'INR', formatted: '₹4.2 - ₹13.0 LPA' },
+    minimumEducation: 'B.Tech / B.E. / M.Tech in Civil / Structural Engineering',
+    eligibility: 'Degree in Civil Engineering with proficiency in structural design codes, drafting, and project site supervision.'
+  },
+
+  // --------------------------------------------------------------------------
+  // 6. LAW & LEGAL ADVISORY
+  // --------------------------------------------------------------------------
+  {
+    id: 'corporate-legal-counsel',
+    name: 'Corporate Legal Counsel & M&A Lawyer',
+    title: 'Corporate Legal Counsel & M&A Lawyer',
+    shortName: 'Corporate Lawyer',
+    type: 'JOB',
+    category: 'Law & Legal Advisory',
+    sector: 'Corporate Law & Commercial Advisory',
+    aliases: ['Corporate Counsel', 'Legal Associate', 'In-House Counsel', 'M&A Lawyer', 'Commercial Legal Manager'],
+    description: 'Drafts and negotiates high-value commercial agreements, advises on mergers & acquisitions, ensures regulatory compliance, and manages corporate governance.',
+    overview: 'Specializes in company law, cross-border investments, intellectual property licensing, antitrust regulations, and legal risk mitigation for corporate enterprises and law firms.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: 10+2 -> CLAT -> 5-Year Integrated Law (BA LLB / BBA LLB / B.Com LLB)',
+        degrees: ['BA LLB (Hons)', 'BBA LLB (Hons)', 'LLM Corporate Law', '3-Year LLB (After Graduation)'],
+        skills: ['Contract Drafting & Negotiation', 'Companies Act 2013 & SEBI Regulations', 'M&A Due Diligence', 'Intellectual Property Rights (IPR)'],
+        timeline: '5-Year Integrated Course or 3-Year Post-Grad LLB + Bar Council Enrollment'
+      }
+    ],
+    requiredSkills: ['Commercial Contract Drafting & Review', 'Companies Act 2013 & Corporate Governance', 'M&A Due Diligence & Term Sheets', 'SEBI & Competition Commission Regulations', 'Dispute Resolution & Arbitration Strategy'],
+    preferredSkills: ['Data Privacy Laws (GDPR / DPDP Act)', 'Intellectual Property Licensing', 'Cross-Border Tax Treaties', 'Foreign Exchange Management Act (FEMA)'],
+    tools: ['SCC Online', 'Manupatra', 'Contract Lifecycle Management (CLM)', 'LexisNexis'],
+    topCompanies: ['Shardul Amarchand Mangaldas', 'Cyril Amarchand Mangaldas', 'AZB & Partners', 'Trilegal', 'Khaitan & Co', 'Google India', 'Reliance Industries', 'Tata Sons'],
+    salaryRange: { min: 800000, max: 2800000, currency: 'INR', formatted: '₹8.0 - ₹28.0 LPA (Up to ₹35+ LPA at tier-1 law firms)' },
+    minimumEducation: 'LLB Degree recognized by the Bar Council of India (BCI)',
+    eligibility: 'Graduation in Law (5-Year or 3-Year LLB), enrolled with State Bar Council, and cleared All India Bar Examination (AIBE).'
+  },
+
+  // --------------------------------------------------------------------------
+  // 7. CIVIL SERVICES, GOVERNANCE & DEFENCE
+  // --------------------------------------------------------------------------
+  {
+    id: 'ias-officer',
+    name: 'IAS Officer (Indian Administrative Service - District Magistrate & Secretary)',
+    title: 'IAS Officer (Indian Administrative Service)',
+    shortName: 'IAS Officer',
+    type: 'GOVERNMENT_JOB',
+    category: 'Civil Services & Government',
+    sector: 'Public Administration & Governance',
+    aliases: ['IAS', 'District Magistrate', 'Collector', 'Sub-Divisional Magistrate (SDM)', 'Cabinet Secretary', 'Civil Servant'],
+    description: 'Constitutional administrative officer leading public governance, district management, law and order coordination, policy implementation, and development administration.',
+    overview: 'The apex civil service of the Republic of India. IAS officers head districts as District Magistrates/Collectors and advance to senior executive policymaking as Union Secretaries and Cabinet Secretary of India.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: Any Graduation -> UPSC Civil Services Examination (CSE)',
+        degrees: ['Bachelor’s Degree in Any Discipline (B.A, B.Com, B.Tech, MBBS, B.Sc, BBA, Law)'],
+        skills: ['General Studies (Polity, Economy, History, Geography, Ethics)', 'Public Policy & Administration', 'Decision Making & Leadership', 'Analytical Essay Writing'],
+        timeline: '1 - 3 Years dedicated multi-stage competitive examination preparation'
+      }
+    ],
+    requiredSkills: ['Public Policy Formulation & Execution', 'District Crisis & Law/Order Administration', 'Government Finance & Budgetary Management', 'Inter-Departmental Coordination', 'Constitutional Law & Statutory Governance'],
+    preferredSkills: ['Public Grievance Redressal', 'E-Governance & Digital Administration Initiatives', 'International Relations & Diplomacy'],
+    tools: ['Government Official Portals', 'PFMS (Public Financial Management System)', 'E-Office Systems', 'NIC Portals'],
+    topCompanies: ['Government of India', 'Respective State Government Cadres', 'United Nations & World Bank (on deputation)'],
+    salaryRange: { min: 1100000, max: 2800000, currency: 'INR', formatted: '₹11.0 - ₹28.0 LPA (Level 10 Pay Matrix starting at ₹56,100 basic + DA, Official Bungalow, Vehicle & Security)' },
+    minimumEducation: 'Bachelor’s degree in any discipline from a recognized university',
+    eligibility: 'Indian citizen, age 21-32 years, cleared UPSC CSE Prelims, Mains, and Personality Interview within top rank merit list.'
+  },
+  {
+    id: 'ips-officer',
+    name: 'IPS Officer (Indian Police Service - Superintendent of Police)',
+    title: 'IPS Officer (Indian Police Service)',
+    shortName: 'IPS Officer',
+    type: 'GOVERNMENT_JOB',
+    category: 'Civil Services & Government',
+    sector: 'Law Enforcement & National Security',
+    aliases: ['IPS', 'Superintendent of Police (SP)', 'DCP', 'DIG', 'IGP', 'DGP', 'Police Commissioner'],
+    description: 'Senior police leadership commanding district law and order, counter-terrorism, criminal investigation, intelligence gathering, and cyber crime enforcement.',
+    overview: 'Heads police forces across districts, cities, states, and central security organizations including the Intelligence Bureau (IB), CBI, RAW, and Central Armed Police Forces.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: Any Graduation -> UPSC Civil Services Examination (IPS Cadre)',
+        degrees: ['Graduation in Any Discipline'],
+        skills: ['Criminal Law (IPC/BNS, CrPC/BNSS, Evidence Act)', 'Police Leadership & Tactical Operations', 'Physical Fitness & Endurance', 'Investigation Methodology'],
+        timeline: 'Preparation + 2-Year rigorous training at Sardar Vallabhbhai Patel National Police Academy (SVPNPA)'
+      }
+    ],
+    requiredSkills: ['Criminal Investigation & Forensic Science', 'Law & Order Command & Crowd Control', 'Cybercrime & Digital Forensics', 'Surveillance & Intelligence Gathering', 'Physical Combat & Firearms Proficiency'],
+    preferredSkills: ['Counter-Terrorism Tactics', 'VIP Security & Strategic Operations', 'Community Policing Models'],
+    tools: ['CCTNS (Crime and Criminal Tracking Network & Systems)', 'Digital Forensics Tools', 'Police Radio & Tactical Communication'],
+    topCompanies: ['State Police Departments', 'Central Bureau of Investigation (CBI)', 'Intelligence Bureau (IB)', 'National Investigation Agency (NIA)'],
+    salaryRange: { min: 1100000, max: 2800000, currency: 'INR', formatted: '₹11.0 - ₹28.0 LPA (Level 10 Pay Matrix + Official Security & Allowances)' },
+    minimumEducation: 'Bachelor’s degree from a recognized university + Medical fitness standards',
+    eligibility: 'Indian citizen, cleared UPSC CSE, meets mandatory physical standards (height, chest, vision).'
+  },
+  {
+    id: 'defence-commissioned-officer',
+    name: 'Defence Commissioned Officer (Indian Army / Navy / Air Force)',
+    title: 'Defence Commissioned Officer (Indian Armed Forces)',
+    shortName: 'Defence Officer',
+    type: 'GOVERNMENT_JOB',
+    category: 'Defence & Armed Forces',
+    sector: 'National Defence & Military Command',
+    aliases: ['Army Lieutenant', 'Navy Sub-Lieutenant', 'Air Force Flying Officer', 'Military Officer', 'SSB Officer'],
+    description: 'Commands military platoons, warships, fighter aircraft squadrons, or combat engineering units defending the sovereignty and territorial integrity of the nation.',
+    overview: 'High-prestige military leadership position entered via NDA (after 12th) or CDS / AFCAT / Technical Graduate Course (after Graduation), followed by training at IMA, INA, AFA, or OTA.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: 10+2 -> UPSC NDA Examination -> National Defence Academy Khadakwasla',
+        degrees: ['10+2 (Any stream for Army; PCM for Navy/Air Force) -> B.Sc/B.Tech at NDA'],
+        skills: ['Officer Like Qualities (OLQ)', 'Physical Fitness & Obstacle Courses', 'Tactical Military Command', 'Weaponry & Navigation'],
+        timeline: '3 Years NDA + 1 Year IMA/INA/AFA Finishing Academy'
+      },
+      {
+        routeName: 'Route 2: Graduation / B.Tech -> UPSC CDS / AFCAT / TGC -> SSB Interview',
+        degrees: ['Any Graduation (Army) / B.Tech (Navy, Technical Air Force, Engineers)'],
+        skills: ['SSB Psychological & GTO Testing', 'Analytical Reasoning', 'Leadership Under Stress'],
+        timeline: '1 Year Academy Training (IMA Dehradun / OTA Chennai / AFA Dundigal)'
+      }
+    ],
+    requiredSkills: ['Strategic Military Tactics & Combat Leadership', 'Officer Like Qualities (OLQs)', 'Crisis Decision Making & Risk Management', 'Physical Endurance & Tactical Navigation', 'Weapon Systems & Modern Warfare Equipment'],
+    preferredSkills: ['Aviation & Aerodynamics (Flying Branch)', 'Maritime Navigation & Sonar (Naval Branch)', 'Combat Engineering & Cyber Warfare'],
+    tools: ['Military Tactical Hardware', 'Radar & Satellite Communication Systems', 'Naval Command Consoles', 'Aviation Avionics'],
+    topCompanies: ['Indian Army', 'Indian Navy', 'Indian Air Force', 'Strategic Forces Command', 'UN Peacekeeping Forces'],
+    salaryRange: { min: 1000000, max: 2600000, currency: 'INR', formatted: '₹10.0 - ₹26.0 LPA (Starting basic ₹56,100 + Military Service Pay ₹15,500 + Flying/High-Altitude Allowances + Free Messing/Quarters)' },
+    minimumEducation: '10+2 for NDA; Graduation / B.Tech for CDS, AFCAT & Technical Entries',
+    eligibility: 'Passed written exam (NDA/CDS/AFCAT), recommended by Services Selection Board (SSB), and medically cleared by military medical board.'
+  },
+  {
+    id: 'ssc-cgl-auditor-inspector',
+    name: 'Central Government Inspector & Auditor (SSC CGL)',
+    title: 'Central Government Inspector & Auditor (SSC CGL)',
+    shortName: 'SSC CGL Inspector',
+    type: 'GOVERNMENT_JOB',
+    category: 'Civil Services & Government',
+    sector: 'Central Government Ministries & Attached Offices',
+    aliases: ['Income Tax Inspector', 'Central Excise Inspector', 'GST Inspector', 'CAG Auditor', 'Enforcement Officer (ED)', 'ASO in CSS / MEA'],
+    description: 'Conducts tax assessments, anti-smuggling raids, commercial audits, and policy execution in central ministries like Finance, External Affairs, and CAG.',
+    overview: 'Recruited through the Staff Selection Commission Combined Graduate Level (SSC CGL) exam for Group B Gazetted/Non-Gazetted and Group C postings across India.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: Any Graduation -> Clear SSC CGL Tier-I & Tier-II Examination',
+        degrees: ['Bachelor’s degree in any discipline (B.Com, B.Sc, B.Tech, BA, BBA)'],
+        skills: ['Quantitative Aptitude & Mathematics', 'Logical Reasoning', 'General Awareness', 'English Comprehension & Drafting'],
+        timeline: '6 - 12 Months structured competitive preparation'
+      }
+    ],
+    requiredSkills: ['Tax Laws & Statutory Auditing Standards', 'Verification of Accounts & Fraud Detection', 'Government Rules & Regulations (GFR / FRSR)', 'Official Secretarial Correspondence', 'Data Compilation & Office Automation'],
+    preferredSkills: ['Computer Proficiency & Advanced Excel', 'Intelligence Gathering & Raid Operations'],
+    tools: ['Income Tax Portal (ITBA)', 'GSTN Portal', 'CAG Audit Automation Software', 'E-Office'],
+    topCompanies: ['Central Board of Direct Taxes (CBDT)', 'Central Board of Indirect Taxes & Customs (CBIC)', 'Comptroller & Auditor General (CAG)', 'Ministry of External Affairs (MEA)', 'Enforcement Directorate (ED)'],
+    salaryRange: { min: 650000, max: 1100000, currency: 'INR', formatted: '₹6.5 - ₹11.0 LPA (Pay Level 7 / Level 8 + Central HRA & DA)' },
+    minimumEducation: 'Bachelor’s degree in any discipline from a recognized university',
+    eligibility: 'Age 18-30 years (varies by post), Indian national, cleared SSC CGL Tier-I & Tier-II merit rankings.'
+  },
+
+  // --------------------------------------------------------------------------
+  // 8. DESIGN, ARCHITECTURE & CREATIVE MEDIA
+  // --------------------------------------------------------------------------
+  {
+    id: 'ui-ux-product-designer',
+    name: 'UI/UX Product Designer',
+    title: 'UI/UX Product Designer',
+    shortName: 'UI/UX Designer',
+    type: 'JOB',
+    category: 'Design & Creative Media',
+    sector: 'Digital Products & Technology',
+    aliases: ['Product Designer', 'UX Designer', 'UI Designer', 'User Experience Researcher', 'Interaction Designer'],
+    description: 'Designs intuitive digital interfaces, user flows, interactive prototypes, and scalable design systems for web and mobile software applications.',
+    overview: 'Combines psychological user research, visual aesthetics, typography, accessibility standards (WCAG), and interaction design to create engaging digital user experiences.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: Degree in Design (B.Des / M.Des / NIFT / IIT IDC) or Portfolio Switch',
+        degrees: ['Bachelor of Design (B.Des)', 'B.Arch', 'B.Tech CS / BCA', 'Any Graduate with UI/UX portfolio'],
+        skills: ['Figma Mastery', 'Wireframing & Prototyping', 'User Research & Personas', 'Design Systems (Tokens, Auto-layout)', 'Usability Testing'],
+        timeline: '4 - 6 Months intensive portfolio building'
+      }
+    ],
+    requiredSkills: ['Figma & Interactive Prototyping', 'User Research & Usability Testing', 'Information Architecture & User Journey Mapping', 'Design Systems & Component Libraries', 'Visual Design, Color Theory & Typography', 'Accessibility (WCAG) Compliance'],
+    preferredSkills: ['Basic HTML/CSS/Tailwind Understanding', 'Motion Design & Micro-interactions (Lottie, Principle)', 'UX Copywriting', 'A/B Test Design Analysis'],
+    tools: ['Figma', 'FigJam', 'Miro', 'Adobe Creative Cloud', 'Lottie', 'Notion', 'Hotjar'],
+    topCompanies: ['CRED', 'Swiggy', 'Zomato', 'Microsoft', 'Google', 'Urban Company', 'Design Studios & Tech Startups'],
+    salaryRange: { min: 600000, max: 2200000, currency: 'INR', formatted: '₹6.0 - ₹22.0 LPA' },
+    minimumEducation: 'Bachelor’s degree in Design / Architecture / CS or strong Behance / Dribbble portfolio',
+    eligibility: 'Demonstrated design portfolio with at least 2-3 end-to-end case studies showing user research, wireframes, and high-fidelity prototypes.'
+  },
+  {
+    id: 'architectural-designer',
+    name: 'Architectural Designer & Urban Planner',
+    title: 'Architectural Designer & Urban Planner',
+    shortName: 'Architect',
+    type: 'JOB',
+    category: 'Design & Architecture',
+    sector: 'Architecture & Built Environment',
+    aliases: ['Architect', 'Landscape Architect', 'Urban Planner', 'Project Architect', 'BIM Architect'],
+    description: 'Creates architectural concepts, master plans, 3D structural visualizations, and sustainable construction blueprints for residential, commercial, and civic spaces.',
+    overview: 'Regulated professional registered with the Council of Architecture (COA). Balances aesthetic beauty, structural viability, environmental sustainability, and municipal building bye-laws.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: 10+2 PCM -> NATA / JEE Main Paper 2 -> 5-Year Bachelor of Architecture (B.Arch)',
+        degrees: ['Bachelor of Architecture (B.Arch - 5 Years)', 'Master of Architecture (M.Arch)', 'Master of Urban Planning'],
+        skills: ['Architectural Drawing & Detailing', 'AutoCAD & Revit BIM', '3D Visualization (Lumion, Rhino, V-Ray)', 'Sustainable Building Codes (NBC, ECBC)'],
+        timeline: '5 Years COA-accredited university degree'
+      }
+    ],
+    requiredSkills: ['Architectural Drafting (AutoCAD / Revit)', '3D Modeling & Rendering (SketchUp / Rhino / Lumion)', 'Building Bye-laws & National Building Code (NBC)', 'Sustainable & Green Architecture', 'Construction Working Drawings'],
+    preferredSkills: ['BIM Coordination (Revit Architecture)', 'Parametric Design (Grasshopper)', 'Landscape Design', 'Heritage Conservation'],
+    tools: ['AutoCAD', 'Autodesk Revit', 'SketchUp', 'Lumion', 'Rhino & Grasshopper', 'Adobe Photoshop'],
+    topCompanies: ['Morphogenesis', 'Hafeez Contractor Architects', 'CP Kukreja Architects', 'L&T Infrastructure', 'HOK', 'Gensler', 'Municipal Corporations'],
+    salaryRange: { min: 450000, max: 1500000, currency: 'INR', formatted: '₹4.5 - ₹15.0 LPA' },
+    minimumEducation: 'B.Arch degree recognized by Council of Architecture (COA)',
+    eligibility: 'Cleared NATA or JEE Main Paper-2, passed 5-year B.Arch course, and holds valid COA registration.'
+  },
+
+  // --------------------------------------------------------------------------
+  // 9. PURE SCIENCES, ACADEMICS & RESEARCH
+  // --------------------------------------------------------------------------
+  {
+    id: 'university-professor-lecturer',
+    name: 'University Assistant Professor / Lecturer (UGC NET)',
+    title: 'University Assistant Professor / Lecturer (UGC NET)',
+    shortName: 'Assistant Professor',
+    type: 'JOB',
+    category: 'Education, Academics & Research',
+    sector: 'Higher Education & Academic Research',
+    aliases: ['Assistant Professor', 'College Lecturer', 'University Faculty', 'Academic Researcher', 'Associate Professor'],
+    description: 'Teaches undergraduate and postgraduate degree courses, conducts scholarly peer-reviewed academic research, and mentors students in colleges and universities.',
+    overview: 'Prestigious academic career in central, state, or private universities governed by UGC guidelines. Progression follows Assistant Professor -> Associate Professor -> Professor -> Dean / Vice-Chancellor.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: Master’s Degree (55%+) -> UGC-NET / CSIR-NET Qualification -> Ph.D',
+        degrees: ['Master’s Degree (M.A, M.Sc, M.Com, M.Tech, MBA, LLM) + Ph.D'],
+        skills: ['Curriculum Delivery & Pedagogy', 'Scholarly Research & Publication', 'Grant Writing & Lab Supervision', 'Academic Assessment & Mentorship'],
+        timeline: 'Master’s (2 yrs) + UGC-NET + Ph.D (3-5 yrs)'
+      }
+    ],
+    requiredSkills: ['Subject Matter Expertise in Specialized Field', 'Academic Lecturing & Classroom Pedagogy', 'Peer-Reviewed Research Publication (Scopus / UGC-CARE)', 'Curriculum Design & Evaluation', 'Ph.D Thesis Mentorship'],
+    preferredSkills: ['Funded Research Grant Acquisition', 'International Conference Presentation', 'Online Course (SWAYAM / MOOC) Creation'],
+    tools: ['Learning Management Systems (Moodle, Canvas)', 'Statistical Packages (SPSS, R, LaTeX)', 'Academic Databases (JSTOR, Scopus, Google Scholar)'],
+    topCompanies: ['Central Universities (DU, JNU, BHU, Hyderabad University)', 'State Universities', 'IITs / NITs / IIMs', 'Top Private Universities (Ashoka, BITS, Amity)'],
+    salaryRange: { min: 800000, max: 1800000, currency: 'INR', formatted: '₹8.0 - ₹18.0 LPA (UGC 7th Pay Commission Academic Level 10 starting basic ₹57,700 + DA & HRA)' },
+    minimumEducation: 'Master’s degree with min 55% marks + Qualified UGC-NET / CSIR-NET or Ph.D',
+    eligibility: 'UGC NET qualified or Ph.D degree in accordance with UGC Minimum Qualifications for Appointment of Teachers Regulations.'
+  },
+  {
+    id: 'research-scientist-physicist',
+    name: 'Research Scientist / Physicist (ISRO / BARC / CSIR / DRDO)',
+    title: 'Research Scientist / Physicist',
+    shortName: 'Research Scientist',
+    type: 'GOVERNMENT_JOB',
+    category: 'Pure Sciences & Deep Research',
+    sector: 'National Scientific Laboratories & Space Research',
+    aliases: ['Scientist B / C', 'Scientific Officer', 'ISRO Scientist', 'BARC Scientist', 'DRDO Scientist', 'R&D Physicist'],
+    description: 'Conducts fundamental and applied scientific research in astrophysics, quantum computing, nuclear physics, advanced composite materials, and satellite propulsion.',
+    overview: 'Elite scientific cadre working in India’s premier government research institutions (ISRO, Bhabha Atomic Research Centre, DRDO, CSIR labs, TIFR, IISc).',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: B.Tech / M.Sc Physics -> GATE / ISRO ICRB / BARC OCES Exam',
+        degrees: ['B.Tech / B.E. (Mechanical, Electrical, Aerospace, CS)', 'M.Sc Physics / Chemistry / Materials Science', 'Ph.D'],
+        skills: ['Quantum Mechanics & Electrodynamics', 'Experimental Lab Instrumentation', 'Computational Simulation & Modeling', 'Scientific Programming (Python/Fortran/MATLAB)'],
+        timeline: 'Graduation + Direct competitive examination or campus hiring from IITs/IISc'
+      }
+    ],
+    requiredSkills: ['Fundamental Scientific Principles & Mathematical Modeling', 'Experimental Design & Data Acquisition', 'Computational Physics & Simulation', 'Scientific Documentation & Technical Reports', 'High-Vacuum / Radiation / Cryogenic Systems'],
+    preferredSkills: ['Machine Learning for Physical Systems', 'Satellite Payload Integration', 'High-Performance Computing (HPC) Clusters'],
+    tools: ['MATLAB / Simulink', 'LabVIEW', 'Python (SciPy)', 'COMSOL Multiphysics', 'Spectrometers & Electron Microscopes'],
+    topCompanies: ['Indian Space Research Organisation (ISRO)', 'Bhabha Atomic Research Centre (BARC)', 'Defence Research & Development Organisation (DRDO)', 'CSIR Labs', 'Tata Institute of Fundamental Research (TIFR)'],
+    salaryRange: { min: 900000, max: 2000000, currency: 'INR', formatted: '₹9.0 - ₹20.0 LPA (Scientist SC/SD Level 10 + Special Scientific Allowances + Government Quarters)' },
+    minimumEducation: 'B.Tech / B.E. with first class (65%+) or M.Sc in relevant scientific discipline',
+    eligibility: 'Selected via GATE score, ISRO Centralised Recruitment Board (ICRB), or BARC OCES/DGFS examination and scientific interview.'
+  },
+  {
+    id: 'agricultural-scientist-agronomist',
+    name: 'Agricultural Scientist & Agronomist (ICAR / AgTech)',
+    title: 'Agricultural Scientist & Agronomist',
+    shortName: 'Agricultural Scientist',
+    type: 'JOB',
+    category: 'Agriculture & Food Technology',
+    sector: 'Agriculture, AgTech & Rural Development',
+    aliases: ['Agronomist', 'Soil Scientist', 'Crop Consultant', 'ICAR Scientist', 'AgTech Product Manager', 'Plant Breeder'],
+    description: 'Researches soil nutrition, crop genetics, sustainable irrigation, precision agriculture, and pest management to maximize food production efficiency.',
+    overview: 'Crucial role driving the second green revolution and modern AgTech startups. Opportunities exist in ICAR research institutes, seed & fertilizer corporations, and smart precision-farming enterprises.',
+    educationRoutes: [
+      {
+        routeName: 'Route 1: 10+2 Science -> B.Sc Agriculture (Hons) -> M.Sc / ICAR AIEEA Exam',
+        degrees: ['B.Sc Agriculture (Hons - 4 Years)', 'M.Sc Agronomy / Genetics & Plant Breeding', 'Ph.D / ARS Exam'],
+        skills: ['Crop Physiology & Soil Chemistry', 'Precision Farming & Drone Analytics', 'Plant Disease Diagnostics', 'Seed Technology & Genetics'],
+        timeline: '4 Years Graduation + Specialized Master’s or AgTech Industry Entry'
+      }
+    ],
+    requiredSkills: ['Soil Chemistry & Fertility Management', 'Crop Protection & Integrated Pest Management (IPM)', 'Agricultural Drone & Satellite Remote Sensing Analysis', 'Seed Breeding & Genetic Improvement', 'Sustainable Irrigation Technologies'],
+    preferredSkills: ['IoT Sensors in Farming', 'Hydroponics & Vertical Farming Systems', 'Agri-Business Supply Chain Logistics'],
+    tools: ['Soil Testing Equipment', 'GIS & Satellite Crop Monitoring Software', 'Weather Prediction Analytics', 'Drone Mapping Tools'],
+    topCompanies: ['Indian Council of Agricultural Research (ICAR)', 'Bayer Crop Science', 'Syngenta', 'UPL Ltd', 'ITC Agri-Business', 'DeHaat', 'NABARD'],
+    salaryRange: { min: 450000, max: 1400000, currency: 'INR', formatted: '₹4.5 - ₹14.0 LPA' },
+    minimumEducation: 'B.Sc Agriculture (Hons) / M.Sc Agriculture from an ICAR-accredited university',
+    eligibility: 'Degree in Agriculture, Horticulture, or related agricultural sciences with sound field and lab knowledge.'
   }
 ];

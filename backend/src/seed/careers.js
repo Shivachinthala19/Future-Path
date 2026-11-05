@@ -1,93 +1,285 @@
 /**
- * Structured Career Domains Seed Data
+ * ==============================================================================
+ * FUTURE PATH — MASTER STRATEGIC CAREER DOMAINS DATASET
+ * ==============================================================================
+ * Covers all 15 strategic enterprise and national sectors:
+ * 1. Computer Science, Software & AI Systems
+ * 2. Data Analytics, Big Data & Business Intelligence
+ * 3. Healthcare, Medicine & Clinical Sciences
+ * 4. Pharmaceuticals, Biotechnology & Life Sciences
+ * 5. Accounting, Banking & Corporate Finance
+ * 6. Corporate Strategy, Consulting & Management
+ * 7. Public Governance, Civil Services & Public Policy
+ * 8. Defence, National Security & Strategic Forces
+ * 9. Law, Judiciary & Corporate Compliance
+ * 10. Mechanical, Automotive & Aerospace Engineering
+ * 11. Civil Engineering, Infrastructure & Urban Design
+ * 12. Electrical, Electronics & Semiconductor Systems
+ * 13. Digital Product Design, UI/UX & Creative Media
+ * 14. Higher Education, Scientific Research & Teaching
+ * 15. Agriculture, Food Technology & Rural Development
+ * ==============================================================================
  */
 
 export const structuredCareers = [
   {
-    id: 'career-data-analytics',
-    name: 'Data Analytics & Business Intelligence',
-    shortName: 'Data Analytics',
+    id: 'career-software-engineering',
+    name: 'Computer Science, Software & AI Systems',
+    shortName: 'Software & AI',
     type: 'CAREER',
-    category: 'Technology',
-    aliases: ['Data Analytics', 'Business Intelligence', 'Analytics Career', 'Data Analysis'],
-    description: 'The domain of extracting, synthesizing, and interpreting quantitative datasets to drive organizational strategy and product growth.',
-    overview: 'High-growth multidisciplinary field combining computational statistics, business strategy, database querying, and dashboard design across e-commerce, banking, healthcare, and consulting.',
-    growthOutlook: '28% projected decade growth (High Demand)',
-    salaryRange: {
-      min: 450000,
-      max: 1800000,
-      currency: 'INR',
-      formatted: '₹4.5 - ₹18.0 LPA'
-    },
-    requiredSkills: ['SQL', 'Excel', 'Power BI / Tableau', 'Python', 'Statistical Modeling'],
-    relatedStudies: ['B.Com', 'B.Sc Statistics', 'B.Tech CSE', 'BCA', 'M.Sc Data Science', 'MBA Analytics'],
-    relatedJobs: ['Data Analyst', 'Business Analyst', 'BI Developer', 'Data Engineer', 'Analytics Manager'],
-    sources: [
-      {
-        title: 'NASSCOM IT-BPM Industry Workforce Report',
-        url: 'https://nasscom.in',
-        sourceType: 'OFFICIAL',
-        lastVerified: 'September 2026'
-      }
-    ],
+    category: 'Technology & Computing',
+    sector: 'Information Technology',
+    aliases: ['Software Engineering', 'Software Development', 'AI Systems', 'Computer Programming', 'Full Stack Development'],
+    description: 'The global engineering discipline of architecting, coding, testing, and deploying high-scale software systems, AI models, mobile applications, and cloud services.',
+    overview: 'Core engine of global technology infrastructure, encompassing frontend web applications, distributed backend microservices, generative AI models, DevOps pipelines, and cloud native architectures.',
+    growthOutlook: '25% projected decade growth (Exponential Demand)',
+    demand_score: 96,
+    typical_roles: ['Software Development Engineer (SDE)', 'AI & Machine Learning Engineer', 'Cloud Solutions Architect', 'Full Stack Developer', 'DevOps & SRE Engineer', 'Cybersecurity Specialist'],
+    requiredSkills: ['Data Structures & Algorithms', 'JavaScript / TypeScript', 'Python / Java', 'SQL & Distributed Databases', 'Cloud Infrastructure (AWS/Azure)', 'System Design'],
+    relatedStudies: ['B.Tech Computer Science', 'B.Tech AI & Data Science', 'BCA', 'MCA', 'M.Tech CSE', 'B.Sc Computer Science'],
+    relatedJobs: ['Software Development Engineer (SDE)', 'AI & Machine Learning Engineer', 'Cloud Solutions Architect', 'Full Stack Web Developer'],
+    topIndustries: ['Google', 'Microsoft', 'Amazon', 'TCS', 'Infosys', 'High-Growth Tech Startups'],
+    sources: [{ title: 'Ministry of Electronics and Information Technology (MeitY)', url: 'https://meity.gov.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
     lastVerified: 'September 2026'
   },
   {
-    id: 'career-software-engineering',
-    name: 'Software Engineering & Cloud Systems',
-    shortName: 'Software Engineering',
+    id: 'career-data-analytics',
+    name: 'Data Analytics, Big Data & Business Intelligence',
+    shortName: 'Data & Analytics',
     type: 'CAREER',
-    category: 'Computer Science',
-    aliases: ['Software Engineering', 'Software Development', 'Web Development', 'Computer Programming'],
-    description: 'The engineering discipline of architecting, coding, testing, and deploying scalable software systems, mobile applications, and cloud services.',
-    overview: 'Core engine of global technology infrastructure, encompassing frontend web applications, distributed backend microservices, DevOps pipelines, and cloud native architectures.',
-    growthOutlook: '25% projected decade growth (Very High Demand)',
-    salaryRange: {
-      min: 550000,
-      max: 3000000,
-      currency: 'INR',
-      formatted: '₹5.5 - ₹30.0+ LPA'
-    },
-    requiredSkills: ['DSA', 'JavaScript / TypeScript', 'Python / Java', 'Databases', 'Cloud Infrastructure'],
-    relatedStudies: ['B.Tech CSE', 'BCA', 'MCA', 'B.Sc CS', 'M.Tech CSE'],
-    relatedJobs: ['Software Developer', 'Full Stack Engineer', 'Backend Engineer', 'Cloud Architect', 'DevOps Engineer'],
-    sources: [
-      {
-        title: 'Ministry of Electronics and Information Technology (MeitY)',
-        url: 'https://meity.gov.in',
-        sourceType: 'GOVERNMENT',
-        lastVerified: 'September 2026'
-      }
-    ],
+    category: 'Data & Analytics',
+    sector: 'Business Intelligence & Enterprise Analytics',
+    aliases: ['Data Analytics', 'Business Intelligence', 'Analytics Career', 'Data Science', 'Big Data'],
+    description: 'The discipline of extracting, synthesizing, and interpreting quantitative datasets to drive organizational strategy, automated decisions, and product growth.',
+    overview: 'High-growth multidisciplinary field combining computational statistics, business strategy, database querying, and dashboard design across e-commerce, banking, healthcare, and consulting.',
+    growthOutlook: '28% projected decade growth (High Demand)',
+    demand_score: 94,
+    typical_roles: ['Data Analyst', 'BI Specialist', 'Quantitative Analyst', 'Data Engineer', 'Analytics Manager', 'Product Analyst'],
+    requiredSkills: ['SQL', 'Advanced Excel', 'Power BI / Tableau', 'Python (Pandas)', 'Statistical Modeling', 'Data Warehousing'],
+    relatedStudies: ['B.Com', 'B.Sc Statistics', 'B.Tech CSE', 'BCA', 'M.Sc Data Science', 'MBA Analytics', 'BBA'],
+    relatedJobs: ['Data Analyst & Business Intelligence Specialist', 'Quantitative Analyst (Quant)', 'Product Manager (Tech & Growth)'],
+    topIndustries: ['Deloitte', 'McKinsey', 'Fractal Analytics', 'Amazon', 'Major Banks & Financial Institutions'],
+    sources: [{ title: 'NASSCOM IT-BPM Industry Workforce Report', url: 'https://nasscom.in', sourceType: 'OFFICIAL', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+  {
+    id: 'career-healthcare-medicine',
+    name: 'Healthcare, Medicine & Clinical Sciences',
+    shortName: 'Healthcare & Medicine',
+    type: 'CAREER',
+    category: 'Healthcare & Life Sciences',
+    sector: 'Hospital & Healthcare Delivery',
+    aliases: ['Healthcare', 'Medicine', 'Medical Science', 'Hospital Care', 'Clinical Practice', 'Doctor Career'],
+    description: 'The science and clinical practice of preventing, diagnosing, treating, and managing human disease, patient trauma, and public healthcare systems.',
+    overview: 'Noble, high-impact clinical profession spanning general medicine, surgical interventions, specialized hospital departments (Cardiology, Oncology, Pediatrics), nursing, and emergency care.',
+    growthOutlook: '22% projected decade growth (Recession-Proof)',
+    demand_score: 95,
+    typical_roles: ['Physician / Resident Medical Officer (MBBS)', 'Surgeon (MS)', 'Clinical Specialist (MD)', 'Registered Nurse', 'Physiotherapist', 'Medical Director'],
+    requiredSkills: ['Clinical Diagnosis', 'Patient Care & Empathy', 'Pharmacology & Therapeutics', 'Emergency Trauma Resuscitation', 'Surgical Procedures', 'Medical Ethics'],
+    relatedStudies: ['MBBS', 'MD / MS', 'BDS', 'B.Sc Nursing', 'Bachelor of Physiotherapy (BPT)'],
+    relatedJobs: ['Physician / Resident Medical Officer (MBBS / MD)', 'Registered Nurse (Critical Care & Hospital Operations)'],
+    topIndustries: ['Apollo Hospitals', 'Fortis Healthcare', 'Max Healthcare', 'AIIMS', 'State Health Departments'],
+    sources: [{ title: 'National Medical Commission (NMC)', url: 'https://nmc.org.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+  {
+    id: 'career-pharma-biotech',
+    name: 'Pharmaceuticals, Biotechnology & Life Sciences',
+    shortName: 'Pharma & Biotech',
+    type: 'CAREER',
+    category: 'Life Sciences & Healthcare',
+    sector: 'Pharmaceutical Manufacturing & Genomic Research',
+    aliases: ['Pharmacy', 'Biotechnology', 'Pharma Research', 'Clinical Research', 'Drug Development'],
+    description: 'Researching, developing, formulating, testing, and manufacturing novel therapeutics, vaccines, biologics, and pharmaceutical medications for global healthcare.',
+    overview: 'India is known as the "Pharmacy of the World", commanding massive global generic medication manufacturing, vaccine production, pharmacovigilance, and biotechnology innovations.',
+    growthOutlook: '19% projected decade growth',
+    demand_score: 89,
+    typical_roles: ['Clinical Pharmacist', 'Formulation Scientist', 'Pharmacovigilance Specialist', 'Bioprocess Engineer', 'Regulatory Affairs Manager', 'Quality Control Chemist'],
+    requiredSkills: ['Pharmacology & Toxicology', 'Good Manufacturing Practices (GMP)', 'Clinical Trial Protocol Compliance', 'Analytical Chemistry (HPLC, UV)', 'Regulatory Submissions (FDA/CDSCO)'],
+    relatedStudies: ['Bachelor of Pharmacy (B.Pharm)', 'Doctor of Pharmacy (Pharm.D)', 'B.Tech Biotechnology', 'M.Pharm', 'B.Sc Microbiology'],
+    relatedJobs: ['Clinical Pharmacist & Drug Safety Specialist'],
+    topIndustries: ['Sun Pharma', 'Dr. Reddy’s Laboratories', 'Cipla', 'Biocon', 'Novartis', 'Serum Institute of India'],
+    sources: [{ title: 'Pharmacy Council of India (PCI)', url: 'https://pci.nic.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
     lastVerified: 'September 2026'
   },
   {
     id: 'career-corporate-finance',
-    name: 'Corporate Finance & Investment Banking',
-    shortName: 'Corporate Finance',
+    name: 'Accounting, Banking & Corporate Finance',
+    shortName: 'Finance & Banking',
     type: 'CAREER',
-    category: 'Commerce',
-    aliases: ['Corporate Finance', 'Investment Banking', 'Financial Markets', 'Banking & Finance'],
-    description: 'Management of corporate capital structure, mergers and acquisitions, equity valuation, portfolio asset management, and commercial banking.',
-    overview: 'High-stakes financial domain driving corporate capital deployment, securities trading, treasury operations, and strategic advisory.',
+    category: 'Commerce & Financial Services',
+    sector: 'Banking, Capital Markets & Corporate Accounting',
+    aliases: ['Corporate Finance', 'Investment Banking', 'Accounting & Audit', 'Commercial Banking', 'Wealth Management'],
+    description: 'Management of corporate capital structure, statutory auditing, mergers and acquisitions, tax advisory, securities valuation, and retail/commercial banking.',
+    overview: 'High-stakes financial domain driving corporate capital deployment, securities trading, treasury operations, strategic advisory, and public sector banking.',
     growthOutlook: '18% projected decade growth',
-    salaryRange: {
-      min: 500000,
-      max: 3500000,
-      currency: 'INR',
-      formatted: '₹5.0 - ₹35.0+ LPA'
-    },
-    requiredSkills: ['Financial Modeling', 'DCF Valuation', 'Corporate Accounting', 'Excel', 'Securities Regulation'],
-    relatedStudies: ['B.Com', 'BBA', 'MBA Finance', 'CA', 'CFA', 'CMA', 'CS'],
-    relatedJobs: ['Financial Analyst', 'Investment Banker', 'Equity Research Associate', 'Treasury Manager', 'CFO'],
-    sources: [
-      {
-        title: 'Securities and Exchange Board of India (SEBI)',
-        url: 'https://sebi.gov.in',
-        sourceType: 'GOVERNMENT',
-        lastVerified: 'September 2026'
-      }
-    ],
+    demand_score: 91,
+    typical_roles: ['Chartered Accountant (CA)', 'Investment Banker', 'Corporate Financial Analyst (FP&A)', 'Bank Probationary Officer', 'RBI Grade B Officer', 'Chief Financial Officer (CFO)'],
+    requiredSkills: ['Financial Modeling & DCF Valuation', 'Statutory Auditing (Ind AS/IFRS)', 'Direct & Indirect Taxation', 'Commercial Credit Appraisal', 'Corporate Governance'],
+    relatedStudies: ['B.Com', 'BBA', 'MBA Finance', 'Chartered Accountancy (CA)', 'CFA', 'M.Com'],
+    relatedJobs: ['Chartered Accountant (CA) & Statutory Auditor', 'Investment Banker (M&A & Corporate Finance)', 'Bank Probationary Officer (IBPS PO / SBI PO)', 'RBI Grade B Officer'],
+    topIndustries: ['Deloitte', 'PwC', 'EY', 'KPMG', 'Goldman Sachs', 'State Bank of India', 'HDFC Bank'],
+    sources: [{ title: 'Institute of Chartered Accountants of India (ICAI)', url: 'https://icai.org', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+  {
+    id: 'career-civil-services',
+    name: 'Public Governance, Civil Services & Public Policy',
+    shortName: 'Civil Services & Governance',
+    type: 'CAREER',
+    category: 'Civil Services & Government',
+    sector: 'Public Administration & Civil Services',
+    aliases: ['Civil Services', 'UPSC', 'IAS', 'IPS', 'State PCS', 'Sarkari Naukri', 'Public Administration'],
+    description: 'Leading national and state governance, district crisis management, socio-economic policy implementation, law enforcement, and government administration.',
+    overview: 'The constitutional executive backbone of the country, offering unmatched societal impact, leadership authority, and public policy execution across central and state governments.',
+    growthOutlook: 'Prestigious & Permanent Sovereign Cadre',
+    demand_score: 98,
+    typical_roles: ['IAS Officer (District Magistrate / Secretary)', 'IPS Officer (SP / DIG)', 'State Civil Services Officer (Deputy Collector)', 'Central Government Inspector (SSC CGL)', 'Revenue Officer (IRS)'],
+    requiredSkills: ['Public Policy Formulation & Execution', 'Constitutional Law & Governance', 'District Administration & Crisis Handling', 'Budgetary & Fiscal Management', 'Leadership Under Stress'],
+    relatedStudies: ['Any Bachelor’s Degree (BA, B.Com, B.Tech, MBBS, B.Sc, BBA, Law)'],
+    relatedJobs: ['IAS Officer (Indian Administrative Service)', 'IPS Officer (Indian Police Service)', 'Central Government Inspector & Auditor (SSC CGL)'],
+    topIndustries: ['Government of India', 'State Governments', 'Public Sector Commissions'],
+    sources: [{ title: 'Union Public Service Commission (UPSC)', url: 'https://upsc.gov.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+  {
+    id: 'career-defence-armed-forces',
+    name: 'Defence, National Security & Strategic Forces',
+    shortName: 'Defence & Military',
+    type: 'CAREER',
+    category: 'Defence & Armed Forces',
+    sector: 'Armed Forces & National Defense',
+    aliases: ['Indian Army', 'Indian Navy', 'Indian Air Force', 'Military Officer', 'Defence Services', 'National Security'],
+    description: 'Commanding combat platoons, naval warships, fighter aircraft squadrons, or tactical engineering units defending the sovereignty and territorial integrity of the nation.',
+    overview: 'Prestigious career of courage, honor, and supreme leadership entered via NDA (after 12th) or CDS / AFCAT / TGC (after graduation), providing premier military officer training.',
+    growthOutlook: 'Continuous National Commission Cadre',
+    demand_score: 92,
+    typical_roles: ['Army Lieutenant', 'Navy Sub-Lieutenant', 'Air Force Flying Officer', 'Military Strategist', 'Combat Commander'],
+    requiredSkills: ['Strategic Military Tactics', 'Officer Like Qualities (OLQ)', 'Crisis Leadership', 'Physical Endurance & Tactical Navigation', 'Combat Systems Mastery'],
+    relatedStudies: ['12th Science/Any Stream (for NDA)', 'Any Graduation / B.Tech (for CDS/AFCAT/TGC)'],
+    relatedJobs: ['Defence Commissioned Officer (Indian Armed Forces)'],
+    topIndustries: ['Indian Army', 'Indian Navy', 'Indian Air Force', 'Coast Guard', 'Strategic Forces Command'],
+    sources: [{ title: 'Ministry of Defence (MoD)', url: 'https://mod.gov.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+  {
+    id: 'career-law-judiciary',
+    name: 'Law, Judiciary & Corporate Compliance',
+    shortName: 'Law & Judiciary',
+    type: 'CAREER',
+    category: 'Law & Legal Studies',
+    sector: 'Legal Advisory, Judiciary & Corporate Governance',
+    aliases: ['Legal Career', 'Lawyer', 'Advocate', 'Corporate Counsel', 'Judicial Services', 'Litigation'],
+    description: 'Advocating before courts of law, adjudicating legal disputes as judicial magistrates, and advising corporations on commercial contracts, mergers, and statutory compliance.',
+    overview: 'A pillar of constitutional democracy and commercial commerce. Law graduates practice as courtroom advocates, join the judiciary, or act as high-earning in-house corporate counsels.',
+    growthOutlook: '16% projected decade growth',
+    demand_score: 88,
+    typical_roles: ['Corporate Legal Counsel', 'Litigation Advocate', 'Judicial Magistrate / Judge', 'Compliance Officer', 'Arbitrator & Mediator', 'Legal Journalist'],
+    requiredSkills: ['Legal Research & Statutory Interpretation', 'Commercial Contract Drafting & Review', 'Companies Act 2013 & SEBI Laws', 'Courtroom Advocacy & Trial Arguments', 'Arbitration & Negotiation'],
+    relatedStudies: ['BA LLB (Hons)', 'BBA LLB (Hons)', '3-Year LLB', 'Master of Laws (LLM)'],
+    relatedJobs: ['Corporate Legal Counsel & M&A Lawyer'],
+    topIndustries: ['Tier-1 Law Firms (SAM, CAM, AZB, Trilegal)', 'Supreme Court & High Courts', 'Multinational Corporations', 'Judicial Services'],
+    sources: [{ title: 'Bar Council of India (BCI)', url: 'https://barcouncilofindia.org', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+  {
+    id: 'career-mechanical-aerospace',
+    name: 'Mechanical, Automotive & Aerospace Engineering',
+    shortName: 'Mechanical & Aerospace',
+    type: 'CAREER',
+    category: 'Core Engineering',
+    sector: 'Manufacturing, Automotive & Space Technology',
+    aliases: ['Mechanical Engineering', 'Automotive Engineering', 'Aerospace Engineering', 'Robotics & Automation', 'Heavy Machinery'],
+    description: 'Designing, prototyping, manufacturing, and automating mechanical systems, electric vehicles (EVs), robotics, aircraft engines, and satellite launch vehicles.',
+    overview: 'The mother of engineering disciplines. Powers national manufacturing, automotive electrification (EV), robotics automation, and space exploration (ISRO/DRDO).',
+    growthOutlook: '17% projected decade growth (Driven by EV, Defence & Robotics)',
+    demand_score: 87,
+    typical_roles: ['Mechanical Design Engineer', 'Robotics & Automation Engineer', 'Aerospace Systems Engineer', 'Automotive Powertrain Engineer', 'Production & Plant Manager'],
+    requiredSkills: ['3D CAD Modeling (SolidWorks / CATIA)', 'Finite Element Analysis (ANSYS FEA)', 'GD&T and Materials Science', 'Thermodynamics & Fluid Dynamics', 'Robotics & Mechatronics'],
+    relatedStudies: ['B.Tech Mechanical Engineering', 'B.Tech Aerospace Engineering', 'B.Tech Mechatronics', 'Polytechnic Diploma in Mechanical'],
+    relatedJobs: ['Mechanical Design & Robotics Engineer', 'Research Scientist / Physicist'],
+    topIndustries: ['Tata Motors', 'Mahindra & Mahindra', 'Larsen & Toubro', 'ISRO', 'DRDO', 'Boeing', 'Bosch'],
+    sources: [{ title: 'All India Council for Technical Education (AICTE)', url: 'https://aicte-india.org', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+  {
+    id: 'career-civil-infrastructure',
+    name: 'Civil Engineering, Infrastructure & Urban Design',
+    shortName: 'Civil & Infrastructure',
+    type: 'CAREER',
+    category: 'Core Engineering',
+    sector: 'Construction, Infrastructure & Built Environment',
+    aliases: ['Civil Engineering', 'Structural Engineering', 'Construction Management', 'Smart Cities', 'Highway Engineering'],
+    description: 'Planning, designing, and supervising large-scale national infrastructure projects: expressways, high-speed rail, smart cities, bridges, airports, and urban drainage.',
+    overview: 'Underpins national economic expansion and modernization. Massive capital investments in highways, metros, bullet trains, and green building projects drive sustained employment.',
+    growthOutlook: '15% projected decade growth',
+    demand_score: 86,
+    typical_roles: ['Structural Design Engineer', 'Project Site Engineer', 'Building Information Modeling (BIM) Specialist', 'Quantity Surveyor & Estimator', 'Geotechnical Engineer'],
+    requiredSkills: ['Structural Analysis (STAAD.Pro / ETABS)', 'AutoCAD & Revit BIM', 'RCC & Steel Structural Design', 'Project Management & Quality Assurance', 'Foundation Engineering'],
+    relatedStudies: ['B.Tech Civil Engineering', 'M.Tech Structural Engineering', 'Polytechnic Diploma in Civil'],
+    relatedJobs: ['Civil & Structural Infrastructure Engineer', 'Architectural Designer & Urban Planner'],
+    topIndustries: ['Larsen & Toubro Construction', 'Tata Projects', 'NHAI', 'DMRC', 'Central Public Works Department (CPWD)'],
+    sources: [{ title: 'Ministry of Road Transport and Highways (MoRTH)', url: 'https://morth.nic.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+  {
+    id: 'career-design-creative-media',
+    name: 'Digital Product Design, UI/UX & Creative Media',
+    shortName: 'Design & Creative',
+    type: 'CAREER',
+    category: 'Design & Creative Media',
+    sector: 'Digital Products, UI/UX & Entertainment Media',
+    aliases: ['UI/UX Design', 'Product Design', 'Graphic Design', 'Creative Media', 'Animation & VFX', 'Visual Design'],
+    description: 'Crafting digital user interfaces, interactive prototypes, design systems, visual branding, animation, and multimedia storytelling for global audiences.',
+    overview: 'Where art meets technology. UI/UX designers, visual creators, and 3D animators shape how billions of users experience mobile apps, SaaS tools, games, and digital content.',
+    growthOutlook: '24% projected decade growth',
+    demand_score: 93,
+    typical_roles: ['UI/UX Product Designer', 'Design Systems Lead', '3D / VFX Animator', 'Brand Identity Designer', 'User Researcher'],
+    requiredSkills: ['Figma & Prototyping', 'User Research & Personas', 'Design Systems (Tokens, Auto-layout)', 'Visual Design & Typography', 'Accessibility (WCAG)'],
+    relatedStudies: ['Bachelor of Design (B.Des)', 'Bachelor of Architecture (B.Arch)', 'BFA', 'BCA / B.Tech CS with portfolio'],
+    relatedJobs: ['UI/UX Product Designer', 'Architectural Designer & Urban Planner'],
+    topIndustries: ['CRED', 'Swiggy', 'Zomato', 'Microsoft', 'Google', 'Major Design Agencies & Studios'],
+    sources: [{ title: 'National Institute of Design (NID)', url: 'https://nid.edu', sourceType: 'OFFICIAL', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+  {
+    id: 'career-higher-education-research',
+    name: 'Higher Education, Scientific Research & Teaching',
+    shortName: 'Academics & Research',
+    type: 'CAREER',
+    category: 'Academics & Scientific Research',
+    sector: 'University Academics & Deep Scientific Research',
+    aliases: ['Professor', 'Lecturer', 'Scientist', 'Academic Research', 'Ph.D Scholar', 'Faculty'],
+    description: 'Conducting advanced scholarly and experimental research, authoring peer-reviewed discoveries, and teaching undergraduate and postgraduate students in universities.',
+    overview: 'Prestigious intellectual career advancing human knowledge in universities, research institutes, and national laboratories (IISc, IITs, TIFR, CSIR, ISRO).',
+    growthOutlook: 'Stable & Highly Respected Sovereign Cadre',
+    demand_score: 89,
+    typical_roles: ['University Assistant Professor (UGC NET)', 'Research Scientist (ISRO/BARC/DRDO)', 'Postdoctoral Fellow', 'Associate Professor / Dean', 'Subject Matter Expert'],
+    requiredSkills: ['Specialized Academic Mastery', 'Pedagogy & Classroom Lecturing', 'Peer-Reviewed Scientific Publication', 'Grant Acquisition', 'Data Analysis & Research Methodology'],
+    relatedStudies: ['Master’s Degree (M.A, M.Sc, M.Com, M.Tech) + Ph.D + UGC-NET / CSIR-NET'],
+    relatedJobs: ['University Assistant Professor / Lecturer (UGC NET)', 'Research Scientist / Physicist'],
+    topIndustries: ['Central & State Universities', 'IITs / NITs / IIMs', 'ISRO', 'BARC', 'DRDO', 'CSIR Laboratories'],
+    sources: [{ title: 'University Grants Commission (UGC)', url: 'https://ugc.gov.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+  {
+    id: 'career-agriculture-food-tech',
+    name: 'Agriculture, Food Technology & Environmental Science',
+    shortName: 'Agriculture & AgTech',
+    type: 'CAREER',
+    category: 'Agriculture & Life Sciences',
+    sector: 'Agri-Business, Precision Farming & Food Processing',
+    aliases: ['Agriculture', 'AgTech', 'Food Technology', 'Agronomy', 'Soil Science', 'Precision Farming'],
+    description: 'Applying biotechnology, drone remote sensing, precision irrigation, and food processing technologies to enhance agricultural yield and food security.',
+    overview: 'Rapidly transforming domain integrating IoT, satellite imagery, organic farming, and food processing to modernize India’s massive agricultural sector.',
+    growthOutlook: '20% projected decade growth (High AgTech Innovation)',
+    demand_score: 86,
+    typical_roles: ['Agricultural Scientist / Agronomist', 'AgTech Product Lead', 'Soil Fertility Consultant', 'Food Processing Quality Manager', 'Agricultural Field Officer (AFO)'],
+    requiredSkills: ['Soil Chemistry & Fertility Management', 'Crop Protection & Integrated Pest Management', 'Drone & Remote Sensing Analytics', 'Seed Genetics', 'Sustainable Irrigation'],
+    relatedStudies: ['B.Sc Agriculture (Hons)', 'B.Tech Food Technology', 'M.Sc Agronomy'],
+    relatedJobs: ['Agricultural Scientist & Agronomist (ICAR / AgTech)'],
+    topIndustries: ['ICAR Research Institutes', 'Bayer Crop Science', 'Syngenta', 'ITC Agri-Business', 'DeHaat', 'NABARD'],
+    sources: [{ title: 'Indian Council of Agricultural Research (ICAR)', url: 'https://icar.org.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
     lastVerified: 'September 2026'
   }
 ];

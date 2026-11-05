@@ -4,16 +4,42 @@ import { Education } from '../models/Education.js';
 import { Roadmap } from '../models/Roadmap.js';
 import { KnowledgeGraphService } from '../services/knowledgeGraphService.js';
 import { AIService } from '../services/aiService.js';
+import { SupabaseService } from '../services/supabase/supabaseService.js';
+import { isSupabaseConfigured, getSupabaseClient } from '../config/supabase.js';
 
 /**
  * GET /api/user/profile
  */
 export const getUserProfile = async (req, res, next) => {
   try {
-    const userId = req.user?._id;
+    const userId = req.user?._id || req.user?.id;
+
+    // Check Supabase first if configured
+    if (isSupabaseConfigured() && req.user) {
+      const u = req.user;
+      return res.json({
+        success: true,
+        data: {
+          id: u._id || u.id,
+          name: u.name,
+          email: u.email,
+          educationName: u.currentEducation?.name || 'B.Com',
+          educationId: '',
+          qualificationLevel: u.educationLevel || "Bachelor's Degree",
+          specialization: u.preferences?.specialization || u.specialization || '',
+          status: u.currentEducation?.status || 'completed',
+          completionYear: u.preferences?.completionYear || 2024,
+          targetJob: { targetJobId: '', targetJobName: u.careerGoal?.targetJobRole || u.targetJob || 'Data Analyst' },
+          currentJob: u.preferences?.currentJob || '',
+          location: u.location,
+          skills: u.skills || []
+        }
+      });
+    }
+
     let user = null;
     if (userId) {
-      user = await User.findById(userId);
+      user = await User.findById(userId).catch(() => null);
     }
     if (!user) {
       user = await User.findOne({ email: 'demo@careercompass.ai' });
@@ -50,8 +76,47 @@ export const getUserProfile = async (req, res, next) => {
  */
 export const updateUserProfile = async (req, res, next) => {
   try {
-    const { name, specialization, currentJob, location, status, completionYear, skills } = req.body;
-    const user = await User.findById(req.user._id);
+    const { name, specialization, currentJob, location, status, completionYear, skills, educationName } = req.body;
+    const userId = req.user?._id || req.user?.id;
+
+    if (isSupabaseConfigured() && userId) {
+      const updated = await SupabaseService.updateUserProfile(userId, {
+        name,
+        location,
+        headline: specialization,
+        currentEducation: educationName ? { name: educationName } : undefined,
+        preferences: {
+          specialization,
+          currentJob,
+          status,
+          completionYear,
+          skills
+        }
+      });
+
+      if (updated) {
+        return res.json({
+          success: true,
+          message: 'Profile updated successfully.',
+          data: {
+            id: updated.id,
+            name: updated.name,
+            email: updated.email,
+            educationName: updated.current_education || educationName,
+            qualificationLevel: updated.education_level || "Bachelor's Degree",
+            specialization,
+            status: updated.education_status || status,
+            completionYear,
+            targetJob: { targetJobName: updated.target_job || updated.target_career },
+            currentJob,
+            location: updated.location,
+            skills: updated.skills || skills || []
+          }
+        });
+      }
+    }
+
+    const user = await User.findById(userId).catch(() => null);
 
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
@@ -126,14 +191,20 @@ export const updateUserEducation = async (req, res, next) => {
 
     const resolvedName = studyDoc ? (studyDoc.shortName || studyDoc.name) : educationName.trim();
 
-    if (req.user && req.user._id) {
-      await User.findByIdAndUpdate(req.user._id, {
+    if (req.user) {
+      const uid = req.user._id || req.user.id;
+      if (isSupabaseConfigured()) {
+        await SupabaseService.updateUserProfile(uid, {
+          currentEducation: { name: resolvedName }
+        });
+      }
+      await User.findByIdAndUpdate(uid, {
         $set: {
           education: resolvedName,
           educationName: resolvedName,
           'currentEducation.name': resolvedName
         }
-      });
+      }).catch(() => null);
     }
 
     res.json({
@@ -160,11 +231,45 @@ export { updateUserTargetJob } from './targetJobController.js';
  */
 export const getUserRoadmap = async (req, res, next) => {
   try {
-    const userId = req.user?._id;
+    const userId = req.user?._id || req.user?.id;
     let roadmap = null;
 
-    if (userId) {
-      roadmap = await Roadmap.findOne({ user: userId }).sort({ updatedAt: -1 }).lean();
+    if (isSupabaseConfigured() && userId) {
+      try {
+        const client = getSupabaseClient();
+        if (client) {
+          const { data: userRoadmap } = await client
+            .from('user_roadmaps')
+            .select('*, roadmaps(*, roadmap_steps(*))')
+            .eq('profile_id', userId)
+            .maybeSingle();
+
+          if (userRoadmap && userRoadmap.roadmaps) {
+            const rm = userRoadmap.roadmaps;
+            const steps = rm.roadmap_steps || [];
+            steps.sort((a, b) => (a.step_number || 0) - (b.step_number || 0));
+            roadmap = {
+              targetJob: userRoadmap.target_job,
+              educationName: userRoadmap.starting_education,
+              durationMonths: rm.estimated_months || 6,
+              overallProgressPercentage: userRoadmap.progress_percentage || 0,
+              currentStep: (userRoadmap.completed_step_ids?.length || 0) + 1,
+              completedSteps: userRoadmap.completed_step_ids || [],
+              tasks: steps.map((s, idx) => ({
+                order: s.step_number || idx + 1,
+                title: s.title,
+                completed: userRoadmap.completed_step_ids?.includes(s.step_number),
+                description: s.description,
+                skills: s.skills || []
+              }))
+            };
+          }
+        }
+      } catch (_) {}
+    }
+
+    if (!roadmap && userId) {
+      roadmap = await Roadmap.findOne({ user: userId }).sort({ updatedAt: -1 }).lean().catch(() => null);
     }
 
     if (!roadmap) {
@@ -208,9 +313,25 @@ export const getUserRoadmap = async (req, res, next) => {
  */
 export const saveUserRoadmap = async (req, res, next) => {
   try {
-    const userId = req.user?._id;
+    const userId = req.user?._id || req.user?.id;
     const { targetJob, educationName, tasks, steps, overallProgressPercentage } = req.body;
     const roadmapSteps = steps || tasks || [];
+
+    if (isSupabaseConfigured() && userId) {
+      try {
+        const client = getSupabaseClient();
+        if (client) {
+          await client.from('user_roadmaps').upsert({
+            profile_id: userId,
+            target_job: targetJob || 'Software Development Engineer (SDE)',
+            starting_education: educationName || 'B.Tech Computer Science',
+            progress_percentage: overallProgressPercentage || 0,
+            is_active: true,
+            updated_at: new Date().toISOString()
+          }, { onConflict: 'profile_id' });
+        }
+      } catch (_) {}
+    }
 
     let roadmap = null;
     if (userId) {

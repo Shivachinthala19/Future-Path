@@ -26,7 +26,8 @@ export const AppRoutes = () => {
     <Routes>
       <Route element={<MainLayout />}>
         {/* Core Entry Routes */}
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/landing" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/onboarding" element={<Onboarding />} />
@@ -35,8 +36,9 @@ export const AppRoutes = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/home" element={<Dashboard />} />
 
-        {/* Universal Search */}
+        {/* Universal Search & Explore */}
         <Route path="/search" element={<SearchResultsPage />} />
+        <Route path="/explore" element={<SearchResultsPage />} />
 
         {/* Universal Future Path Engine (Section 26 & 27) */}
         <Route path="/my-path" element={<FuturePathPage />} />

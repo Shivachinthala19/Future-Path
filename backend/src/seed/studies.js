@@ -1108,5 +1108,693 @@ export const structuredStudies = [
       }
     ],
     lastVerified: 'September 2026'
+  },
+
+  // ==========================================
+  // 13. ARTIFICIAL INTELLIGENCE & DATA SCIENCE
+  // ==========================================
+  {
+    id: 'b-tech-ai-ds',
+    name: 'B.Tech in Artificial Intelligence & Data Science',
+    shortName: 'B.Tech AI & DS',
+    type: 'STUDY',
+    educationLevel: 'Undergraduate',
+    category: 'Engineering & Technology',
+    aliases: ['B.Tech AI', 'B.Tech Data Science', 'Artificial Intelligence Degree', 'B.Tech AI & ML'],
+    description: 'A 4-year specialized engineering degree focused on deep learning, neural networks, machine learning algorithms, big data infrastructure, and mathematical modeling.',
+    duration: '4 Years (8 Semesters)',
+    eligibility: {
+      qualification: '10+2 with Physics, Mathematics, and Chemistry',
+      streams: ['Science (PCM)'],
+      minimumRequirements: ['Pass 10+2 with minimum 60% aggregate in PCM.']
+    },
+    admissionRequirements: ['JEE Main / State CET rank merit score.'],
+    entranceExams: ['JEE Main', 'MHT CET', 'KCET', 'COMEDK', 'BITSAT'],
+    subjects: [
+      'Linear Algebra & Multivariable Calculus',
+      'Data Structures & Algorithms in Python/C++',
+      'Machine Learning Foundations & Scikit-Learn',
+      'Deep Learning & Neural Networks (PyTorch)',
+      'Natural Language Processing (NLP) & LLMs',
+      'Big Data Engineering (Hadoop / Spark)',
+      'Computer Vision & Image Processing',
+      'Cloud AI Deployment & MLOps'
+    ],
+    specializations: ['Generative AI & LLMs', 'Computer Vision & Autonomous Systems', 'Healthcare Analytics', 'Financial AI & Algorithmic Trading'],
+    skills: ['Python, PyTorch & TensorFlow', 'SQL & Vector Databases', 'Data Preprocessing & Feature Engineering', 'MLOps & Docker Deployment', 'Algorithmic Problem Solving'],
+    careerFields: ['Artificial Intelligence Labs', 'Autonomous Vehicles & Robotics', 'E-Commerce & Recommendation Systems', 'FinTech & Algorithmic Trading', 'Healthcare Diagnostics'],
+    relatedJobs: ['AI & Machine Learning Engineer', 'Data Analyst & Business Intelligence Specialist', 'Software Development Engineer (SDE)'],
+    jobRoles: [
+      'Junior AI/ML Engineer (₹7.0 - ₹12.0 LPA)',
+      'Data Scientist (₹8.0 - ₹16.0 LPA)',
+      'Prompt & LLM Systems Engineer (₹9.0 - ₹18.0 LPA)',
+      'Senior Machine Learning Scientist (₹16.0 - ₹32.0 LPA)'
+    ],
+    seniorRoles: ['Lead AI Architect', 'VP of Artificial Intelligence', 'Chief AI Officer (CAIO)'],
+    relatedStudies: ['M.Tech in Artificial Intelligence', 'M.Sc Data Science', 'MS in Computer Science (Global)'],
+    higherStudies: [
+      {
+        program: 'M.Tech / MS in Artificial Intelligence (via GATE / GRE)',
+        duration: '2 Years',
+        eligibility: 'B.Tech with min 60% aggregate',
+        entranceExam: 'GATE (DA / CS) or GRE',
+        careerOutcomes: ['Principal AI Researcher', 'Autonomous Driving Architect', 'University Professor'],
+        source: 'AICTE / IIT Coordination Board',
+        lastVerified: 'September 2026'
+      }
+    ],
+    sources: [
+      { title: 'AICTE Model Curriculum for AI & Data Science', url: 'https://aicte-india.org', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }
+    ],
+    lastVerified: 'September 2026'
+  },
+
+  // ==========================================
+  // 14. MECHANICAL ENGINEERING
+  // ==========================================
+  {
+    id: 'b-tech-mechanical',
+    name: 'B.Tech in Mechanical Engineering',
+    shortName: 'B.Tech Mechanical',
+    type: 'STUDY',
+    educationLevel: 'Undergraduate',
+    category: 'Core Engineering',
+    aliases: ['Mechanical Engineering', 'B.Tech ME', 'BE Mechanical', 'Automotive Engineering'],
+    description: 'A 4-year foundational engineering program focusing on machine design, thermodynamics, fluid mechanics, robotics, CAD modeling, and industrial manufacturing systems.',
+    duration: '4 Years (8 Semesters)',
+    eligibility: {
+      qualification: '10+2 with Physics, Mathematics, and Chemistry',
+      streams: ['Science (PCM)'],
+      minimumRequirements: ['Pass 10+2 with minimum 50% in PCM.']
+    },
+    admissionRequirements: ['JEE Main / JEE Advanced / State CET rank.'],
+    entranceExams: ['JEE Main', 'JEE Advanced', 'GATE (for PSUs/PG)', 'State CETs'],
+    subjects: [
+      'Engineering Mechanics & Strength of Materials',
+      'Thermodynamics & Heat Transfer',
+      'Fluid Mechanics & Hydraulic Machinery',
+      'Theory of Machines & Machine Design',
+      'Manufacturing Technology & CNC Machining',
+      'CAD/CAM & Finite Element Analysis (FEA)',
+      'Robotics & Industrial Automation',
+      'Automotive Systems & EV Technology'
+    ],
+    specializations: ['Electric Vehicles (EV) & Battery Packs', 'Robotics & Mechatronics', 'Aerospace Propulsion', 'Thermal Engineering', 'Computational Fluid Dynamics (CFD)'],
+    skills: ['SolidWorks, CATIA & AutoCAD', 'ANSYS Finite Element Analysis (FEA)', 'Geometric Dimensioning & Tolerancing (GD&T)', 'Manufacturing Process Optimization', 'Robotics & PLC Programming'],
+    careerFields: ['Automotive & EV Manufacturers', 'Aerospace & Defence (ISRO, DRDO, HAL)', 'Power Plants & Renewable Energy', 'Heavy Engineering & Robotics Automation', 'Public Sector Undertakings (IOCL, NTPC, BHEL)'],
+    relatedJobs: ['Mechanical Design & Robotics Engineer', 'Research Scientist / Physicist'],
+    jobRoles: [
+      'Graduate Engineer Trainee (GET) (₹4.5 - ₹7.0 LPA)',
+      'Mechanical Design Engineer (₹6.0 - ₹11.0 LPA)',
+      'PSU Executive Engineer (via GATE: ₹12.0 - ₹18.0 LPA)',
+      'Senior Robotics / CAE Engineer (₹12.0 - ₹20.0 LPA)'
+    ],
+    seniorRoles: ['Plant General Manager', 'Chief Technology Officer (Manufacturing)', 'VP of Automotive Engineering'],
+    relatedStudies: ['M.Tech Machine Design / Thermal', 'MBA in Operations Management', 'MS in Robotics (Global)'],
+    higherStudies: [
+      {
+        program: 'M.Tech / PSU Recruitment via GATE',
+        duration: '2 Years',
+        eligibility: 'B.Tech Mechanical with valid GATE score',
+        entranceExam: 'GATE (ME)',
+        careerOutcomes: ['Scientist / Executive Engineer at ISRO / ONGC', 'Lead Machine Design Specialist'],
+        source: 'IIT GATE Committee',
+        lastVerified: 'September 2026'
+      }
+    ],
+    sources: [{ title: 'AICTE Mechanical Engineering Standards', url: 'https://aicte-india.org', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+
+  // ==========================================
+  // 15. CIVIL ENGINEERING
+  // ==========================================
+  {
+    id: 'b-tech-civil',
+    name: 'B.Tech in Civil Engineering',
+    shortName: 'B.Tech Civil',
+    type: 'STUDY',
+    educationLevel: 'Undergraduate',
+    category: 'Core Engineering',
+    aliases: ['Civil Engineering', 'B.Tech CE', 'BE Civil', 'Structural Engineering Degree'],
+    description: 'A 4-year engineering program teaching the planning, structural analysis, design, and construction management of national infrastructure including expressways, bridges, high-rises, and smart cities.',
+    duration: '4 Years (8 Semesters)',
+    eligibility: {
+      qualification: '10+2 with Physics, Mathematics, and Chemistry',
+      streams: ['Science (PCM)'],
+      minimumRequirements: ['Pass 10+2 with 50% marks in PCM.']
+    },
+    admissionRequirements: ['JEE Main / State CETs.'],
+    entranceExams: ['JEE Main', 'JEE Advanced', 'GATE (Civil)'],
+    subjects: [
+      'Structural Analysis & Mechanics of Solids',
+      'Building Materials & Concrete Technology',
+      'Reinforced Concrete (RCC) & Steel Design',
+      'Geotechnical & Foundation Engineering',
+      'Transportation & Highway Engineering',
+      'Environmental Engineering & Water Supply',
+      'Surveying & GPS / GIS Remote Sensing',
+      'Construction Project Management & Estimation'
+    ],
+    specializations: ['Structural Engineering', 'Geotechnical & Earthquake Engineering', 'Transportation & Highway Infrastructure', 'Environmental & Water Resources', 'Construction Project Management'],
+    skills: ['STAAD.Pro & ETABS Structural Modeling', 'AutoCAD & Revit BIM', 'Quantity Surveying & Estimation', 'Quality Assurance & Concrete Testing', 'Total Station Surveying'],
+    careerFields: ['Infrastructure & Construction Firms (L&T, Tata Projects)', 'Public Works Departments (CPWD / PWD)', 'Highway & Rail Authorities (NHAI, DMRC)', 'Consulting Structural Engineering Firms', 'Real Estate Development'],
+    relatedJobs: ['Civil & Structural Infrastructure Engineer', 'Architectural Designer & Urban Planner'],
+    jobRoles: [
+      'Site Engineer (₹4.2 - ₹6.5 LPA)',
+      'Structural Design Engineer (₹5.5 - ₹10.0 LPA)',
+      'CPWD Assistant Executive Engineer (UPSC ESE: ₹11.0 - ₹16.0 LPA)',
+      'Project Infrastructure Manager (₹12.0 - ₹22.0 LPA)'
+    ],
+    seniorRoles: ['Chief Project Director', 'Chief Engineer (Government PWD)', 'VP of Infrastructure Construction'],
+    relatedStudies: ['M.Tech in Structural Engineering', 'Master of Construction Management (NICMAR)', 'UPSC Engineering Services (ESE)'],
+    higherStudies: [
+      {
+        program: 'M.Tech Structural Engineering / UPSC ESE Examination',
+        duration: '2 Years',
+        eligibility: 'B.Tech Civil with GATE score or UPSC ESE selection',
+        entranceExam: 'GATE (CE) / UPSC ESE',
+        careerOutcomes: ['Class 1 Gazetted Civil Engineer in CPWD / Indian Railways', 'Lead Structural Consultant'],
+        source: 'UPSC / AICTE',
+        lastVerified: 'September 2026'
+      }
+    ],
+    sources: [{ title: 'AICTE Civil Engineering Guidelines', url: 'https://aicte-india.org', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+
+  // ==========================================
+  // 16. ELECTRICAL & ELECTRONICS ENGINEERING
+  // ==========================================
+  {
+    id: 'b-tech-electrical',
+    name: 'B.Tech in Electrical & Electronics Engineering',
+    shortName: 'B.Tech EEE',
+    type: 'STUDY',
+    educationLevel: 'Undergraduate',
+    category: 'Core Engineering',
+    aliases: ['Electrical Engineering', 'B.Tech EEE', 'BE Electrical', 'Power Systems Engineering'],
+    description: 'A 4-year engineering program covering electrical power systems, power electronics, renewable solar/wind grids, electric drives, microcontrollers, and industrial automation.',
+    duration: '4 Years (8 Semesters)',
+    eligibility: {
+      qualification: '10+2 with Physics, Mathematics, and Chemistry',
+      streams: ['Science (PCM)'],
+      minimumRequirements: ['Pass 10+2 with min 50% in PCM.']
+    },
+    admissionRequirements: ['JEE Main / State CETs.'],
+    entranceExams: ['JEE Main', 'JEE Advanced', 'GATE (EE)'],
+    subjects: [
+      'Circuit Theory & Network Analysis',
+      'Electrical Machines (Transformers, Motors, Alternators)',
+      'Power Systems Generation & Transmission',
+      'Power Electronics & Motor Drives',
+      'Control Systems & PLC Automation',
+      'Microprocessors & Embedded C',
+      'Renewable Energy & Smart Grid Systems',
+      'Electric Vehicle Powertrain Engineering'
+    ],
+    specializations: ['Smart Grids & Renewable Energy', 'EV Powertrain & Battery Systems', 'Industrial Automation & PLC/SCADA', 'Power Electronics', 'High Voltage Engineering'],
+    skills: ['MATLAB & Simulink', 'Power System Simulation (ETAP)', 'PCB Design & Microcontroller Programming', 'Substation & Grid Protection', 'Industrial Automation (PLC/SCADA)'],
+    careerFields: ['Power Utilities & Grid Corporations (PowerGrid, NTPC)', 'EV & Automotive Power Systems', 'Renewable Energy (Solar & Wind)', 'Heavy Electrical Manufacturing (Siemens, ABB, BHEL)', 'Semiconductor & Embedded Systems'],
+    relatedJobs: ['Industrial Electrical & Automation Engineer', 'Research Scientist / Physicist'],
+    jobRoles: [
+      'Electrical Engineer Trainee (₹4.5 - ₹7.0 LPA)',
+      'Power Systems & Grid Engineer (₹6.0 - ₹11.0 LPA)',
+      'PSU Executive Engineer (via GATE: ₹12.0 - ₹18.0 LPA)',
+      'EV Powertrain Specialist (₹10.0 - ₹18.0 LPA)'
+    ],
+    seniorRoles: ['Chief Electrical Engineer', 'Director of Grid Operations', 'VP of Energy Systems'],
+    relatedStudies: ['M.Tech Power Systems', 'M.Tech Power Electronics', 'MBA in Energy Management'],
+    higherStudies: [
+      {
+        program: 'M.Tech in Power Electronics & Drives (via GATE)',
+        duration: '2 Years',
+        eligibility: 'B.Tech EEE with valid GATE score',
+        entranceExam: 'GATE (EE)',
+        careerOutcomes: ['Senior Renewable Power Architect', 'Scientist at ISRO / PowerGrid'],
+        source: 'IIT GATE Committee',
+        lastVerified: 'September 2026'
+      }
+    ],
+    sources: [{ title: 'AICTE Electrical Engineering Guidelines', url: 'https://aicte-india.org', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+
+  // ==========================================
+  // 17. BACHELOR OF BUSINESS ADMINISTRATION
+  // ==========================================
+  {
+    id: 'bba',
+    name: 'Bachelor of Business Administration',
+    shortName: 'BBA',
+    type: 'STUDY',
+    educationLevel: 'Undergraduate',
+    category: 'Management & Business',
+    aliases: ['BBA', 'BBA Honours', 'Bachelor of Business Administration', 'BMS', 'Bachelor of Management Studies'],
+    description: 'A 3 to 4-year undergraduate management program imparting fundamental principles of business administration, corporate finance, marketing, human resources, and entrepreneurship.',
+    duration: '3 to 4 Years (as per NEP 2020)',
+    eligibility: {
+      qualification: '10+2 in any stream (Commerce, Science, Arts)',
+      streams: ['Any Stream'],
+      minimumRequirements: ['Pass in 10+2 with minimum 50% aggregate marks.']
+    },
+    admissionRequirements: ['CUET-UG merit or university-level entrance tests (IPMAT, SET, NPAT).'],
+    entranceExams: ['IPMAT (IIM Indore/Rohtak)', 'CUET-UG', 'SET (Symbiosis)', 'NPAT (NMIMS)'],
+    subjects: [
+      'Principles of Management & Organizational Behavior',
+      'Business Economics & Financial Accounting',
+      'Marketing Management & Consumer Behavior',
+      'Corporate Finance & Working Capital Management',
+      'Human Resource Management (HRM)',
+      'Business Law & Corporate Governance',
+      'Operations & Supply Chain Management',
+      'Digital Marketing & Business Analytics'
+    ],
+    specializations: ['Finance & Banking', 'Marketing & Sales', 'Human Resources', 'International Business', 'Digital Business & E-Commerce', 'Entrepreneurship & Family Business'],
+    skills: ['Business Communication & Negotiation', 'Financial Statement Interpretation', 'Digital Marketing & Social Media Strategy', 'Data Analytics with Excel', 'Project Leadership & Team Management'],
+    careerFields: ['Corporate Management & Consulting', 'Banking & Financial Institutions', 'Marketing & Brand Management', 'Human Resources & Talent Acquisition', 'Venture Building & Startups'],
+    relatedJobs: ['Product Manager (Tech & Growth)', 'Data Analyst & Business Intelligence Specialist', 'Corporate Financial Analyst (FP&A)'],
+    jobRoles: [
+      'Business Development Associate (₹4.0 - ₹7.0 LPA)',
+      'Marketing Coordinator (₹4.2 - ₹6.8 LPA)',
+      'Junior Financial / Operations Analyst (₹4.5 - ₹8.0 LPA)',
+      'Assistant Product / Brand Manager (₹6.0 - ₹11.0 LPA)'
+    ],
+    seniorRoles: ['Marketing Director', 'General Manager', 'Chief Executive Officer (CEO)'],
+    relatedStudies: ['Master of Business Administration (MBA)', 'Master of International Business', 'CFA / Digital Marketing Specializations'],
+    higherStudies: [
+      {
+        program: 'Master of Business Administration (MBA via CAT / XAT / GMAT)',
+        duration: '2 Years',
+        eligibility: 'Graduation with min 50% marks',
+        entranceExam: 'CAT / XAT / GMAT',
+        careerOutcomes: ['Management Consultant at McKinsey/BCG', 'Investment Banker', 'Product Director'],
+        source: 'IIM CAT Committee',
+        lastVerified: 'September 2026'
+      }
+    ],
+    sources: [{ title: 'UGC BBA Framework', url: 'https://ugc.gov.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+
+  // ==========================================
+  // 18. BACHELOR OF COMPUTER APPLICATIONS
+  // ==========================================
+  {
+    id: 'bca',
+    name: 'Bachelor of Computer Applications',
+    shortName: 'BCA',
+    type: 'STUDY',
+    educationLevel: 'Undergraduate',
+    category: 'Computer Applications & IT',
+    aliases: ['BCA', 'Bachelor of Computer Applications', 'BCA Honours', 'Computer Applications Degree'],
+    description: 'A 3-year undergraduate degree program providing comprehensive practical training in software application development, database management, web systems, and programming languages.',
+    duration: '3 Years (6 Semesters)',
+    eligibility: {
+      qualification: '10+2 in any stream (Mathematics/Computer Science at 10+2 preferred by some universities)',
+      streams: ['Science', 'Commerce with Math', 'Arts with Math'],
+      minimumRequirements: ['Pass in 10+2 with minimum 45% - 50% aggregate.']
+    },
+    admissionRequirements: ['CUET-UG or merit-based university admission.'],
+    entranceExams: ['CUET-UG', 'IPU CET', 'Symbiosis SET'],
+    subjects: [
+      'Programming in C / C++ / Java',
+      'Data Structures & Algorithms',
+      'Relational Database Management Systems (RDBMS & SQL)',
+      'Web Technologies (HTML, CSS, JavaScript, React)',
+      'Operating Systems & Linux Administration',
+      'Computer Networks & Cyber Security Basics',
+      'Python Programming & Data Analytics',
+      'Software Engineering & Cloud Computing'
+    ],
+    specializations: ['Cloud Computing & DevOps', 'Data Analytics & AI', 'Full Stack Web Development', 'Mobile Application Development (Android/iOS)', 'Cybersecurity'],
+    skills: ['JavaScript, Python & Java Programming', 'SQL & Database Architecture', 'Web Frontend & Backend Development', 'Git Version Control', 'Software Testing & Deployment'],
+    careerFields: ['IT Services & Software Consulting (TCS, Wipro, Infosys)', 'Software Product Companies & Startups', 'E-Commerce & Digital Platforms', 'Web Design & Development Studios', 'Public Sector IT Departments'],
+    relatedJobs: ['Full Stack Web Developer', 'Software Development Engineer (SDE)', 'Data Analyst & Business Intelligence Specialist'],
+    jobRoles: [
+      'Junior Software Developer (₹3.8 - ₹6.5 LPA)',
+      'Web Application Developer (₹4.2 - ₹7.5 LPA)',
+      'Database Administrator Trainee (₹4.0 - ₹6.8 LPA)',
+      'Full Stack Software Engineer (₹6.0 - ₹12.0 LPA)'
+    ],
+    seniorRoles: ['Lead Software Architect', 'IT Engineering Manager', 'Chief Technology Officer (CTO)'],
+    relatedStudies: ['Master of Computer Applications (MCA)', 'M.Sc Computer Science / Data Science', 'MBA in Information Technology'],
+    higherStudies: [
+      {
+        program: 'Master of Computer Applications (MCA via NIMCET / CUET-PG)',
+        duration: '2 Years',
+        eligibility: 'BCA or B.Sc with Mathematics',
+        entranceExam: 'NIMCET (for NITs) / CUET-PG',
+        careerOutcomes: ['Senior Software Development Engineer (SDE)', 'Cloud Infrastructure Architect'],
+        source: 'NIMCET Committee / UGC',
+        lastVerified: 'September 2026'
+      }
+    ],
+    sources: [{ title: 'UGC Computer Applications Guidelines', url: 'https://ugc.gov.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+
+  // ==========================================
+  // 19. BACHELOR OF PHYSIOTHERAPY
+  // ==========================================
+  {
+    id: 'bpt',
+    name: 'Bachelor of Physiotherapy',
+    shortName: 'BPT',
+    type: 'STUDY',
+    educationLevel: 'Undergraduate',
+    category: 'Healthcare & Allied Health Sciences',
+    aliases: ['BPT', 'Bachelor of Physiotherapy', 'Physiotherapy Degree', 'Physical Therapy'],
+    description: 'A 4.5-year professional clinical healthcare degree (4 years academic + 6 months mandatory internship) training students in physical rehabilitation, biomechanics, kinesiology, and exercise therapy.',
+    duration: '4.5 Years (including 6-month internship)',
+    eligibility: {
+      qualification: '10+2 with Physics, Chemistry, and Biology (PCB)',
+      streams: ['Science (PCB)'],
+      minimumRequirements: ['Pass in 10+2 with minimum 50% aggregate in PCB (45% for reserved categories).']
+    },
+    admissionRequirements: ['NEET-UG or state/university-level paramedical entrance examination.'],
+    entranceExams: ['NEET-UG (in select states)', 'State Paramedical CETs', 'IPU CET Paramedical'],
+    subjects: [
+      'Human Anatomy & Physiology',
+      'Biomechanics & Kinesiology',
+      'Pathology & Microbiology',
+      'Pharmacology for Physiotherapy',
+      'Exercise Therapy & Therapeutic Modalities',
+      'Electrotherapy (Ultrasound, TENS, IFT)',
+      'Orthopedic & Musculoskeletal Rehabilitation',
+      'Neurological & Sports Physical Therapy',
+      'Cardiopulmonary & ICU Physiotherapy'
+    ],
+    specializations: ['Sports Physiotherapy', 'Neurological Rehabilitation (Stroke/Spinal)', 'Orthopedic Physical Therapy', 'Cardiorespiratory Physiotherapy', 'Pediatric & Geriatric Care'],
+    skills: ['Manual Therapy & Joint Mobilization', 'Therapeutic Exercise Prescription', 'Electrotherapy Equipment Handling', 'Post-Surgical Patient Rehabilitation', 'Postural & Gait Analysis'],
+    careerFields: ['Multi-Specialty & Orthopedic Hospitals', 'Sports Teams, Stadiums & Fitness Centers', 'Specialized Rehabilitation Clinics', 'Community Health Centers', 'Independent Private Physiotherapy Practice'],
+    relatedJobs: ['Physiotherapist & Rehabilitation Specialist', 'Resident Medical Officer (RMO)'],
+    jobRoles: [
+      'Clinical Physiotherapist (₹3.8 - ₹6.5 LPA)',
+      'Hospital ICU Physical Therapist (₹4.5 - ₹8.0 LPA)',
+      'Sports Team Physiotherapist (₹6.0 - ₹12.0 LPA)',
+      'Private Clinic Consultant (₹8.0 - ₹16.0 LPA)'
+    ],
+    seniorRoles: ['Head of Department (Physiotherapy)', 'Chief Sports Medical Officer', 'Rehabilitation Center Director'],
+    relatedStudies: ['Master of Physiotherapy (MPT - 2 Years)', 'Fellowship in Sports Rehabilitation', 'Hospital Administration (MHA)'],
+    higherStudies: [
+      {
+        program: 'Master of Physiotherapy (MPT)',
+        duration: '2 Years',
+        eligibility: 'BPT with 50% marks and completed internship',
+        entranceExam: 'University PG Entrance',
+        careerOutcomes: ['Consultant Specialist Physiotherapist', 'Associate Professor in Paramedical Sciences'],
+        source: 'Indian Association of Physiotherapists (IAP)',
+        lastVerified: 'September 2026'
+      }
+    ],
+    sources: [{ title: 'National Commission for Allied and Healthcare Professions', url: 'https://ncahp.gov.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+
+  // ==========================================
+  // 20. BACHELOR OF DESIGN
+  // ==========================================
+  {
+    id: 'b-des',
+    name: 'Bachelor of Design',
+    shortName: 'B.Des',
+    type: 'STUDY',
+    educationLevel: 'Undergraduate',
+    category: 'Architecture & Design',
+    aliases: ['B.Des', 'BDes', 'Bachelor of Design', 'UI/UX Design Degree', 'Product Design Degree'],
+    description: 'A 4-year premier professional degree focusing on digital product design, user experience (UI/UX), interaction design, industrial product aesthetics, and creative visual communication.',
+    duration: '4 Years (8 Semesters)',
+    eligibility: {
+      qualification: '10+2 in any discipline (Science, Commerce, Arts)',
+      streams: ['Any Stream'],
+      minimumRequirements: ['Pass in 10+2 from a recognized board.']
+    },
+    admissionRequirements: ['Performance in national design entrance tests (UCEED, NID DAT, NIFT).'],
+    entranceExams: ['UCEED (IIT Bombay)', 'NID DAT (National Institute of Design)', 'NIFT Entrance', 'SEAT'],
+    subjects: [
+      'Design Fundamentals, Color Theory & Form Studies',
+      'User Research, Human-Centered Design & Empathy Mapping',
+      'Information Architecture & Wireframing',
+      'UI/UX Design & Scalable Design Systems (Figma)',
+      'Interactive Prototyping & Micro-interactions',
+      'Typography, Graphic Design & Visual Branding',
+      'Design Psychology & Cognitive Usability',
+      'Design Thinking & Business Strategy'
+    ],
+    specializations: ['User Experience (UX) & Interaction Design', 'Industrial & Product Design', 'Visual Communication & Graphic Design', 'Animation & Game Design', 'Fashion & Textile Design'],
+    skills: ['Figma Mastery & Interactive Prototyping', 'User Research & Usability Testing', 'Design Systems & Component Libraries', 'Adobe Creative Cloud (Illustrator, Photoshop)', 'Micro-interactions & Motion (Lottie)'],
+    careerFields: ['Product Tech Companies & Unicorns (CRED, Swiggy, Zomato)', 'Global Design Agencies & Studios', 'Consumer Electronics & Hardware Brands', 'Mobile App & SaaS Development', 'Automotive Interior Design'],
+    relatedJobs: ['UI/UX Product Designer', 'Architectural Designer & Urban Planner'],
+    jobRoles: [
+      'Associate Product Designer (₹6.0 - ₹10.0 LPA)',
+      'UI/UX Designer (₹7.5 - ₹14.0 LPA)',
+      'Design Systems Specialist (₹9.0 - ₹16.0 LPA)',
+      'Senior UX / Product Designer (₹15.0 - ₹28.0 LPA)'
+    ],
+    seniorRoles: ['Lead Product Designer', 'Head of Design', 'VP of User Experience'],
+    relatedStudies: ['Master of Design (M.Des via CEED)', 'Human-Computer Interaction (HCI)', 'MBA in Design Management'],
+    higherStudies: [
+      {
+        program: 'Master of Design (M.Des at IITs / NID via CEED)',
+        duration: '2 Years',
+        eligibility: 'Degree in Design / Engineering / Architecture',
+        entranceExam: 'CEED (Common Entrance Examination for Design)',
+        careerOutcomes: ['Design Director', 'Chief Experience Officer (CXO)'],
+        source: 'IIT Bombay CEED Committee',
+        lastVerified: 'September 2026'
+      }
+    ],
+    sources: [{ title: 'National Institute of Design (NID) Curricula', url: 'https://nid.edu', sourceType: 'OFFICIAL', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+
+  // ==========================================
+  // 21. B.SC IN DATA SCIENCE & AI
+  // ==========================================
+  {
+    id: 'b-sc-data-science',
+    name: 'B.Sc in Data Science & Artificial Intelligence',
+    shortName: 'B.Sc Data Science',
+    type: 'STUDY',
+    educationLevel: 'Undergraduate',
+    category: 'Pure & Applied Sciences',
+    aliases: ['B.Sc Data Science', 'BSc Data Science & AI', 'Bachelor of Science in Data Science'],
+    description: 'A 3 to 4-year modern scientific undergraduate degree blending mathematical statistics, computational algorithms, predictive modeling, machine learning, and data visualization.',
+    duration: '3 to 4 Years (as per NEP 2020)',
+    eligibility: {
+      qualification: '10+2 with Mathematics or Statistics as a core subject',
+      streams: ['Science (PCM / PCMB)', 'Commerce with Mathematics'],
+      minimumRequirements: ['Pass in 10+2 with minimum 55% aggregate.']
+    },
+    admissionRequirements: ['CUET-UG merit or premier institute direct entrance (e.g. IIT Madras BS Data Science).'],
+    entranceExams: ['CUET-UG', 'IIT Madras BS Qualifier', 'CMI / ISI Entrance'],
+    subjects: [
+      'Calculus, Linear Algebra & Discrete Mathematics',
+      'Probability Distributions & Inferential Statistics',
+      'Python Programming & Data Wrangling (Pandas, NumPy)',
+      'Database Systems & Advanced SQL',
+      'Supervised & Unsupervised Machine Learning',
+      'Big Data Processing & Cloud Analytics',
+      'Data Storytelling & Visualization (Power BI / Tableau)',
+      'Deep Learning & Natural Language Processing'
+    ],
+    specializations: ['Machine Learning & Deep Learning', 'Financial & Risk Analytics', 'Healthcare Data Science', 'Business Intelligence'],
+    skills: ['Python, Pandas, NumPy & Scikit-Learn', 'Relational Databases & SQL', 'Exploratory Data Analysis (EDA)', 'Statistical Hypothesis Testing', 'Data Dashboarding in Power BI'],
+    careerFields: ['Data Science Consultancies (Mu Sigma, Fractal, Tiger Analytics)', 'E-Commerce & Digital Marketplaces', 'Banking & Financial Risk Departments', 'Healthcare Analytics & Biotech Research', 'Tech Startups & SaaS'],
+    relatedJobs: ['Data Analyst & Business Intelligence Specialist', 'AI & Machine Learning Engineer', 'Quantitative Analyst (Quant)'],
+    jobRoles: [
+      'Junior Data Analyst (₹4.5 - ₹7.5 LPA)',
+      'Associate Data Scientist (₹6.0 - ₹11.0 LPA)',
+      'Business Intelligence Developer (₹5.5 - ₹9.5 LPA)',
+      'Data Engineer (₹7.0 - ₹13.0 LPA)'
+    ],
+    seniorRoles: ['Principal Data Scientist', 'Head of Business Analytics', 'Chief Data Officer (CDO)'],
+    relatedStudies: ['M.Sc in Data Science & Machine Learning', 'MCA', 'MBA in Business Analytics'],
+    higherStudies: [
+      {
+        program: 'M.Sc in Data Science / MS in Analytics (via GATE / CUET-PG)',
+        duration: '2 Years',
+        eligibility: 'B.Sc in Math / Stats / CS / Data Science with 55%',
+        entranceExam: 'GATE (DA) / CUET-PG',
+        careerOutcomes: ['Senior Quantitative Researcher', 'Lead Data Scientist'],
+        source: 'UGC / IIT Madras',
+        lastVerified: 'September 2026'
+      }
+    ],
+    sources: [{ title: 'UGC Emerging Technologies Data Science Curricula', url: 'https://ugc.gov.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+
+  // ==========================================
+  // 22. BA IN ECONOMICS (HONOURS)
+  // ==========================================
+  {
+    id: 'ba-economics',
+    name: 'BA in Economics (Honours)',
+    shortName: 'BA Economics (Hons)',
+    type: 'STUDY',
+    educationLevel: 'Undergraduate',
+    category: 'Humanities & Social Sciences',
+    aliases: ['BA Economics', 'BA Eco Hons', 'Bachelor of Arts in Economics', 'Economics Honours'],
+    description: 'A prestigious 3 to 4-year degree focusing on microeconomics, macroeconomics, econometrics, public finance, monetary policy, and quantitative policy modeling.',
+    duration: '3 to 4 Years (as per NEP 2020)',
+    eligibility: {
+      qualification: '10+2 in any stream (Mathematics at 10+2 compulsory for Honours in top universities like DU, St. Stephen’s, Ashoka)',
+      streams: ['Commerce', 'Science', 'Arts with Mathematics'],
+      minimumRequirements: ['Pass in 10+2 with minimum 55% aggregate and pass in Mathematics.']
+    },
+    admissionRequirements: ['CUET-UG merit score for central universities (DU, JNU, BHU).'],
+    entranceExams: ['CUET-UG'],
+    subjects: [
+      'Microeconomic Theory & Applications',
+      'Macroeconomic Policy & Open Economy',
+      'Mathematical Methods for Economics',
+      'Introductory & Advanced Econometrics',
+      'Development Economics & Growth Models',
+      'Public Economics & Fiscal Policy',
+      'Money, Banking & Financial Markets',
+      'International Trade & Balance of Payments'
+    ],
+    specializations: ['Econometrics & Quantitative Modeling', 'Financial Economics & Banking', 'Public Policy & Development', 'Environmental Economics', 'Behavioral Economics'],
+    skills: ['Econometric Analysis (Stata / R)', 'Macroeconomic Forecasting', 'Financial Modeling in Excel', 'Policy Impact Evaluation', 'Quantitative Reasoning & Analytical Writing'],
+    careerFields: ['Economic Consulting & Research Think Tanks', 'Investment Banking & Capital Markets (Equity Research)', 'Reserve Bank of India (RBI Grade B)', 'Public Policy & Government Administration (IES / UPSC)', 'Multilateral Bodies (World Bank, IMF, UN)'],
+    relatedJobs: ['RBI Grade B Officer (Central Banking & Policy)', 'Quantitative Analyst (Quant)', 'IAS Officer (Indian Administrative Service)'],
+    jobRoles: [
+      'Economic Research Analyst (₹5.0 - ₹9.0 LPA)',
+      'Equity / Financial Analyst (₹6.0 - ₹12.0 LPA)',
+      'Policy Analyst (Think Tanks / NITI Aayog) (₹5.5 - ₹10.0 LPA)',
+      'RBI Grade B Officer (via exam: ₹14.0 - ₹22.0 LPA)'
+    ],
+    seniorRoles: ['Chief Economist', 'Economic Advisor to Government', 'Partner at Global Strategy Firm'],
+    relatedStudies: ['M.A in Economics (DSE / JNU / ISI)', 'Indian Economic Service (IES via UPSC)', 'MBA Finance'],
+    higherStudies: [
+      {
+        program: 'M.A Economics at Delhi School of Economics (DSE) / ISI / JNU (via CUET-PG)',
+        duration: '2 Years',
+        eligibility: 'Graduation in Economics / Math / Engineering with 55%',
+        entranceExam: 'CUET-PG / ISI Admission Test',
+        careerOutcomes: ['Indian Economic Service (IES) Officer', 'Global Investment Bank Chief Economist'],
+        source: 'Delhi School of Economics / UGC',
+        lastVerified: 'September 2026'
+      }
+    ],
+    sources: [{ title: 'UGC Economics Honours Model Curriculum', url: 'https://ugc.gov.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+
+  // ==========================================
+  // 23. BA IN PSYCHOLOGY
+  // ==========================================
+  {
+    id: 'ba-psychology',
+    name: 'BA in Psychology & Behavioral Sciences',
+    shortName: 'BA Psychology',
+    type: 'STUDY',
+    educationLevel: 'Undergraduate',
+    category: 'Humanities & Social Sciences',
+    aliases: ['BA Psychology', 'BSc Psychology', 'Bachelor of Arts in Psychology', 'Psychology Degree'],
+    description: 'A 3 to 4-year undergraduate degree examining human cognition, perception, emotional behavior, personality theories, abnormal psychology, and counseling interventions.',
+    duration: '3 to 4 Years (as per NEP 2020)',
+    eligibility: {
+      qualification: '10+2 in any stream (Arts, Science, Commerce)',
+      streams: ['Any Stream'],
+      minimumRequirements: ['Pass in 10+2 with minimum 50% aggregate marks.']
+    },
+    admissionRequirements: ['CUET-UG merit or university-specific entrance examination.'],
+    entranceExams: ['CUET-UG'],
+    subjects: [
+      'Introduction to Psychology & Cognitive Processes',
+      'Biopsychology & Neuroanatomy',
+      'Psychological Research Methods & Statistics (SPSS)',
+      'Developmental Psychology Across Lifespan',
+      'Social Psychology & Group Dynamics',
+      'Abnormal Psychology & Psychopathology',
+      'Counseling Psychology & Therapeutic Techniques',
+      'Organizational Behavior & Industrial Psychology'
+    ],
+    specializations: ['Clinical Psychology', 'Counseling & Mental Wellness', 'Industrial & Organizational (HR) Psychology', 'Child & Neuropsychology', 'Forensic Psychology'],
+    skills: ['Active Listening & Clinical Empathy', 'Psychometric Assessment Administration', 'Statistical Data Analysis (SPSS)', 'Behavioral Interviewing', 'Counseling Session Facilitation'],
+    careerFields: ['Hospitals & Mental Health Clinics', 'Corporate HR & Talent Management', 'Schools & Universities (Student Counselors)', 'Non-Profit Organizations & Rehabilitation Centers', 'User Experience (UX) Research'],
+    relatedJobs: ['Clinical Psychologist & Mental Health Counselor', 'University Assistant Professor / Lecturer (UGC NET)'],
+    jobRoles: [
+      'Counseling Associate (₹3.5 - ₹5.5 LPA)',
+      'Human Resources & Talent Associate (₹4.0 - ₹6.5 LPA)',
+      'Mental Health Support Specialist (₹4.2 - ₹7.0 LPA)',
+      'UX Researcher (Digital Product UX) (₹6.0 - ₹11.0 LPA)'
+    ],
+    seniorRoles: ['Licensed Clinical Psychologist (RCI)', 'Chief Human Resources Officer (CHRO)', 'Director of Mental Health Services'],
+    relatedStudies: ['M.A / M.Sc Psychology', 'M.Phil / Professional Diploma in Clinical Psychology (RCI)', 'MBA in Human Resource Management'],
+    higherStudies: [
+      {
+        program: 'M.A / M.Sc Clinical Psychology + RCI Certification',
+        duration: '2 Years M.A + 2 Years M.Phil',
+        eligibility: 'BA/B.Sc Psychology with 55% marks',
+        entranceExam: 'CUET-PG / NIMHANS Entrance',
+        careerOutcomes: ['RCI-Registered Clinical Psychologist in Tertiary Hospitals', 'Private Mental Health Consultant'],
+        source: 'Rehabilitation Council of India (RCI)',
+        lastVerified: 'September 2026'
+      }
+    ],
+    sources: [{ title: 'Rehabilitation Council of India (RCI) Standards', url: 'https://rehabcouncil.nic.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
+  },
+
+  // ==========================================
+  // 24. BACHELOR OF HOTEL MANAGEMENT
+  // ==========================================
+  {
+    id: 'bhm-hotel-management',
+    name: 'Bachelor of Hotel Management & Catering Technology',
+    shortName: 'BHM',
+    type: 'STUDY',
+    educationLevel: 'Undergraduate',
+    category: 'Hospitality, Aviation & Tourism',
+    aliases: ['BHM', 'BHMCT', 'Hotel Management', 'Bachelor of Hospitality Management'],
+    description: 'A 3 to 4-year professional hospitality program providing intensive operational training in food & beverage production, front office management, accommodation operations, and hotel revenue strategy.',
+    duration: '3 to 4 Years',
+    eligibility: {
+      qualification: '10+2 in any stream with English as a compulsory subject',
+      streams: ['Any Stream'],
+      minimumRequirements: ['Pass in 10+2 with minimum 45% - 50% aggregate.']
+    },
+    admissionRequirements: ['NCHMCT JEE national entrance examination for Institute of Hotel Management (IHM) campuses.'],
+    entranceExams: ['NCHMCT JEE (NTA)', 'State Hotel Management CETs'],
+    subjects: [
+      'Culinary Arts & Food Production Principles',
+      'Food & Beverage Service Operations',
+      'Front Office Management & Reservations Systems',
+      'Housekeeping Operations & Interior Aesthetics',
+      'Hospitality Accounting & Cost Control',
+      'Hotel Law & Food Safety Standards (FSSAI)',
+      'Hospitality Marketing & Revenue Management',
+      'Event & Banquet Management'
+    ],
+    specializations: ['Culinary Arts & Chef Apprenticeship', 'Food & Beverage Management', 'Front Office & Guest Relations', 'Hotel Revenue & Yield Management', 'Luxury Cruise Line & Airline Hospitality'],
+    skills: ['Guest Relationship Management & Etiquette', 'Property Management Systems (Opera PMS)', 'Food & Beverage Costing', 'Banquet & Event Planning', 'Culinary Cooking Techniques'],
+    careerFields: ['5-Star Luxury Hotels & Resorts (Taj, Oberoi, Marriott, ITC)', 'Luxury Cruise Lines (Royal Caribbean, Carnival)', 'Aviation Cabin Crew & Airline Catering', 'High-End Restaurant Chains & Cloud Kitchens', 'Corporate Facility & Event Management'],
+    relatedJobs: ['Customer Operations & Business Support Associate', 'Product Manager (Tech & Growth)'],
+    jobRoles: [
+      'Hotel Management Trainee (MT) (₹3.8 - ₹6.0 LPA)',
+      'Front Office Executive (₹3.6 - ₹5.5 LPA)',
+      'Food & Beverage Supervisor / Sous Chef (₹4.5 - ₹8.0 LPA)',
+      'Hotel Assistant General Manager (₹8.0 - ₹15.0 LPA)'
+    ],
+    seniorRoles: ['General Manager (5-Star Luxury Property)', 'Corporate Director of Hospitality Operations', 'Celebrity Executive Chef'],
+    relatedStudies: ['Master in Hospitality Administration (MHA)', 'MBA in Hospitality & Tourism', 'Sommelier & Advanced Culinary Diplomas (Switzerland/France)'],
+    higherStudies: [
+      {
+        program: 'Master in Hospitality Administration (MHA at NCHMCT)',
+        duration: '2 Years',
+        eligibility: 'BHM with 50% marks',
+        entranceExam: 'NCHMCT PG Entrance',
+        careerOutcomes: ['Hotel General Manager', 'Hospitality Business Consultant'],
+        source: 'National Council for Hotel Management and Catering Technology',
+        lastVerified: 'September 2026'
+      }
+    ],
+    sources: [{ title: 'NCHMCT Statutory Standards', url: 'https://nchm.gov.in', sourceType: 'GOVERNMENT', lastVerified: 'September 2026' }],
+    lastVerified: 'September 2026'
   }
 ];
+

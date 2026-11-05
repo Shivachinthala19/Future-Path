@@ -143,17 +143,9 @@ export const Dashboard = () => {
       {/* ============================================================ */}
       <section className="text-center space-y-4 pt-4 sm:pt-6">
         <div className="space-y-3 max-w-3xl mx-auto">
-          <div className="text-sm sm:text-base font-bold text-[#64748B] flex items-center justify-center gap-1.5">
-            <span>Welcome back, <strong className="text-[#0F172A]">{userName}</strong></span>
-            <span>👋</span>
-
-          </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight leading-tight">
             Build the future you want.
           </h1>
-
-          {/* Value Highlights Pill Bar */}
-
         </div>
 
         {/* ============================================================ */}
@@ -221,27 +213,33 @@ export const Dashboard = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
           {/* Current Education Node */}
-          <div className="p-5 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] flex flex-col justify-between space-y-3">
-            <div className="space-y-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B]">
-                Current Education
-              </span>
-              <div className="text-2xl font-extrabold text-[#0F172A]">
+          <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-white to-slate-50 border border-[#E2E8F0] hover:border-[#C7D2FE] flex flex-col justify-between space-y-4 shadow-2xs transition-all">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] flex items-center gap-1.5">
+                  <GraduationCap className="w-3.5 h-3.5 text-[#4F46E5]" />
+                  <span>Current Education</span>
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>{statusLabel}</span>
+                </span>
+              </div>
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
                 {studyName}
               </div>
-              <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                <span>{statusLabel}</span>
-              </div>
+              <p className="text-xs text-[#64748B] leading-relaxed">
+                Eligible programs and job pathways are dynamically computed for this degree.
+              </p>
             </div>
-            <div>
+            <div className="pt-2">
               <button
                 onClick={openChangeModal}
-                className="text-xs font-bold text-[#4F46E5] hover:text-[#3730A3] inline-flex items-center gap-1 cursor-pointer"
+                className="w-full py-2.5 px-4 rounded-xl border border-[#E2E8F0] hover:border-[#4F46E5] text-xs font-bold text-[#4F46E5] hover:bg-[#EEF2FF] inline-flex items-center justify-between transition-all cursor-pointer shadow-2xs"
               >
-                <span>Change Education</span>
+                <span>Change Degree / Stream</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -249,49 +247,61 @@ export const Dashboard = () => {
 
           {/* Target Job Node */}
           {targetJobName ? (
-            <div className="p-5 rounded-2xl bg-[#F5F3FF] border border-[#C7D2FE] flex flex-col justify-between space-y-3">
-              <div className="space-y-1">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#7C3AED]">
-                  Target Career / Job
-                </span>
-                <div className="text-2xl font-extrabold text-[#0F172A] flex items-center gap-2">
+            <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-white via-purple-50/40 to-indigo-50/30 border border-[#C7D2FE] hover:border-purple-300 flex flex-col justify-between space-y-4 shadow-2xs transition-all">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#7C3AED] flex items-center gap-1.5">
+                    <Target className="w-3.5 h-3.5 text-[#7C3AED]" />
+                    <span>Target Goal</span>
+                  </span>
+                  <span className="text-[11px] font-bold text-purple-700 bg-purple-100/70 px-2.5 py-0.5 rounded-full border border-purple-200">
+                    Active Roadmap
+                  </span>
+                </div>
+                <div className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight flex items-center gap-2">
                   <span>{targetJobName}</span>
-                  <span className="text-base">🎯</span>
+                  <span className="text-xl">🎯</span>
                 </div>
-                <div className="text-xs text-[#64748B]">
-                  Your personalized roadmap is active
-                </div>
+                <p className="text-xs text-[#64748B] leading-relaxed">
+                  Your personalized skill gap analysis and step-by-step career path are active.
+                </p>
               </div>
-              <div>
+              <div className="pt-2">
                 <Link
                   to="/my-path"
-                  className="btn-primary !text-xs !py-2 !px-4 !rounded-xl inline-flex items-center gap-1.5"
+                  className="w-full py-2.5 px-4 rounded-xl bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold inline-flex items-center justify-between transition-all shadow-xs"
                 >
-                  <span>View My Path</span>
+                  <span>View Full Roadmap</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>
           ) : (
-            <div className="p-5 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] flex flex-col justify-between space-y-3">
-              <div className="space-y-1">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B]">
-                  Target Job
-                </span>
-                <div className="text-lg font-bold text-[#0F172A]">
+            <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-white to-slate-50 border border-[#E2E8F0] hover:border-purple-300 flex flex-col justify-between space-y-4 shadow-2xs transition-all group">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] flex items-center gap-1.5">
+                    <Target className="w-3.5 h-3.5 text-[#7C3AED]" />
+                    <span>Target Job</span>
+                  </span>
+                  <span className="text-[11px] font-semibold text-slate-400">
+                    Not Set
+                  </span>
+                </div>
+                <div className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight group-hover:text-[#7C3AED] transition-colors">
                   Explore possible careers and jobs →
                 </div>
-                <p className="text-xs text-[#64748B]">
-                  Select a target goal to unlock your custom roadmap & skill plan.
+                <p className="text-xs text-[#64748B] leading-relaxed">
+                  Select a target job to generate your personalized skill roadmap, courses, and project milestones.
                 </p>
               </div>
-              <div>
+              <div className="pt-2">
                 <button
                   onClick={openTargetJobModal}
-                  className="btn-gradient !text-xs !py-2 !px-4 !rounded-xl inline-flex items-center gap-1.5 cursor-pointer"
+                  className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] hover:from-[#4338CA] hover:to-[#6D28D9] text-white text-xs font-bold inline-flex items-center justify-between transition-all shadow-xs cursor-pointer"
                 >
-                  <Target className="w-3.5 h-3.5" />
                   <span>Explore My Options</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
@@ -303,42 +313,6 @@ export const Dashboard = () => {
       {/* SECTION 9: EXPLORE YOUR FUTURE (5 Cards Grid)                */}
       {/* ============================================================ */}
       <ExploreYourFutureSection />
-
-      {/* ============================================================ */}
-      {/* SECTION 10: YOUR NEXT STEP                                   */}
-      {/* ============================================================ */}
-      {nextStepInfo && (
-        <section className="card-clean p-6 sm:p-8 bg-white border border-[#E2E8F0] space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#4F46E5]">
-              <Compass className="w-3.5 h-3.5" />
-              <span>YOUR NEXT STEP</span>
-            </div>
-            <span className="text-xs font-semibold text-[#64748B]">
-              Progress: {nextStepInfo.progress}
-            </span>
-          </div>
-
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
-            <div className="space-y-1">
-              <h3 className="text-xl font-extrabold text-[#0F172A]">
-                {nextStepInfo.title}
-              </h3>
-              <p className="text-xs sm:text-sm text-[#64748B] max-w-xl">
-                {nextStepInfo.description}
-              </p>
-            </div>
-
-            <Link
-              to={nextStepInfo.to}
-              className="btn-primary !text-xs !py-2.5 !px-5 !rounded-xl self-start sm:self-auto inline-flex items-center gap-2"
-            >
-              <span>Start</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </section>
-      )}
 
       {/* ============================================================ */}
       {/* ALL TAILORED OPPORTUNITIES EXPLORATION HUB                   */}

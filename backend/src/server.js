@@ -6,28 +6,28 @@ import { runSeed } from './seeds/runSeed.js';
 
 const startServer = async () => {
   try {
-    // Attempt MongoDB connection gracefully if available
-    try {
-      await connectDB();
-      const educationCount = await Education.countDocuments().catch(() => 0);
-      if (educationCount === 0) {
-        console.log('[Server] Database is empty. Seeding verified education and knowledge graph dataset...');
-        await runSeed();
-        console.log('[Server] ✅ Database seeded successfully! Knowledge graph ready.');
-      } else {
-        console.log(`[Server] ✅ MongoDB connected. Loaded ${educationCount} verified educations.`);
-      }
-    } catch (dbErr) {
-      console.warn(`[Server] Database notice: ${dbErr.message}`);
-    }
-
-    // Verify Supabase Connection
+    // 1. Verify Supabase Connection (Primary Database)
     const { SupabaseService } = await import('./services/supabase/supabaseService.js');
     const supabaseStatus = await SupabaseService.checkConnection();
     if (supabaseStatus.connected) {
       console.log(`[Server] ✅ Connected to Supabase PostgreSQL database.`);
     } else {
       console.log(`[Server] ℹ️ Supabase status: ${supabaseStatus.message}`);
+    }
+
+    // 2. Initialize Knowledge Graph Engine
+    try {
+      await connectDB();
+      const educationCount = await Education.countDocuments().catch(() => 0);
+      if (educationCount === 0) {
+        console.log('[Server] Initializing verified education & knowledge graph dataset...');
+        await runSeed();
+        console.log('[Server] ✅ Knowledge graph ready (50+ verified career pathways).');
+      } else {
+        console.log(`[Server] ✅ Knowledge graph active (${educationCount} verified pathways).`);
+      }
+    } catch (dbErr) {
+      console.warn(`[Server] Knowledge graph notice: ${dbErr.message}`);
     }
 
     const server = app.listen(ENV.PORT, '0.0.0.0', () => {

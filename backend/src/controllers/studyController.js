@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Study } from '../models/Study.js';
 import { Entity } from '../models/Entity.js';
 import { StudyProgram } from '../models/StudyProgram.js';
@@ -14,8 +15,13 @@ export const getAllStudyOptions = async (req, res, next) => {
     const { category, search, q } = req.query;
     const searchQuery = search || q;
 
-    const education = await KnowledgeGraphService.identifyEducation(educationQuery).catch(() => null);
+    let education = null;
+    if (mongoose.connection.readyState === 1) {
+      education = await KnowledgeGraphService.identifyEducation(educationQuery).catch(() => null);
+    }
     const eduName = education ? education.name : educationQuery;
+
+    let studyList = [];
 
     // Query Supabase studies first
     const { SupabaseService } = await import('../services/supabase/supabaseService.js');
@@ -75,7 +81,12 @@ export const getAllStudyOptions = async (req, res, next) => {
     }
 
     // Also include entities from universal Entity model if available
-    const entities = await Entity.find({ type: 'STUDY' }).limit(10).lean();
+    let entities = [];
+    if (mongoose.connection.readyState === 1) {
+      try {
+        entities = await Entity.find({ type: 'STUDY' }).limit(10).lean().catch(() => []);
+      } catch (_) {}
+    }
     if (entities.length > 0) {
       const entityStudies = entities.map(e => ({
         id: e.id,
@@ -162,6 +173,8 @@ export const getStudyOptionById = async (req, res, next) => {
       });
     }
 
+    const entity = await Entity.findOne({ $or: [{ id }, { slug: id }] }).lean().catch(() => null);
+
     if (entity && entity.type === 'STUDY') {
       const formattedStudy = {
         id: entity.id,
@@ -211,16 +224,20 @@ export const getStudyOptionById = async (req, res, next) => {
 
     let program = null;
 
-    if (id.match(/^[0-9a-fA-F]{24}$/)) {
-      program = await StudyProgram.findById(id).lean();
-    } else {
-      program = await StudyProgram.findOne({
-        $or: [
-          { slug: id.toLowerCase() },
-          { name: { $regex: new RegExp(`^${id}$`, 'i') } },
-          { name: { $regex: id.replace(/-/g, ' '), $options: 'i' } }
-        ]
-      }).lean();
+    if (mongoose.connection.readyState === 1) {
+      try {
+        if (id.match(/^[0-9a-fA-F]{24}$/)) {
+          program = await StudyProgram.findById(id).lean().catch(() => null);
+        } else {
+          program = await StudyProgram.findOne({
+            $or: [
+              { slug: id.toLowerCase() },
+              { name: { $regex: new RegExp(`^${id}$`, 'i') } },
+              { name: { $regex: id.replace(/-/g, ' '), $options: 'i' } }
+            ]
+          }).lean().catch(() => null);
+        }
+      } catch (_) {}
     }
 
     // Synthesize structured study program data complying with Section 8, 9, 10

@@ -1,21 +1,17 @@
+import mongoose from 'mongoose';
 import { Entity } from '../models/Entity.js';
 import { Education } from '../models/Education.js';
-import { StudyProgram } from '../models/StudyProgram.js';
-import { StudyPathway } from '../models/StudyPathway.js';
 import { JobRole } from '../models/JobRole.js';
-import { CareerField } from '../models/CareerField.js';
-import { Career } from '../models/Career.js';
-import { Skill } from '../models/Skill.js';
-import { Certification } from '../models/Certification.js';
 import { KnowledgeGraphService } from '../services/knowledgeGraphService.js';
-import { EligibilityService } from '../services/eligibilityService.js';
+import { getSupabaseClient, isSupabaseConfigured } from '../config/supabase.js';
 
 export function googleSearchUrl(query) {
   return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
 }
 
 /**
- * Universal Search Controller (Section 1, 2, 12, 13)
+ * Universal Search Controller
+ * Powered by Supabase PostgreSQL (Primary) + MongoDB Knowledge Graph (Fallback)
  * Supports natural language intent queries and cross-entity searching across
  * Studies, Jobs, Careers, Exams, Certifications, Skills, Government & Private Jobs.
  */
@@ -35,11 +31,13 @@ export const universalSearch = async (req, res, next) => {
 
     const cleanQ = q.trim();
     const lowerQ = cleanQ.toLowerCase();
+    const isSupabaseReady = isSupabaseConfigured();
+    const supabase = isSupabaseReady ? getSupabaseClient() : null;
 
     let directCard = null;
 
     // =========================================================================
-    // 1. Natural Language Intent Parsing (Section 13)
+    // 1. Natural Language Intent Parsing
     // =========================================================================
 
     // Intent A: "jobs after <X>" / "courses after <X>" / "what can I study after <X>" / "careers after <X>"
@@ -48,19 +46,32 @@ export const universalSearch = async (req, res, next) => {
 
     if (govtJobsAfterMatch && govtJobsAfterMatch[1]) {
       const eduQuery = govtJobsAfterMatch[1].trim();
-      const govtEntities = await Entity.find({
-        type: 'GOVERNMENT_JOB'
-      }).limit(6).lean();
+      let govtJobsList = [];
 
-      directCard = {
-        type: 'GOVERNMENT_JOB_GUIDANCE',
-        title: `Government Jobs After ${eduQuery.toUpperCase()}`,
-        education: eduQuery,
-        disclaimer: 'Official Information: Recruitment rules, vacancies, age limits, and deadlines can change. Please verify the latest details with the official notification.',
-        lastVerified: 'September 2026',
-        webSearchUrl: googleSearchUrl(`government jobs after ${eduQuery} official notification eligibility`),
-        overview: `Key Central and State Government recruitment pathways open to candidates having completed ${eduQuery}.`,
-        governmentJobs: govtEntities.map(g => ({
+      if (supabase) {
+        const { data: sbGovt } = await supabase
+          .from('jobs')
+          .select('*')
+          .or(`category.eq.Government,job_type.eq.GOVERNMENT_JOB`)
+          .limit(8);
+        if (sbGovt && sbGovt.length > 0) {
+          govtJobsList = sbGovt.map(g => ({
+            id: g.slug || g.id,
+            title: g.title,
+            organization: g.sector || 'Central / State Commission',
+            qualification: g.minimum_education || g.eligibility_note || `Minimum qualification as specified in notification`,
+            ageLimit: 'Refer to official advertisement (18-32 years)',
+            exams: ['Competitive Examination'],
+            officialSource: 'Official Recruitment Board',
+            notificationUrl: 'https://ssc.gov.in',
+            webSearchUrl: googleSearchUrl(`${g.title} official recruitment notification eligibility`)
+          }));
+        }
+      }
+
+      if (govtJobsList.length === 0 && mongoose.connection.readyState === 1) {
+        const govtEntities = await Entity.find({ type: 'GOVERNMENT_JOB' }).limit(6).lean().catch(() => []);
+        govtJobsList = (govtEntities || []).map(g => ({
           id: g.id || g._id,
           title: g.name,
           organization: g.organization || 'Central / State Commission',
@@ -70,332 +81,478 @@ export const universalSearch = async (req, res, next) => {
           officialSource: g.officialSource || 'Official Recruitment Board',
           notificationUrl: g.notificationUrl || g.sources?.[0]?.url || 'https://ssc.gov.in',
           webSearchUrl: googleSearchUrl(`${g.name} official recruitment notification eligibility`)
-        }))
+        }));
+      }
+
+      directCard = {
+        type: 'GOVERNMENT_JOB_GUIDANCE',
+        title: `Government Jobs After ${eduQuery.toUpperCase()}`,
+        education: eduQuery,
+        disclaimer: 'Official Information: Recruitment rules, vacancies, age limits, and deadlines can change. Please verify the latest details with the official notification.',
+        lastVerified: 'September 2026',
+        webSearchUrl: googleSearchUrl(`government jobs after ${eduQuery} official notification eligibility`),
+        overview: `Key Central and State Government recruitment pathways open to candidates having completed ${eduQuery}.`,
+        governmentJobs: govtJobsList
       };
     } else if (jobsAfterMatch && jobsAfterMatch[1]) {
       const eduQuery = jobsAfterMatch[1].trim();
-      const education = await KnowledgeGraphService.identifyEducation(eduQuery);
-      const eduName = education ? education.name : eduQuery.toUpperCase();
+      let relatedStudiesList = [];
+      let relatedJobsList = [];
+      let relatedGovtJobsList = [];
 
-      // Look up entity or related studies
-      const relatedStudies = await Entity.find({
-        type: 'STUDY',
-        $or: [
-          { 'eligibility.qualification': { $regex: eduQuery, $options: 'i' } },
-          { 'educationRoutes.degrees': { $regex: eduQuery, $options: 'i' } },
-          { aliases: { $regex: eduQuery, $options: 'i' } },
-          { name: { $regex: eduQuery, $options: 'i' } }
-        ]
-      }).limit(5).lean();
+      if (supabase) {
+        // Query study paths from Supabase
+        const { data: paths } = await supabase
+          .from('study_paths')
+          .select('*')
+          .ilike('from_education_name', `%${eduQuery}%`)
+          .limit(6);
 
-      const relatedJobs = await Entity.find({
-        type: { $in: ['JOB', 'PRIVATE_JOB'] },
-        $or: [
-          { 'educationRoutes.degrees': { $regex: eduQuery, $options: 'i' } },
-          { category: { $regex: eduQuery, $options: 'i' } }
-        ]
-      }).limit(5).lean();
+        if (paths && paths.length > 0) {
+          relatedStudiesList = paths.map(p => ({
+            id: p.to_education_name.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+            name: p.to_education_name,
+            duration: `${p.duration_years || 2} Years`,
+            degreeLevel: p.relationship_type || 'Degree Pathway',
+            eligibility: p.eligibility_note || 'Qualifying grade in previous degree',
+            webSearchUrl: googleSearchUrl(`${p.to_education_name} course eligibility admission`)
+          }));
+        }
 
-      const govtJobs = await Entity.find({
-        type: 'GOVERNMENT_JOB'
-      }).limit(3).lean();
+        // Query jobs
+        const { data: sbJobs } = await supabase
+          .from('jobs')
+          .select('*')
+          .ilike('minimum_education', `%${eduQuery}%`)
+          .limit(6);
 
-      directCard = {
-        type: 'EDUCATION_NEXT_PATH',
-        title: `Paths After Studying ${eduName}`,
-        education: eduName,
-        overview: `Comprehensive future path breakdown: higher study options, career fields, and private vs government job opportunities connected to ${eduName}.`,
-        webSearchUrl: googleSearchUrl(`courses and career options after ${eduName} eligibility roadmap`),
-        studyNext: relatedStudies.length > 0 ? relatedStudies.map(s => ({
+        if (sbJobs && sbJobs.length > 0) {
+          relatedJobsList = sbJobs.filter(j => j.category !== 'Government').map(j => ({
+            id: j.slug || j.id,
+            title: j.title,
+            salary: '₹5.0 - ₹14.0 LPA',
+            overview: j.overview || j.description,
+            webSearchUrl: googleSearchUrl(`${j.title} job eligibility skills career`)
+          }));
+          relatedGovtJobsList = sbJobs.filter(j => j.category === 'Government').map(j => ({
+            id: j.slug || j.id,
+            title: j.title,
+            organization: j.sector || 'Government Commission',
+            officialSource: 'Official Commission Portal',
+            notificationUrl: 'https://ssc.gov.in',
+            webSearchUrl: googleSearchUrl(`${j.title} official notification`)
+          }));
+        }
+      }
+
+      if (relatedStudiesList.length === 0 && mongoose.connection.readyState === 1) {
+        const relatedStudies = await Entity.find({
+          type: 'STUDY',
+          $or: [
+            { 'eligibility.qualification': { $regex: eduQuery, $options: 'i' } },
+            { name: { $regex: eduQuery, $options: 'i' } }
+          ]
+        }).limit(5).lean().catch(() => []);
+
+        relatedStudiesList = (relatedStudies || []).map(s => ({
           id: s.id || s._id,
           name: s.name,
           duration: s.duration || '2-3 Years',
           degreeLevel: s.educationLevel || 'Postgraduate',
           eligibility: s.eligibility?.minimumRequirements?.[0] || 'Graduation in relevant discipline',
           webSearchUrl: googleSearchUrl(`${s.name} course eligibility admission`)
-        })) : [
-          { name: 'Master of Commerce (M.Com)', duration: '2 Years', degreeLevel: 'Postgraduate' },
-          { name: 'MBA Finance / Corporate Strategy', duration: '2 Years', degreeLevel: 'Postgraduate' },
-          { name: 'Chartered Accountancy (CA Intermediate)', duration: '3-4 Years', degreeLevel: 'Professional Qualification' },
-          { name: 'Data & Business Analytics Program', duration: '1 Year', degreeLevel: 'Certificate / PG Diploma' }
+        }));
+      }
+
+      directCard = {
+        type: 'EDUCATION_NEXT_PATH',
+        title: `Paths After Studying ${eduQuery.toUpperCase()}`,
+        education: eduQuery.toUpperCase(),
+        overview: `Comprehensive future path breakdown: higher study options, career fields, and private vs government job opportunities connected to ${eduQuery}.`,
+        webSearchUrl: googleSearchUrl(`courses and career options after ${eduQuery} eligibility roadmap`),
+        studyNext: relatedStudiesList.length > 0 ? relatedStudiesList : [
+          { name: `Advanced Studies in ${eduQuery}`, duration: '2 Years', degreeLevel: 'Postgraduate' },
+          { name: 'Master of Business Administration (MBA)', duration: '2 Years', degreeLevel: 'Postgraduate' },
+          { name: 'Professional Certification / Industry Specialization', duration: '1 Year', degreeLevel: 'Specialization' }
         ],
-        privateJobs: relatedJobs.length > 0 ? relatedJobs.map(j => ({
-          id: j.id || j._id,
-          title: j.name,
-          salary: j.salaryRange?.formatted || '₹5.0 - ₹9.5 LPA',
-          overview: j.description,
-          webSearchUrl: googleSearchUrl(`${j.name} job eligibility skills career`)
-        })) : [
-          { title: 'Financial Analyst', salary: '₹4.5 - ₹8.5 LPA' },
-          { title: 'Data Analyst', salary: '₹4.5 - ₹9.5 LPA' },
-          { title: 'Accountant', salary: '₹3.5 - ₹6.0 LPA' }
+        privateJobs: relatedJobsList.length > 0 ? relatedJobsList : [
+          { title: `${eduQuery} Associate Specialist`, salary: '₹4.5 - ₹8.5 LPA' },
+          { title: 'Data & Business Analyst', salary: '₹4.5 - ₹9.5 LPA' }
         ],
-        governmentJobs: govtJobs.map(g => ({
-          id: g.id || g._id,
-          title: g.name,
-          organization: g.organization || 'Government Recruitment Board',
-          officialSource: g.officialSource || 'Official Commission',
-          notificationUrl: g.notificationUrl || g.sources?.[0]?.url || 'https://ssc.gov.in',
-          webSearchUrl: googleSearchUrl(`${g.name} official notification`)
-        }))
+        governmentJobs: relatedGovtJobsList.length > 0 ? relatedGovtJobsList : [
+          { title: 'SSC Combined Graduate Level (CGL)', organization: 'Staff Selection Commission', notificationUrl: 'https://ssc.gov.in', webSearchUrl: googleSearchUrl('SSC CGL recruitment') },
+          { title: 'Banking Probationary Officer (IBPS PO)', organization: 'Public Sector Banks', notificationUrl: 'https://ibps.in', webSearchUrl: googleSearchUrl('IBPS PO recruitment') }
+        ]
       };
     }
 
     // Intent B: "how to become a <X>" / "how to get a job as <X>" / "<X> roadmap"
     const howToBecomeMatch = lowerQ.match(/(?:how\s+(?:to\s+become|can\s+i\s+become|to\s+get\s+a\s+job\s+as)\s+(?:a|an)?\s+(.+)|(.+)\s+roadmap)/i);
-    if (!directCard && howToBecomeMatch) {
-      const jobQuery = (howToBecomeMatch[1] || howToBecomeMatch[2]).trim();
+    const targetJobLookup = howToBecomeMatch ? (howToBecomeMatch[1] || howToBecomeMatch[2]).trim() : null;
 
-      // Look up in Entity first
-      let entityJob = await Entity.findOne({
-        type: { $in: ['JOB', 'PRIVATE_JOB', 'GOVERNMENT_JOB'] },
-        $or: [
-          { id: jobQuery.toLowerCase().replace(/[^a-z0-9]/g, '-') },
-          { name: { $regex: new RegExp(`^${jobQuery}$`, 'i') } },
-          { aliases: { $regex: new RegExp(`^${jobQuery}$`, 'i') } },
-          { name: { $regex: jobQuery, $options: 'i' } }
-        ]
-      }).lean();
+    if (!directCard && targetJobLookup) {
+      if (supabase) {
+        const { data: jobMatch } = await supabase
+          .from('jobs')
+          .select('*')
+          .or(`title.ilike.%${targetJobLookup}%,slug.ilike.%${targetJobLookup.replace(/[^a-z0-9]/g, '-')}%`)
+          .limit(1)
+          .maybeSingle();
 
-      if (entityJob) {
-        directCard = {
-          type: 'JOB_HOW_TO',
-          id: entityJob.id,
-          title: `How to Become a ${entityJob.name}`,
-          jobTitle: entityJob.name,
-          category: entityJob.category,
-          salaryFormatted: entityJob.salaryRange?.formatted || '₹5.0 - ₹12.0 LPA',
-          overview: entityJob.description || `Complete step-by-step roadmap, required skill stacks, and educational pathways to enter ${entityJob.name}.`,
-          webSearchUrl: googleSearchUrl(`${entityJob.name} eligibility skills career roadmap`),
-          educationRoutes: entityJob.educationRoutes && entityJob.educationRoutes.length > 0
-            ? entityJob.educationRoutes
-            : [
-                {
-                  routeName: 'Route 1: Direct Degree',
-                  degrees: ['Relevant Undergraduate Degree'],
-                  skills: entityJob.requiredSkills?.slice(0, 3) || ['Domain Fundamentals'],
-                  timeline: 'Direct Entry / 3-6 Months'
-                }
-              ],
-          requiredSkills: entityJob.requiredSkills || entityJob.skills || [],
-          preferredSkills: entityJob.preferredSkills || [],
-          certifications: entityJob.certifications || [],
-          roadmap: entityJob.roadmap || [],
-          projects: entityJob.projects || [],
-          interviewPreparation: entityJob.interviewPreparation || [],
-          careerGrowth: entityJob.careerGrowth || [],
-          sources: entityJob.sources || []
-        };
-      }
-    }
+        if (jobMatch) {
+          // Fetch roadmap steps if available
+          const { data: roadmapData } = await supabase
+            .from('roadmaps')
+            .select('*, roadmap_steps(*)')
+            .ilike('target_role', `%${jobMatch.title}%`)
+            .maybeSingle();
 
-    // Intent C: Direct Single Entity Match (e.g. "B.Com", "MBA", "MBBS", "Data Analyst", "SSC CHSL", "ITI Electrician")
-    if (!directCard) {
-      const singleMatch = await Entity.findOne({
-        $or: [
-          { id: lowerQ.replace(/[^a-z0-9]/g, '-') },
-          { name: { $regex: new RegExp(`^${cleanQ}$`, 'i') } },
-          { shortName: { $regex: new RegExp(`^${cleanQ}$`, 'i') } },
-          { aliases: { $regex: new RegExp(`^${cleanQ}$`, 'i') } }
-        ]
-      }).lean();
+          const steps = roadmapData?.roadmap_steps?.sort((a, b) => a.step_number - b.step_number) || [];
 
-      if (singleMatch) {
-        if (singleMatch.type === 'STUDY') {
-          directCard = {
-            type: 'STUDY_PROGRAM_PATH',
-            id: singleMatch.id,
-            title: singleMatch.name,
-            shortName: singleMatch.shortName,
-            degreeLevel: singleMatch.educationLevel || 'Undergraduate',
-            duration: singleMatch.duration || '3-4 Years',
-            category: singleMatch.category,
-            overview: singleMatch.overview || singleMatch.description,
-            eligibility: singleMatch.eligibility?.minimumRequirements?.[0] || 'Pass in qualifying board examination',
-            admissionRequirements: singleMatch.admissionRequirements || ['Merit / Entrance score'],
-            entranceExams: singleMatch.entranceExams || [],
-            subjects: singleMatch.subjects || [],
-            specializations: singleMatch.specializations || [],
-            skills: singleMatch.skills || [],
-            educationRoutes: singleMatch.educationRoutes || [],
-            careerFields: singleMatch.careerFields || [],
-            relatedJobs: singleMatch.relatedJobs || [],
-            jobRoles: singleMatch.jobRoles || [],
-            seniorRoles: singleMatch.seniorRoles || [],
-            higherStudies: singleMatch.higherStudies || [],
-            sources: singleMatch.sources || [],
-            officialSources: singleMatch.officialSources || [],
-            webSearchUrl: googleSearchUrl(`${singleMatch.name} course eligibility admission syllabus`),
-            lastVerified: singleMatch.lastVerified || 'September 2026'
-          };
-        } else if (singleMatch.type === 'JOB' || singleMatch.type === 'PRIVATE_JOB') {
           directCard = {
             type: 'JOB_HOW_TO',
-            id: singleMatch.id,
-            title: `How to Become a ${singleMatch.name}`,
-            jobTitle: singleMatch.name,
-            category: singleMatch.category,
-            salaryFormatted: singleMatch.salaryRange?.formatted || 'Competitive Industry Standard',
-            overview: singleMatch.overview || singleMatch.description,
-            educationRoutes: singleMatch.educationRoutes || [],
-            requiredSkills: singleMatch.requiredSkills || singleMatch.skills || [],
-            preferredSkills: singleMatch.preferredSkills || [],
-            certifications: singleMatch.certifications || [],
-            roadmap: singleMatch.roadmap || [],
-            projects: singleMatch.projects || [],
-            interviewPreparation: singleMatch.interviewPreparation || [],
-            careerGrowth: singleMatch.careerGrowth || [],
-            higherStudies: singleMatch.higherStudies || [],
-            sources: singleMatch.sources || [],
-            webSearchUrl: googleSearchUrl(`${singleMatch.name} eligibility skills career roadmap`),
-            lastVerified: singleMatch.lastVerified || 'September 2026'
+            id: jobMatch.slug || jobMatch.id,
+            title: `How to Become a ${jobMatch.title}`,
+            jobTitle: jobMatch.title,
+            category: jobMatch.category || jobMatch.sector,
+            salaryFormatted: 'Competitive Industry Package (₹6.0 - ₹24.0 LPA)',
+            overview: jobMatch.overview || jobMatch.description || `Complete step-by-step roadmap and skill stacks to enter ${jobMatch.title}.`,
+            webSearchUrl: googleSearchUrl(`${jobMatch.title} eligibility skills career roadmap`),
+            educationRoutes: [
+              {
+                routeName: 'Recommended Qualification Route',
+                degrees: [jobMatch.minimum_education || 'Relevant Degree / Graduation'],
+                skills: (jobMatch.required_skills || []).slice(0, 4),
+                timeline: 'Direct Entry / Structured Learning Path',
+                description: jobMatch.eligibility_note || `Passionate mastery of foundational tools and portfolio execution.`
+              }
+            ],
+            requiredSkills: jobMatch.required_skills || [],
+            preferredSkills: jobMatch.tools || [],
+            roadmap: steps.map(st => ({
+              step: st.step_number,
+              title: st.title,
+              type: st.type,
+              description: st.description,
+              whatToLearn: (st.skills || []).join(', ')
+            }))
           };
-        } else if (singleMatch.type === 'GOVERNMENT_JOB' || singleMatch.type === 'EXAM') {
+        }
+      }
+    }
+
+    // Intent C: Direct Single Entity Match (e.g. "NEET", "UPSC", "B.Com", "Data Analyst", "CA", "GATE", "MBBS")
+    if (!directCard && supabase) {
+      // 1. Check Exams
+      const { data: examMatch } = await supabase
+        .from('exams')
+        .select('*')
+        .or(`short_name.ilike.${cleanQ},name.ilike.%${cleanQ}%,slug.eq.${lowerQ.replace(/[^a-z0-9]/g, '-')}`)
+        .limit(1)
+        .maybeSingle();
+
+      if (examMatch) {
+        directCard = {
+          type: 'GOVERNMENT_RECRUITMENT_CARD',
+          id: examMatch.slug || examMatch.id,
+          title: examMatch.name,
+          organization: examMatch.organization || 'National Examination Authority',
+          qualification: examMatch.qualification || 'As specified in official notification',
+          ageLimit: 'Refer to official advertisement',
+          exams: [examMatch.short_name || examMatch.name],
+          overview: examMatch.overview || examMatch.description,
+          officialSource: examMatch.organization,
+          notificationUrl: examMatch.notification_url || 'https://nta.ac.in',
+          webSearchUrl: googleSearchUrl(`${examMatch.name} official notification syllabus eligibility`),
+          lastVerified: 'September 2026',
+          disclaimer: 'Official Information: Eligibility, dates, and syllabus can change. Please verify the latest details with the official source.'
+        };
+      }
+
+      // 2. Check Studies
+      if (!directCard) {
+        const { data: studyMatch } = await supabase
+          .from('studies')
+          .select('*')
+          .or(`short_name.ilike.${cleanQ},name.ilike.%${cleanQ}%,slug.eq.${lowerQ.replace(/[^a-z0-9]/g, '-')}`)
+          .limit(1)
+          .maybeSingle();
+
+        if (studyMatch) {
           directCard = {
-            type: 'GOVERNMENT_RECRUITMENT_CARD',
-            id: singleMatch.id,
-            title: singleMatch.name,
-            organization: singleMatch.organization || 'Official Recruitment Commission',
-            qualification: singleMatch.qualification || 'As per current official notification',
-            ageLimit: singleMatch.ageLimit || 'Please refer to official advertisement',
-            exams: singleMatch.exams || singleMatch.entranceExams || [],
-            posts: singleMatch.posts || [],
-            overview: singleMatch.overview || singleMatch.description,
-            officialSource: singleMatch.officialSource || singleMatch.sources?.[0]?.title || 'Official Commission Portal',
-            notificationUrl: singleMatch.notificationUrl || singleMatch.sources?.[0]?.url || 'https://ssc.gov.in',
-            webSearchUrl: googleSearchUrl(`${singleMatch.name} official notification recruitment syllabus`),
-            lastVerified: singleMatch.lastVerified || 'September 2026',
-            disclaimer: 'Official Information: Eligibility, vacancies, age limits, and deadlines can change. Please verify the latest details with the official source.'
+            type: 'STUDY_PROGRAM_PATH',
+            id: studyMatch.slug || studyMatch.id,
+            title: studyMatch.name,
+            shortName: studyMatch.short_name || studyMatch.name,
+            degreeLevel: studyMatch.education_level || 'Undergraduate',
+            duration: studyMatch.duration || '3-4 Years',
+            category: studyMatch.category,
+            overview: studyMatch.overview || studyMatch.description,
+            eligibility: studyMatch.description || 'Pass in qualifying board examination',
+            admissionRequirements: ['Merit / Entrance exam qualification'],
+            entranceExams: ['National / State Level Entrance'],
+            careerFields: [studyMatch.category],
+            jobRoles: Array.isArray(studyMatch.career_options) ? studyMatch.career_options : [],
+            higherStudies: Array.isArray(studyMatch.higher_studies) ? studyMatch.higher_studies : [],
+            officialSources: [{ title: 'UGC / Statutory Regulatory Body', url: 'https://ugc.gov.in' }],
+            webSearchUrl: googleSearchUrl(`${studyMatch.name} course eligibility admission syllabus`),
+            lastVerified: 'September 2026'
+          };
+        }
+      }
+
+      // 3. Check Jobs
+      if (!directCard) {
+        const { data: jobDirect } = await supabase
+          .from('jobs')
+          .select('*')
+          .or(`title.ilike.%${cleanQ}%,slug.eq.${lowerQ.replace(/[^a-z0-9]/g, '-')}`)
+          .limit(1)
+          .maybeSingle();
+
+        if (jobDirect) {
+          directCard = {
+            type: 'JOB_HOW_TO',
+            id: jobDirect.slug || jobDirect.id,
+            title: `How to Become a ${jobDirect.title}`,
+            jobTitle: jobDirect.title,
+            category: jobDirect.category || jobDirect.sector,
+            salaryFormatted: 'Competitive Industry Standard',
+            overview: jobDirect.overview || jobDirect.description,
+            educationRoutes: [
+              {
+                routeName: 'Academic Qualification Route',
+                degrees: [jobDirect.minimum_education || 'Bachelor Degree in Relevant Discipline'],
+                skills: (jobDirect.required_skills || []).slice(0, 4),
+                timeline: 'Direct Entry / Skill Development'
+              }
+            ],
+            requiredSkills: jobDirect.required_skills || [],
+            preferredSkills: jobDirect.tools || [],
+            sources: [{ title: 'Official Industry Standards', url: 'https://nasscom.in' }],
+            webSearchUrl: googleSearchUrl(`${jobDirect.title} eligibility skills career roadmap`),
+            lastVerified: 'September 2026'
           };
         }
       }
     }
 
     // =========================================================================
-    // 2. Universal Categorized Multi-Entity Search (Section 12)
+    // 2. Universal Multi-Entity Search across all Supabase tables
     // =========================================================================
-
-    const regex = new RegExp(cleanQ, 'i');
-    const tokenWords = cleanQ.split(/\s+/).filter(w => w.length > 2);
-    const tokenRegexes = tokenWords.map(w => new RegExp(w, 'i'));
-
-    const searchFilter = {
-      $or: [
-        { name: regex },
-        { shortName: regex },
-        { aliases: regex },
-        { category: regex },
-        { description: regex },
-        { skills: regex },
-        { requiredSkills: regex },
-        ...(tokenRegexes.length > 0 ? tokenRegexes.map(tr => ({ name: tr })) : [])
-      ]
-    };
-
-    if (type && type !== 'ALL') {
-      searchFilter.type = type;
-    }
-    if (category && category !== 'ALL') {
-      searchFilter.category = category;
-    }
-
-    // Fetch from universal Entity collection
-    const entities = await Entity.find(searchFilter).limit(20).lean();
 
     const results = [];
-    const seenIds = new Set();
+    const seenSlugs = new Set();
 
-    for (const ent of entities) {
-      if (seenIds.has(ent.id)) continue;
-      seenIds.add(ent.id);
+    if (supabase) {
+      // 1. Studies
+      if (!type || type === 'ALL' || type === 'STUDY') {
+        const { data: studies } = await supabase
+          .from('studies')
+          .select('*')
+          .or(`name.ilike.%${cleanQ}%,short_name.ilike.%${cleanQ}%,category.ilike.%${cleanQ}%,description.ilike.%${cleanQ}%`)
+          .limit(8);
 
-      let targetUrl = `/study/${ent.id}`;
-      let action = 'navigate';
-      let payload = {};
-
-      if (ent.type === 'STUDY') {
-        targetUrl = `/study/${ent.id}`;
-        action = 'set_education';
-        payload = { educationName: ent.name };
-      } else if (ent.type.includes('JOB')) {
-        targetUrl = `/job/${ent.id}`;
-        action = 'set_target_job';
-        payload = { targetJobName: ent.name };
-      } else if (ent.type === 'CAREER') {
-        targetUrl = `/careers/${ent.id}`;
-      } else if (ent.type === 'EXAM' || ent.type === 'CERTIFICATION' || ent.type === 'SKILL') {
-        targetUrl = `/learn`;
+        (studies || []).forEach(st => {
+          const key = st.slug || st.name.toLowerCase();
+          if (!seenSlugs.has(key)) {
+            seenSlugs.add(key);
+            results.push({
+              id: st.slug || st.id,
+              name: st.name,
+              shortName: st.short_name || st.name,
+              type: 'STUDY',
+              category: st.category || 'Higher Education',
+              categoryLabel: 'Studies & Degrees',
+              badge: st.education_level || 'Degree',
+              hierarchy: `${st.category || 'Education'} • Study Degree • ${st.duration || '3-4 Years'}`,
+              description: st.overview || st.description || `Accredited degree program in ${st.name}.`,
+              duration: st.duration,
+              level: st.education_level,
+              officialSource: 'UGC / AICTE / Statutory Body',
+              officialUrl: 'https://ugc.gov.in',
+              webSearchUrl: googleSearchUrl(`${st.name} course admission syllabus`),
+              targetUrl: `/study/${st.slug || st.id}`,
+              action: 'set_education',
+              payload: { educationName: st.name }
+            });
+          }
+        });
       }
 
-      results.push({
-        id: ent.id || ent._id,
-        name: ent.name,
-        shortName: ent.shortName,
-        type: ent.type,
-        category: ent.category,
-        categoryLabel: ent.type.replace(/_/g, ' '),
-        badge: ent.educationLevel || ent.organization || ent.category,
-        hierarchy: `${ent.category} • ${ent.type.replace(/_/g, ' ')}${ent.duration ? ` • ${ent.duration}` : ''}`,
-        description: ent.description || ent.overview || `Structured entity in Future Path database.`,
-        duration: ent.duration,
-        level: ent.educationLevel,
-        salary: ent.salaryRange?.formatted,
-        officialSource: ent.officialSource || ent.sources?.[0]?.title,
-        officialUrl: ent.notificationUrl || ent.sources?.[0]?.url,
-        webSearchUrl: googleSearchUrl(`${ent.name} ${ent.type === 'STUDY' ? 'course eligibility' : 'skills career'}`),
-        targetUrl,
-        action,
-        payload
-      });
+      // 2. Jobs
+      if (!type || type === 'ALL' || type === 'JOB' || type === 'GOVERNMENT_JOB') {
+        let jobQuery = supabase
+          .from('jobs')
+          .select('*')
+          .or(`title.ilike.%${cleanQ}%,sector.ilike.%${cleanQ}%,category.ilike.%${cleanQ}%,description.ilike.%${cleanQ}%`)
+          .limit(10);
+
+        if (type === 'GOVERNMENT_JOB') {
+          jobQuery = jobQuery.or('category.eq.Government,job_type.eq.GOVERNMENT_JOB');
+        } else if (type === 'JOB') {
+          jobQuery = jobQuery.neq('category', 'Government');
+        }
+
+        const { data: jobs } = await jobQuery;
+
+        (jobs || []).forEach(j => {
+          const key = j.slug || j.title.toLowerCase();
+          if (!seenSlugs.has(key)) {
+            seenSlugs.add(key);
+            const isGovt = j.category === 'Government' || j.job_type === 'GOVERNMENT_JOB';
+            results.push({
+              id: j.slug || j.id,
+              name: j.title,
+              shortName: j.title,
+              type: isGovt ? 'GOVERNMENT_JOB' : 'JOB',
+              category: j.sector || j.category || 'Industry',
+              categoryLabel: isGovt ? 'Govt Job / Service' : 'Private Job Role',
+              badge: isGovt ? 'Public Administration' : 'Private Sector',
+              hierarchy: `${j.sector || 'Industry'} • ${isGovt ? 'Government Service' : 'Private Role'}`,
+              description: j.overview || j.description || `Professional career opportunity in ${j.title}.`,
+              salary: 'Industry Standard Package',
+              officialSource: isGovt ? 'Union / State Commission' : (j.top_companies?.[0] || 'Leading Enterprises'),
+              officialUrl: isGovt ? 'https://ssc.gov.in' : googleSearchUrl(`${j.title} job postings`),
+              webSearchUrl: googleSearchUrl(`${j.title} eligibility skills career`),
+              targetUrl: `/job/${j.slug || j.id}`,
+              action: 'set_target_job',
+              payload: { targetJobName: j.title }
+            });
+          }
+        });
+      }
+
+      // 3. Competitive & Entrance Exams
+      if (!type || type === 'ALL' || type === 'EXAM' || type === 'GOVERNMENT_JOB') {
+        const { data: exams } = await supabase
+          .from('exams')
+          .select('*')
+          .or(`name.ilike.%${cleanQ}%,short_name.ilike.%${cleanQ}%,category.ilike.%${cleanQ}%,organization.ilike.%${cleanQ}%,description.ilike.%${cleanQ}%`)
+          .limit(6);
+
+        (exams || []).forEach(e => {
+          const key = e.slug || e.name.toLowerCase();
+          if (!seenSlugs.has(key)) {
+            seenSlugs.add(key);
+            results.push({
+              id: e.slug || e.id,
+              name: e.name,
+              shortName: e.short_name || e.name,
+              type: 'EXAM',
+              category: e.category || 'Entrance & Competitive Exam',
+              categoryLabel: 'Entrance & Competitive Exams',
+              badge: e.category,
+              hierarchy: `${e.category} • National Examination`,
+              description: e.overview || e.description || `National competitive examination conducted by ${e.organization}.`,
+              officialSource: e.organization,
+              officialUrl: e.notification_url || 'https://nta.ac.in',
+              webSearchUrl: googleSearchUrl(`${e.name} official notification syllabus eligibility`),
+              targetUrl: `/learn`,
+              action: 'navigate',
+              payload: { examName: e.name }
+            });
+          }
+        });
+      }
+
+      // 4. Career Domains
+      if (!type || type === 'ALL' || type === 'CAREER') {
+        const { data: careers } = await supabase
+          .from('careers')
+          .select('*')
+          .or(`name.ilike.%${cleanQ}%,category.ilike.%${cleanQ}%,sector.ilike.%${cleanQ}%,overview.ilike.%${cleanQ}%`)
+          .limit(4);
+
+        (careers || []).forEach(cr => {
+          const key = cr.slug || cr.name.toLowerCase();
+          if (!seenSlugs.has(key)) {
+            seenSlugs.add(key);
+            results.push({
+              id: cr.slug || cr.id,
+              name: cr.name,
+              shortName: cr.name,
+              type: 'CAREER',
+              category: cr.category || cr.sector || 'Industry Field',
+              categoryLabel: 'Career Domain',
+              badge: `${cr.demand_score || 90}% High Demand`,
+              hierarchy: `${cr.sector || 'Industry'} • Strategic Domain`,
+              description: cr.overview || cr.description || `Comprehensive career field covering high-growth professional roles.`,
+              webSearchUrl: googleSearchUrl(`${cr.name} career roadmap jobs demand`),
+              targetUrl: `/careers/${cr.slug || cr.id}`,
+              action: 'navigate',
+              payload: { careerName: cr.name }
+            });
+          }
+        });
+      }
+
+      // 5. Industry Certifications
+      if (!type || type === 'ALL' || type === 'CERTIFICATION') {
+        const { data: certs } = await supabase
+          .from('certifications')
+          .select('*')
+          .or(`title.ilike.%${cleanQ}%,issuer.ilike.%${cleanQ}%,category.ilike.%${cleanQ}%,description.ilike.%${cleanQ}%`)
+          .limit(4);
+
+        (certs || []).forEach(c => {
+          const key = c.slug || c.title.toLowerCase();
+          if (!seenSlugs.has(key)) {
+            seenSlugs.add(key);
+            results.push({
+              id: c.slug || c.id,
+              name: c.title,
+              shortName: c.title,
+              type: 'CERTIFICATION',
+              category: c.category || 'Professional Credential',
+              categoryLabel: 'Certification',
+              badge: c.issuer,
+              hierarchy: `${c.issuer} • ${c.difficulty || 'Professional'}`,
+              description: c.description || `Industry recognized certification in ${c.title}.`,
+              officialSource: c.issuer,
+              officialUrl: c.official_url,
+              webSearchUrl: googleSearchUrl(`${c.title} certification syllabus fee exam`),
+              targetUrl: `/learn`,
+              action: 'navigate',
+              payload: { certTitle: c.title }
+            });
+          }
+        });
+      }
     }
 
-    // Fallback search in Education / JobRole / StudyProgram if Entity collection is sparse
-    if (results.length < 5) {
-      const legacyEducations = await Education.find({
-        $or: [{ name: regex }, { aliases: regex }, { branch: regex }, { stream: regex }]
-      }).limit(3).lean();
+    // =========================================================================
+    // 3. MongoDB Fallback if results are still sparse (< 3)
+    // =========================================================================
+    if (results.length < 3 && mongoose.connection.readyState === 1) {
+      try {
+        const regex = new RegExp(cleanQ, 'i');
+        const legacyEntities = await Entity.find({
+          $or: [{ name: regex }, { shortName: regex }, { category: regex }, { description: regex }]
+        }).limit(10).lean();
 
-      for (const edu of legacyEducations) {
-        if (!seenIds.has(edu.name.toLowerCase())) {
-          seenIds.add(edu.name.toLowerCase());
-          results.push({
-            id: edu.name.toLowerCase().replace(/[^a-z0-9]/g, '-'),
-            name: edu.name,
-            type: 'STUDY',
-            category: edu.stream || 'General',
-            categoryLabel: 'Study Qualification',
-            badge: edu.level || 'Degree',
-            hierarchy: `${edu.level || 'Degree'} • ${edu.stream || 'General'}`,
-            description: edu.description || `Recognized academic qualification in ${edu.stream}.`,
-            targetUrl: `/study/${encodeURIComponent(edu.name.toLowerCase().replace(/[^a-z0-9]/g, '-'))}`,
-            action: 'set_education',
-            payload: { educationName: edu.name }
-          });
+        for (const ent of legacyEntities) {
+          const key = ent.id || ent.name.toLowerCase();
+          if (!seenSlugs.has(key)) {
+            seenSlugs.add(key);
+            results.push({
+              id: ent.id || ent._id,
+              name: ent.name,
+              shortName: ent.shortName || ent.name,
+              type: ent.type || 'STUDY',
+              category: ent.category || 'General',
+              categoryLabel: (ent.type || 'STUDY').replace(/_/g, ' '),
+              badge: ent.educationLevel || ent.organization || ent.category,
+              hierarchy: `${ent.category} • ${(ent.type || 'STUDY').replace(/_/g, ' ')}`,
+              description: ent.description || ent.overview || `Entity in Future Path database.`,
+              targetUrl: ent.type === 'STUDY' ? `/study/${ent.id}` : `/job/${ent.id}`,
+              action: ent.type === 'STUDY' ? 'set_education' : 'set_target_job',
+              payload: ent.type === 'STUDY' ? { educationName: ent.name } : { targetJobName: ent.name }
+            });
+          }
         }
-      }
-
-      const legacyJobs = await JobRole.find({
-        $or: [{ title: regex }, { sector: regex }, { jobFamily: regex }]
-      }).limit(4).lean();
-
-      for (const j of legacyJobs) {
-        if (!seenIds.has(j.title.toLowerCase())) {
-          seenIds.add(j.title.toLowerCase());
-          const isGovt = j.jobType === 'Government' || j.jobType === 'Public Sector';
-          results.push({
-            id: j.slug || j.title.toLowerCase().replace(/[^a-z0-9]/g, '-'),
-            name: j.title,
-            type: isGovt ? 'GOVERNMENT_JOB' : 'JOB',
-            category: j.sector || 'Industry',
-            categoryLabel: isGovt ? 'Government Job' : 'Private Job',
-            badge: isGovt ? 'Government Sector' : 'Private Sector',
-            hierarchy: `${j.sector || 'Industry'} • ${j.salaryRange?.formatted || 'Competitive'}`,
-            description: j.overview || j.description || `Professional role operating within ${j.sector}.`,
-            targetUrl: `/job/${encodeURIComponent(j.slug || j.title.toLowerCase().replace(/[^a-z0-9]/g, '-'))}`,
-            action: 'set_target_job',
-            payload: { targetJobName: j.title }
-          });
-        }
+      } catch (err) {
+        console.warn('[searchController] MongoDB fallback warning:', err.message);
       }
     }
 

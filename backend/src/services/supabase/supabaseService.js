@@ -222,16 +222,31 @@ export class SupabaseService {
     if (!client) return null;
 
     try {
-      let query = client.from('studies').select('*');
       if (id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
-        query = query.eq('id', id);
-      } else {
-        query = query.eq('slug', id.toLowerCase());
+        const { data, error } = await client.from('studies').select('*').eq('id', id).maybeSingle();
+        if (error) throw error;
+        return data;
       }
 
-      const { data, error } = await query.maybeSingle();
-      if (error) throw error;
-      return data;
+      // 1. Exact slug
+      const { data: exact, error: exactErr } = await client
+        .from('studies')
+        .select('*')
+        .eq('slug', id.toLowerCase())
+        .maybeSingle();
+
+      if (exactErr) throw exactErr;
+      if (exact) return exact;
+
+      // 2. Partial / prefix match on slug or short_name
+      const cleanId = id.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const { data: fuzzy } = await client
+        .from('studies')
+        .select('*')
+        .or(`slug.ilike.%${id.toLowerCase()}%,short_name.ilike.%${cleanId}%,name.ilike.%${cleanId}%`)
+        .limit(1);
+
+      return fuzzy?.[0] || null;
     } catch (err) {
       console.warn('[SupabaseService] getStudyById error:', err.message);
       return null;

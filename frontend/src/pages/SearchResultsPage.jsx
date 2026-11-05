@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, Link, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import {
   Search as SearchIcon,
   ArrowRight,
@@ -14,8 +14,6 @@ import {
   ChevronRight,
   Compass,
   RotateCw,
-  ExternalLink,
-  ShieldCheck,
   AlertCircle
 } from 'lucide-react';
 import { useEducation } from '../context/EducationContext.jsx';
@@ -28,7 +26,6 @@ import { CertificationCard } from '../components/CertificationCard.jsx';
 import { TaxonomyBrowser } from '../components/TaxonomyBrowser.jsx';
 import { ExternalSearchButton } from '../components/common/ExternalSearchButton.jsx';
 import { OfficialSourceButton } from '../components/common/OfficialSourceButton.jsx';
-import { SourceLinks } from '../components/SourceLinks.jsx';
 
 export const SearchResultsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -44,12 +41,11 @@ export const SearchResultsPage = () => {
 
   const {
     currentEducation,
-    changeEducation,
     changeTargetJob,
     setToastMessage
   } = useEducation();
 
-  const studyName = currentEducation?.educationName || 'B.Com';
+  const studyName = currentEducation?.educationName || 'B.Tech Computer Science';
 
   const filterTabs = [
     { id: 'ALL', label: 'All Results' },
@@ -62,11 +58,11 @@ export const SearchResultsPage = () => {
   ];
 
   const executeSearch = async (q, cat = 'ALL') => {
-    if (!q || !q.trim()) return;
+    const query = q ? q.trim() : studyName;
     setLoading(true);
     setError(null);
     try {
-      let url = `/search?q=${encodeURIComponent(q.trim())}`;
+      let url = `/search?q=${encodeURIComponent(query)}`;
       if (cat && cat !== 'ALL') {
         url += `&category=${encodeURIComponent(cat)}`;
       }
@@ -78,7 +74,7 @@ export const SearchResultsPage = () => {
       }
     } catch (err) {
       console.error('[SearchResultsPage] Search error:', err);
-      setError('Unable to load search results. Please try again.');
+      setError('Unable to load exploration results. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -86,10 +82,9 @@ export const SearchResultsPage = () => {
 
   useEffect(() => {
     setSearchInput(queryParam);
-    if (queryParam) {
-      executeSearch(queryParam, activeCategory);
-    }
-  }, [queryParam, activeCategory]);
+    // If a search query is present, search for it; otherwise load tailored recommendations for the user's education
+    executeSearch(queryParam || studyName, activeCategory);
+  }, [queryParam, activeCategory, studyName]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -100,9 +95,7 @@ export const SearchResultsPage = () => {
 
   const handleCategorySelect = (cat) => {
     setActiveCategory(cat);
-    if (queryParam) {
-      executeSearch(queryParam, cat);
-    }
+    executeSearch(queryParam || studyName, cat);
   };
 
   const filteredResults = searchData.results?.filter((item) => {
@@ -138,53 +131,56 @@ export const SearchResultsPage = () => {
   };
 
   return (
-    <div className="space-y-6 sm:space-y-8 max-w-5xl mx-auto py-2 sm:py-6">
-      {/* Universal Search Header Card */}
-      <section className="card-clean p-6 sm:p-7 bg-white border border-slate-200/90 space-y-4 rounded-3xl shadow-2xs">
+    <div className="space-y-8 sm:space-y-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+      {/* ============================================================ */}
+      {/* UNIVERSAL SEARCH BAR & CATEGORY FILTER TABS                  */}
+      {/* ============================================================ */}
+      <section className="card-clean p-6 sm:p-8 bg-white border border-[#E2E8F0] space-y-5 rounded-3xl shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <div className="text-[11px] font-extrabold uppercase tracking-wider text-indigo-600 flex items-center gap-1.5">
-              <Compass className="w-3.5 h-3.5 text-indigo-600" />
-              <span>Universal Education & Career Registry</span>
+          <div className="space-y-1">
+            <div className="text-[11px] font-extrabold uppercase tracking-wider text-[#4F46E5] flex items-center gap-1.5">
+              <SearchIcon className="w-3.5 h-3.5 text-[#4F46E5]" />
+              <span>Universal Database Search</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-0.5">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
               Knowledge Navigator
-            </h1>
+            </h2>
           </div>
-          <div className="text-xs text-slate-500 font-medium bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl self-start sm:self-auto">
-            Current Profile: <strong className="text-indigo-600">{studyName}</strong>
+
+          <div className="text-xs text-[#64748B] font-medium bg-[#F8FAFC] border border-[#E2E8F0] px-3.5 py-1.5 rounded-xl self-start sm:self-auto">
+            Filtered for: <strong className="text-[#4F46E5]">{queryParam || studyName}</strong>
           </div>
         </div>
 
-        {/* Search Form Bar */}
+        {/* Search Input Bar */}
         <form onSubmit={handleSearchSubmit} className="relative group">
-          <SearchIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-indigo-600 transition-colors" />
+          <SearchIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-[#4F46E5] transition-colors" />
           <input
             type="text"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="Search any study, course, career, job, exam, certification or skill... e.g. B.Com, MBA, Data Analyst, SSC CHSL"
-            className="w-full pl-12 pr-28 py-3.5 rounded-2xl border border-slate-200 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 bg-slate-50/50 shadow-2xs transition-all"
+            placeholder="Search degrees, careers, job roles, entrance exams, or skills (e.g. MBA, Data Analyst, SSC CGL)..."
+            className="w-full pl-12 pr-28 py-3.5 rounded-2xl border border-[#E2E8F0] text-xs sm:text-sm text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] bg-[#F8FAFC]/50 shadow-2xs transition-all"
           />
           <button
             type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 rounded-xl bg-indigo-600 text-white font-bold text-xs hover:bg-indigo-700 transition-colors shadow-2xs cursor-pointer"
+            className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 rounded-xl bg-[#4F46E5] text-white font-bold text-xs hover:bg-[#4338CA] transition-colors shadow-2xs cursor-pointer"
           >
             Search
           </button>
         </form>
 
         {/* Filter Pills & Taxonomy Toggle */}
-        <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-          <div className="flex flex-wrap items-center gap-1.5 text-xs">
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-[#E2E8F0]/70">
+          <div className="flex flex-wrap items-center gap-1.5 text-xs pt-1">
             {filterTabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setSelectedFilter(tab.id)}
                 className={`px-3 py-1.5 rounded-xl font-bold border transition-all text-xs cursor-pointer ${
                   selectedFilter === tab.id
-                    ? 'bg-indigo-600 text-white border-indigo-600 shadow-2xs'
-                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
+                    ? 'bg-[#4F46E5] text-white border-[#4F46E5] shadow-2xs'
+                    : 'bg-white text-[#64748B] border-[#E2E8F0] hover:border-slate-300'
                 }`}
               >
                 {tab.label}
@@ -194,14 +190,14 @@ export const SearchResultsPage = () => {
 
           <button
             onClick={() => setShowTaxonomy(!showTaxonomy)}
-            className="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 cursor-pointer ml-auto"
+            className="text-xs font-bold text-[#4F46E5] hover:text-[#3730A3] flex items-center gap-1 cursor-pointer ml-auto pt-1"
           >
-            <span>{showTaxonomy ? 'Hide Categories' : 'Browse 36 Categories'}</span>
+            <span>{showTaxonomy ? 'Hide Categories' : 'Browse All Categories'}</span>
             <ChevronRight className={`w-3.5 h-3.5 transition-transform ${showTaxonomy ? 'rotate-90' : ''}`} />
           </button>
         </div>
 
-        {/* Collapsible 36 Education Taxonomy Categories */}
+        {/* Collapsible Taxonomy Categories */}
         {showTaxonomy && (
           <div className="pt-2 animate-in fade-in duration-200">
             <TaxonomyBrowser
@@ -214,23 +210,23 @@ export const SearchResultsPage = () => {
 
       {/* Loading state */}
       {loading && (
-        <div className="card-clean p-12 text-center bg-white border border-slate-200 space-y-3 rounded-3xl">
-          <RotateCw className="w-7 h-7 text-indigo-600 animate-spin mx-auto" />
-          <p className="text-xs text-slate-500 font-semibold">
-            Querying universal knowledge base for studies, careers, jobs, and recruitment...
+        <div className="card-clean p-12 text-center bg-white border border-[#E2E8F0] space-y-3 rounded-3xl shadow-xs">
+          <RotateCw className="w-7 h-7 text-[#4F46E5] animate-spin mx-auto" />
+          <p className="text-xs sm:text-sm text-[#64748B] font-semibold">
+            Querying verified pathways and opportunities for {studyName}...
           </p>
         </div>
       )}
 
       {/* Error state */}
       {!loading && error && (
-        <div className="card-clean p-6 bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm rounded-2xl flex items-center gap-2">
+        <div className="card-clean p-6 bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm rounded-2xl flex items-center gap-2">
           <AlertCircle className="w-5 h-5 flex-shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
-      {/* SECTION 13 & 25: DIRECT KNOWLEDGE CARD */}
+      {/* DIRECT GUIDANCE CARD (If available) */}
       {!loading && searchData.directCard && (
         <section className="card-clean p-6 sm:p-8 bg-white border-2 border-indigo-200 space-y-6 shadow-xs rounded-3xl">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-slate-100 pb-5">
@@ -263,117 +259,7 @@ export const SearchResultsPage = () => {
             {searchData.directCard.overview || searchData.directCard.subtitle || searchData.directCard.description}
           </p>
 
-          {/* Official disclaimer note if applicable */}
-          {searchData.directCard.disclaimer && (
-            <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200/80 text-amber-900 text-xs flex items-start gap-2.5">
-              <ShieldCheck className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-              <div className="leading-relaxed">
-                <strong>Official Notice: </strong>
-                <span>{searchData.directCard.disclaimer}</span>
-              </div>
-            </div>
-          )}
-
-          {/* If Direct Card is Education Paths (e.g. jobs after B.Com / studies after 12th) */}
-          {searchData.directCard.studyNext && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-              <div className="p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100 space-y-3">
-                <div className="text-xs font-bold uppercase tracking-wider text-indigo-900 flex items-center gap-1.5">
-                  <GraduationCap className="w-4 h-4 text-indigo-600" />
-                  <span>Higher Study Pathways</span>
-                </div>
-                <div className="space-y-2">
-                  {searchData.directCard.studyNext.map((st, idx) => {
-                    const stName = typeof st === 'string' ? st : st.name;
-                    return (
-                      <div
-                        key={idx}
-                        className="p-2.5 rounded-xl bg-white border border-indigo-200 flex items-center justify-between gap-2 shadow-2xs hover:border-indigo-400 transition-colors"
-                      >
-                        <span className="text-xs font-bold text-slate-800 truncate">
-                          🎓 {stName}
-                        </span>
-                        <Link
-                          to={`/study/${encodeURIComponent(stName.toLowerCase().replace(/[^a-z0-9]/g, '-'))}`}
-                          className="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-0.5 flex-shrink-0"
-                        >
-                          <span>Explore</span>
-                          <ArrowRight className="w-3 h-3" />
-                        </Link>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-emerald-50/50 border border-emerald-100 space-y-3">
-                <div className="text-xs font-bold uppercase tracking-wider text-emerald-900 flex items-center gap-1.5">
-                  <Briefcase className="w-4 h-4 text-emerald-600" />
-                  <span>Connected Job Roles</span>
-                </div>
-                <div className="space-y-2">
-                  {searchData.directCard.privateJobs?.map((jb, idx) => {
-                    const jbTitle = typeof jb === 'string' ? jb : (jb.title || jb.name);
-                    return (
-                      <div
-                        key={idx}
-                        className="p-2.5 rounded-xl bg-white border border-emerald-200 flex items-center justify-between gap-2 shadow-2xs hover:border-emerald-400 transition-colors"
-                      >
-                        <span className="text-xs font-bold text-slate-800 truncate">
-                          💼 {jbTitle}
-                        </span>
-                        <button
-                          onClick={() => handleSetTarget(jbTitle)}
-                          className="text-[11px] font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-0.5 flex-shrink-0 cursor-pointer"
-                        >
-                          <span>Set Target</span>
-                          <ArrowRight className="w-3 h-3" />
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* If Direct Card is Government Job Guidance */}
-          {searchData.directCard.governmentJobs && (
-            <div className="p-4 rounded-2xl bg-amber-50/40 border border-amber-200 space-y-3">
-              <div className="text-xs font-bold uppercase tracking-wider text-amber-900 flex items-center gap-1.5">
-                <Building className="w-4 h-4 text-amber-600" />
-                <span>Central & State Government Recruitment Pathways</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {searchData.directCard.governmentJobs.map((gj, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3.5 rounded-xl bg-white border border-amber-200 shadow-2xs space-y-2"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-xs text-slate-900">
-                        {gj.title}
-                      </span>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">
-                        Official Exam
-                      </span>
-                    </div>
-                    <div className="text-[11px] text-slate-500">
-                      Org: <strong className="text-slate-700">{gj.organization}</strong>
-                    </div>
-                    <div className="flex items-center justify-between pt-1 border-t border-slate-100">
-                      <ExternalSearchButton query={`${gj.title} official notification`} label="Search Web" />
-                      {gj.notificationUrl && (
-                        <OfficialSourceButton url={gj.notificationUrl} label="Portal" />
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* If Direct Card is How To Become a Job (Education Routes + Roadmap) */}
+          {/* Education Routes */}
           {searchData.directCard.educationRoutes && searchData.directCard.educationRoutes.length > 0 && (
             <div className="space-y-4 pt-2">
               <div className="text-xs font-bold uppercase tracking-wider text-slate-700">
@@ -420,25 +306,27 @@ export const SearchResultsPage = () => {
         </section>
       )}
 
-      {/* CATEGORIZED RESULTS LIST (Section 12) */}
+      {/* ============================================================ */}
+      {/* VERIFIED RESULTS LISTING                                     */}
+      {/* ============================================================ */}
       {!loading && (
-        <section className="space-y-4">
-          <div className="flex items-center justify-between text-xs font-bold text-slate-500 uppercase tracking-wider px-1">
+        <section className="space-y-5">
+          <div className="flex items-center justify-between text-xs font-bold text-[#64748B] uppercase tracking-wider px-1">
             <span>
-              {filteredResults.length} Result{filteredResults.length !== 1 ? 's' : ''} Found
+              {filteredResults.length} Verified Result{filteredResults.length !== 1 ? 's' : ''}
             </span>
             <span className="text-[11px] font-normal text-slate-400">
-              Showing matching database entities
+              Matching your qualification and criteria
             </span>
           </div>
 
           {filteredResults.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {filteredResults.map((item, idx) => {
                 const itemType = (item.type || '').toUpperCase();
 
                 if (itemType.includes('STUDY') || itemType === 'EDUCATION') {
-                  return <StudyCard key={item.id || idx} study={item} />;
+                  return <StudyCard key={item.id || idx} study={item} currentEducation={studyName} />;
                 }
                 if (itemType === 'GOVERNMENT_JOB' || itemType === 'EXAM') {
                   return <ExamCard key={item.id || idx} exam={item} />;
@@ -453,18 +341,17 @@ export const SearchResultsPage = () => {
                   return <CertificationCard key={item.id || idx} cert={item} />;
                 }
 
-                // Default fallback card
-                return <StudyCard key={item.id || idx} study={item} />;
+                return <StudyCard key={item.id || idx} study={item} currentEducation={studyName} />;
               })}
             </div>
           ) : (
-            <div className="card-clean p-12 text-center bg-white border border-slate-200 space-y-4 rounded-3xl">
+            <div className="card-clean p-12 text-center bg-white border border-[#E2E8F0] space-y-4 rounded-3xl shadow-xs">
               <Compass className="w-10 h-10 text-slate-300 mx-auto" />
-              <div className="font-extrabold text-slate-800 text-base">
-                No matching results found for "{searchInput || queryParam}"
+              <div className="font-extrabold text-[#0F172A] text-base">
+                No matching opportunities found for "{searchInput || queryParam || studyName}"
               </div>
-              <p className="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
-                Try searching for degrees (B.Com, B.Tech, MBBS, BCA), government recruitments (SSC CHSL, RRB NTPC), jobs (Data Analyst, Software Developer, Accountant), or natural queries like "jobs after B.Com".
+              <p className="text-xs text-[#64748B] max-w-md mx-auto leading-relaxed">
+                Try searching for degrees (B.Com, B.Tech, MBBS, BCA), government recruitments (SSC CHSL, RRB NTPC), jobs (Data Analyst, Software Developer), or explore by clicking the Career Fields card above.
               </p>
             </div>
           )}
