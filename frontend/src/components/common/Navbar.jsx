@@ -72,11 +72,10 @@ export const Navbar = ({ onOpenAssistant }) => {
                 <button
                   key={link.to}
                   onClick={onOpenAssistant}
-                  className={`px-3 py-1.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
-                    active
+                  className={`px-3 py-1.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${active
                       ? 'text-[#4F46E5] bg-[#EEF2FF] font-bold shadow-2xs'
                       : 'text-[#64748B] hover:text-[#0F172A] hover:bg-slate-50'
-                  }`}
+                    }`}
                 >
                   <Sparkles className="w-3.5 h-3.5 text-[#4F46E5]" />
                   <span>{link.label}</span>
@@ -87,11 +86,10 @@ export const Navbar = ({ onOpenAssistant }) => {
               <Link
                 key={link.to}
                 to={link.to}
-                className={`px-3 py-1.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-1.5 ${
-                  active
+                className={`px-3 py-1.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-1.5 ${active
                     ? 'text-[#4F46E5] bg-[#EEF2FF] font-bold shadow-2xs'
                     : 'text-[#64748B] hover:text-[#0F172A] hover:bg-slate-50'
-                }`}
+                  }`}
               >
                 {link.label}
               </Link>
@@ -114,11 +112,10 @@ export const Navbar = ({ onOpenAssistant }) => {
           {/* Profile link */}
           <Link
             to="/profile"
-            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-semibold transition-colors border ${
-              isActive('/profile')
+            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-semibold transition-colors border ${isActive('/profile')
                 ? 'bg-[#EEF2FF] text-[#4F46E5] border-[#C7D2FE] font-bold shadow-2xs'
                 : 'bg-white hover:bg-slate-50 text-[#0F172A] border-[#E2E8F0]'
-            }`}
+              }`}
           >
             <div className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-700 text-xs font-extrabold flex items-center justify-center">
               {userName.charAt(0).toUpperCase()}
@@ -129,11 +126,10 @@ export const Navbar = ({ onOpenAssistant }) => {
           {/* Sign In / Switch Account */}
           <Link
             to="/login"
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${
-              isActive('/login')
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border ${isActive('/login')
                 ? 'bg-[#4F46E5] text-white border-[#4F46E5]'
                 : 'text-[#4F46E5] bg-[#EEF2FF] hover:bg-indigo-100/80 border-indigo-200'
-            }`}
+              }`}
           >
             {isAuthenticated ? 'Switch User' : 'Sign In'}
           </Link>
@@ -217,11 +213,10 @@ export const Navbar = ({ onOpenAssistant }) => {
                 <Link
                   to="/dashboard"
                   onClick={handleMobileNavClick}
-                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors border ${
-                    isActive('/dashboard')
+                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors border ${isActive('/dashboard')
                       ? 'bg-[#EEF2FF] border-indigo-200/80 text-[#4F46E5] font-bold shadow-2xs'
                       : 'bg-[#F8FAFC] border-slate-200/70 text-slate-800 hover:bg-slate-100/80'
-                  }`}
+                    }`}
                 >
                   <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-indigo-600 flex-shrink-0 shadow-2xs">
                     <Home className="w-4 h-4" />
@@ -236,11 +231,10 @@ export const Navbar = ({ onOpenAssistant }) => {
                 <Link
                   to="/explore"
                   onClick={handleMobileNavClick}
-                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors border ${
-                    isActive('/explore') || isActive('/search')
+                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors border ${isActive('/explore') || isActive('/search')
                       ? 'bg-[#EEF2FF] border-indigo-200/80 text-[#4F46E5] font-bold shadow-2xs'
                       : 'bg-[#F8FAFC] border-slate-200/70 text-slate-800 hover:bg-slate-100/80'
-                  }`}
+                    }`}
                 >
                   <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-blue-600 flex-shrink-0 shadow-2xs">
                     <Compass className="w-4 h-4" />
@@ -255,11 +249,10 @@ export const Navbar = ({ onOpenAssistant }) => {
                 <Link
                   to="/study-next"
                   onClick={handleMobileNavClick}
-                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors border ${
-                    isActive('/study-next')
+                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors border ${isActive('/study-next')
                       ? 'bg-[#EEF2FF] border-indigo-200/80 text-[#4F46E5] font-bold shadow-2xs'
                       : 'bg-[#F8FAFC] border-slate-200/70 text-slate-800 hover:bg-slate-100/80'
-                  }`}
+                    }`}
                 >
                   <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-purple-600 flex-shrink-0 shadow-2xs">
                     <GraduationCap className="w-4 h-4" />
@@ -274,11 +267,10 @@ export const Navbar = ({ onOpenAssistant }) => {
                 <Link
                   to="/jobs"
                   onClick={handleMobileNavClick}
-                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors border ${
-                    isActive('/jobs')
+                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors border ${isActive('/jobs')
                       ? 'bg-[#EEF2FF] border-indigo-200/80 text-[#4F46E5] font-bold shadow-2xs'
                       : 'bg-[#F8FAFC] border-slate-200/70 text-slate-800 hover:bg-slate-100/80'
-                  }`}
+                    }`}
                 >
                   <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-emerald-600 flex-shrink-0 shadow-2xs">
                     <Briefcase className="w-4 h-4" />
@@ -303,11 +295,10 @@ export const Navbar = ({ onOpenAssistant }) => {
                 <Link
                   to="/careers"
                   onClick={handleMobileNavClick}
-                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors border ${
-                    isActive('/careers')
+                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors border ${isActive('/careers')
                       ? 'bg-purple-50 border-purple-200 text-purple-700 font-bold shadow-2xs'
                       : 'bg-[#F8FAFC] border-slate-200/70 text-slate-800 hover:bg-slate-100/80'
-                  }`}
+                    }`}
                 >
                   <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-amber-600 flex-shrink-0 shadow-2xs">
                     <Layers className="w-4 h-4" />
@@ -322,11 +313,10 @@ export const Navbar = ({ onOpenAssistant }) => {
                 <Link
                   to="/my-path"
                   onClick={handleMobileNavClick}
-                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors border ${
-                    isActive('/my-path')
+                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors border ${isActive('/my-path')
                       ? 'bg-purple-50 border-purple-200 text-purple-700 font-bold shadow-2xs'
                       : 'bg-[#F8FAFC] border-slate-200/70 text-slate-800 hover:bg-slate-100/80'
-                  }`}
+                    }`}
                 >
                   <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-indigo-600 flex-shrink-0 shadow-2xs">
                     <Target className="w-4 h-4" />
@@ -341,11 +331,10 @@ export const Navbar = ({ onOpenAssistant }) => {
                 <Link
                   to="/exams"
                   onClick={handleMobileNavClick}
-                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors border ${
-                    isActive('/exams')
+                  className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors border ${isActive('/exams')
                       ? 'bg-purple-50 border-purple-200 text-purple-700 font-bold shadow-2xs'
                       : 'bg-[#F8FAFC] border-slate-200/70 text-slate-800 hover:bg-slate-100/80'
-                  }`}
+                    }`}
                 >
                   <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-rose-600 flex-shrink-0 shadow-2xs">
                     <Award className="w-4 h-4" />
@@ -406,11 +395,10 @@ export const Navbar = ({ onOpenAssistant }) => {
               <Link
                 to="/profile"
                 onClick={handleMobileNavClick}
-                className={`flex-1 sm:flex-initial flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-colors ${
-                  isActive('/profile')
+                className={`flex-1 sm:flex-initial flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-bold transition-colors ${isActive('/profile')
                     ? 'bg-[#EEF2FF] text-[#4F46E5] border-indigo-200 shadow-2xs'
                     : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200'
-                }`}
+                  }`}
               >
                 <User className="w-4 h-4 text-indigo-600" />
                 <span>My Profile</span>

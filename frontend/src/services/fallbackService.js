@@ -467,7 +467,10 @@ export const handleFallbackRequest = (config = {}) => {
       }
     }
 
-    const directCard = FALLBACK_JOBS[0];
+    let directCard = null;
+    if (query && (query.includes('how to become') || query.includes('sde') || query.includes('software development engineer') || query.includes('roadmap'))) {
+      directCard = FALLBACK_JOBS.find(j => j.title.toLowerCase().includes(query) || j.name.toLowerCase().includes(query) || (j.aliases || []).some(a => a.toLowerCase().includes(query))) || null;
+    }
 
     return {
       query: qParam,

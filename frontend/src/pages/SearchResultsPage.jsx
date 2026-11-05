@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import {
   Search as SearchIcon,
   ArrowRight,
@@ -14,8 +14,14 @@ import {
   ChevronRight,
   Compass,
   RotateCw,
-  AlertCircle
+  AlertCircle,
+  User,
+  Sparkles,
+  ShieldCheck,
+  TrendingUp,
+  ExternalLink
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext.jsx';
 import { useEducation } from '../context/EducationContext.jsx';
 import api from '../services/api.js';
 import { StudyCard } from '../components/StudyCard.jsx';
@@ -24,8 +30,6 @@ import { ExamCard } from '../components/ExamCard.jsx';
 import { CareerCard } from '../components/CareerCard.jsx';
 import { CertificationCard } from '../components/CertificationCard.jsx';
 import { TaxonomyBrowser } from '../components/TaxonomyBrowser.jsx';
-import { ExternalSearchButton } from '../components/common/ExternalSearchButton.jsx';
-import { OfficialSourceButton } from '../components/common/OfficialSourceButton.jsx';
 
 export const SearchResultsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -36,16 +40,24 @@ export const SearchResultsPage = () => {
   const [activeCategory, setActiveCategory] = useState('ALL');
   const [showTaxonomy, setShowTaxonomy] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [searchData, setSearchData] = useState({ query: '', count: 0, results: [], directCard: null });
+  const [searchData, setSearchData] = useState({ query: '', count: 0, results: [] });
   const [error, setError] = useState(null);
 
+  const { user, profile } = useAuth();
   const {
     currentEducation,
+    targetJob,
+    openChangeModal,
     changeTargetJob,
     setToastMessage
   } = useEducation();
 
-  const studyName = currentEducation?.educationName || 'B.Tech Computer Science';
+  const rawName = user?.name || profile?.name || 'Explorer';
+  const userName = rawName.trim().split(' ')[0] || 'Explorer';
+  const studyName = currentEducation?.educationName || profile?.studyText || 'B.Tech Computer Science';
+  const isCompleted = currentEducation?.status !== 'currently_studying';
+  const statusLabel = isCompleted ? 'Completed' : 'Currently Studying';
+  const targetJobName = targetJob?.targetJobName || 'Software Development Engineer (SDE)';
 
   const filterTabs = [
     { id: 'ALL', label: 'All Results' },
@@ -98,6 +110,11 @@ export const SearchResultsPage = () => {
     executeSearch(queryParam || studyName, cat);
   };
 
+  const handleQuickFilter = (queryText) => {
+    setSearchInput(queryText);
+    setSearchParams({ q: queryText });
+  };
+
   const filteredResults = searchData.results?.filter((item) => {
     if (selectedFilter === 'ALL') return true;
     const itemType = (item.type || '').toUpperCase();
@@ -122,18 +139,172 @@ export const SearchResultsPage = () => {
     return itemType === selectedFilter;
   }) || [];
 
-  const handleSetTarget = (jobTitle) => {
-    changeTargetJob(jobTitle);
-    if (setToastMessage) {
-      setToastMessage(`🎯 Set "${jobTitle}" as your active target job.`);
-    }
-    navigate(`/job/${encodeURIComponent(jobTitle.toLowerCase().replace(/[^a-z0-9]/g, '-'))}`);
-  };
-
   return (
     <div className="space-y-8 sm:space-y-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
       {/* ============================================================ */}
-      {/* UNIVERSAL SEARCH BAR & CATEGORY FILTER TABS                  */}
+      {/* 1. USER RELATED INFORMATION DATA CONTAINER                  */}
+      {/* ============================================================ */}
+      <section className="card-clean p-6 sm:p-8 bg-gradient-to-br from-white via-[#F8FAFC] to-[#EEF2FF]/40 border border-[#E2E8F0] rounded-3xl shadow-xs space-y-6">
+        {/* Header: User Greeting & Baseline Info */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E2E8F0]">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4F46E5] font-extrabold flex items-center justify-center text-lg shadow-2xs">
+              {userName.charAt(0).toUpperCase()}
+            </div>
+            <div className="space-y-0.5">
+              <div className="flex items-center gap-2">
+                <h1 className="text-lg sm:text-xl font-extrabold text-[#0F172A] tracking-tight">
+                  Personalized Pathways for {rawName}
+                </h1>
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1 shadow-2xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  Active Learner
+                </span>
+              </div>
+              <p className="text-xs text-[#64748B] font-medium">
+                Baseline Degree: <strong className="text-[#334155]">{studyName}</strong> ({statusLabel})
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <button
+              onClick={openChangeModal}
+              className="px-3.5 py-1.5 rounded-xl border border-indigo-200/80 bg-white hover:bg-indigo-50 text-xs font-bold text-[#4F46E5] transition-colors cursor-pointer shadow-2xs flex items-center gap-1.5"
+            >
+              <GraduationCap className="w-3.5 h-3.5" />
+              <span>Change Education</span>
+            </button>
+            <Link
+              to="/profile"
+              className="px-3.5 py-1.5 rounded-xl border border-[#E2E8F0] hover:bg-white text-xs font-bold text-[#475569] transition-colors"
+            >
+              Profile
+            </Link>
+          </div>
+        </div>
+
+        {/* 3-Column User Relevant Opportunities Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+          {/* Box 1: Degrees & Master's Options */}
+          <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] space-y-2.5 shadow-2xs">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#4F46E5] flex items-center gap-1">
+                <GraduationCap className="w-3.5 h-3.5 text-[#4F46E5]" />
+                <span>Next Studies & Degrees</span>
+              </span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-100">
+                Master's Path
+              </span>
+            </div>
+            <div>
+              <div className="text-sm font-extrabold text-[#0F172A]">
+                Higher Studies after {studyName}
+              </div>
+              <p className="text-xs text-[#64748B] mt-0.5">
+                Eligible for M.Tech, MBA, MS, M.Sc admissions via GATE, CAT, GRE.
+              </p>
+            </div>
+            <button
+              onClick={() => handleQuickFilter(`courses after ${studyName}`)}
+              className="w-full text-left pt-2 border-t border-slate-100 text-xs font-bold text-[#4F46E5] hover:text-[#3730A3] flex items-center justify-between cursor-pointer"
+            >
+              <span>Explore Higher Degrees</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Box 2: High-Growth Jobs Tailored for Study */}
+          <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] space-y-2.5 shadow-2xs">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 flex items-center gap-1">
+                <Briefcase className="w-3.5 h-3.5 text-purple-600" />
+                <span>Job Roles & Salaries</span>
+              </span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-100">
+                Industry Roles
+              </span>
+            </div>
+            <div>
+              <div className="text-sm font-extrabold text-[#0F172A]">
+                Target: {targetJobName}
+              </div>
+              <p className="text-xs text-[#64748B] mt-0.5">
+                Typical salary band ₹6.0 – 24.0 LPA with strong growth demand.
+              </p>
+            </div>
+            <button
+              onClick={() => handleQuickFilter(`jobs after ${studyName}`)}
+              className="w-full text-left pt-2 border-t border-slate-100 text-xs font-bold text-purple-700 hover:text-purple-900 flex items-center justify-between cursor-pointer"
+            >
+              <span>View Matched Jobs</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Box 3: Sovereign & Government Exams */}
+          <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] space-y-2.5 shadow-2xs">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 flex items-center gap-1">
+                <Award className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Public & Sovereign Exams</span>
+              </span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-100">
+                Govt Entry
+              </span>
+            </div>
+            <div>
+              <div className="text-sm font-extrabold text-[#0F172A]">
+                Competitive Govt Pathways
+              </div>
+              <p className="text-xs text-[#64748B] mt-0.5">
+                Qualified for UPSC CSE (IAS/IPS), SSC CGL, PSUs & State PSC recruitments.
+              </p>
+            </div>
+            <button
+              onClick={() => handleQuickFilter(`government jobs after ${studyName}`)}
+              className="w-full text-left pt-2 border-t border-slate-100 text-xs font-bold text-emerald-700 hover:text-emerald-900 flex items-center justify-between cursor-pointer"
+            >
+              <span>View Govt Exams</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+
+        {/* 1-Click Search Quick Chips for User Education */}
+        <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-[#E2E8F0]/70">
+          <span className="text-[11px] font-bold uppercase text-[#64748B]">
+            Quick Filters for {studyName}:
+          </span>
+          <button
+            onClick={() => handleQuickFilter(`jobs after ${studyName}`)}
+            className="px-3 py-1 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] border border-[#E2E8F0] text-xs font-bold transition-colors cursor-pointer shadow-2xs"
+          >
+            💼 Jobs for {studyName}
+          </button>
+          <button
+            onClick={() => handleQuickFilter(`courses after ${studyName}`)}
+            className="px-3 py-1 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] border border-[#E2E8F0] text-xs font-bold transition-colors cursor-pointer shadow-2xs"
+          >
+            🎓 Master's after {studyName}
+          </button>
+          <button
+            onClick={() => handleQuickFilter(`government jobs after ${studyName}`)}
+            className="px-3 py-1 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] border border-[#E2E8F0] text-xs font-bold transition-colors cursor-pointer shadow-2xs"
+          >
+            🏛️ Govt Exams for {studyName}
+          </button>
+          <button
+            onClick={() => handleQuickFilter(targetJobName)}
+            className="px-3 py-1 rounded-xl bg-[#EEF2FF] text-[#4F46E5] hover:bg-indigo-100/80 border border-indigo-200 text-xs font-bold transition-colors cursor-pointer shadow-2xs"
+          >
+            🎯 Roadmap: {targetJobName}
+          </button>
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* 2. UNIVERSAL SEARCH BAR & CATEGORY FILTER TABS              */}
       {/* ============================================================ */}
       <section className="card-clean p-6 sm:p-8 bg-white border border-[#E2E8F0] space-y-5 rounded-3xl shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -226,88 +397,8 @@ export const SearchResultsPage = () => {
         </div>
       )}
 
-      {/* DIRECT GUIDANCE CARD (If available) */}
-      {!loading && searchData.directCard && (
-        <section className="card-clean p-6 sm:p-8 bg-white border-2 border-indigo-200 space-y-6 shadow-xs rounded-3xl">
-          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-slate-100 pb-5">
-            <div className="space-y-1">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs font-bold">
-                <Compass className="w-3.5 h-3.5 text-indigo-600" />
-                <span>Direct Guidance Engine</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                {searchData.directCard.title}
-              </h2>
-              {searchData.directCard.salaryFormatted && (
-                <div className="text-xs font-bold text-emerald-600">
-                  {searchData.directCard.salaryFormatted}
-                </div>
-              )}
-            </div>
-
-            <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 flex-shrink-0">
-              {searchData.directCard.webSearchUrl && (
-                <ExternalSearchButton query={searchData.directCard.title} label="Search Web" />
-              )}
-              {searchData.directCard.notificationUrl && (
-                <OfficialSourceButton url={searchData.directCard.notificationUrl} label="Official Portal" />
-              )}
-            </div>
-          </div>
-
-          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
-            {searchData.directCard.overview || searchData.directCard.subtitle || searchData.directCard.description}
-          </p>
-
-          {/* Education Routes */}
-          {searchData.directCard.educationRoutes && searchData.directCard.educationRoutes.length > 0 && (
-            <div className="space-y-4 pt-2">
-              <div className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                Possible Education & Experience Routes:
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {searchData.directCard.educationRoutes.map((route, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-extrabold text-indigo-700">
-                        {route.routeName || `ROUTE ${idx + 1}`}
-                      </span>
-                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-600">
-                        {route.timeline || 'Direct Entry'}
-                      </span>
-                    </div>
-                    {route.degrees && (
-                      <div className="text-xs font-medium text-slate-800">
-                        Eligible: <strong>{route.degrees.join(' / ')}</strong>
-                      </div>
-                    )}
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      {route.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                <button
-                  onClick={() => handleSetTarget(searchData.directCard.jobTitle || searchData.directCard.title)}
-                  className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs flex items-center gap-2 transition-colors shadow-2xs cursor-pointer"
-                >
-                  <Target className="w-4 h-4" />
-                  <span>Add as My Target Job & View Roadmap</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-        </section>
-      )}
-
       {/* ============================================================ */}
-      {/* VERIFIED RESULTS LISTING                                     */}
+      {/* 3. VERIFIED RESULTS LISTING                                  */}
       {/* ============================================================ */}
       {!loading && (
         <section className="space-y-5">
@@ -316,7 +407,7 @@ export const SearchResultsPage = () => {
               {filteredResults.length} Verified Result{filteredResults.length !== 1 ? 's' : ''}
             </span>
             <span className="text-[11px] font-normal text-slate-400">
-              Matching your qualification and criteria
+              Matching your qualification ({studyName}) and criteria
             </span>
           </div>
 
