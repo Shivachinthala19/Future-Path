@@ -61,10 +61,20 @@ export const CareersPage = () => {
           education: studyName,
           targetJob: activeTargetJobTitle
         });
-        if (res.success && res.data) {
+        if (res && res.success && res.data) {
           setCareers(res.data);
           if (res.data.length > 0) {
             setSelectedCareerId(res.data[0].id || res.data[0].slug);
+          }
+        } else if (res && Array.isArray(res.data)) {
+          setCareers(res.data);
+          if (res.data.length > 0) {
+            setSelectedCareerId(res.data[0].id || res.data[0].slug);
+          }
+        } else if (Array.isArray(res)) {
+          setCareers(res);
+          if (res.length > 0) {
+            setSelectedCareerId(res[0].id || res[0].slug);
           }
         }
       } catch (err) {

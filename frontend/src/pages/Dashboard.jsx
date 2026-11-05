@@ -76,8 +76,9 @@ export const Dashboard = () => {
         if (targetJobName) {
           // Dynamic calculation based on target job
           const res = await api.get(`/future-path?education=${encodeURIComponent(studyName)}&targetJob=${encodeURIComponent(targetJobName)}`);
-          if (isMounted && res.data?.roadmap?.steps?.length > 0) {
-            const steps = res.data.roadmap.steps;
+          const roadmapData = res?.roadmap || res?.data?.roadmap;
+          if (isMounted && roadmapData?.steps?.length > 0) {
+            const steps = roadmapData.steps;
             const currentOrFirstStep = steps.find(s => s.status === 'CURRENT') || steps[0];
             setNextStepInfo({
               title: currentOrFirstStep.title || 'Master Core Tooling',

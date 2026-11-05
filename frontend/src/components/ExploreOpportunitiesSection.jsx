@@ -182,8 +182,12 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
           api.get('/studies')
         ]);
 
-        const jobs = jobsRes.status === 'fulfilled' && Array.isArray(jobsRes.value.data) ? jobsRes.value.data : [];
-        const studies = studiesRes.status === 'fulfilled' && Array.isArray(studiesRes.value.data) ? studiesRes.value.data : [];
+        const jobs = jobsRes.status === 'fulfilled'
+          ? (Array.isArray(jobsRes.value?.data) ? jobsRes.value.data : (Array.isArray(jobsRes.value) ? jobsRes.value : []))
+          : [];
+        const studies = studiesRes.status === 'fulfilled'
+          ? (Array.isArray(studiesRes.value?.data) ? studiesRes.value.data : (Array.isArray(studiesRes.value) ? studiesRes.value : []))
+          : [];
 
         if (isMounted) {
           const generated = getOpportunitiesData(studyName, jobs, studies);
