@@ -289,6 +289,54 @@ export const FALLBACK_JOBS = [
       }
     ],
     requiredSkills: ['Statutory Financial Auditing', 'Indian & International Tax Laws', 'Corporate Financial Reporting', 'GST Compliance']
+  },
+  {
+    id: 'ai-ml-engineer',
+    slug: 'ai-machine-learning-engineer',
+    name: 'AI & Machine Learning Engineer',
+    title: 'AI & Machine Learning Engineer',
+    shortName: 'AI / ML Engineer',
+    type: 'JOB',
+    category: 'Technology & AI',
+    sector: 'Artificial Intelligence & Deep Learning',
+    aliases: ['Machine Learning Engineer', 'MLOps Engineer', 'AI Research Engineer', 'Deep Learning Specialist'],
+    description: 'Designs, trains, fine-tunes, and deploys high-scale deep learning models, LLMs, and real-time computer vision / NLP inference engines.',
+    salaryFormatted: '₹8.0 – 26.0 LPA (Senior AI Lead: ₹40+ LPA)',
+    demand_score: 98,
+    educationRoutes: [
+      {
+        routeName: 'Route 1: CS / Math / Engineering Degree + Deep Learning Track',
+        title: 'Machine Learning Engineering Path',
+        degrees: ['B.Tech Computer Science', 'B.Tech AI & Data Science', 'MCA', 'M.Tech CSE'],
+        skills: ['Python', 'PyTorch / TensorFlow', 'Transformers & LLMs', 'Linear Algebra & Statistics', 'Docker & MLOps'],
+        timeline: '6-9 Months Hands-on Project Implementation'
+      }
+    ],
+    requiredSkills: ['Python', 'PyTorch / TensorFlow', 'Machine Learning Algorithms', 'SQL', 'Git & Docker']
+  },
+  {
+    id: 'fullstack-web-developer',
+    slug: 'full-stack-web-developer',
+    name: 'Full Stack Web & Cloud Developer',
+    title: 'Full Stack Web & Cloud Developer',
+    shortName: 'Full Stack Developer',
+    type: 'JOB',
+    category: 'Software Engineering',
+    sector: 'Information Technology',
+    aliases: ['Web Developer', 'Frontend Developer', 'Backend Developer', 'MERN Stack Developer'],
+    description: 'Builds end-to-end web architectures, responsive frontends in React / Next.js, and scalable cloud microservices in Node.js / Python.',
+    salaryFormatted: '₹5.5 – 18.0 LPA (Tech Lead: ₹30+ LPA)',
+    demand_score: 96,
+    educationRoutes: [
+      {
+        routeName: 'Route 1: Computer Science / Engineering / BCA Degree',
+        title: 'Full Stack Engineering Pathway',
+        degrees: ['B.Tech Computer Science', 'BCA', 'MCA', 'B.Sc IT'],
+        skills: ['React', 'Node.js', 'PostgreSQL', 'Tailwind CSS', 'REST / GraphQL APIs'],
+        timeline: '3-6 Months Full Stack Projects'
+      }
+    ],
+    requiredSkills: ['JavaScript / TypeScript', 'React', 'Node.js / Express', 'SQL & MongoDB', 'RESTful APIs', 'Git / GitHub']
   }
 ];
 
@@ -310,6 +358,54 @@ export const FALLBACK_STUDIES = [
     exams: ['GATE', 'CAT', 'GRE']
   },
   {
+    id: 'study-mtech-cse',
+    slug: 'mtech-computer-science',
+    name: 'M.Tech in Computer Science & Artificial Intelligence',
+    degreeLevel: 'POSTGRADUATE',
+    duration: '2 Years',
+    type: 'STUDY',
+    category: 'Postgraduate Engineering',
+    overview: 'Premier 2-year Master’s program at IITs, NITs, and IIITs focusing on advanced algorithms, distributed AI architectures, quantum computing, and research publications.',
+    eligibility: 'Bachelor’s degree in Engineering (B.Tech / B.E. in CSE, IT, ECE) or MCA / M.Sc CS with valid GATE score.',
+    typicalFees: '₹50,000 – ₹1.5 Lakhs per annum (Includes ₹12,400/month MHRD stipend)',
+    admissionProcess: 'GATE Exam + COAP Counseling',
+    nextStudies: ['Ph.D. in Computer Science', 'Postdoctoral Research Fellowship'],
+    targetJobs: ['AI Research Scientist', 'Senior Software Engineer', 'Chief Technology Officer (CTO)', 'Systems Architect'],
+    exams: ['GATE']
+  },
+  {
+    id: 'study-mba',
+    slug: 'mba-technology-business-management',
+    name: 'MBA (Master of Business Administration)',
+    degreeLevel: 'POSTGRADUATE',
+    duration: '2 Years',
+    type: 'STUDY',
+    category: 'Management & Business Strategy',
+    overview: 'Flagship 2-year leadership degree at IIMs, XLRI, and FMS covering corporate strategy, product management, financial analytics, operations, and marketing leadership.',
+    eligibility: 'Bachelor’s degree in any discipline (B.Tech, B.Com, BBA, B.Sc, B.A.) with minimum 50% marks.',
+    typicalFees: '₹8.0 Lakhs – ₹25.0 Lakhs (IIMs)',
+    admissionProcess: 'CAT / XAT / GMAT Entrance Examination + WAT / GD / PI',
+    nextStudies: ['Executive Management', 'Doctorate in Business (DBA)'],
+    targetJobs: ['Product Manager (Tech)', 'Management Consultant (McKinsey/BCG)', 'Investment Banker', 'Corporate Strategy Director'],
+    exams: ['CAT', 'XAT', 'GMAT']
+  },
+  {
+    id: 'study-ms-cs',
+    slug: 'ms-computer-science-abroad',
+    name: 'MS in Computer Science & Data Systems (USA / Europe)',
+    degreeLevel: 'POSTGRADUATE',
+    duration: '1.5 – 2 Years',
+    type: 'STUDY',
+    category: 'International Postgraduate',
+    overview: 'International Master’s program specializing in machine learning, distributed computing, cybersecurity, and cloud infrastructure at top global universities.',
+    eligibility: 'Bachelor’s in Engineering / CS (B.Tech / B.E. / BCA / B.Sc CS) with minimum 65-70% / 3.0+ GPA.',
+    typicalFees: '₹20 Lakhs – ₹45 Lakhs total tuition',
+    admissionProcess: 'GRE + TOEFL / IELTS + Statement of Purpose (SOP) + LORs',
+    nextStudies: ['Ph.D. in AI / Robotics', 'Global R&D Leadership'],
+    targetJobs: ['Silicon Valley SDE', 'Machine Learning Research Engineer', 'Data Systems Architect'],
+    exams: ['GRE', 'TOEFL', 'IELTS']
+  },
+  {
     id: 'study-bcom',
     slug: 'bcom-accounting-finance',
     name: 'B.Com (Bachelor of Commerce)',
@@ -326,6 +422,22 @@ export const FALLBACK_STUDIES = [
     exams: ['CAT', 'CUET PG', 'ICAI CA Inter']
   },
   {
+    id: 'study-mcom',
+    slug: 'mcom-master-of-commerce',
+    name: 'M.Com (Master of Commerce)',
+    degreeLevel: 'POSTGRADUATE',
+    duration: '2 Years',
+    type: 'STUDY',
+    category: 'Commerce & Accounting',
+    overview: 'Advanced 2-year postgraduate program covering advanced financial management, corporate accounting, international banking, econometric modeling, and tax policies.',
+    eligibility: 'B.Com / BBA with minimum 50% aggregate marks.',
+    typicalFees: '₹15,000 – ₹80,000 per annum',
+    admissionProcess: 'CUET PG / University Entrance Test',
+    nextStudies: ['Ph.D. in Commerce', 'UGC NET (Assistant Professor)'],
+    targetJobs: ['Senior Financial Analyst', 'Assistant Professor', 'Corporate Accountant', 'Statutory Tax Officer'],
+    exams: ['CUET PG', 'UGC NET']
+  },
+  {
     id: 'study-bca',
     slug: 'bca-computer-applications',
     name: 'BCA (Bachelor of Computer Applications)',
@@ -338,6 +450,22 @@ export const FALLBACK_STUDIES = [
     typicalFees: '₹40,000 – ₹1.8 Lakhs per annum',
     nextStudies: ['MCA (Master of Computer Applications)', 'M.Sc Computer Science', 'MBA Tech Management'],
     targetJobs: ['Software Development Engineer (SDE)', 'Full Stack Developer', 'System Administrator', 'Database Administrator'],
+    exams: ['NIMCET', 'MAH MCA CET', 'CUET PG']
+  },
+  {
+    id: 'study-mca',
+    slug: 'mca-master-of-computer-applications',
+    name: 'MCA (Master of Computer Applications)',
+    degreeLevel: 'POSTGRADUATE',
+    duration: '2 Years',
+    type: 'STUDY',
+    category: 'Computer Applications',
+    overview: 'Premier 2-year technical master’s program granting equivalence to B.Tech Computer Science for corporate placements and system development roles.',
+    eligibility: 'BCA, B.Sc Computer Science, or Any Graduate with Mathematics at 10+2 or Graduation level.',
+    typicalFees: '₹60,000 – ₹2.5 Lakhs per annum',
+    admissionProcess: 'NIMCET (for NITs) / MAH MCA CET / State MCA Entrance Tests',
+    nextStudies: ['Ph.D. in Computer Science', 'Cloud Architect Certification'],
+    targetJobs: ['Software Development Engineer (SDE)', 'Full Stack Engineer', 'Cloud Solutions Architect'],
     exams: ['NIMCET', 'MAH MCA CET', 'CUET PG']
   }
 ];
@@ -444,10 +572,20 @@ export const handleFallbackRequest = (config = {}) => {
     };
   }
 
-  // 7. Universal Search
+  // 7. Universal Search (Intent-Aware & Profile-Personalized)
   if (cleanUrl === '/search' || cleanUrl.startsWith('/search')) {
     const qParam = new URLSearchParams(url.includes('?') ? url.split('?')[1] : '').get('q') || params.q || '';
     const query = qParam.toLowerCase().trim();
+
+    // Context awareness: Get current user education
+    let userEdu = 'B.Tech';
+    try {
+      const storedEdu = localStorage.getItem('careercompass_education');
+      if (storedEdu) {
+        const parsed = JSON.parse(storedEdu);
+        if (parsed.educationName) userEdu = parsed.educationName;
+      }
+    } catch {}
 
     const allEntities = [
       ...FALLBACK_JOBS.map(j => ({ ...j, type: j.type || 'JOB' })),
@@ -457,11 +595,60 @@ export const handleFallbackRequest = (config = {}) => {
     ];
 
     let results = allEntities;
-    if (query) {
+
+    // Intent detection
+    const isStudyIntent = /^(study|studies|course|courses|degree|degrees|masters|master|higher study|higher studies|college|education|phd)$/i.test(query) ||
+      query.includes('study after') || query.includes('courses after') || query.includes('degrees after') || query.includes('what to study');
+
+    const isJobIntent = /^(job|jobs|career|careers|placement|placements|work|hiring|role|roles|salary|salaries)$/i.test(query) ||
+      query.includes('jobs after') || query.includes('careers after') || query.includes('jobs for');
+
+    const isGovtIntent = /^(govt|government|exam|exams|sarkari|upsc|ssc|gate|psu)$/i.test(query) ||
+      query.includes('govt job') || query.includes('government job');
+
+    if (isStudyIntent) {
+      // Return study entities, prioritizing those matching or following user's degree
       results = allEntities.filter(item => {
-        const text = `${item.name || ''} ${item.title || ''} ${item.description || ''} ${item.category || ''} ${(item.aliases || []).join(' ')}`.toLowerCase();
+        const itemType = (item.type || '').toUpperCase();
+        return itemType.includes('STUDY') || itemType === 'EDUCATION';
+      });
+      results.sort((a, b) => {
+        const aText = `${a.name || ''} ${a.overview || ''} ${a.eligibility || ''}`.toLowerCase();
+        const bText = `${b.name || ''} ${b.overview || ''} ${b.eligibility || ''}`.toLowerCase();
+        const aMatchesEdu = aText.includes(userEdu.toLowerCase());
+        const bMatchesEdu = bText.includes(userEdu.toLowerCase());
+        return (bMatchesEdu ? 1 : 0) - (aMatchesEdu ? 1 : 0);
+      });
+    } else if (isJobIntent) {
+      // Return job and career entities, prioritizing those matching user's degree
+      results = allEntities.filter(item => {
+        const itemType = (item.type || '').toUpperCase();
+        return itemType.includes('JOB') || itemType === 'CAREER';
+      });
+      results.sort((a, b) => {
+        const aText = `${a.title || ''} ${a.name || ''} ${JSON.stringify(a.educationRoutes || [])}`.toLowerCase();
+        const bText = `${b.title || ''} ${b.name || ''} ${JSON.stringify(b.educationRoutes || [])}`.toLowerCase();
+        const aMatchesEdu = aText.includes(userEdu.toLowerCase());
+        const bMatchesEdu = bText.includes(userEdu.toLowerCase());
+        return (bMatchesEdu ? 1 : 0) - (aMatchesEdu ? 1 : 0);
+      });
+    } else if (isGovtIntent) {
+      results = allEntities.filter(item => {
+        const itemType = (item.type || '').toUpperCase();
+        return itemType === 'GOVERNMENT_JOB' || itemType === 'EXAM';
+      });
+    } else if (query) {
+      results = allEntities.filter(item => {
+        const text = `${item.name || ''} ${item.title || ''} ${item.description || ''} ${item.category || ''} ${(item.aliases || []).join(' ')} ${(item.requiredSkills || []).join(' ')}`.toLowerCase();
         return text.includes(query);
       });
+      if (results.length === 0) {
+        const tokens = query.split(/\s+/).filter(Boolean);
+        results = allEntities.filter(item => {
+          const text = `${item.name || ''} ${item.title || ''} ${item.description || ''}`.toLowerCase();
+          return tokens.some(t => text.includes(t));
+        });
+      }
       if (results.length === 0) {
         results = allEntities;
       }

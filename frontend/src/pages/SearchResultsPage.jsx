@@ -62,12 +62,59 @@ export const SearchResultsPage = () => {
   const filterTabs = [
     { id: 'ALL', label: 'All Results' },
     { id: 'STUDY', label: 'Studies & Degrees' },
-    { id: 'JOB', label: 'Private Jobs' },
+    { id: 'JOB', label: 'Jobs & Careers' },
     { id: 'GOVERNMENT_JOB', label: 'Govt Jobs & Exams' },
     { id: 'CAREER', label: 'Career Fields' },
     { id: 'EXAM', label: 'Entrance Exams' },
     { id: 'CERTIFICATION', label: 'Certifications' }
   ];
+
+  // Natural Language Intent Engine: Detects whether query relates to "Study", "Job", or "Govt Exam"
+  const detectQueryIntent = (text, userEdu) => {
+    const lower = (text || '').toLowerCase().trim();
+    if (!lower) return null;
+
+    const isStudy = /^(study|studies|course|courses|degree|degrees|masters|master|higher study|higher studies|college|education|phd|what to study|further studies|study next|study options)$/i.test(lower) ||
+      lower.includes('study after') || lower.includes('courses after') || lower.includes('degrees after') || lower.includes('what to study') || lower.includes('study options');
+
+    const isJob = /^(job|jobs|career|careers|placement|placements|work|hiring|role|roles|salary|salaries|private job|private jobs|job options|job roles)$/i.test(lower) ||
+      lower.includes('jobs after') || lower.includes('careers after') || lower.includes('jobs for') || lower.includes('job options') || lower.includes('roles for');
+
+    const isGovt = /^(govt|government|exam|exams|sarkari|upsc|ssc|gate|psu|sarkari naukri|govt job|govt jobs|civil services)$/i.test(lower) ||
+      lower.includes('govt job') || lower.includes('government job') || lower.includes('govt jobs') || lower.includes('entrance exam');
+
+    if (isStudy) {
+      return {
+        type: 'STUDY',
+        title: `Higher Studies & Master's Degrees for ${userEdu}`,
+        badge: '🎓 Study Pathways',
+        description: `Showing higher degrees, Master's programs, and specialized academic courses tailored for ${userEdu} graduates.`,
+        filter: 'STUDY'
+      };
+    }
+    if (isJob) {
+      return {
+        type: 'JOB',
+        title: `Industry Job Roles & Careers for ${userEdu}`,
+        badge: '💼 Job Opportunities',
+        description: `Showing high-demand job roles, technical career tracks, and compensation benchmarks open for ${userEdu} graduates.`,
+        filter: 'JOB'
+      };
+    }
+    if (isGovt) {
+      return {
+        type: 'GOVERNMENT_JOB',
+        title: `Government Jobs & Sovereign Exams for ${userEdu}`,
+        badge: '🏛️ Govt Recruitments',
+        description: `Showing Union & State public sector recruitments, PSC exams, and statutory commissions open to ${userEdu}.`,
+        filter: 'GOVERNMENT_JOB'
+      };
+    }
+
+    return null;
+  };
+
+  const activeIntent = detectQueryIntent(queryParam || searchInput, studyName);
 
   const executeSearch = async (q, cat = 'ALL') => {
     const query = q ? q.trim() : studyName;
@@ -94,14 +141,24 @@ export const SearchResultsPage = () => {
 
   useEffect(() => {
     setSearchInput(queryParam);
-    // If a search query is present, search for it; otherwise load tailored recommendations for the user's education
+    const intent = detectQueryIntent(queryParam, studyName);
+    if (intent) {
+      setSelectedFilter(intent.filter);
+    }
     executeSearch(queryParam || studyName, activeCategory);
   }, [queryParam, activeCategory, studyName]);
 
   const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (searchInput.trim()) {
-      setSearchParams({ q: searchInput.trim() });
+    e?.preventDefault();
+    const clean = searchInput.trim();
+    if (clean) {
+      const intent = detectQueryIntent(clean, studyName);
+      if (intent) {
+        setSelectedFilter(intent.filter);
+      }
+      setSearchParams({ q: clean });
+    } else {
+      setSearchParams({});
     }
   };
 
@@ -112,17 +169,21 @@ export const SearchResultsPage = () => {
 
   const handleQuickFilter = (queryText) => {
     setSearchInput(queryText);
+    const intent = detectQueryIntent(queryText, studyName);
+    if (intent) {
+      setSelectedFilter(intent.filter);
+    }
     setSearchParams({ q: queryText });
   };
 
-  const filteredResults = searchData.results?.filter((item) => {
+  const filteredResults = (searchData.results || []).filter((item) => {
     if (selectedFilter === 'ALL') return true;
     const itemType = (item.type || '').toUpperCase();
     if (selectedFilter === 'STUDY') {
       return itemType.includes('STUDY') || itemType === 'EDUCATION';
     }
     if (selectedFilter === 'JOB') {
-      return itemType === 'JOB' || itemType === 'PRIVATE_JOB';
+      return itemType === 'JOB' || itemType === 'PRIVATE_JOB' || itemType === 'CAREER';
     }
     if (selectedFilter === 'GOVERNMENT_JOB') {
       return itemType.includes('GOVERNMENT') || itemType === 'EXAM';
@@ -137,7 +198,7 @@ export const SearchResultsPage = () => {
       return itemType === 'CERTIFICATION';
     }
     return itemType === selectedFilter;
-  }) || [];
+  });
 
   return (
     <div className="space-y-8 sm:space-y-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
@@ -330,7 +391,7 @@ export const SearchResultsPage = () => {
             type="text"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="Search degrees, careers, job roles, entrance exams, or skills (e.g. MBA, Data Analyst, SSC CGL)..."
+            placeholder="Search anything: 'study', 'job', 'MBA', 'Data Analyst', 'Govt exams', 'Python'..."
             className="w-full pl-12 pr-28 py-3.5 rounded-2xl border border-[#E2E8F0] text-xs sm:text-sm text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] bg-[#F8FAFC]/50 shadow-2xs transition-all"
           />
           <button
@@ -340,6 +401,21 @@ export const SearchResultsPage = () => {
             Search
           </button>
         </form>
+
+        {/* Real-time Semantic Understanding Suggestion */}
+        {activeIntent && (
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-2xl bg-gradient-to-r from-indigo-50/90 via-purple-50/80 to-blue-50/90 border border-indigo-200/90 text-xs text-indigo-950 font-semibold animate-in fade-in duration-200 shadow-2xs">
+            <div className="flex items-center gap-2.5">
+              <Sparkles className="w-4 h-4 text-[#4F46E5] flex-shrink-0 animate-pulse" />
+              <span>
+                Understood intent: <strong>"{searchInput || queryParam}"</strong> — Showing {activeIntent.title} tailored for your <strong>{studyName}</strong> background.
+              </span>
+            </div>
+            <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-600 text-white shadow-2xs self-start sm:self-auto">
+              {activeIntent.badge}
+            </span>
+          </div>
+        )}
 
         {/* Filter Pills & Taxonomy Toggle */}
         <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-[#E2E8F0]/70">
@@ -401,6 +477,27 @@ export const SearchResultsPage = () => {
       {/* ============================================================ */}
       {!loading && (
         <section className="space-y-5">
+          {/* Intent Intelligence Capsule Banner */}
+          {activeIntent && (
+            <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-br from-white via-indigo-50/40 to-purple-50/30 border border-indigo-200/80 shadow-xs space-y-2 animate-in fade-in duration-200">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#4F46E5] flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#4F46E5]" />
+                  <span>Personalized Recommendation Engine</span>
+                </span>
+                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  Profile Matched ({studyName})
+                </span>
+              </div>
+              <h3 className="text-base sm:text-lg font-extrabold text-[#0F172A]">
+                {activeIntent.title}
+              </h3>
+              <p className="text-xs text-[#64748B] leading-relaxed">
+                {activeIntent.description}
+              </p>
+            </div>
+          )}
+
           <div className="flex items-center justify-between text-xs font-bold text-[#64748B] uppercase tracking-wider px-1">
             <span>
               {filteredResults.length} Verified Result{filteredResults.length !== 1 ? 's' : ''}

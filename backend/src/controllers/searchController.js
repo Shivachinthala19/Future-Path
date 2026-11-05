@@ -341,17 +341,21 @@ export const universalSearch = async (req, res, next) => {
     // 2. Universal Multi-Entity Search across all Supabase tables
     // =========================================================================
 
+    const isBroadStudy = /^(study|studies|course|courses|degree|degrees|masters|master|higher study|higher studies)$/i.test(lowerQ);
+    const isBroadJob = /^(job|jobs|career|careers|placement|placements|work|role|roles|salary|salaries)$/i.test(lowerQ);
+    const isBroadExam = /^(exam|exams|govt|government|sarkari|upsc|ssc|gate)$/i.test(lowerQ);
+
     const results = [];
     const seenSlugs = new Set();
 
     if (supabase) {
       // 1. Studies
-      if (!type || type === 'ALL' || type === 'STUDY') {
-        const { data: studies } = await supabase
-          .from('studies')
-          .select('*')
-          .or(`name.ilike.%${cleanQ}%,short_name.ilike.%${cleanQ}%,category.ilike.%${cleanQ}%,description.ilike.%${cleanQ}%`)
-          .limit(8);
+      if (!type || type === 'ALL' || type === 'STUDY' || isBroadStudy) {
+        let studyQuery = supabase.from('studies').select('*').limit(10);
+        if (!isBroadStudy) {
+          studyQuery = studyQuery.or(`name.ilike.%${cleanQ}%,short_name.ilike.%${cleanQ}%,category.ilike.%${cleanQ}%,description.ilike.%${cleanQ}%`);
+        }
+        const { data: studies } = await studyQuery;
 
         (studies || []).forEach(st => {
           const key = st.slug || st.name.toLowerCase();
@@ -381,14 +385,14 @@ export const universalSearch = async (req, res, next) => {
       }
 
       // 2. Jobs
-      if (!type || type === 'ALL' || type === 'JOB' || type === 'GOVERNMENT_JOB') {
-        let jobQuery = supabase
-          .from('jobs')
-          .select('*')
-          .or(`title.ilike.%${cleanQ}%,sector.ilike.%${cleanQ}%,category.ilike.%${cleanQ}%,description.ilike.%${cleanQ}%`)
-          .limit(10);
+      if (!type || type === 'ALL' || type === 'JOB' || type === 'GOVERNMENT_JOB' || isBroadJob) {
+        let jobQuery = supabase.from('jobs').select('*').limit(12);
 
-        if (type === 'GOVERNMENT_JOB') {
+        if (!isBroadJob) {
+          jobQuery = jobQuery.or(`title.ilike.%${cleanQ}%,sector.ilike.%${cleanQ}%,category.ilike.%${cleanQ}%,description.ilike.%${cleanQ}%`);
+        }
+
+        if (type === 'GOVERNMENT_JOB' || isBroadExam) {
           jobQuery = jobQuery.or('category.eq.Government,job_type.eq.GOVERNMENT_JOB');
         } else if (type === 'JOB') {
           jobQuery = jobQuery.neq('category', 'Government');
@@ -424,12 +428,12 @@ export const universalSearch = async (req, res, next) => {
       }
 
       // 3. Competitive & Entrance Exams
-      if (!type || type === 'ALL' || type === 'EXAM' || type === 'GOVERNMENT_JOB') {
-        const { data: exams } = await supabase
-          .from('exams')
-          .select('*')
-          .or(`name.ilike.%${cleanQ}%,short_name.ilike.%${cleanQ}%,category.ilike.%${cleanQ}%,organization.ilike.%${cleanQ}%,description.ilike.%${cleanQ}%`)
-          .limit(6);
+      if (!type || type === 'ALL' || type === 'EXAM' || type === 'GOVERNMENT_JOB' || isBroadExam) {
+        let examQuery = supabase.from('exams').select('*').limit(8);
+        if (!isBroadExam) {
+          examQuery = examQuery.or(`name.ilike.%${cleanQ}%,short_name.ilike.%${cleanQ}%,category.ilike.%${cleanQ}%,organization.ilike.%${cleanQ}%,description.ilike.%${cleanQ}%`);
+        }
+        const { data: exams } = await examQuery;
 
         (exams || []).forEach(e => {
           const key = e.slug || e.name.toLowerCase();
