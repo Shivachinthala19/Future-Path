@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   AlertCircle,
   ArrowRight,
   ArrowLeft,
   CheckCircle2,
   GraduationCap,
-  Briefcase,
   Eye,
   EyeOff,
-  Sparkles,
   User,
-  Lock,
-  BookOpen,
-  Target,
-  Check,
-  Compass
+  Lock
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useEducation } from '../context/EducationContext.jsx';
@@ -29,9 +23,9 @@ export const LoginPage = () => {
   // Step state: 1 = Credentials, 2 = Education Details
   const [step, setStep] = useState(1);
 
-  // Step 1: Credentials
-  const [identifier, setIdentifier] = useState('Shiva'); // Username or email
-  const [password, setPassword] = useState('FuturePath2026!');
+  // Step 1: Credentials (Starts empty for user's own input)
+  const [identifier, setIdentifier] = useState(''); // Username or email
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -40,7 +34,7 @@ export const LoginPage = () => {
   const [selectedDegree, setSelectedDegree] = useState('B.Tech Computer Science');
   const [customDegree, setCustomDegree] = useState('');
   const [status, setStatus] = useState('currently_studying'); // 'currently_studying' | 'completed'
-  const [specialization, setSpecialization] = useState('Computer Science & Engineering');
+  const [specialization, setSpecialization] = useState('');
   const [selectedTargetJob, setSelectedTargetJob] = useState('Software Development Engineer (SDE)');
 
   // Quick Degree Options
@@ -105,7 +99,7 @@ export const LoginPage = () => {
       const activeDegree = customDegree.trim() ? customDegree.trim() : selectedDegree;
       const displayName = getDisplayName();
 
-      // 1. Authenticate user in AuthContext
+      // 1. Authenticate user in AuthContext with their own credentials
       await login(identifier.trim(), password.trim(), displayName);
 
       // 2. Set education details in EducationContext
@@ -121,7 +115,7 @@ export const LoginPage = () => {
 
       // 4. Set welcome toast
       if (setToastMessage) {
-        setToastMessage(`🎉 Welcome back, ${displayName}! Your home page is customized for ${activeDegree}.`);
+        setToastMessage(`🎉 Welcome, ${displayName}! Your home page is customized for ${activeDegree}.`);
       }
 
       // 5. Navigate to Home Page / Dashboard
@@ -132,16 +126,6 @@ export const LoginPage = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleDemoFill = () => {
-    setIdentifier('Shiva');
-    setPassword('FuturePath2026!');
-    setSelectedDegree('B.Tech Computer Science');
-    setStatus('currently_studying');
-    setSpecialization('Artificial Intelligence & Machine Learning');
-    setSelectedTargetJob('Software Development Engineer (SDE)');
-    setError(null);
   };
 
   return (
@@ -156,7 +140,7 @@ export const LoginPage = () => {
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#EEF2FF] border border-[#C7D2FE] text-[#4F46E5] text-[11px] font-extrabold tracking-wide uppercase">
             <span>Step {step} of 2</span>
             <span>•</span>
-            <span>{step === 1 ? 'Account Identification' : 'Education Profile'}</span>
+            <span>{step === 1 ? 'Account Sign In' : 'Education Profile'}</span>
           </div>
 
           <div>
@@ -165,7 +149,7 @@ export const LoginPage = () => {
             </h1>
             <p className="text-xs sm:text-sm text-[#64748B] mt-1 max-w-md mx-auto">
               {step === 1
-                ? 'Enter your username or email to access your personalized pathway.'
+                ? 'Enter your username or email address and password to log in.'
                 : 'Select your education details to customize your home page and career roadmap.'}
             </p>
           </div>
@@ -197,8 +181,9 @@ export const LoginPage = () => {
                   type="text"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  placeholder="e.g. Shiva or shiva@example.com"
+                  placeholder="Enter your username or email"
                   required
+                  autoFocus
                   className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] bg-[#F8FAFC]/50 transition-all"
                 />
               </div>
@@ -220,7 +205,7 @@ export const LoginPage = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                   required
                   className="w-full pl-10 pr-11 py-3 rounded-xl border border-slate-200 text-sm text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] bg-[#F8FAFC]/50 transition-all"
                 />
@@ -235,28 +220,15 @@ export const LoginPage = () => {
               </div>
             </div>
 
-            {/* Next Button */}
-            <button
-              type="submit"
-              className="w-full py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold text-sm flex items-center justify-center gap-2 transition-colors shadow-2xs cursor-pointer pt-3"
-            >
-              <span>Continue to Education Details</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-
-            {/* Demo Quick Fill */}
-            <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            {/* Next / Continue Button */}
+            <div className="pt-2">
               <button
-                type="button"
-                onClick={handleDemoFill}
-                className="text-[#4F46E5] hover:text-[#3730A3] font-bold cursor-pointer flex items-center gap-1"
+                type="submit"
+                className="w-full py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold text-sm flex items-center justify-center gap-2 transition-colors shadow-2xs cursor-pointer"
               >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Fill Demo Profile (Shiva)</span>
+                <span>Continue to Education Details</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
-              <Link to="/register" className="text-slate-500 hover:text-slate-800 font-medium">
-                New user? Register
-              </Link>
             </div>
           </form>
         )}
@@ -342,7 +314,7 @@ export const LoginPage = () => {
                 })}
               </div>
 
-              {/* Or Custom Typing */}
+              {/* Custom Typing */}
               <input
                 type="text"
                 value={customDegree}

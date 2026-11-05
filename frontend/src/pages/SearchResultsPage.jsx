@@ -348,11 +348,10 @@ export const SearchResultsPage = () => {
               <button
                 key={tab.id}
                 onClick={() => setSelectedFilter(tab.id)}
-                className={`px-3 py-1.5 rounded-xl font-bold border transition-all text-xs cursor-pointer ${
-                  selectedFilter === tab.id
+                className={`px-3 py-1.5 rounded-xl font-bold border transition-all text-xs cursor-pointer ${selectedFilter === tab.id
                     ? 'bg-[#4F46E5] text-white border-[#4F46E5] shadow-2xs'
                     : 'bg-white text-[#64748B] border-[#E2E8F0] hover:border-slate-300'
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>
