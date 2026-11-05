@@ -107,6 +107,14 @@ export const ProfilePage = () => {
     navigate(`/search?q=${encodeURIComponent(query)}`);
   };
 
+  const handleLogout = () => {
+    logout();
+    if (setToastMessage) {
+      setToastMessage('👋 Logged out successfully. Please sign in to continue.');
+    }
+    navigate('/login');
+  };
+
   return (
     <div className="space-y-8 sm:space-y-10 py-4 sm:py-8 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* ============================================================ */}
@@ -144,6 +152,16 @@ export const ProfilePage = () => {
               <span>My Career Roadmap</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
+
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
+              title="Log out of your account"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Log Out</span>
+            </button>
           </div>
         </div>
 
@@ -550,18 +568,40 @@ export const ProfilePage = () => {
               {loading ? 'Saving Changes...' : 'Save Profile Changes'}
             </button>
 
-            {isAuthenticated && (
-              <button
-                type="button"
-                onClick={logout}
-                className="text-xs font-semibold text-rose-600 hover:text-rose-700 flex items-center gap-1.5 cursor-pointer"
-              >
-                <LogOut className="w-3.5 h-3.5" />
-                <span>Log Out</span>
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Log Out</span>
+            </button>
           </div>
         </form>
+      </section>
+
+      {/* ============================================================ */}
+      {/* 3. DEDICATED ACCOUNT SESSION & LOG OUT CARD                  */}
+      {/* ============================================================ */}
+      <section className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E2E8F0] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 text-sm font-extrabold text-[#0F172A]">
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <span>Active Session for {rawName}</span>
+          </div>
+          <p className="text-xs text-[#64748B]">
+            Logged in via <strong className="text-slate-700">{email}</strong>. Logging out ends your active session on this device.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-2xs self-start sm:self-auto"
+        >
+          <LogOut className="w-4 h-4" />
+          <span>Log Out of Future Path</span>
+        </button>
       </section>
     </div>
   );

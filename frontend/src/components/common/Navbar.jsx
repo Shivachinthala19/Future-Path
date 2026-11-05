@@ -63,39 +63,47 @@ export const Navbar = ({ onOpenAssistant }) => {
           <FuturePathLogo size={36} showTagline={false} />
         </Link>
 
-        {/* Center: Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-1 lg:gap-1.5">
-          {navLinks.map((link) => {
-            const active = isActive(link.to);
-            if (link.isAi && onOpenAssistant) {
+        {/* Center: Desktop Nav Links (Visible when authenticated) */}
+        {isAuthenticated ? (
+          <nav className="hidden md:flex items-center gap-1 lg:gap-1.5">
+            {navLinks.map((link) => {
+              const active = isActive(link.to);
+              if (link.isAi && onOpenAssistant) {
+                return (
+                  <button
+                    key={link.to}
+                    onClick={onOpenAssistant}
+                    className={`px-3 py-1.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
+                      active
+                        ? 'text-[#4F46E5] bg-[#EEF2FF] font-bold shadow-2xs'
+                        : 'text-[#64748B] hover:text-[#0F172A] hover:bg-slate-50'
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-[#4F46E5]" />
+                    <span>{link.label}</span>
+                  </button>
+                );
+              }
               return (
-                <button
+                <Link
                   key={link.to}
-                  onClick={onOpenAssistant}
-                  className={`px-3 py-1.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${active
+                  to={link.to}
+                  className={`px-3 py-1.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-1.5 ${
+                    active
                       ? 'text-[#4F46E5] bg-[#EEF2FF] font-bold shadow-2xs'
                       : 'text-[#64748B] hover:text-[#0F172A] hover:bg-slate-50'
-                    }`}
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-[#4F46E5]" />
-                  <span>{link.label}</span>
-                </button>
-              );
-            }
-            return (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`px-3 py-1.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-1.5 ${active
-                    ? 'text-[#4F46E5] bg-[#EEF2FF] font-bold shadow-2xs'
-                    : 'text-[#64748B] hover:text-[#0F172A] hover:bg-slate-50'
                   }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-        </nav>
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
+        ) : (
+          <div className="hidden md:flex items-center text-xs font-semibold text-slate-500">
+            Sign in to unlock personalized pathways, careers, and roadmaps.
+          </div>
+        )}
 
         {/* Right: Education Switcher + Profile / Login */}
         <div className="hidden md:flex items-center gap-2.5">

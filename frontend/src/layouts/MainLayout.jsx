@@ -9,8 +9,7 @@ export const MainLayout = () => {
   const [aiDrawerOpen, setAiDrawerOpen] = useState(false);
   const location = useLocation();
 
-  // Pages with their own hero or specialized layouts don't need top sub-search
-  const isHomeOrLanding = ['/', '/dashboard', '/home', '/login', '/register', '/onboarding'].includes(location.pathname);
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#0F172A] selection:bg-indigo-600 selection:text-white">
@@ -18,7 +17,7 @@ export const MainLayout = () => {
       <Navbar onOpenAssistant={() => setAiDrawerOpen(true)} />
 
       {/* Main Content Viewport */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 pb-20 md:pb-12">
+      <main className={`flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 ${isAuthPage ? 'pb-8' : 'pb-20 md:pb-12'}`}>
         <Outlet context={{ openAIAssistant: () => setAiDrawerOpen(true) }} />
       </main>
 
@@ -31,8 +30,8 @@ export const MainLayout = () => {
       {/* Brand Footer */}
       <Footer />
 
-      {/* Mobile Bottom Navigation */}
-      <MobileNav onOpenAssistant={() => setAiDrawerOpen(true)} />
+      {/* Mobile Bottom Navigation (Hidden on Login screen) */}
+      {!isAuthPage && <MobileNav onOpenAssistant={() => setAiDrawerOpen(true)} />}
     </div>
   );
 };

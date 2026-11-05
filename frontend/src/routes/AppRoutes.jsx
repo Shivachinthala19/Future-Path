@@ -1,13 +1,10 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.jsx';
 import { MainLayout } from '../layouts/MainLayout.jsx';
 
-import { LandingPage } from '../pages/LandingPage.jsx';
 import { LoginPage } from '../pages/LoginPage.jsx';
-import { RegisterPage } from '../pages/RegisterPage.jsx';
-import { Onboarding } from '../pages/Onboarding.jsx';
 import { Dashboard } from '../pages/Dashboard.jsx';
-import { HomePage } from '../pages/HomePage.jsx';
 import { StudyNextPage } from '../pages/StudyNextPage.jsx';
 import { LearnSkillsPage } from '../pages/LearnSkillsPage.jsx';
 import { JobRoadmapPage } from '../pages/JobRoadmapPage.jsx';
@@ -21,53 +18,239 @@ import { StudyDetailsPage } from '../pages/StudyDetailsPage.jsx';
 import { JobDetailsPage } from '../pages/JobDetailsPage.jsx';
 import { FuturePathPage } from '../pages/FuturePathPage.jsx';
 
+/**
+ * Protected Route Guard
+ * Requires the user to log in before accessing any internal page.
+ */
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth();
+  const location = useLocation();
+
+  if (loading) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-3">
+        <div className="w-10 h-10 border-4 border-[#4F46E5] border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-xs font-semibold text-slate-500">Checking authentication...</p>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+};
+
+/**
+ * Public Route Guard
+ * Redirects authenticated users straight to /dashboard when visiting /login.
+ */
+const PublicRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) return null;
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return children;
+};
+
 export const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        {/* Core Entry Routes */}
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/landing" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/onboarding" element={<Onboarding />} />
+        {/* Public Login Route */}
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
 
-        {/* Dashboard / Home */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/home" element={<Dashboard />} />
+        {/* All Website Routes Protected: Opens ONLY after login with details */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Universal Search & Explore */}
-        <Route path="/search" element={<SearchResultsPage />} />
-        <Route path="/explore" element={<SearchResultsPage />} />
+        <Route
+          path="/search"
+          element={
+            <ProtectedRoute>
+              <SearchResultsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/explore"
+          element={
+            <ProtectedRoute>
+              <SearchResultsPage />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* Universal Future Path Engine (Section 26 & 27) */}
-        <Route path="/my-path" element={<FuturePathPage />} />
-        <Route path="/future-path" element={<FuturePathPage />} />
+        {/* Universal Future Path Engine */}
+        <Route
+          path="/my-path"
+          element={
+            <ProtectedRoute>
+              <FuturePathPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/future-path"
+          element={
+            <ProtectedRoute>
+              <FuturePathPage />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* Study Details (Section 8, 9, 10, 11) */}
-        <Route path="/study/:id" element={<StudyDetailsPage />} />
-        <Route path="/study-next" element={<StudyNextPage />} />
-        <Route path="/study-next/:id" element={<StudyDetailsPage />} />
+        {/* Studies & Degree Details */}
+        <Route
+          path="/study/:id"
+          element={
+            <ProtectedRoute>
+              <StudyDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/study-next"
+          element={
+            <ProtectedRoute>
+              <StudyNextPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/study-next/:id"
+          element={
+            <ProtectedRoute>
+              <StudyDetailsPage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Jobs Discovery & Detail Pages */}
-        <Route path="/jobs" element={<JobsPage />} />
-        <Route path="/job/:id" element={<JobDetailsPage />} />
-        <Route path="/job-roadmap" element={<JobRoadmapPage />} />
-        <Route path="/learn" element={<LearnSkillsPage />} />
-        <Route path="/learn/:jobId" element={<LearnSkillsPage />} />
+        <Route
+          path="/jobs"
+          element={
+            <ProtectedRoute>
+              <JobsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/job/:id"
+          element={
+            <ProtectedRoute>
+              <JobDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/job-roadmap"
+          element={
+            <ProtectedRoute>
+              <JobRoadmapPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/learn"
+          element={
+            <ProtectedRoute>
+              <LearnSkillsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/learn/:jobId"
+          element={
+            <ProtectedRoute>
+              <LearnSkillsPage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Careers & Exams */}
-        <Route path="/careers" element={<CareersPage />} />
-        <Route path="/careers/:id" element={<CareersPage />} />
-        <Route path="/exams" element={<ExamsPage />} />
+        <Route
+          path="/careers"
+          element={
+            <ProtectedRoute>
+              <CareersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/careers/:id"
+          element={
+            <ProtectedRoute>
+              <CareersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/exams"
+          element={
+            <ProtectedRoute>
+              <ExamsPage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* AI Assistant & Profile */}
-        <Route path="/ai-assistant" element={<AIAssistantPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          path="/ai-assistant"
+          element={
+            <ProtectedRoute>
+              <AIAssistantPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* Catch-all redirect to /dashboard */}
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        {/* Catch-all redirect to root */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
   );
 };
+
+export default AppRoutes;
