@@ -118,9 +118,6 @@ export const ProfilePage = () => {
 
   const handleLogout = () => {
     logout();
-    if (setToastMessage) {
-      setToastMessage('👋 Logged out successfully. Please sign in to continue.');
-    }
     navigate('/login');
   };
 
@@ -161,16 +158,6 @@ export const ProfilePage = () => {
               <span>My Career Roadmap</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
-
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
-              title="Log out of your account"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              <span>Log Out</span>
-            </button>
           </div>
         </div>
 
@@ -568,22 +555,13 @@ export const ProfilePage = () => {
           )}
 
           {/* Submit Action Bar */}
-          <div className="pt-3 flex items-center justify-between border-t border-slate-100">
+          <div className="pt-3 flex items-center justify-start border-t border-slate-100">
             <button
               type="submit"
               disabled={loading}
               className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold text-xs transition-colors shadow-2xs disabled:opacity-50 cursor-pointer"
             >
               {loading ? 'Saving Changes...' : 'Save Profile Changes'}
-            </button>
-
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              <span>Log Out</span>
             </button>
           </div>
         </form>

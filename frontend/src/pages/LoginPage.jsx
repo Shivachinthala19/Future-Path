@@ -20,7 +20,7 @@ import { FuturePathLogo } from '../components/common/FuturePathLogo.jsx';
 export const LoginPage = () => {
   const navigate = useNavigate();
   const { login, saveProfile } = useAuth();
-  const { changeEducation, changeTargetJob, setToastMessage } = useEducation();
+  const { changeEducation, changeTargetJob } = useEducation();
 
   // Multi-step flow: Step 1 (Login Credentials) -> Step 2 (Education Details) -> Dashboard
   const [step, setStep] = useState(1);
@@ -111,12 +111,13 @@ export const LoginPage = () => {
       // 1. Authenticate user in AuthContext with entered name/email
       await login(cleanId, cleanPass, displayName);
 
-      // 2. Set education details for personalized homepage
+      // 2. Set education details for personalized homepage (silent mode, no alert message)
       if (activeDegree) {
         changeEducation(activeDegree, {
           status: status,
           specialization: specialization.trim(),
-          qualificationLevel: activeDegree
+          qualificationLevel: activeDegree,
+          silent: true
         }).catch((err) => console.warn('[LoginPage] Education sync:', err));
       }
 
@@ -136,11 +137,7 @@ export const LoginPage = () => {
         status: status
       });
 
-      if (setToastMessage) {
-        setToastMessage(`🎉 Welcome, ${displayName}! Your home page is customized for ${activeDegree}.`);
-      }
-
-      // 5. Navigate to Home Page (Dashboard)
+      // 5. Navigate to Home Page (Dashboard) without alerts
       navigate('/dashboard', { replace: true });
     } catch (err) {
       console.error('[LoginPage] Complete sign-in error:', err);

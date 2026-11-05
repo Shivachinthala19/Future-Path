@@ -188,21 +188,23 @@ export const EducationProvider = ({ children }) => {
       // Non-blocking sync
     }
 
-    // Check target job compatibility (Section 18)
-    if (targetJob?.targetJobName) {
-      const compat = checkCompatibility(trimmed, targetJob.targetJobName);
-      if (!compat.isCompatible) {
-        setTargetMismatchModal({
-          isOpen: true,
-          newEducation: trimmed,
-          targetJobName: targetJob.targetJobName,
-          reason: compat.reason
-        });
+    // Check target job compatibility & notify only if not silent
+    if (!extra.silent) {
+      if (targetJob?.targetJobName) {
+        const compat = checkCompatibility(trimmed, targetJob.targetJobName);
+        if (!compat.isCompatible) {
+          setTargetMismatchModal({
+            isOpen: true,
+            newEducation: trimmed,
+            targetJobName: targetJob.targetJobName,
+            reason: compat.reason
+          });
+        }
       }
-    }
 
-    setToastMessage(`Education changed to ${trimmed}. Personalizing your career path...`);
-    setTimeout(() => setToastMessage(null), 3500);
+      setToastMessage(`Education changed to ${trimmed}. Personalizing your career path...`);
+      setTimeout(() => setToastMessage(null), 3500);
+    }
 
     await fetchEducationData(trimmed, targetJob?.targetJobName);
   };
