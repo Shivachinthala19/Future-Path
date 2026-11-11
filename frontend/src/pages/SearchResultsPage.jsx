@@ -19,7 +19,8 @@ import {
   Sparkles,
   ShieldCheck,
   TrendingUp,
-  ExternalLink
+  ExternalLink,
+  X
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useEducation } from '../context/EducationContext.jsx';
@@ -201,163 +202,177 @@ export const SearchResultsPage = () => {
   });
 
   return (
-    <div className="space-y-6 sm:space-y-10 max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 py-3 sm:py-10">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-6 sm:space-y-8">
       {/* ============================================================ */}
       {/* 1. USER RELATED INFORMATION DATA CONTAINER                  */}
       {/* ============================================================ */}
-      <section className="card-clean p-4.5 sm:p-8 bg-gradient-to-br from-white via-[#F8FAFC] to-[#EEF2FF]/40 border border-[#E2E8F0] rounded-2xl sm:rounded-3xl shadow-xs space-y-5 sm:space-y-6">
+      <section className="bg-gradient-to-br from-white via-slate-50/70 to-indigo-50/30 border border-slate-200/90 rounded-2xl sm:rounded-3xl shadow-xs p-5 sm:p-7 space-y-5 sm:space-y-6">
         {/* Header: User Greeting & Baseline Info */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E2E8F0]">
-          <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4F46E5] font-extrabold flex items-center justify-center text-lg shadow-2xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200/80">
+          <div className="flex items-center gap-3.5 sm:gap-4">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white font-black flex items-center justify-center text-lg sm:text-xl shadow-md shadow-indigo-500/20 flex-shrink-0">
               {userName.charAt(0).toUpperCase()}
             </div>
-            <div className="space-y-0.5">
-              <div className="flex items-center gap-2">
-                <h1 className="text-lg sm:text-xl font-extrabold text-[#0F172A] tracking-tight">
+            <div className="space-y-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
                   Personalized Pathways for {rawName}
                 </h1>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1 shadow-2xs">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1.5 shadow-2xs">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                   Active Learner
                 </span>
               </div>
-              <p className="text-xs text-[#64748B] font-medium">
-                Baseline Degree: <strong className="text-[#334155]">{studyName}</strong> ({statusLabel})
+              <p className="text-xs sm:text-sm text-slate-500 font-medium">
+                Baseline Degree: <strong className="text-slate-800">{studyName}</strong> ({statusLabel})
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 self-start sm:self-auto">
+          <div className="flex items-center gap-2 self-start sm:self-auto flex-shrink-0">
             <button
               onClick={openChangeModal}
-              className="px-3.5 py-1.5 rounded-xl border border-indigo-200/80 bg-white hover:bg-indigo-50 text-xs font-bold text-[#4F46E5] transition-colors cursor-pointer shadow-2xs flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-xl border border-indigo-200 bg-white hover:bg-indigo-50 text-xs font-bold text-indigo-700 transition-all cursor-pointer shadow-2xs hover:shadow-xs flex items-center gap-1.5 active:scale-95"
             >
-              <GraduationCap className="w-3.5 h-3.5" />
+              <GraduationCap className="w-4 h-4 text-indigo-600" />
               <span>Change Education</span>
             </button>
             <Link
               to="/profile"
-              className="px-3.5 py-1.5 rounded-xl border border-[#E2E8F0] hover:bg-white text-xs font-bold text-[#475569] transition-colors"
+              className="px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 transition-all shadow-2xs hover:shadow-xs flex items-center gap-1.5 active:scale-95"
             >
-              Profile
+              <User className="w-4 h-4 text-slate-500" />
+              <span>Profile</span>
             </Link>
           </div>
         </div>
 
         {/* 3-Column User Relevant Opportunities Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
           {/* Box 1: Degrees & Master's Options */}
-          <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] space-y-2.5 shadow-2xs">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#4F46E5] flex items-center gap-1">
-                <GraduationCap className="w-3.5 h-3.5 text-[#4F46E5]" />
-                <span>Next Studies & Degrees</span>
-              </span>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-100">
-                Master's Path
-              </span>
-            </div>
-            <div>
-              <div className="text-sm font-extrabold text-[#0F172A]">
-                Higher Studies after {studyName}
+          <div
+            onClick={() => handleQuickFilter(`courses after ${studyName}`)}
+            className="p-4.5 sm:p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between space-y-3.5 shadow-2xs group cursor-pointer"
+          >
+            <div className="space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-indigo-600 flex items-center gap-1.5">
+                  <div className="w-6 h-6 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
+                    <GraduationCap className="w-3.5 h-3.5" />
+                  </div>
+                  <span>Next Studies & Degrees</span>
+                </span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-100">
+                  Master's Path
+                </span>
               </div>
-              <p className="text-xs text-[#64748B] mt-0.5">
-                Eligible for M.Tech, MBA, MS, M.Sc admissions via GATE, CAT, GRE.
-              </p>
+              <div>
+                <div className="text-sm sm:text-base font-extrabold text-slate-900 leading-snug group-hover:text-indigo-600 transition-colors">
+                  Higher Studies after {studyName}
+                </div>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                  Eligible for M.Tech, MBA, MS, M.Sc admissions via GATE, CAT, GRE.
+                </p>
+              </div>
             </div>
-            <button
-              onClick={() => handleQuickFilter(`courses after ${studyName}`)}
-              className="w-full text-left pt-2 border-t border-slate-100 text-xs font-bold text-[#4F46E5] hover:text-[#3730A3] flex items-center justify-between cursor-pointer"
-            >
+            <div className="mt-auto pt-3 border-t border-slate-100 text-xs font-bold text-indigo-600 group-hover:text-indigo-700 flex items-center justify-between transition-colors">
               <span>Explore Higher Degrees</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
           </div>
 
           {/* Box 2: High-Growth Jobs Tailored for Study */}
-          <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] space-y-2.5 shadow-2xs">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 flex items-center gap-1">
-                <Briefcase className="w-3.5 h-3.5 text-purple-600" />
-                <span>Job Roles & Salaries</span>
-              </span>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-100">
-                Industry Roles
-              </span>
-            </div>
-            <div>
-              <div className="text-sm font-extrabold text-[#0F172A]">
-                Target: {targetJobName}
+          <div
+            onClick={() => handleQuickFilter(`jobs after ${studyName}`)}
+            className="p-4.5 sm:p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-purple-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between space-y-3.5 shadow-2xs group cursor-pointer"
+          >
+            <div className="space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 flex items-center gap-1.5">
+                  <div className="w-6 h-6 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
+                    <Briefcase className="w-3.5 h-3.5" />
+                  </div>
+                  <span>Job Roles & Salaries</span>
+                </span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-100">
+                  Industry Roles
+                </span>
               </div>
-              <p className="text-xs text-[#64748B] mt-0.5">
-                Typical salary band ₹6.0 – 24.0 LPA with strong growth demand.
-              </p>
+              <div>
+                <div className="text-sm sm:text-base font-extrabold text-slate-900 leading-snug group-hover:text-purple-700 transition-colors">
+                  Target: {targetJobName}
+                </div>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                  Typical salary band ₹6.0 – 24.0 LPA with strong growth demand.
+                </p>
+              </div>
             </div>
-            <button
-              onClick={() => handleQuickFilter(`jobs after ${studyName}`)}
-              className="w-full text-left pt-2 border-t border-slate-100 text-xs font-bold text-purple-700 hover:text-purple-900 flex items-center justify-between cursor-pointer"
-            >
+            <div className="mt-auto pt-3 border-t border-slate-100 text-xs font-bold text-purple-700 group-hover:text-purple-800 flex items-center justify-between transition-colors">
               <span>View Matched Jobs</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
           </div>
 
           {/* Box 3: Sovereign & Government Exams */}
-          <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] space-y-2.5 shadow-2xs">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 flex items-center gap-1">
-                <Award className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Public & Sovereign Exams</span>
-              </span>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-100">
-                Govt Entry
-              </span>
-            </div>
-            <div>
-              <div className="text-sm font-extrabold text-[#0F172A]">
-                Competitive Govt Pathways
+          <div
+            onClick={() => handleQuickFilter(`government jobs after ${studyName}`)}
+            className="p-4.5 sm:p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-emerald-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between space-y-3.5 shadow-2xs group cursor-pointer"
+          >
+            <div className="space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 flex items-center gap-1.5">
+                  <div className="w-6 h-6 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+                    <Award className="w-3.5 h-3.5" />
+                  </div>
+                  <span>Public & Sovereign Exams</span>
+                </span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-100">
+                  Govt Entry
+                </span>
               </div>
-              <p className="text-xs text-[#64748B] mt-0.5">
-                Qualified for UPSC CSE (IAS/IPS), SSC CGL, PSUs & State PSC recruitments.
-              </p>
+              <div>
+                <div className="text-sm sm:text-base font-extrabold text-slate-900 leading-snug group-hover:text-emerald-700 transition-colors">
+                  Competitive Govt Pathways
+                </div>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                  Qualified for UPSC CSE (IAS/IPS), SSC CGL, PSUs & State PSC recruitments.
+                </p>
+              </div>
             </div>
-            <button
-              onClick={() => handleQuickFilter(`government jobs after ${studyName}`)}
-              className="w-full text-left pt-2 border-t border-slate-100 text-xs font-bold text-emerald-700 hover:text-emerald-900 flex items-center justify-between cursor-pointer"
-            >
+            <div className="mt-auto pt-3 border-t border-slate-100 text-xs font-bold text-emerald-700 group-hover:text-emerald-800 flex items-center justify-between transition-colors">
               <span>View Govt Exams</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
           </div>
         </div>
 
-        {/* 1-Click Search Quick Chips for User Education (Mobile Horizontal Carousel) */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1.5 -mx-2 px-2 sm:mx-0 sm:px-0 sm:flex-wrap pt-1 border-t border-[#E2E8F0]/70">
-          <span className="text-[11px] font-bold uppercase text-[#64748B] flex-shrink-0">
-            Quick Filters:
+        {/* 1-Click Search Quick Chips for User Education (Horizontal Carousel Container) */}
+        <div className="p-3 sm:p-3.5 rounded-2xl bg-white/90 border border-slate-200/80 shadow-2xs flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth snap-x">
+          <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 flex-shrink-0 flex items-center gap-1 pr-1">
+            <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+            <span>Quick:</span>
           </span>
           <button
             onClick={() => handleQuickFilter(`jobs after ${studyName}`)}
-            className="flex-shrink-0 px-3 py-1 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] border border-[#E2E8F0] text-xs font-bold transition-transform active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
+            className="flex-shrink-0 px-3.5 py-1.5 rounded-xl bg-slate-50 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 border border-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
           >
             💼 Jobs for {studyName}
           </button>
           <button
             onClick={() => handleQuickFilter(`courses after ${studyName}`)}
-            className="flex-shrink-0 px-3 py-1 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] border border-[#E2E8F0] text-xs font-bold transition-transform active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
+            className="flex-shrink-0 px-3.5 py-1.5 rounded-xl bg-slate-50 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 border border-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
           >
             🎓 Master's after {studyName}
           </button>
           <button
             onClick={() => handleQuickFilter(`government jobs after ${studyName}`)}
-            className="flex-shrink-0 px-3 py-1 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] border border-[#E2E8F0] text-xs font-bold transition-transform active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
+            className="flex-shrink-0 px-3.5 py-1.5 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 border border-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
           >
             🏛️ Govt Exams for {studyName}
           </button>
           <button
             onClick={() => handleQuickFilter(targetJobName)}
-            className="flex-shrink-0 px-3 py-1 rounded-xl bg-[#EEF2FF] text-[#4F46E5] hover:bg-indigo-100/80 border border-indigo-200 text-xs font-bold transition-transform active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
+            className="flex-shrink-0 px-3.5 py-1.5 rounded-xl bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
           >
             🎯 Roadmap: {targetJobName}
           </button>
@@ -367,36 +382,49 @@ export const SearchResultsPage = () => {
       {/* ============================================================ */}
       {/* 2. UNIVERSAL SEARCH BAR & CATEGORY FILTER TABS              */}
       {/* ============================================================ */}
-      <section className="card-clean p-4.5 sm:p-8 bg-white border border-[#E2E8F0] space-y-4 sm:space-y-5 rounded-2xl sm:rounded-3xl shadow-xs">
+      <section className="bg-white border border-slate-200/90 space-y-4 sm:space-y-5 p-5 sm:p-7 rounded-2xl sm:rounded-3xl shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="space-y-1">
-            <div className="text-[11px] font-extrabold uppercase tracking-wider text-[#4F46E5] flex items-center gap-1.5">
-              <SearchIcon className="w-3.5 h-3.5 text-[#4F46E5]" />
+            <div className="text-[11px] font-extrabold uppercase tracking-wider text-indigo-600 flex items-center gap-1.5">
+              <SearchIcon className="w-3.5 h-3.5 text-indigo-600" />
               <span>Universal Database Search</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
               Knowledge Navigator
             </h2>
           </div>
 
-          <div className="text-xs text-[#64748B] font-medium bg-[#F8FAFC] border border-[#E2E8F0] px-3.5 py-1.5 rounded-xl self-start sm:self-auto">
-            Filtered for: <strong className="text-[#4F46E5]">{queryParam || studyName}</strong>
+          <div className="text-xs text-slate-500 font-medium bg-slate-50 border border-slate-200/80 px-3.5 py-1.5 rounded-xl self-start sm:self-auto shadow-2xs">
+            Filtered for: <strong className="text-indigo-600">{queryParam || studyName}</strong>
           </div>
         </div>
 
         {/* Search Input Bar */}
         <form onSubmit={handleSearchSubmit} className="relative group">
-          <SearchIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-[#4F46E5] transition-colors" />
+          <SearchIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-indigo-600 transition-colors" />
           <input
             type="text"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Search anything: 'study', 'job', 'MBA', 'Data Analyst', 'Govt exams', 'Python'..."
-            className="w-full pl-12 pr-28 py-3.5 rounded-2xl border border-[#E2E8F0] text-xs sm:text-sm text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] bg-[#F8FAFC]/50 shadow-2xs transition-all"
+            className="w-full pl-12 pr-32 py-3.5 sm:py-4 rounded-2xl border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 bg-slate-50/50 focus:bg-white shadow-2xs transition-all"
           />
+          {searchInput && (
+            <button
+              type="button"
+              onClick={() => {
+                setSearchInput('');
+                setSearchParams({});
+              }}
+              className="absolute right-24 sm:right-28 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+              title="Clear search"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
           <button
             type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 rounded-xl bg-[#4F46E5] text-white font-bold text-xs hover:bg-[#4338CA] transition-colors shadow-2xs cursor-pointer"
+            className="absolute right-2 sm:right-2.5 top-1/2 -translate-y-1/2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-all shadow-xs cursor-pointer active:scale-95"
           >
             Search
           </button>
@@ -404,30 +432,31 @@ export const SearchResultsPage = () => {
 
         {/* Real-time Semantic Understanding Suggestion */}
         {activeIntent && (
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-2xl bg-gradient-to-r from-indigo-50/90 via-purple-50/80 to-blue-50/90 border border-indigo-200/90 text-xs text-indigo-950 font-semibold animate-in fade-in duration-200 shadow-2xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-3.5 rounded-2xl bg-gradient-to-r from-indigo-50 via-purple-50/70 to-blue-50 border border-indigo-200/80 text-xs sm:text-sm text-indigo-950 font-semibold shadow-2xs animate-in fade-in duration-200">
             <div className="flex items-center gap-2.5">
-              <Sparkles className="w-4 h-4 text-[#4F46E5] flex-shrink-0 animate-pulse" />
+              <Sparkles className="w-4 h-4 text-indigo-600 flex-shrink-0 animate-pulse" />
               <span>
                 Understood intent: <strong>"{searchInput || queryParam}"</strong> — Showing {activeIntent.title} tailored for your <strong>{studyName}</strong> background.
               </span>
             </div>
-            <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-600 text-white shadow-2xs self-start sm:self-auto">
+            <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-600 text-white shadow-2xs self-start sm:self-auto flex-shrink-0">
               {activeIntent.badge}
             </span>
           </div>
         )}
 
         {/* Filter Pills & Taxonomy Toggle */}
-        <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-[#E2E8F0]/70">
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1.5 -mx-2 px-2 sm:mx-0 sm:px-0 sm:flex-wrap text-xs pt-1">
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1 -mx-1 px-1 sm:mx-0 sm:px-0 sm:flex-wrap text-xs">
             {filterTabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setSelectedFilter(tab.id)}
-                className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl font-bold border transition-transform active:scale-95 text-xs cursor-pointer whitespace-nowrap ${selectedFilter === tab.id
-                    ? 'bg-[#4F46E5] text-white border-[#4F46E5] shadow-2xs'
-                    : 'bg-white text-[#64748B] border-[#E2E8F0] hover:border-slate-300'
-                  }`}
+                className={`flex-shrink-0 px-3.5 py-2 rounded-xl font-bold border transition-all active:scale-95 text-xs cursor-pointer whitespace-nowrap ${
+                  selectedFilter === tab.id
+                    ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                    : 'bg-slate-50/80 text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-100'
+                }`}
               >
                 {tab.label}
               </button>
@@ -436,10 +465,10 @@ export const SearchResultsPage = () => {
 
           <button
             onClick={() => setShowTaxonomy(!showTaxonomy)}
-            className="text-xs font-bold text-[#4F46E5] hover:text-[#3730A3] flex items-center gap-1 cursor-pointer ml-auto pt-1"
+            className="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1.5 cursor-pointer ml-auto py-1 px-2.5 rounded-xl hover:bg-indigo-50 transition-colors"
           >
             <span>{showTaxonomy ? 'Hide Categories' : 'Browse All Categories'}</span>
-            <ChevronRight className={`w-3.5 h-3.5 transition-transform ${showTaxonomy ? 'rotate-90' : ''}`} />
+            <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-200 ${showTaxonomy ? 'rotate-90' : ''}`} />
           </button>
         </div>
 
@@ -456,9 +485,9 @@ export const SearchResultsPage = () => {
 
       {/* Loading state */}
       {loading && (
-        <div className="card-clean p-12 text-center bg-white border border-[#E2E8F0] space-y-3 rounded-3xl shadow-xs">
-          <RotateCw className="w-7 h-7 text-[#4F46E5] animate-spin mx-auto" />
-          <p className="text-xs sm:text-sm text-[#64748B] font-semibold">
+        <div className="p-12 text-center bg-white border border-slate-200/90 space-y-3 rounded-2xl sm:rounded-3xl shadow-xs">
+          <RotateCw className="w-7 h-7 text-indigo-600 animate-spin mx-auto" />
+          <p className="text-xs sm:text-sm text-slate-600 font-semibold">
             Querying verified pathways and opportunities for {studyName}...
           </p>
         </div>
@@ -466,9 +495,9 @@ export const SearchResultsPage = () => {
 
       {/* Error state */}
       {!loading && error && (
-        <div className="card-clean p-6 bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm rounded-2xl flex items-center gap-2">
-          <AlertCircle className="w-5 h-5 flex-shrink-0" />
-          <span>{error}</span>
+        <div className="p-5 sm:p-6 bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm rounded-2xl flex items-center gap-3 shadow-2xs">
+          <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-600" />
+          <span className="font-medium">{error}</span>
         </div>
       )}
 
@@ -476,39 +505,40 @@ export const SearchResultsPage = () => {
       {/* 3. VERIFIED RESULTS LISTING                                  */}
       {/* ============================================================ */}
       {!loading && (
-        <section className="space-y-5">
+        <section className="space-y-4 sm:space-y-5">
           {/* Intent Intelligence Capsule Banner */}
           {activeIntent && (
-            <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-br from-white via-indigo-50/40 to-purple-50/30 border border-indigo-200/80 shadow-xs space-y-2 animate-in fade-in duration-200">
+            <div className="p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-indigo-50/40 to-purple-50/30 border border-indigo-200/80 shadow-xs space-y-2 animate-in fade-in duration-200">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#4F46E5] flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-[#4F46E5]" />
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-indigo-600 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
                   <span>Personalized Recommendation Engine</span>
                 </span>
                 <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
                   Profile Matched ({studyName})
                 </span>
               </div>
-              <h3 className="text-base sm:text-lg font-extrabold text-[#0F172A]">
+              <h3 className="text-base sm:text-lg font-extrabold text-slate-900">
                 {activeIntent.title}
               </h3>
-              <p className="text-xs text-[#64748B] leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
                 {activeIntent.description}
               </p>
             </div>
           )}
 
-          <div className="flex items-center justify-between text-xs font-bold text-[#64748B] uppercase tracking-wider px-1">
-            <span>
-              {filteredResults.length} Verified Result{filteredResults.length !== 1 ? 's' : ''}
+          <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider px-1">
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-indigo-600"></span>
+              <span>{filteredResults.length} Verified Result{filteredResults.length !== 1 ? 's' : ''}</span>
             </span>
-            <span className="text-[11px] font-normal text-slate-400">
+            <span className="text-[11px] font-medium text-slate-400 hidden sm:inline">
               Matching your qualification ({studyName}) and criteria
             </span>
           </div>
 
           {filteredResults.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {filteredResults.map((item, idx) => {
                 const itemType = (item.type || '').toUpperCase();
 
@@ -532,14 +562,34 @@ export const SearchResultsPage = () => {
               })}
             </div>
           ) : (
-            <div className="card-clean p-12 text-center bg-white border border-[#E2E8F0] space-y-4 rounded-3xl shadow-xs">
+            <div className="p-10 sm:p-14 text-center bg-white border border-slate-200/90 space-y-4 rounded-2xl sm:rounded-3xl shadow-xs">
               <Compass className="w-10 h-10 text-slate-300 mx-auto" />
-              <div className="font-extrabold text-[#0F172A] text-base">
+              <div className="font-extrabold text-slate-900 text-base sm:text-lg">
                 No matching opportunities found for "{searchInput || queryParam || studyName}"
               </div>
-              <p className="text-xs text-[#64748B] max-w-md mx-auto leading-relaxed">
-                Try searching for degrees (B.Com, B.Tech, MBBS, BCA), government recruitments (SSC CHSL, RRB NTPC), jobs (Data Analyst, Software Developer), or explore by clicking the Career Fields card above.
+              <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+                Try searching for degrees (B.Com, B.Tech, MBBS, BCA), government recruitments (SSC CHSL, RRB NTPC), jobs (Data Analyst, Software Developer), or explore by clicking the quick buttons below.
               </p>
+              <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+                <button
+                  onClick={() => handleQuickFilter('study')}
+                  className="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
+                >
+                  🎓 Higher Studies
+                </button>
+                <button
+                  onClick={() => handleQuickFilter('job')}
+                  className="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-purple-50 hover:text-purple-700 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
+                >
+                  💼 Job Roles
+                </button>
+                <button
+                  onClick={() => handleQuickFilter('govt')}
+                  className="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
+                >
+                  🏛️ Govt Exams
+                </button>
+              </div>
             </div>
           )}
         </section>
