@@ -62,23 +62,23 @@ export const ExamsPage = () => {
   });
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto py-2 sm:py-6">
+    <div className="space-y-5 sm:space-y-8 max-w-6xl mx-auto py-2 sm:py-6 px-1 sm:px-0">
       {/* Header Section */}
       <div className="space-y-2">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">
           <ClipboardCheck className="w-3.5 h-3.5 text-amber-600" />
           <span>EXAM DISCOVERY</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
+        <h1 className="text-2xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
           Entrance & Competitive Exams
         </h1>
-        <p className="text-sm sm:text-base text-[#64748B] max-w-2xl">
+        <p className="text-xs sm:text-base text-[#64748B] max-w-2xl">
           Discover national, state, and professional examinations aligned with your education and career targets.
         </p>
       </div>
 
       {/* Official Info Notice Disclaimer (Section 16 requirement) */}
-      <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-200 text-xs text-amber-900 flex items-start gap-3">
+      <div className="p-3.5 sm:p-4 rounded-2xl bg-amber-50/80 border border-amber-200 text-xs text-amber-900 flex items-start gap-3">
         <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
         <div>
           <strong className="font-bold">Important Notice: </strong>
@@ -87,7 +87,7 @@ export const ExamsPage = () => {
       </div>
 
       {/* Search & Category Filter */}
-      <div className="card-clean p-4 sm:p-5 bg-white border border-[#E2E8F0] space-y-4">
+      <div className="card-clean p-4 sm:p-5 bg-white border border-[#E2E8F0] space-y-4 rounded-2xl sm:rounded-3xl">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400" />
@@ -96,18 +96,18 @@ export const ExamsPage = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by exam name (e.g., CAT, GATE, UPSC, SSC)..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#E2E8F0] text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#E2E8F0] text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
             />
           </div>
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1 -mx-2 px-2 sm:mx-0 sm:px-0 sm:flex-wrap">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
+                className={`flex-shrink-0 px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-transform active:scale-95 cursor-pointer ${
                   selectedCategory === cat
-                    ? 'bg-[#4F46E5] text-white'
-                    : 'bg-[#F8FAFC] text-[#64748B] hover:bg-slate-100 hover:text-[#0F172A]'
+                    ? 'bg-[#4F46E5] text-white shadow-2xs font-bold'
+                    : 'bg-[#F8FAFC] text-[#64748B] hover:bg-slate-100 hover:text-[#0F172A] border border-slate-200/70'
                 }`}
               >
                 {cat}

@@ -242,14 +242,14 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
   return (
     <section id="explore-opportunities-hub" className="space-y-6">
       {/* Header Banner - Standard Clean Styling */}
-      <div className="card-clean p-4.5 sm:p-8 bg-white border border-[#E2E8F0] space-y-4 sm:space-y-5 rounded-2xl sm:rounded-3xl">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
+      <div className="card-clean p-6 sm:p-8 bg-white border border-[#E2E8F0] space-y-5">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1 max-w-2xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold">
               <Compass className="w-3.5 h-3.5 text-[#4F46E5]" />
               <span>Tailored Opportunities Engine</span>
             </div>
-            <h2 className="text-lg sm:text-2xl font-extrabold tracking-tight text-[#0F172A]">
+            <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#0F172A]">
               Explore All Opportunities for {studyName}
             </h2>
             <p className="text-xs sm:text-sm text-[#64748B]">
@@ -264,9 +264,9 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
           </div>
         </div>
 
-        {/* Filter Pills (Mobile Horizontal Swipe) and Quick Search */}
+        {/* Filter Pills and Quick Search */}
         <div className="pt-3 flex flex-col md:flex-row items-center justify-between gap-3 border-t border-[#E2E8F0]">
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1.5 -mx-3 px-3 md:mx-0 md:px-0 md:flex-wrap text-xs w-full md:w-auto">
+          <div className="flex flex-wrap items-center gap-1.5 text-xs w-full md:w-auto">
             {[
               { id: 'all', label: 'All Opportunities' },
               { id: 'jobs', label: 'All Careers & Jobs' },
@@ -278,9 +278,9 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
               <button
                 key={tab.id}
                 onClick={() => setActiveFilter(tab.id)}
-                className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap active:scale-95 ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   activeFilter === tab.id
-                    ? 'bg-[#4F46E5] text-white font-bold shadow-2xs'
+                    ? 'bg-[#4F46E5] text-white font-bold'
                     : 'bg-[#F8FAFC] text-[#64748B] hover:bg-slate-100 hover:text-[#0F172A] border border-[#E2E8F0]'
                 }`}
               >
@@ -296,7 +296,7 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Filter by skill, title, recruiter..."
-              className="w-full pl-9 pr-3 py-2 sm:py-1.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-base sm:text-xs text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:bg-white transition-all"
+              className="w-full pl-9 pr-3 py-1.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:bg-white transition-all"
             />
           </div>
         </div>
@@ -315,7 +315,7 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
           {filteredList.map((item) => (
             <div
               key={item.id}
-              className="card-clean p-4.5 sm:p-6 bg-white border border-[#E2E8F0] hover:border-[#C7D2FE] flex flex-col justify-between space-y-4 group rounded-2xl shadow-[0_8px_24px_rgba(15,23,42,0.06)] hover:shadow-md transition-all"
+              className="card-clean p-6 bg-white border border-[#E2E8F0] hover:border-[#C7D2FE] flex flex-col justify-between space-y-4 group rounded-2xl shadow-[0_8px_24px_rgba(15,23,42,0.06)] hover:shadow-md transition-all"
             >
               <div className="space-y-3">
                 {/* Category Badge & Estimated Salary */}
@@ -364,7 +364,7 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
               <div className="pt-2">
                 <button
                   onClick={() => handleAction(item)}
-                  className="w-full btn-primary !text-xs !py-2.5 sm:!py-2 !px-3 !rounded-xl justify-center flex items-center gap-1.5 active:scale-[0.98] transition-transform cursor-pointer"
+                  className="w-full btn-primary !text-xs !py-2 !px-3 !rounded-xl justify-center flex items-center gap-1.5 cursor-pointer"
                 >
                   {item.type === 'higher_study' ? (
                     <>

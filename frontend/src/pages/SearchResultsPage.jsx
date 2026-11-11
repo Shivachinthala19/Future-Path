@@ -201,11 +201,11 @@ export const SearchResultsPage = () => {
   });
 
   return (
-    <div className="space-y-8 sm:space-y-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+    <div className="space-y-6 sm:space-y-10 max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 py-3 sm:py-10">
       {/* ============================================================ */}
       {/* 1. USER RELATED INFORMATION DATA CONTAINER                  */}
       {/* ============================================================ */}
-      <section className="card-clean p-6 sm:p-8 bg-gradient-to-br from-white via-[#F8FAFC] to-[#EEF2FF]/40 border border-[#E2E8F0] rounded-3xl shadow-xs space-y-6">
+      <section className="card-clean p-4.5 sm:p-8 bg-gradient-to-br from-white via-[#F8FAFC] to-[#EEF2FF]/40 border border-[#E2E8F0] rounded-2xl sm:rounded-3xl shadow-xs space-y-5 sm:space-y-6">
         {/* Header: User Greeting & Baseline Info */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E2E8F0]">
           <div className="flex items-center gap-3.5">
@@ -332,32 +332,32 @@ export const SearchResultsPage = () => {
           </div>
         </div>
 
-        {/* 1-Click Search Quick Chips for User Education */}
-        <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-[#E2E8F0]/70">
-          <span className="text-[11px] font-bold uppercase text-[#64748B]">
-            Quick Filters for {studyName}:
+        {/* 1-Click Search Quick Chips for User Education (Mobile Horizontal Carousel) */}
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1.5 -mx-2 px-2 sm:mx-0 sm:px-0 sm:flex-wrap pt-1 border-t border-[#E2E8F0]/70">
+          <span className="text-[11px] font-bold uppercase text-[#64748B] flex-shrink-0">
+            Quick Filters:
           </span>
           <button
             onClick={() => handleQuickFilter(`jobs after ${studyName}`)}
-            className="px-3 py-1 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] border border-[#E2E8F0] text-xs font-bold transition-colors cursor-pointer shadow-2xs"
+            className="flex-shrink-0 px-3 py-1 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] border border-[#E2E8F0] text-xs font-bold transition-transform active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
           >
             💼 Jobs for {studyName}
           </button>
           <button
             onClick={() => handleQuickFilter(`courses after ${studyName}`)}
-            className="px-3 py-1 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] border border-[#E2E8F0] text-xs font-bold transition-colors cursor-pointer shadow-2xs"
+            className="flex-shrink-0 px-3 py-1 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] border border-[#E2E8F0] text-xs font-bold transition-transform active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
           >
             🎓 Master's after {studyName}
           </button>
           <button
             onClick={() => handleQuickFilter(`government jobs after ${studyName}`)}
-            className="px-3 py-1 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] border border-[#E2E8F0] text-xs font-bold transition-colors cursor-pointer shadow-2xs"
+            className="flex-shrink-0 px-3 py-1 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] border border-[#E2E8F0] text-xs font-bold transition-transform active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
           >
             🏛️ Govt Exams for {studyName}
           </button>
           <button
             onClick={() => handleQuickFilter(targetJobName)}
-            className="px-3 py-1 rounded-xl bg-[#EEF2FF] text-[#4F46E5] hover:bg-indigo-100/80 border border-indigo-200 text-xs font-bold transition-colors cursor-pointer shadow-2xs"
+            className="flex-shrink-0 px-3 py-1 rounded-xl bg-[#EEF2FF] text-[#4F46E5] hover:bg-indigo-100/80 border border-indigo-200 text-xs font-bold transition-transform active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
           >
             🎯 Roadmap: {targetJobName}
           </button>
@@ -367,7 +367,7 @@ export const SearchResultsPage = () => {
       {/* ============================================================ */}
       {/* 2. UNIVERSAL SEARCH BAR & CATEGORY FILTER TABS              */}
       {/* ============================================================ */}
-      <section className="card-clean p-6 sm:p-8 bg-white border border-[#E2E8F0] space-y-5 rounded-3xl shadow-xs">
+      <section className="card-clean p-4.5 sm:p-8 bg-white border border-[#E2E8F0] space-y-4 sm:space-y-5 rounded-2xl sm:rounded-3xl shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="space-y-1">
             <div className="text-[11px] font-extrabold uppercase tracking-wider text-[#4F46E5] flex items-center gap-1.5">
@@ -419,12 +419,12 @@ export const SearchResultsPage = () => {
 
         {/* Filter Pills & Taxonomy Toggle */}
         <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-[#E2E8F0]/70">
-          <div className="flex flex-wrap items-center gap-1.5 text-xs pt-1">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1.5 -mx-2 px-2 sm:mx-0 sm:px-0 sm:flex-wrap text-xs pt-1">
             {filterTabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setSelectedFilter(tab.id)}
-                className={`px-3 py-1.5 rounded-xl font-bold border transition-all text-xs cursor-pointer ${selectedFilter === tab.id
+                className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl font-bold border transition-transform active:scale-95 text-xs cursor-pointer whitespace-nowrap ${selectedFilter === tab.id
                     ? 'bg-[#4F46E5] text-white border-[#4F46E5] shadow-2xs'
                     : 'bg-white text-[#64748B] border-[#E2E8F0] hover:border-slate-300'
                   }`}

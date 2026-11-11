@@ -33,7 +33,7 @@ export const Footer = () => {
           </ul>
         </div>
 
-        <div>
+        {/* <div>
           <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
             Intelligent Guidance
           </h4>
@@ -44,7 +44,7 @@ export const Footer = () => {
             <li><Link to="/login" className="hover:text-indigo-600 transition-colors">Sign In</Link></li>
             <li><Link to="/register" className="hover:text-indigo-600 transition-colors">Create Free Account</Link></li>
           </ul>
-        </div>
+        </div> */}
       </div>
 
       <div className="max-w-7xl mx-auto pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">

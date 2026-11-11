@@ -106,11 +106,11 @@ export const CareersPage = () => {
   const activeCareer = displayCareers.find(c => (c.id === selectedCareerId || c.slug === selectedCareerId)) || displayCareers[0];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
+    <div className="max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 py-3 sm:py-10 space-y-5 sm:space-y-8">
       {/* ============================================================ */}
       {/* HEADER HERO CARD WITH USER CONTEXT                           */}
       {/* ============================================================ */}
-      <section className="card-clean p-6 sm:p-8 bg-white border border-[#E2E8F0] rounded-3xl shadow-xs space-y-6">
+      <section className="card-clean p-4.5 sm:p-8 bg-white border border-[#E2E8F0] rounded-2xl sm:rounded-3xl shadow-xs space-y-4 sm:space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold tracking-wide">
@@ -221,14 +221,14 @@ export const CareersPage = () => {
           </div>
         </div>
 
-        {/* Category Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1">
-          <span className="text-xs font-semibold text-[#64748B] whitespace-nowrap mr-1">Sector:</span>
+        {/* Category Pills (Mobile Horizontal Carousel) */}
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1 -mx-2 px-2 sm:mx-0 sm:px-0">
+          <span className="text-xs font-semibold text-[#64748B] whitespace-nowrap mr-1 flex-shrink-0">Sector:</span>
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+              className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-transform active:scale-95 cursor-pointer ${
                 selectedCategory === cat
                   ? 'bg-[#4F46E5] text-white shadow-xs'
                   : 'bg-white text-[#64748B] border border-[#E2E8F0] hover:border-[#C7D2FE] hover:text-[#0F172A]'

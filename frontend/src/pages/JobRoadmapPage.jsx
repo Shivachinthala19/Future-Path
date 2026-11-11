@@ -1357,9 +1357,9 @@ export const JobRoadmapPage = () => {
       {/* SECTION 8 & 9: ACTIVE TARGET JOB CONTROLS THE JOB SECTION     */}
       {/* ============================================================ */}
       {activeTargetJobTitle && targetDetails ? (
-        <div className="space-y-8 animate-in fade-in duration-300">
+        <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-300">
           {/* Header Card (Section 9 Header) */}
-          <section className="card-clean p-6 sm:p-8 bg-white border border-indigo-200 shadow-xs space-y-4">
+          <section className="card-clean p-4.5 sm:p-8 bg-white border border-indigo-200 shadow-xs space-y-4 rounded-2xl sm:rounded-3xl">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
               <div className="space-y-1">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider">
@@ -1416,7 +1416,7 @@ export const JobRoadmapPage = () => {
           {/* ======================================================== */}
           {/* SECTION 9: CAN I PURSUE THIS JOB? (ELIGIBILITY CHECK)    */}
           {/* ======================================================== */}
-          <section className="card-clean p-6 sm:p-7 bg-white border border-slate-200 space-y-5">
+          <section className="card-clean p-4.5 sm:p-7 bg-white border border-slate-200 space-y-4 sm:space-y-5 rounded-2xl sm:rounded-3xl">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-sm">

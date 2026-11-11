@@ -86,7 +86,7 @@ export const ExploreYourFutureSection = () => {
   return (
     <section
       aria-labelledby="explore-heading"
-      className="card-clean p-4.5 sm:p-9 bg-white border border-[#E2E8F0] space-y-6 sm:space-y-8 rounded-2xl sm:rounded-3xl shadow-xs"
+      className="card-clean p-7 sm:p-9 bg-white border border-[#E2E8F0] space-y-8 rounded-3xl shadow-xs"
     >
       {/* ================================================================= */}
       {/* SECTION HEADING                                                   */}
@@ -123,7 +123,7 @@ export const ExploreYourFutureSection = () => {
       {/* ================================================================= */}
       <div className="space-y-6">
         {/* ROW 1: JOBS, STUDY, CAREERS (3 Columns) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {primaryCards.map((card) => {
             const Icon = card.icon;
             return (
@@ -131,7 +131,7 @@ export const ExploreYourFutureSection = () => {
                 key={card.id}
                 to={card.to}
                 aria-label={`${card.title}: ${card.desc}`}
-                className="group relative flex flex-col justify-between p-4.5 sm:p-7 rounded-2xl sm:rounded-3xl bg-gradient-to-b from-white to-slate-50/50 border border-[#E2E8F0] hover:border-indigo-300 shadow-2xs hover:shadow-md transition-all duration-200 hover:-translate-y-1 active:scale-[0.98] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                className="group relative flex flex-col justify-between p-6 sm:p-7 rounded-3xl bg-gradient-to-b from-white to-slate-50/50 border border-[#E2E8F0] hover:border-indigo-300 shadow-2xs hover:shadow-md transition-all duration-300 hover:-translate-y-1.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
               >
                 <div className="space-y-4">
                   {/* Top Bar: Icon + Badge */}
@@ -169,7 +169,7 @@ export const ExploreYourFutureSection = () => {
         </div>
 
         {/* ROW 2: EXAMS & SKILLS (2 Columns) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {secondaryCards.map((card) => {
             const Icon = card.icon;
             return (
@@ -177,7 +177,7 @@ export const ExploreYourFutureSection = () => {
                 key={card.id}
                 to={card.to}
                 aria-label={`${card.title}: ${card.desc}`}
-                className="group relative flex flex-col justify-between p-4.5 sm:p-7 rounded-2xl sm:rounded-3xl bg-gradient-to-b from-white to-slate-50/50 border border-[#E2E8F0] hover:border-indigo-300 shadow-2xs hover:shadow-md transition-all duration-200 hover:-translate-y-1 active:scale-[0.98] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                className="group relative flex flex-col justify-between p-6 sm:p-7 rounded-3xl bg-gradient-to-b from-white to-slate-50/50 border border-[#E2E8F0] hover:border-indigo-300 shadow-2xs hover:shadow-md transition-all duration-300 hover:-translate-y-1.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
               >
                 <div className="space-y-4">
                   {/* Top Bar: Icon + Badge */}

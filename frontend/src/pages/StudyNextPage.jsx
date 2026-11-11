@@ -191,14 +191,14 @@ export const StudyNextPage = () => {
             )}
           </div>
 
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth snap-x py-0.5 -mx-1 px-1 sm:mx-0 sm:px-0 sm:flex-wrap">
             {levelOptions.map((lvl) => {
               const isSelected = levelFilter === lvl.value;
               return (
                 <button
                   key={lvl.value}
                   onClick={() => setLevelFilter(lvl.value)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                  className={`flex-shrink-0 px-3 py-1 rounded-lg text-xs font-medium transition-transform active:scale-95 cursor-pointer whitespace-nowrap ${
                     isSelected
                       ? 'bg-[#4F46E5] text-white font-semibold shadow-2xs'
                       : 'bg-slate-50 text-slate-600 border border-slate-200/70 hover:bg-slate-100 hover:text-slate-900'
@@ -225,14 +225,14 @@ export const StudyNextPage = () => {
             )}
           </div>
 
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth snap-x py-0.5 -mx-1 px-1 sm:mx-0 sm:px-0 sm:flex-wrap">
             {fieldOptions.map((fld) => {
               const isSelected = fieldFilter === fld.value;
               return (
                 <button
                   key={fld.value}
                   onClick={() => setFieldFilter(fld.value)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                  className={`flex-shrink-0 px-3 py-1 rounded-lg text-xs font-medium transition-transform active:scale-95 cursor-pointer whitespace-nowrap ${
                     isSelected
                       ? 'bg-[#7C3AED] text-white font-semibold shadow-2xs'
                       : 'bg-slate-50 text-slate-600 border border-slate-200/70 hover:bg-slate-100 hover:text-slate-900'

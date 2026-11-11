@@ -122,28 +122,28 @@ export const ProfilePage = () => {
   };
 
   return (
-    <div className="space-y-6 sm:space-y-10 py-3 sm:py-8 max-w-5xl mx-auto px-3.5 sm:px-6 lg:px-8">
+    <div className="space-y-8 sm:space-y-10 py-4 sm:py-8 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* ============================================================ */}
       {/* 1. PERSONAL EXPLORATION PROFILE HERO DASHBOARD CONTAINER     */}
       {/* ============================================================ */}
-      <section className="card-clean p-4.5 sm:p-8 bg-gradient-to-br from-white via-[#F8FAFC] to-[#EEF2FF]/40 border border-[#E2E8F0] rounded-2xl sm:rounded-3xl shadow-xs space-y-5 sm:space-y-6">
+      <section className="card-clean p-6 sm:p-8 bg-gradient-to-br from-white via-[#F8FAFC] to-[#EEF2FF]/40 border border-[#E2E8F0] rounded-3xl shadow-xs space-y-6">
         {/* Top: User Identity & Quick Action Badges */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E8F0]">
-          <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4F46E5] font-extrabold flex items-center justify-center text-lg sm:text-xl shadow-2xs flex-shrink-0">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#4F46E5] font-extrabold flex items-center justify-center text-xl shadow-2xs">
               {userName.charAt(0).toUpperCase()}
             </div>
-            <div className="space-y-1 min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-lg sm:text-2xl font-extrabold text-[#0F172A] tracking-tight truncate">
-                  {rawName}'s Profile
+            <div className="space-y-1">
+              <div className="flex items-center gap-2.5">
+                <h1 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
+                  {rawName}'s Exploration Profile
                 </h1>
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1.5 shadow-2xs">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                   Active Learner
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-[#64748B] font-medium truncate">
+              <p className="text-xs sm:text-sm text-[#64748B] font-medium">
                 {headline}
               </p>
             </div>
@@ -152,7 +152,7 @@ export const ProfilePage = () => {
           <div className="flex items-center gap-2.5 self-start sm:self-auto">
             <Link
               to="/my-path"
-              className="px-4 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-transform active:scale-95 flex items-center gap-2 shadow-2xs"
+              className="px-4 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-colors flex items-center gap-2 shadow-2xs"
             >
               <Compass className="w-4 h-4" />
               <span>My Career Roadmap</span>
@@ -161,8 +161,8 @@ export const ProfilePage = () => {
           </div>
         </div>
 
-        {/* Tab Switcher for User Details (Study vs Job vs Skills - Mobile Horizontal Swipe) */}
-        <div className="flex items-center gap-2 border-b border-[#E2E8F0] pb-2 overflow-x-auto no-scrollbar scroll-smooth snap-x -mx-2 px-2 sm:mx-0 sm:px-0">
+        {/* Tab Switcher for User Details (Study vs Job vs Skills) */}
+        <div className="flex items-center gap-2 border-b border-[#E2E8F0] pb-2 overflow-x-auto">
           <button
             type="button"
             onClick={() => setActiveTab('study')}
