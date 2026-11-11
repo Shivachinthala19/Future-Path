@@ -63,11 +63,11 @@ export const Navbar = ({ onOpenAssistant }) => {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-[rgba(255,255,255,0.95)] backdrop-blur-[12px] border-b border-[#E2E8F0] shadow-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-40 w-full bg-white/92 backdrop-blur-xl border-b border-slate-200/80 shadow-2xs pt-[env(safe-area-inset-top,0px)] transition-all">
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-3 sm:gap-4">
         {/* Left: Future Path logo + name */}
-        <Link to="/dashboard" className="flex items-center gap-2 flex-shrink-0 group">
-          <FuturePathLogo size={36} showTagline={false} />
+        <Link to="/dashboard" className="flex items-center gap-2 flex-shrink-0 group active:scale-95 transition-transform">
+          <FuturePathLogo size={34} showTagline={false} />
         </Link>
 
         {/* Center: Desktop Nav Links (Visible when authenticated) */}
@@ -151,13 +151,13 @@ export const Navbar = ({ onOpenAssistant }) => {
           )}
         </div>
 
-        {/* Mobile Navbar Hamburger & Quick AI (Hamburger removed on login page) */}
-        <div className="flex md:hidden items-center gap-2">
+        {/* Mobile Navbar Controls (AI & Hamburger - Hamburger removed on login page) */}
+        <div className="flex md:hidden items-center gap-1.5">
           {isAuthenticated && (
             onOpenAssistant ? (
               <button
                 onClick={onOpenAssistant}
-                className="p-2 rounded-xl bg-[#EEF2FF] text-[#4F46E5] cursor-pointer"
+                className="p-2 rounded-xl bg-[#EEF2FF] text-[#4F46E5] active:scale-90 transition-transform cursor-pointer"
                 title="AI Assistant"
               >
                 <Sparkles className="w-4 h-4" />
@@ -165,7 +165,7 @@ export const Navbar = ({ onOpenAssistant }) => {
             ) : (
               <Link
                 to="/ai-assistant"
-                className="p-2 rounded-xl bg-[#EEF2FF] text-[#4F46E5]"
+                className="p-2 rounded-xl bg-[#EEF2FF] text-[#4F46E5] active:scale-90 transition-transform"
                 title="AI Assistant"
               >
                 <Sparkles className="w-4 h-4" />
@@ -176,7 +176,7 @@ export const Navbar = ({ onOpenAssistant }) => {
           {!isLoginPage && (
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-xl bg-slate-50 text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer border border-slate-200/80"
+              className="p-2 rounded-xl bg-slate-100 text-slate-700 hover:text-slate-900 hover:bg-slate-200/80 active:scale-90 transition-all cursor-pointer border border-slate-200/80"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -189,7 +189,9 @@ export const Navbar = ({ onOpenAssistant }) => {
       {/* MOBILE HAMBURGER MENU DRAWER (STRUCTURED IN COLUMNS)        */}
       {/* ============================================================ */}
       {mobileMenuOpen && !isLoginPage && (
-        <div className="md:hidden border-t border-[#E2E8F0] bg-white/98 backdrop-blur-xl px-4 sm:px-6 py-5 space-y-5 shadow-xl animate-in slide-in-from-top-2 duration-200 max-h-[85vh] overflow-y-auto">
+        <div className="md:hidden border-t border-[#E2E8F0] bg-white/98 backdrop-blur-2xl px-4 sm:px-6 py-5 space-y-5 shadow-2xl animate-in slide-in-from-top-2 duration-200 max-h-[85vh] overflow-y-auto no-scrollbar">
+          {/* Subtle Mobile Drag Indicator Pill */}
+          <div className="w-10 h-1 bg-slate-200 rounded-full mx-auto -mt-2 mb-1" />
           {/* Top: User Greeting & Current Education Capsule */}
           <div className="p-4 rounded-2xl bg-gradient-to-r from-[#F8FAFC] to-[#EEF2FF]/50 border border-[#E2E8F0] flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">

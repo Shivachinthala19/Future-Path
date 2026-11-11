@@ -148,8 +148,8 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center py-8 sm:py-12 px-4 sm:px-6">
-      <div className="w-full max-w-xl p-6 sm:p-10 rounded-3xl bg-white border border-[#E2E8F0] shadow-xl space-y-6">
+    <div className="min-h-[80vh] flex items-center justify-center py-4 sm:py-12 px-3 sm:px-6">
+      <div className="w-full max-w-xl p-5 sm:p-10 rounded-2xl sm:rounded-3xl bg-white border border-[#E2E8F0] shadow-xl space-y-6">
         {/* Brand Header */}
         <div className="text-center space-y-3">
           <div className="flex justify-center">
@@ -237,7 +237,7 @@ export const LoginPage = () => {
             <div className="pt-2">
               <button
                 type="submit"
-                className="w-full py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-extrabold text-sm flex items-center justify-center gap-2 transition-colors shadow-2xs cursor-pointer"
+                className="w-full py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-extrabold text-sm flex items-center justify-center gap-2 transition-transform active:scale-[0.98] shadow-2xs cursor-pointer"
               >
                 <span>Continue to Education Details</span>
                 <ArrowRight className="w-4 h-4" />

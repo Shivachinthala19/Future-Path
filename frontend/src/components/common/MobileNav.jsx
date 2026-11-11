@@ -39,7 +39,7 @@ export const MobileNav = () => {
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-xl border-t border-[#E2E8F0] shadow-[0_-4px_24px_rgba(15,23,42,0.08)] pb-[calc(env(safe-area-inset-bottom,0px)+6px)] pt-1.5">
+    <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white/92 backdrop-blur-2xl border-t border-slate-200/80 shadow-[0_-8px_32px_rgba(15,23,42,0.08)] pb-[calc(env(safe-area-inset-bottom,0px)+8px)] pt-2 select-none">
       <div className="grid grid-cols-5 items-center max-w-md mx-auto px-2">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -49,15 +49,15 @@ export const MobileNav = () => {
             <Link
               key={item.label}
               to={item.to}
-              className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-2xl transition-all duration-200 select-none group active:scale-95 ${
-                isActive ? 'text-[#4F46E5]' : 'text-[#64748B] hover:text-[#0F172A]'
+              className={`flex flex-col items-center justify-center py-1 px-1 rounded-2xl transition-all duration-150 select-none group active:scale-90 cursor-pointer ${
+                isActive ? 'text-[#4F46E5]' : 'text-slate-400 hover:text-slate-700'
               }`}
             >
               <div
-                className={`relative flex items-center justify-center w-10 h-8 rounded-xl transition-all duration-200 ${
+                className={`relative flex items-center justify-center w-11 h-8 rounded-2xl transition-all duration-200 ${
                   isActive
-                    ? 'bg-[#EEF2FF] text-[#4F46E5] shadow-2xs border border-indigo-200/80 scale-105'
-                    : 'text-[#64748B] group-hover:bg-slate-50'
+                    ? 'bg-gradient-to-b from-[#EEF2FF] to-indigo-50/70 text-[#4F46E5] shadow-2xs border border-indigo-200/90 scale-105'
+                    : 'text-slate-500 group-hover:bg-slate-50'
                 }`}
               >
                 <Icon
@@ -71,8 +71,8 @@ export const MobileNav = () => {
               </div>
 
               <span
-                className={`text-[10px] mt-1 tracking-tight transition-colors duration-200 ${
-                  isActive ? 'font-extrabold text-[#4F46E5]' : 'font-semibold text-[#64748B]'
+                className={`text-[10.5px] mt-1 tracking-tight transition-colors duration-200 ${
+                  isActive ? 'font-extrabold text-[#4F46E5]' : 'font-semibold text-slate-500'
                 }`}
               >
                 {item.label}

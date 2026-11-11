@@ -287,7 +287,7 @@ How can I help guide your future path today?`,
         </div>
 
         {/* Input Bar */}
-        <div className="p-3.5 border-t border-[#E2E8F0] bg-white">
+        <div className="p-3.5 pb-[calc(0.875rem+env(safe-area-inset-bottom,0px))] border-t border-[#E2E8F0] bg-white">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -300,12 +300,12 @@ How can I help guide your future path today?`,
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask anything about your education or future career..."
-              className="flex-1 px-4 py-2.5 text-sm rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A] placeholder:text-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:bg-white"
+              className="flex-1 px-4 py-2.5 text-base sm:text-sm rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A] placeholder:text-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:bg-white"
             />
             <button
               type="submit"
               disabled={!input.trim() || loading}
-              className="btn-primary !p-2.5 !rounded-xl disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+              className="btn-primary !p-2.5 !rounded-xl disabled:opacity-40 disabled:cursor-not-allowed active:scale-90 transition-transform cursor-pointer"
             >
               <Send className="w-4 h-4" />
             </button>

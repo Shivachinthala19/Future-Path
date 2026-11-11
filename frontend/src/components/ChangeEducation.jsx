@@ -86,8 +86,11 @@ export const ChangeEducationModal = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl border border-slate-200 p-6 space-y-4 max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="w-full max-w-lg bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl border border-slate-200 p-5 sm:p-6 space-y-4 max-h-[90vh] sm:max-h-[92vh] flex flex-col pb-[calc(1.25rem+env(safe-area-inset-bottom,0px))] sm:pb-6 animate-in slide-in-from-bottom-4 sm:zoom-in-95 duration-200">
+        {/* Mobile Drag Indicator Pill */}
+        <div className="sm:hidden w-12 h-1 bg-slate-200 rounded-full mx-auto -mt-1 mb-1" />
+
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-3 flex-shrink-0">
           <div>
@@ -332,8 +335,11 @@ export const ChangeTargetJobModal = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl border border-slate-200 p-6 space-y-5">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="w-full max-w-lg bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl border border-slate-200 p-5 sm:p-6 space-y-4 max-h-[90vh] sm:max-h-[92vh] flex flex-col pb-[calc(1.25rem+env(safe-area-inset-bottom,0px))] sm:pb-6 animate-in slide-in-from-bottom-4 sm:zoom-in-95 duration-200">
+        {/* Mobile Drag Indicator Pill */}
+        <div className="sm:hidden w-12 h-1 bg-slate-200 rounded-full mx-auto -mt-1 mb-1" />
+
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div>
@@ -466,8 +472,10 @@ export const TargetMismatchModal = () => {
   if (!targetMismatchModal.isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-amber-200 p-6 space-y-4">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="w-full max-w-md bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl border border-amber-200 p-5 sm:p-6 space-y-4 pb-[calc(1.25rem+env(safe-area-inset-bottom,0px))] sm:pb-6 animate-in slide-in-from-bottom-4 sm:zoom-in-95 duration-200">
+        {/* Mobile Drag Indicator Pill */}
+        <div className="sm:hidden w-12 h-1 bg-amber-200 rounded-full mx-auto -mt-1 mb-1" />
         <div className="flex items-center gap-3 text-amber-600">
           <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center border border-amber-200 flex-shrink-0">
             <AlertTriangle className="w-5 h-5 text-amber-600" />

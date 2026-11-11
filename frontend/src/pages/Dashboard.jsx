@@ -130,7 +130,7 @@ export const Dashboard = () => {
   ];
 
   return (
-    <div className="space-y-10 sm:space-y-12 max-w-5xl mx-auto py-2 sm:py-6">
+    <div className="space-y-6 sm:space-y-12 max-w-5xl mx-auto py-1 sm:py-6">
       {/* Toast Notification */}
       {toastMessage && (
         <div className="p-3.5 rounded-2xl bg-[#EEF2FF] border border-[#C7D2FE] text-[#3730A3] text-xs font-semibold flex items-center gap-2.5 shadow-xs animate-in fade-in duration-200">
@@ -142,14 +142,14 @@ export const Dashboard = () => {
       {/* ============================================================ */}
       {/* SECTION 5: HERO SECTION                                      */}
       {/* ============================================================ */}
-      <section className="text-center space-y-4 pt-4 sm:pt-6">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EEF2FF] border border-[#C7D2FE] text-xs font-bold text-[#4F46E5] shadow-2xs">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>Welcome, {userName}! Pathways tailored for {studyName} ({statusLabel})</span>
+      <section className="text-center space-y-3 sm:space-y-4 pt-2 sm:pt-6">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EEF2FF] border border-[#C7D2FE] text-[11px] sm:text-xs font-bold text-[#4F46E5] shadow-2xs max-w-full">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse flex-shrink-0"></span>
+          <span className="truncate">Welcome, {userName}! Pathways for {studyName} ({statusLabel})</span>
         </div>
 
-        <div className="space-y-3 max-w-3xl mx-auto">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight leading-tight">
+        <div className="space-y-2 max-w-3xl mx-auto px-1">
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight leading-tight">
             Build the future you want.
           </h1>
         </div>
@@ -157,21 +157,21 @@ export const Dashboard = () => {
         {/* ============================================================ */}
         {/* SECTION 6: UNIVERSAL SEARCH BAR                              */}
         {/* ============================================================ */}
-        <div className="max-w-2xl mx-auto pt-4">
+        <div className="max-w-2xl mx-auto pt-2 sm:pt-4">
           <form onSubmit={handleSearchSubmit} className="relative flex items-center">
-            <div className="absolute left-4 text-slate-400 pointer-events-none">
-              <Search className="w-5 h-5 text-[#4F46E5]" />
+            <div className="absolute left-3.5 sm:left-4 text-slate-400 pointer-events-none">
+              <Search className="w-4 h-4 sm:w-5 sm:h-5 text-[#4F46E5]" />
             </div>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="What are you looking for? Search studies, jobs, careers, exams, skills..."
-              className="w-full pl-12 pr-14 py-4 text-sm sm:text-base rounded-2xl bg-white border border-[#E2E8F0] text-[#0F172A] placeholder:text-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent shadow-[0_8px_24px_rgba(15,23,42,0.06)] transition-all"
+              placeholder="Search studies, jobs, careers, exams, skills..."
+              className="w-full pl-10 sm:pl-12 pr-12 sm:pr-14 py-3 sm:py-4 text-base rounded-2xl bg-white border border-[#E2E8F0] text-[#0F172A] placeholder:text-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent shadow-[0_8px_24px_rgba(15,23,42,0.06)] transition-all"
             />
             <button
               type="submit"
-              className="absolute right-2.5 w-10 h-10 rounded-xl bg-[#4F46E5] hover:bg-[#3730A3] text-white flex items-center justify-center transition-colors shadow-xs cursor-pointer"
+              className="absolute right-2 sm:right-2.5 w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#4F46E5] hover:bg-[#3730A3] text-white flex items-center justify-center transition-transform active:scale-90 shadow-xs cursor-pointer"
               title="Search Future Path"
               aria-label="Submit search"
             >
@@ -179,15 +179,15 @@ export const Dashboard = () => {
             </button>
           </form>
 
-          {/* SECTION 7: SEARCH SUGGESTIONS PILLS */}
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-3 text-xs">
-            <span className="text-[#64748B] font-medium">Popular:</span>
+          {/* SECTION 7: SEARCH SUGGESTIONS PILLS (Mobile Horizontal Swipe) */}
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth snap-x py-2 -mx-3.5 px-3.5 sm:mx-0 sm:px-0 sm:flex-wrap sm:justify-center text-xs">
+            <span className="text-[#64748B] font-medium flex-shrink-0 text-[11px] sm:text-xs">Popular:</span>
             {popularSearches.map((item, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => handleChipClick(item)}
-                className="px-3 py-1 rounded-full bg-white hover:bg-[#EEF2FF] border border-[#E2E8F0] hover:border-[#C7D2FE] text-[#0F172A] hover:text-[#4F46E5] font-medium transition-colors shadow-2xs cursor-pointer"
+                className="flex-shrink-0 px-3 py-1 rounded-full bg-white hover:bg-[#EEF2FF] border border-[#E2E8F0] hover:border-[#C7D2FE] text-[#0F172A] hover:text-[#4F46E5] font-semibold transition-transform active:scale-95 shadow-2xs cursor-pointer whitespace-nowrap"
               >
                 {item}
               </button>
@@ -199,13 +199,13 @@ export const Dashboard = () => {
       {/* ============================================================ */}
       {/* SECTION 8: YOUR JOURNEY SECTION                              */}
       {/* ============================================================ */}
-      <section className="card-clean p-6 sm:p-8 bg-white border border-[#E2E8F0] space-y-6">
+      <section className="card-clean p-4.5 sm:p-8 bg-white border border-[#E2E8F0] space-y-5 rounded-2xl sm:rounded-3xl">
         <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
           <div className="space-y-0.5">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#4F46E5]">
               YOUR JOURNEY
             </span>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
+            <h2 className="text-lg sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
               Current Education & Target
             </h2>
           </div>
@@ -219,9 +219,9 @@ export const Dashboard = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-stretch">
           {/* Current Education Node */}
-          <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-white to-slate-50 border border-[#E2E8F0] hover:border-[#C7D2FE] flex flex-col justify-between space-y-4 shadow-2xs transition-all">
+          <div className="p-4.5 sm:p-7 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white to-slate-50 border border-[#E2E8F0] hover:border-[#C7D2FE] flex flex-col justify-between space-y-4 shadow-2xs transition-all">
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] flex items-center gap-1.5">
@@ -328,14 +328,14 @@ export const Dashboard = () => {
       {/* ============================================================ */}
       {/* SECTION 18: FUTURE PATH AI BANNER                            */}
       {/* ============================================================ */}
-      <section className="card-clean p-6 sm:p-8 bg-[#0F172A] text-white space-y-5 rounded-[20px] shadow-lg">
+      <section className="card-clean p-5 sm:p-8 bg-[#0F172A] text-white space-y-4 rounded-2xl sm:rounded-[20px] shadow-lg">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/10 text-cyan-300 text-xs font-bold">
               <Compass className="w-3.5 h-3.5" />
               <span>Future Path AI</span>
             </div>
-            <h2 className="text-2xl font-extrabold text-white tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
               Ask anything about your education and career path.
             </h2>
             <p className="text-xs text-slate-300 max-w-xl">
@@ -345,18 +345,18 @@ export const Dashboard = () => {
 
           <button
             onClick={openAi}
-            className="self-start sm:self-auto px-5 py-2.5 rounded-xl bg-white text-[#0F172A] font-bold text-xs hover:bg-slate-100 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer"
+            className="self-start sm:self-auto px-5 py-2.5 rounded-xl bg-white text-[#0F172A] font-bold text-xs hover:bg-slate-100 transition-transform active:scale-95 shadow-sm inline-flex items-center gap-2 cursor-pointer"
           >
             <span>Ask Future Path AI</span>
           </button>
         </div>
 
-        {/* Suggested Quick Questions */}
+        {/* Suggested Quick Questions (Swipeable on mobile) */}
         <div className="pt-3 border-t border-slate-800">
           <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
             Suggested questions:
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1 -mx-2 px-2 sm:mx-0 sm:px-0 sm:flex-wrap">
             {[
               `What can I do after ${studyName}?`,
               `Am I eligible for ${targetJobName || 'Data Analyst'} jobs?`,
@@ -367,7 +367,7 @@ export const Dashboard = () => {
               <button
                 key={idx}
                 onClick={openAi}
-                className="text-xs px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors cursor-pointer text-left border border-slate-700"
+                className="flex-shrink-0 text-xs px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition-transform active:scale-95 cursor-pointer text-left border border-slate-700 whitespace-nowrap"
               >
                 {q}
               </button>
