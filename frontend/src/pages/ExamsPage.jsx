@@ -87,7 +87,7 @@ export const ExamsPage = () => {
       </div>
 
       {/* Search & Category Filter */}
-      <div className="card-clean p-4 sm:p-5 bg-white border border-[#E2E8F0] space-y-4 rounded-2xl sm:rounded-3xl">
+      <div className="p-4 sm:p-5 bg-white border border-slate-200/90 space-y-4 rounded-2xl shadow-2xs">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400" />
@@ -96,7 +96,7 @@ export const ExamsPage = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by exam name (e.g., CAT, GATE, UPSC, SSC)..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#E2E8F0] text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
+              className="w-full pl-10 pr-4 py-2.5 min-h-[44px] rounded-xl border border-[#E2E8F0] text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
             />
           </div>
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1 -mx-2 px-2 sm:mx-0 sm:px-0 sm:flex-wrap">
@@ -104,7 +104,7 @@ export const ExamsPage = () => {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`flex-shrink-0 px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-transform active:scale-95 cursor-pointer ${
+                className={`flex-shrink-0 min-h-[40px] px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-transform active:scale-95 cursor-pointer ${
                   selectedCategory === cat
                     ? 'bg-[#4F46E5] text-white shadow-2xs font-bold'
                     : 'bg-[#F8FAFC] text-[#64748B] hover:bg-slate-100 hover:text-[#0F172A] border border-slate-200/70'
@@ -168,7 +168,7 @@ export const ExamsPage = () => {
             return (
               <div
                 key={id}
-                className="card-clean p-6 bg-white border border-[#E2E8F0] hover:border-amber-300 flex flex-col justify-between space-y-5 group transition-all"
+                className="p-5 sm:p-6 bg-white border border-slate-200/90 hover:border-amber-300 flex flex-col justify-between space-y-5 rounded-2xl shadow-2xs hover:shadow-md transition-all duration-200 group"
               >
                 <div className="space-y-4">
                   {/* Category Badge */}

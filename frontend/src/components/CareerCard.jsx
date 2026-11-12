@@ -14,7 +14,7 @@ export const CareerCard = ({ career }) => {
   const roles = career.relatedJobs || career.roles || [];
 
   return (
-    <div className="card-clean p-5 sm:p-6 space-y-4 bg-white border border-slate-200 hover:border-indigo-300 transition-all rounded-2xl flex flex-col justify-between shadow-2xs hover:shadow-xs group">
+    <div className="p-5 sm:p-6 space-y-4 bg-white border border-slate-200/90 hover:border-indigo-300 transition-all rounded-2xl flex flex-col justify-between shadow-2xs hover:shadow-xs group">
       <div className="space-y-3">
         <div className="flex items-center justify-between text-xs">
           <span className="font-extrabold text-purple-700 px-2.5 py-0.5 rounded-full bg-purple-50 border border-purple-200 text-[10px]">

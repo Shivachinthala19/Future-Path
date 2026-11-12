@@ -155,21 +155,21 @@ export const StudyNextPage = () => {
       </div>
 
       {/* Main Filter & Search Control Panel */}
-      <div className="card-clean p-4 sm:p-5 bg-white border border-[#E2E8F0] rounded-2xl shadow-xs space-y-3.5">
+      <div className="p-4 sm:p-5 bg-white border border-slate-200/90 rounded-2xl shadow-2xs space-y-3.5">
         {/* Search Bar */}
         <div className="relative">
-          <Search className="absolute left-3.5 top-2.5 w-4 h-4 text-slate-400" />
+          <Search className="absolute left-3.5 top-3 w-4 h-4 text-slate-400" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search programs, degrees, or fields..."
-            className="w-full pl-9 pr-9 py-2 rounded-xl border border-[#E2E8F0] text-xs sm:text-sm bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-1.5 focus:ring-[#4F46E5] focus:border-transparent transition-all placeholder:text-slate-400"
+            className="w-full pl-9 pr-9 py-2.5 min-h-[44px] rounded-xl border border-[#E2E8F0] text-xs sm:text-sm bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-1.5 focus:ring-[#4F46E5] focus:border-transparent transition-all placeholder:text-slate-400"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600 p-0.5 rounded-full"
+              className="absolute right-2.5 top-3 text-slate-400 hover:text-slate-600 p-1 rounded-full cursor-pointer"
               title="Clear search"
             >
               <X className="w-3.5 h-3.5" />
@@ -198,7 +198,7 @@ export const StudyNextPage = () => {
                 <button
                   key={lvl.value}
                   onClick={() => setLevelFilter(lvl.value)}
-                  className={`flex-shrink-0 px-3 py-1 rounded-lg text-xs font-medium transition-transform active:scale-95 cursor-pointer whitespace-nowrap ${
+                  className={`flex-shrink-0 min-h-[36px] px-3 py-1.5 rounded-lg text-xs font-medium transition-transform active:scale-95 cursor-pointer whitespace-nowrap ${
                     isSelected
                       ? 'bg-[#4F46E5] text-white font-semibold shadow-2xs'
                       : 'bg-slate-50 text-slate-600 border border-slate-200/70 hover:bg-slate-100 hover:text-slate-900'
@@ -232,7 +232,7 @@ export const StudyNextPage = () => {
                 <button
                   key={fld.value}
                   onClick={() => setFieldFilter(fld.value)}
-                  className={`flex-shrink-0 px-3 py-1 rounded-lg text-xs font-medium transition-transform active:scale-95 cursor-pointer whitespace-nowrap ${
+                  className={`flex-shrink-0 min-h-[36px] px-3 py-1.5 rounded-lg text-xs font-medium transition-transform active:scale-95 cursor-pointer whitespace-nowrap ${
                     isSelected
                       ? 'bg-[#7C3AED] text-white font-semibold shadow-2xs'
                       : 'bg-slate-50 text-slate-600 border border-slate-200/70 hover:bg-slate-100 hover:text-slate-900'
@@ -275,11 +275,11 @@ export const StudyNextPage = () => {
       {loading && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((idx) => (
-            <div key={idx} className="card-clean p-6 bg-white border border-[#E2E8F0] rounded-3xl space-y-4 animate-pulse">
+            <div key={idx} className="p-6 bg-white border border-[#E2E8F0] rounded-2xl space-y-4 animate-pulse">
               <div className="h-6 bg-slate-200 rounded-lg w-1/2"></div>
               <div className="h-4 bg-slate-200 rounded-lg w-1/3"></div>
               <div className="h-3 bg-slate-200 rounded-lg w-full"></div>
-              <div className="h-10 bg-slate-100 rounded-2xl w-full"></div>
+              <div className="h-10 bg-slate-100 rounded-xl w-full"></div>
             </div>
           ))}
         </div>
@@ -287,7 +287,7 @@ export const StudyNextPage = () => {
 
       {/* Empty State */}
       {!loading && !error && filteredStudies.length === 0 && (
-        <div className="card-clean p-12 bg-white border border-[#E2E8F0] rounded-3xl text-center space-y-4">
+        <div className="p-10 sm:p-14 bg-white border border-[#E2E8F0] rounded-2xl text-center space-y-4 shadow-2xs">
           <div className="w-14 h-14 rounded-2xl bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center mx-auto shadow-2xs">
             <GraduationCap className="w-7 h-7" />
           </div>

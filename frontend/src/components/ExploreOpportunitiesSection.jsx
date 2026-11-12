@@ -242,7 +242,7 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
   return (
     <section id="explore-opportunities-hub" className="space-y-6">
       {/* Header Banner - Standard Clean Styling */}
-      <div className="card-clean p-6 sm:p-8 bg-white border border-[#E2E8F0] space-y-5">
+      <div className="p-5 sm:p-7 bg-white rounded-2xl border border-slate-200/90 shadow-2xs space-y-5">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1 max-w-2xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold">
@@ -278,9 +278,9 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
               <button
                 key={tab.id}
                 onClick={() => setActiveFilter(tab.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                className={`min-h-[38px] px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   activeFilter === tab.id
-                    ? 'bg-[#4F46E5] text-white font-bold'
+                    ? 'bg-[#4F46E5] text-white font-bold shadow-2xs'
                     : 'bg-[#F8FAFC] text-[#64748B] hover:bg-slate-100 hover:text-[#0F172A] border border-[#E2E8F0]'
                 }`}
               >
@@ -296,7 +296,7 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Filter by skill, title, recruiter..."
-              className="w-full pl-9 pr-3 py-1.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:bg-white transition-all"
+              className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:bg-white transition-all"
             />
           </div>
         </div>
@@ -304,18 +304,18 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
 
       {/* Grid of Opportunities */}
       {loading ? (
-        <div className="card-clean p-12 text-center space-y-3 bg-white border border-[#E2E8F0]">
+        <div className="p-10 text-center space-y-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs">
           <RotateCw className="w-6 h-6 text-[#4F46E5] animate-spin mx-auto" />
           <p className="text-xs text-[#64748B] font-semibold">
             Loading tailored opportunities for {studyName}...
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {filteredList.map((item) => (
             <div
               key={item.id}
-              className="card-clean p-6 bg-white border border-[#E2E8F0] hover:border-[#C7D2FE] flex flex-col justify-between space-y-4 group rounded-2xl shadow-[0_8px_24px_rgba(15,23,42,0.06)] hover:shadow-md transition-all"
+              className="p-5 sm:p-6 bg-white border border-slate-200/90 hover:border-[#C7D2FE] flex flex-col justify-between space-y-4 group rounded-2xl shadow-2xs hover:shadow-md transition-all duration-200"
             >
               <div className="space-y-3">
                 {/* Category Badge & Estimated Salary */}
@@ -329,7 +329,7 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-extrabold text-[#0F172A] group-hover:text-[#4F46E5] transition-colors">
+                  <h3 className="text-base sm:text-lg font-extrabold text-[#0F172A] group-hover:text-[#4F46E5] transition-colors">
                     {item.title}
                   </h3>
                   <div className="text-[11px] text-[#64748B] font-medium mt-0.5">
@@ -364,7 +364,7 @@ export const ExploreOpportunitiesSection = ({ defaultEducation = 'B.Com' }) => {
               <div className="pt-2">
                 <button
                   onClick={() => handleAction(item)}
-                  className="w-full btn-primary !text-xs !py-2 !px-3 !rounded-xl justify-center flex items-center gap-1.5 cursor-pointer"
+                  className="w-full btn-primary !text-xs !py-2.5 !min-h-[44px] !px-3 !rounded-xl justify-center flex items-center gap-1.5 cursor-pointer active:scale-98"
                 >
                   {item.type === 'higher_study' ? (
                     <>

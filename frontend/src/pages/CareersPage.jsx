@@ -110,7 +110,7 @@ export const CareersPage = () => {
       {/* ============================================================ */}
       {/* HEADER HERO CARD WITH USER CONTEXT                           */}
       {/* ============================================================ */}
-      <section className="card-clean p-4.5 sm:p-8 bg-white border border-[#E2E8F0] rounded-2xl sm:rounded-3xl shadow-xs space-y-4 sm:space-y-6">
+      <section className="p-4 sm:p-7 bg-white border border-slate-200/90 rounded-2xl shadow-xs space-y-4 sm:space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold tracking-wide">
@@ -244,14 +244,14 @@ export const CareersPage = () => {
       {/* CONTENT: 2-COLUMN LAYOUT (5 cols left, 7 cols right)         */}
       {/* ============================================================ */}
       {loading ? (
-        <div className="card-clean p-12 sm:p-16 text-center space-y-3 bg-white border border-[#E2E8F0] rounded-3xl shadow-xs">
+        <div className="p-10 sm:p-14 text-center space-y-3 bg-white border border-slate-200/90 rounded-2xl shadow-xs">
           <RotateCw className="w-8 h-8 text-[#4F46E5] animate-spin mx-auto" />
           <p className="text-xs sm:text-sm text-[#64748B] font-semibold">
             Querying career pathways and industry progression datasets...
           </p>
         </div>
       ) : displayCareers.length === 0 ? (
-        <div className="card-clean p-12 sm:p-16 text-center space-y-3 bg-white border border-[#E2E8F0] rounded-3xl shadow-xs">
+        <div className="p-10 sm:p-14 text-center space-y-3 bg-white border border-slate-200/90 rounded-2xl shadow-xs">
           <Layers className="w-10 h-10 text-slate-300 mx-auto" />
           <p className="text-base font-bold text-[#0F172A]">No career fields matched your filter</p>
           <p className="text-xs text-[#64748B] max-w-sm mx-auto">
@@ -268,18 +268,18 @@ export const CareersPage = () => {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-start">
           {/* ========================================================== */}
           {/* LEFT: INTERACTIVE CAREER FIELD CARDS                       */}
           {/* ========================================================== */}
-          <div className="lg:col-span-5 space-y-4">
+          <div className="lg:col-span-5 space-y-3.5">
             {displayCareers.map((c) => {
               const isSelected = activeCareer && (activeCareer.id === c.id || activeCareer.slug === c.slug);
               return (
                 <div
                   key={c.id || c.slug || c.name}
                   onClick={() => setSelectedCareerId(c.id || c.slug)}
-                  className={`card-clean p-5 sm:p-6 rounded-2xl cursor-pointer transition-all border ${
+                  className={`p-4 sm:p-5 rounded-2xl cursor-pointer transition-all border duration-200 ${
                     isSelected
                       ? 'border-[#4F46E5] bg-[#EEF2FF]/40 shadow-sm ring-2 ring-[#4F46E5]/20'
                       : 'border-[#E2E8F0] bg-white hover:border-[#C7D2FE] hover:shadow-xs hover:bg-slate-50/50'
@@ -333,7 +333,7 @@ export const CareersPage = () => {
           {/* ========================================================== */}
           <div className="lg:col-span-7">
             {activeCareer && (
-              <div className="card-clean p-6 sm:p-8 lg:p-9 bg-white border border-[#E2E8F0] rounded-3xl shadow-sm space-y-6 sticky top-24">
+              <div className="p-5 sm:p-7 lg:p-8 bg-white border border-slate-200/90 rounded-2xl shadow-sm space-y-5 sticky top-24">
                 {/* Header Section */}
                 <div className="space-y-3 border-b border-[#E2E8F0] pb-5">
                   <div className="flex flex-wrap items-center justify-between gap-2">

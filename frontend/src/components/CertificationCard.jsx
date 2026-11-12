@@ -1,5 +1,6 @@
 import React from 'react';
-import { Award, Building, ExternalLink, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Award, Building, ExternalLink, ArrowRight, Clock } from 'lucide-react';
 import { ExternalSearchButton } from './common/ExternalSearchButton.jsx';
 import { OfficialSourceButton } from './common/OfficialSourceButton.jsx';
 
@@ -14,14 +15,15 @@ export const CertificationCard = ({ cert }) => {
   const officialUrl = cert.notificationUrl || cert.url || cert.sources?.[0]?.url;
 
   return (
-    <div className="card-clean p-5 sm:p-6 space-y-4 bg-white border border-slate-200 hover:border-indigo-300 transition-all rounded-2xl flex flex-col justify-between shadow-2xs hover:shadow-xs group">
+    <div className="p-5 sm:p-6 bg-white border border-slate-200/90 hover:border-sky-300 transition-all rounded-2xl flex flex-col justify-between shadow-2xs hover:shadow-xs group space-y-4">
       <div className="space-y-3">
         <div className="flex items-center justify-between text-xs">
-          <span className="font-extrabold text-cyan-700 px-2.5 py-0.5 rounded-full bg-cyan-50 border border-cyan-200 text-[10px]">
+          <span className="font-extrabold text-sky-700 px-2.5 py-0.5 rounded-full bg-sky-50 border border-sky-200 text-[10px]">
             {category}
           </span>
-          <span className="font-semibold text-slate-500 text-[11px]">
-            ⏱️ {duration}
+          <span className="font-semibold text-slate-500 text-[11px] flex items-center gap-1">
+            <Clock className="w-3.5 h-3.5 text-slate-400" />
+            <span>{duration}</span>
           </span>
         </div>
 
@@ -29,11 +31,11 @@ export const CertificationCard = ({ cert }) => {
           <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-indigo-600 transition-colors tracking-tight line-clamp-1">
             {name}
           </h3>
-          <div className="text-xs font-semibold text-slate-600 mt-0.5 flex items-center gap-1">
+          <div className="text-xs font-semibold text-slate-600 mt-1 flex items-center gap-1">
             <Building className="w-3.5 h-3.5 text-slate-400" />
             <span>{organization}</span>
           </div>
-          <p className="text-xs text-slate-500 leading-relaxed mt-1.5 line-clamp-2">
+          <p className="text-xs text-slate-500 leading-relaxed mt-2 line-clamp-2">
             {description}
           </p>
         </div>
@@ -46,7 +48,7 @@ export const CertificationCard = ({ cert }) => {
           <OfficialSourceButton url={officialUrl} label="Official Portal" />
         ) : (
           <Link
-            to="/learn"
+            to="/careers"
             className="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold inline-flex items-center gap-1 transition-colors shadow-2xs"
           >
             <span>Learn More</span>

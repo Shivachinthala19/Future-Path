@@ -202,20 +202,20 @@ export const SearchResultsPage = () => {
   });
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-6 sm:space-y-8">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8 sm:space-y-10">
       {/* ============================================================ */}
       {/* 1. USER RELATED INFORMATION DATA CONTAINER                  */}
       {/* ============================================================ */}
-      <section className="bg-gradient-to-br from-white via-slate-50/70 to-indigo-50/30 border border-slate-200/90 rounded-2xl sm:rounded-3xl shadow-xs p-5 sm:p-7 space-y-5 sm:space-y-6">
+      <section className="bg-gradient-to-br from-white via-slate-50/70 to-indigo-50/30 border border-slate-200/90 rounded-2xl sm:rounded-3xl shadow-xs p-6 sm:p-8 space-y-6">
         {/* Header: User Greeting & Baseline Info */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200/80">
-          <div className="flex items-center gap-3.5 sm:gap-4">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white font-black flex items-center justify-center text-lg sm:text-xl shadow-md shadow-indigo-500/20 flex-shrink-0">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-200/80">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white font-black flex items-center justify-center text-xl shadow-md shadow-indigo-500/20 flex-shrink-0">
               {userName.charAt(0).toUpperCase()}
             </div>
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
+                <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
                   Personalized Pathways for {rawName}
                 </h1>
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1.5 shadow-2xs">
@@ -229,17 +229,17 @@ export const SearchResultsPage = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 self-start sm:self-auto flex-shrink-0">
+          <div className="flex items-center gap-2.5 self-start sm:self-auto flex-shrink-0">
             <button
               onClick={openChangeModal}
-              className="px-3.5 py-2 rounded-xl border border-indigo-200 bg-white hover:bg-indigo-50 text-xs font-bold text-indigo-700 transition-all cursor-pointer shadow-2xs hover:shadow-xs flex items-center gap-1.5 active:scale-95"
+              className="px-4 py-2.5 rounded-xl border border-indigo-200 bg-white hover:bg-indigo-50 text-xs sm:text-sm font-bold text-indigo-700 transition-all cursor-pointer shadow-2xs hover:shadow-xs flex items-center gap-2 active:scale-95"
             >
               <GraduationCap className="w-4 h-4 text-indigo-600" />
               <span>Change Education</span>
             </button>
             <Link
               to="/profile"
-              className="px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 transition-all shadow-2xs hover:shadow-xs flex items-center gap-1.5 active:scale-95"
+              className="px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs sm:text-sm font-bold text-slate-700 transition-all shadow-2xs hover:shadow-xs flex items-center gap-2 active:scale-95"
             >
               <User className="w-4 h-4 text-slate-500" />
               <span>Profile</span>
@@ -248,11 +248,11 @@ export const SearchResultsPage = () => {
         </div>
 
         {/* 3-Column User Relevant Opportunities Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
           {/* Box 1: Degrees & Master's Options */}
           <div
             onClick={() => handleQuickFilter(`courses after ${studyName}`)}
-            className="p-4.5 sm:p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between space-y-3.5 shadow-2xs group cursor-pointer"
+            className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 hover:border-indigo-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between space-y-4 shadow-2xs group cursor-pointer"
           >
             <div className="space-y-2.5">
               <div className="flex items-center justify-between">
@@ -284,13 +284,13 @@ export const SearchResultsPage = () => {
           {/* Box 2: High-Growth Jobs Tailored for Study */}
           <div
             onClick={() => handleQuickFilter(`jobs after ${studyName}`)}
-            className="p-4.5 sm:p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-purple-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between space-y-3.5 shadow-2xs group cursor-pointer"
+            className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 hover:border-purple-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between space-y-4 shadow-2xs group cursor-pointer"
           >
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 flex items-center gap-1.5">
-                  <div className="w-6 h-6 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
-                    <Briefcase className="w-3.5 h-3.5" />
+                  <div className="w-7 h-7 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
+                    <Briefcase className="w-4 h-4" />
                   </div>
                   <span>Job Roles & Salaries</span>
                 </span>
@@ -299,10 +299,10 @@ export const SearchResultsPage = () => {
                 </span>
               </div>
               <div>
-                <div className="text-sm sm:text-base font-extrabold text-slate-900 leading-snug group-hover:text-purple-700 transition-colors">
+                <div className="text-base font-extrabold text-slate-900 leading-snug group-hover:text-purple-700 transition-colors">
                   Target: {targetJobName}
                 </div>
-                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
                   Typical salary band ₹6.0 – 24.0 LPA with strong growth demand.
                 </p>
               </div>
@@ -316,13 +316,13 @@ export const SearchResultsPage = () => {
           {/* Box 3: Sovereign & Government Exams */}
           <div
             onClick={() => handleQuickFilter(`government jobs after ${studyName}`)}
-            className="p-4.5 sm:p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-emerald-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between space-y-3.5 shadow-2xs group cursor-pointer"
+            className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 hover:border-emerald-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between space-y-4 shadow-2xs group cursor-pointer"
           >
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 flex items-center gap-1.5">
-                  <div className="w-6 h-6 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
-                    <Award className="w-3.5 h-3.5" />
+                  <div className="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+                    <Award className="w-4 h-4" />
                   </div>
                   <span>Public & Sovereign Exams</span>
                 </span>
@@ -331,10 +331,10 @@ export const SearchResultsPage = () => {
                 </span>
               </div>
               <div>
-                <div className="text-sm sm:text-base font-extrabold text-slate-900 leading-snug group-hover:text-emerald-700 transition-colors">
+                <div className="text-base font-extrabold text-slate-900 leading-snug group-hover:text-emerald-700 transition-colors">
                   Competitive Govt Pathways
                 </div>
-                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
                   Qualified for UPSC CSE (IAS/IPS), SSC CGL, PSUs & State PSC recruitments.
                 </p>
               </div>
@@ -347,32 +347,32 @@ export const SearchResultsPage = () => {
         </div>
 
         {/* 1-Click Search Quick Chips for User Education (Horizontal Carousel Container) */}
-        <div className="p-3 sm:p-3.5 rounded-2xl bg-white/90 border border-slate-200/80 shadow-2xs flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth snap-x">
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white/90 border border-slate-200/80 shadow-2xs flex items-center gap-2.5 overflow-x-auto no-scrollbar scroll-smooth snap-x">
           <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 flex-shrink-0 flex items-center gap-1 pr-1">
             <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
             <span>Quick:</span>
           </span>
           <button
             onClick={() => handleQuickFilter(`jobs after ${studyName}`)}
-            className="flex-shrink-0 px-3.5 py-1.5 rounded-xl bg-slate-50 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 border border-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
+            className="flex-shrink-0 px-4 py-2 rounded-xl bg-slate-50 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 border border-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
           >
             💼 Jobs for {studyName}
           </button>
           <button
             onClick={() => handleQuickFilter(`courses after ${studyName}`)}
-            className="flex-shrink-0 px-3.5 py-1.5 rounded-xl bg-slate-50 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 border border-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
+            className="flex-shrink-0 px-4 py-2 rounded-xl bg-slate-50 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 border border-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
           >
             🎓 Master's after {studyName}
           </button>
           <button
             onClick={() => handleQuickFilter(`government jobs after ${studyName}`)}
-            className="flex-shrink-0 px-3.5 py-1.5 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 border border-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
+            className="flex-shrink-0 px-4 py-2 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 border border-slate-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
           >
             🏛️ Govt Exams for {studyName}
           </button>
           <button
             onClick={() => handleQuickFilter(targetJobName)}
-            className="flex-shrink-0 px-3.5 py-1.5 rounded-xl bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
+            className="flex-shrink-0 px-4 py-2 rounded-xl bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-2xs whitespace-nowrap"
           >
             🎯 Roadmap: {targetJobName}
           </button>
@@ -382,7 +382,7 @@ export const SearchResultsPage = () => {
       {/* ============================================================ */}
       {/* 2. UNIVERSAL SEARCH BAR & CATEGORY FILTER TABS              */}
       {/* ============================================================ */}
-      <section className="bg-white border border-slate-200/90 space-y-4 sm:space-y-5 p-5 sm:p-7 rounded-2xl sm:rounded-3xl shadow-xs">
+      <section className="bg-white border border-slate-200/90 space-y-5 sm:space-y-6 p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="space-y-1">
             <div className="text-[11px] font-extrabold uppercase tracking-wider text-indigo-600 flex items-center gap-1.5">
@@ -394,20 +394,20 @@ export const SearchResultsPage = () => {
             </h2>
           </div>
 
-          <div className="text-xs text-slate-500 font-medium bg-slate-50 border border-slate-200/80 px-3.5 py-1.5 rounded-xl self-start sm:self-auto shadow-2xs">
+          <div className="text-xs text-slate-500 font-medium bg-slate-50 border border-slate-200/80 px-4 py-2 rounded-xl self-start sm:self-auto shadow-2xs">
             Filtered for: <strong className="text-indigo-600">{queryParam || studyName}</strong>
           </div>
         </div>
 
         {/* Search Input Bar */}
         <form onSubmit={handleSearchSubmit} className="relative group">
-          <SearchIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-indigo-600 transition-colors" />
+          <SearchIcon className="w-5 h-5 text-slate-400 absolute left-4.5 top-1/2 -translate-y-1/2 group-focus-within:text-indigo-600 transition-colors" />
           <input
             type="text"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Search anything: 'study', 'job', 'MBA', 'Data Analyst', 'Govt exams', 'Python'..."
-            className="w-full pl-12 pr-32 py-3.5 sm:py-4 rounded-2xl border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 bg-slate-50/50 focus:bg-white shadow-2xs transition-all"
+            className="w-full pl-12 pr-32 py-4 rounded-2xl border border-slate-200 text-sm sm:text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 bg-slate-50/50 focus:bg-white shadow-2xs transition-all"
           />
           {searchInput && (
             <button
@@ -416,7 +416,7 @@ export const SearchResultsPage = () => {
                 setSearchInput('');
                 setSearchParams({});
               }}
-              className="absolute right-24 sm:right-28 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+              className="absolute right-24 sm:right-28 top-1/2 -translate-y-1/2 p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
               title="Clear search"
             >
               <X className="w-4 h-4" />
@@ -424,7 +424,7 @@ export const SearchResultsPage = () => {
           )}
           <button
             type="submit"
-            className="absolute right-2 sm:right-2.5 top-1/2 -translate-y-1/2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-all shadow-xs cursor-pointer active:scale-95"
+            className="absolute right-2 sm:right-2.5 top-1/2 -translate-y-1/2 px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-all shadow-xs cursor-pointer active:scale-95"
           >
             Search
           </button>
@@ -432,27 +432,27 @@ export const SearchResultsPage = () => {
 
         {/* Real-time Semantic Understanding Suggestion */}
         {activeIntent && (
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-3.5 rounded-2xl bg-gradient-to-r from-indigo-50 via-purple-50/70 to-blue-50 border border-indigo-200/80 text-xs sm:text-sm text-indigo-950 font-semibold shadow-2xs animate-in fade-in duration-200">
-            <div className="flex items-center gap-2.5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-gradient-to-r from-indigo-50 via-purple-50/70 to-blue-50 border border-indigo-200/80 text-xs sm:text-sm text-indigo-950 font-semibold shadow-2xs animate-in fade-in duration-200">
+            <div className="flex items-center gap-3">
               <Sparkles className="w-4 h-4 text-indigo-600 flex-shrink-0 animate-pulse" />
               <span>
                 Understood intent: <strong>"{searchInput || queryParam}"</strong> — Showing {activeIntent.title} tailored for your <strong>{studyName}</strong> background.
               </span>
             </div>
-            <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-600 text-white shadow-2xs self-start sm:self-auto flex-shrink-0">
+            <span className="text-[10px] font-extrabold px-3 py-1 rounded-full bg-indigo-600 text-white shadow-2xs self-start sm:self-auto flex-shrink-0">
               {activeIntent.badge}
             </span>
           </div>
         )}
 
         {/* Filter Pills & Taxonomy Toggle */}
-        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1 -mx-1 px-1 sm:mx-0 sm:px-0 sm:flex-wrap text-xs">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1 -mx-1 px-1 sm:mx-0 sm:px-0 sm:flex-wrap text-xs">
             {filterTabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setSelectedFilter(tab.id)}
-                className={`flex-shrink-0 px-3.5 py-2 rounded-xl font-bold border transition-all active:scale-95 text-xs cursor-pointer whitespace-nowrap ${
+                className={`flex-shrink-0 px-4 py-2 sm:py-2.5 rounded-xl font-bold border transition-all active:scale-95 text-xs sm:text-sm cursor-pointer whitespace-nowrap ${
                   selectedFilter === tab.id
                     ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
                     : 'bg-slate-50/80 text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-100'
@@ -465,16 +465,16 @@ export const SearchResultsPage = () => {
 
           <button
             onClick={() => setShowTaxonomy(!showTaxonomy)}
-            className="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1.5 cursor-pointer ml-auto py-1 px-2.5 rounded-xl hover:bg-indigo-50 transition-colors"
+            className="text-xs sm:text-sm font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1.5 cursor-pointer ml-auto py-1.5 px-3 rounded-xl hover:bg-indigo-50 transition-colors"
           >
             <span>{showTaxonomy ? 'Hide Categories' : 'Browse All Categories'}</span>
-            <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-200 ${showTaxonomy ? 'rotate-90' : ''}`} />
+            <ChevronRight className={`w-4 h-4 transition-transform duration-200 ${showTaxonomy ? 'rotate-90' : ''}`} />
           </button>
         </div>
 
         {/* Collapsible Taxonomy Categories */}
         {showTaxonomy && (
-          <div className="pt-2 animate-in fade-in duration-200">
+          <div className="pt-3 animate-in fade-in duration-200">
             <TaxonomyBrowser
               activeCategory={activeCategory}
               onSelectCategory={handleCategorySelect}

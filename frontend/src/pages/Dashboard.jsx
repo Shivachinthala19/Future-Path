@@ -199,7 +199,7 @@ export const Dashboard = () => {
       {/* ============================================================ */}
       {/* SECTION 8: YOUR JOURNEY SECTION                              */}
       {/* ============================================================ */}
-      <section className="card-clean p-6 sm:p-8 bg-white border border-[#E2E8F0] space-y-6">
+      <section className="p-5 sm:p-8 bg-white rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
         <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
           <div className="space-y-0.5">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#4F46E5]">
@@ -212,16 +212,16 @@ export const Dashboard = () => {
           {targetJobName && (
             <button
               onClick={removeTargetJob}
-              className="text-xs text-[#64748B] hover:text-rose-600 font-semibold transition-colors cursor-pointer"
+              className="text-xs text-[#64748B] hover:text-rose-600 font-semibold transition-colors cursor-pointer min-h-[36px] px-2 flex items-center"
             >
               Reset Target
             </button>
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-stretch">
           {/* Current Education Node */}
-          <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-white to-slate-50 border border-[#E2E8F0] hover:border-[#C7D2FE] flex flex-col justify-between space-y-4 shadow-2xs transition-all">
+          <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-white to-slate-50 border border-[#E2E8F0] hover:border-[#C7D2FE] flex flex-col justify-between space-y-4 shadow-2xs transition-all">
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] flex items-center gap-1.5">
@@ -233,7 +233,7 @@ export const Dashboard = () => {
                   <span>{statusLabel}</span>
                 </span>
               </div>
-              <div className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
+              <div className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
                 {studyName}
               </div>
               <p className="text-xs text-[#64748B] leading-relaxed">
@@ -243,7 +243,7 @@ export const Dashboard = () => {
             <div className="pt-2">
               <button
                 onClick={openChangeModal}
-                className="w-full py-2.5 px-4 rounded-xl border border-[#E2E8F0] hover:border-[#4F46E5] text-xs font-bold text-[#4F46E5] hover:bg-[#EEF2FF] inline-flex items-center justify-between transition-all cursor-pointer shadow-2xs"
+                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl border border-[#E2E8F0] hover:border-[#4F46E5] text-xs font-bold text-[#4F46E5] hover:bg-[#EEF2FF] inline-flex items-center justify-between transition-all cursor-pointer shadow-2xs active:scale-[0.99]"
               >
                 <span>Change Degree / Stream</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -253,7 +253,7 @@ export const Dashboard = () => {
 
           {/* Target Job Node */}
           {targetJobName ? (
-            <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-white via-purple-50/40 to-indigo-50/30 border border-[#C7D2FE] hover:border-purple-300 flex flex-col justify-between space-y-4 shadow-2xs transition-all">
+            <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-white via-purple-50/40 to-indigo-50/30 border border-[#C7D2FE] hover:border-purple-300 flex flex-col justify-between space-y-4 shadow-2xs transition-all">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-[#7C3AED] flex items-center gap-1.5">
@@ -264,7 +264,7 @@ export const Dashboard = () => {
                     Active Roadmap
                   </span>
                 </div>
-                <div className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight flex items-center gap-2">
+                <div className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight flex items-center gap-2">
                   <span>{targetJobName}</span>
                   <span className="text-xl">🎯</span>
                 </div>
@@ -275,7 +275,7 @@ export const Dashboard = () => {
               <div className="pt-2">
                 <Link
                   to="/my-path"
-                  className="w-full py-2.5 px-4 rounded-xl bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold inline-flex items-center justify-between transition-all shadow-xs"
+                  className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-xs font-bold inline-flex items-center justify-between transition-all shadow-xs active:scale-[0.99]"
                 >
                   <span>View Full Roadmap</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -283,7 +283,7 @@ export const Dashboard = () => {
               </div>
             </div>
           ) : (
-            <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-white to-slate-50 border border-[#E2E8F0] hover:border-purple-300 flex flex-col justify-between space-y-4 shadow-2xs transition-all group">
+            <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-white to-slate-50 border border-[#E2E8F0] hover:border-purple-300 flex flex-col justify-between space-y-4 shadow-2xs transition-all group">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] flex items-center gap-1.5">
@@ -294,7 +294,7 @@ export const Dashboard = () => {
                     Not Set
                   </span>
                 </div>
-                <div className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight group-hover:text-[#7C3AED] transition-colors">
+                <div className="text-lg sm:text-xl font-extrabold text-[#0F172A] tracking-tight group-hover:text-[#7C3AED] transition-colors">
                   Explore possible careers and jobs →
                 </div>
                 <p className="text-xs text-[#64748B] leading-relaxed">
@@ -304,7 +304,7 @@ export const Dashboard = () => {
               <div className="pt-2">
                 <button
                   onClick={openTargetJobModal}
-                  className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] hover:from-[#4338CA] hover:to-[#6D28D9] text-white text-xs font-bold inline-flex items-center justify-between transition-all shadow-xs cursor-pointer"
+                  className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] hover:from-[#4338CA] hover:to-[#6D28D9] text-white text-xs font-bold inline-flex items-center justify-between transition-all shadow-xs cursor-pointer active:scale-[0.99]"
                 >
                   <span>Explore My Options</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -328,14 +328,14 @@ export const Dashboard = () => {
       {/* ============================================================ */}
       {/* SECTION 18: FUTURE PATH AI BANNER                            */}
       {/* ============================================================ */}
-      <section className="card-clean p-6 sm:p-8 bg-[#0F172A] text-white space-y-5 rounded-[20px] shadow-lg">
+      <section className="p-5 sm:p-8 bg-[#0F172A] text-white space-y-5 rounded-2xl shadow-md border border-slate-800">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/10 text-cyan-300 text-xs font-bold">
-              <Compass className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-cyan-300 text-xs font-bold border border-white/10">
+              <Compass className="w-3.5 h-3.5 text-cyan-300" />
               <span>Future Path AI</span>
             </div>
-            <h2 className="text-2xl font-extrabold text-white tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
               Ask anything about your education and career path.
             </h2>
             <p className="text-xs text-slate-300 max-w-xl">
@@ -345,7 +345,7 @@ export const Dashboard = () => {
 
           <button
             onClick={openAi}
-            className="self-start sm:self-auto px-5 py-2.5 rounded-xl bg-white text-[#0F172A] font-bold text-xs hover:bg-slate-100 transition-colors shadow-sm inline-flex items-center gap-2 cursor-pointer"
+            className="self-stretch sm:self-auto min-h-[44px] px-5 py-2.5 rounded-xl bg-white text-[#0F172A] font-bold text-xs hover:bg-slate-100 transition-colors shadow-sm inline-flex items-center justify-center gap-2 cursor-pointer active:scale-98"
           >
             <span>Ask Future Path AI</span>
           </button>
@@ -367,7 +367,7 @@ export const Dashboard = () => {
               <button
                 key={idx}
                 onClick={openAi}
-                className="text-xs px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors cursor-pointer text-left border border-slate-700"
+                className="text-xs min-h-[38px] px-3.5 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 transition-colors cursor-pointer text-left border border-slate-700 active:scale-98"
               >
                 {q}
               </button>

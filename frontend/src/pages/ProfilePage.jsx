@@ -125,14 +125,14 @@ export const ProfilePage = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-6 sm:space-y-8">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8 sm:space-y-10">
       {/* ============================================================ */}
       {/* 1. PERSONAL EXPLORATION PROFILE HERO DASHBOARD CONTAINER     */}
       {/* ============================================================ */}
-      <section className="bg-gradient-to-br from-white via-slate-50/70 to-indigo-50/30 border border-slate-200/90 rounded-2xl sm:rounded-3xl shadow-xs p-5 sm:p-8 space-y-5 sm:space-y-6">
+      <section className="bg-gradient-to-br from-white via-slate-50/70 to-indigo-50/30 border border-slate-200/90 rounded-2xl sm:rounded-3xl shadow-xs p-6 sm:p-8 space-y-6">
         {/* Top: User Identity & Quick Action Badges */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-200/80">
-          <div className="flex items-center gap-3.5 sm:gap-4">
+          <div className="flex items-center gap-4">
             <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white font-black flex items-center justify-center text-xl sm:text-2xl shadow-md shadow-indigo-500/20 flex-shrink-0">
               {userName.charAt(0).toUpperCase()}
             </div>
@@ -165,18 +165,18 @@ export const ProfilePage = () => {
         </div>
 
         {/* Tab Switcher for User Details (Study vs Job vs Skills) */}
-        <div className="flex items-center gap-2 border-b border-slate-200/80 pb-2.5 overflow-x-auto no-scrollbar scroll-smooth snap-x">
+        <div className="flex items-center gap-2 border-b border-slate-200/80 pb-3 overflow-x-auto no-scrollbar scroll-smooth snap-x">
           <button
             type="button"
             onClick={() => setActiveTab('study')}
             className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap active:scale-95 ${
               activeTab === 'study'
-                ? 'bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-2xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-transparent'
+                ? 'bg-indigo-600 text-white shadow-xs border border-indigo-600'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200/80 bg-white'
             }`}
           >
-            <GraduationCap className="w-4 h-4 text-indigo-600" />
-            <span>Study Profile ({studyName})</span>
+            <GraduationCap className="w-4 h-4" />
+            <span>Academic Studies</span>
           </button>
 
           <button
@@ -184,12 +184,12 @@ export const ProfilePage = () => {
             onClick={() => setActiveTab('job')}
             className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap active:scale-95 ${
               activeTab === 'job'
-                ? 'bg-purple-50 text-purple-700 border border-purple-200 shadow-2xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-transparent'
+                ? 'bg-purple-600 text-white shadow-xs border border-purple-600'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200/80 bg-white'
             }`}
           >
-            <Target className="w-4 h-4 text-purple-600" />
-            <span>Target Goal ({activeTargetJobTitle})</span>
+            <Target className="w-4 h-4" />
+            <span>Target Career</span>
           </button>
 
           <button
@@ -197,11 +197,11 @@ export const ProfilePage = () => {
             onClick={() => setActiveTab('skills')}
             className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap active:scale-95 ${
               activeTab === 'skills'
-                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-transparent'
+                ? 'bg-emerald-600 text-white shadow-xs border border-emerald-600'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200/80 bg-white'
             }`}
           >
-            <Award className="w-4 h-4 text-emerald-600" />
+            <Award className="w-4 h-4" />
             <span>Skills & Readiness ({userSkills.length})</span>
           </button>
         </div>
@@ -421,7 +421,7 @@ export const ProfilePage = () => {
       {/* ============================================================ */}
       {/* 2. ACCOUNT PREFERENCES & PROFILE EDIT FORM                   */}
       {/* ============================================================ */}
-      <section className="space-y-3 sm:space-y-4">
+      <section className="space-y-4 sm:space-y-5">
         <div className="space-y-1">
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
             Account Preferences
@@ -431,7 +431,7 @@ export const ProfilePage = () => {
           </p>
         </div>
 
-        <form onSubmit={handleSave} className="bg-white border border-slate-200/90 rounded-2xl sm:rounded-3xl shadow-xs p-5 sm:p-8 space-y-6">
+        <form onSubmit={handleSave} className="bg-white border border-slate-200/90 rounded-2xl sm:rounded-3xl shadow-xs p-6 sm:p-8 space-y-6 sm:space-y-7">
           <div className="space-y-5">
             {/* 2-Column Grid for Name and Email */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
@@ -471,40 +471,47 @@ export const ProfilePage = () => {
               </div>
             </div>
 
-            {/* Education Quick Card */}
-            <div className="p-4.5 sm:p-5 rounded-2xl border border-indigo-100 bg-indigo-50/40 space-y-2.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 flex items-center gap-1.5">
-                  <GraduationCap className="w-4 h-4" />
-                  <span>Current Education</span>
-                </span>
-                <ChangeEducationButton label="Change Education" />
+            {/* 2-Column Grid for Education and Target Job Quick Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+              {/* Education Quick Card */}
+              <div className="p-5 rounded-2xl border border-indigo-100 bg-indigo-50/40 space-y-2.5 flex flex-col justify-between">
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 flex items-center gap-1.5">
+                      <GraduationCap className="w-4 h-4" />
+                      <span>Current Education</span>
+                    </span>
+                    <ChangeEducationButton label="Change" />
+                  </div>
+                  <div className="text-lg font-extrabold text-indigo-950">
+                    {studyName}
+                  </div>
+                </div>
+                <div className="text-xs text-slate-500 flex flex-wrap items-center gap-2 pt-1 border-t border-indigo-100/80">
+                  <span className="px-2.5 py-0.5 rounded-md bg-white border border-indigo-200 font-semibold text-indigo-700 shadow-2xs">
+                    {statusLabel}
+                  </span>
+                  <span>Pathways dynamically recalculate.</span>
+                </div>
               </div>
-              <div className="text-lg sm:text-xl font-extrabold text-indigo-950">
-                {studyName}
-              </div>
-              <div className="text-xs text-slate-500 flex flex-wrap items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-md bg-white border border-indigo-200 font-semibold text-indigo-700 shadow-2xs">
-                  Status: {statusLabel}
-                </span>
-                <span>Your entire future path recalculates when changed.</span>
-              </div>
-            </div>
 
-            {/* Target Job Quick Card */}
-            <div className="p-4.5 sm:p-5 rounded-2xl border border-purple-100 bg-purple-50/40 space-y-2.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-purple-700 flex items-center gap-1.5">
-                  <Target className="w-4 h-4" />
-                  <span>Target Goal</span>
-                </span>
-                <ChangeTargetJobButton label="Change Target Job" />
-              </div>
-              <div className="text-lg sm:text-xl font-extrabold text-purple-950">
-                {activeTargetJobTitle}
-              </div>
-              <div className="text-xs text-slate-500">
-                Personalizes your skills to learn, roadmap milestones, and interview preparation.
+              {/* Target Job Quick Card */}
+              <div className="p-5 rounded-2xl border border-purple-100 bg-purple-50/40 space-y-2.5 flex flex-col justify-between">
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold uppercase tracking-wider text-purple-700 flex items-center gap-1.5">
+                      <Target className="w-4 h-4" />
+                      <span>Target Goal</span>
+                    </span>
+                    <ChangeTargetJobButton label="Change" />
+                  </div>
+                  <div className="text-lg font-extrabold text-purple-950">
+                    {activeTargetJobTitle}
+                  </div>
+                </div>
+                <div className="text-xs text-slate-500 pt-1 border-t border-purple-100/80">
+                  Personalizes skills, roadmap milestones, and prep.
+                </div>
               </div>
             </div>
 
@@ -588,21 +595,25 @@ export const ProfilePage = () => {
       {/* ============================================================ */}
       {/* 3. DEDICATED ACCOUNT SESSION & LOG OUT CARD                  */}
       {/* ============================================================ */}
-      <section className="p-5 sm:p-7 rounded-2xl sm:rounded-3xl bg-white border border-slate-200/90 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 text-sm sm:text-base font-extrabold text-slate-900">
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>Active Session for {rawName}</span>
+      <section className="p-6 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-slate-200/90 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200/80 text-emerald-600 flex items-center justify-center flex-shrink-0 shadow-2xs">
+            <ShieldCheck className="w-6 h-6 text-emerald-600" />
           </div>
-          <p className="text-xs sm:text-sm text-slate-500">
-            Logged in via <strong className="text-slate-800">{email}</strong>. Logging out ends your active session on this device.
-          </p>
+          <div className="space-y-0.5">
+            <div className="text-base font-extrabold text-slate-900">
+              Active Session for {rawName}
+            </div>
+            <p className="text-xs sm:text-sm text-slate-500">
+              Signed in as <strong className="text-slate-800">{email}</strong>. Logging out ends this session.
+            </p>
+          </div>
         </div>
 
         <button
           type="button"
           onClick={handleLogout}
-          className="w-full sm:w-auto px-5 py-3 rounded-xl bg-rose-50 hover:bg-rose-100/90 text-rose-700 border border-rose-200 hover:border-rose-300 text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs self-start sm:self-auto active:scale-95 flex-shrink-0"
+          className="w-full sm:w-auto px-5 py-3 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 hover:border-rose-300 text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs self-start sm:self-auto active:scale-95 flex-shrink-0"
         >
           <LogOut className="w-4 h-4" />
           <span>Log Out of Future Path</span>

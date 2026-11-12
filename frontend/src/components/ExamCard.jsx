@@ -16,7 +16,7 @@ export const ExamCard = ({ exam }) => {
   const officialUrl = exam.notificationUrl || exam.officialUrl || exam.sources?.[0]?.url;
 
   return (
-    <div className="card-clean p-5 sm:p-6 bg-white border border-slate-200 hover:border-indigo-300 transition-all rounded-2xl shadow-2xs hover:shadow-xs flex flex-col justify-between space-y-4 group">
+    <div className="p-5 sm:p-6 bg-white border border-slate-200/90 hover:border-indigo-300 transition-all rounded-2xl shadow-2xs hover:shadow-xs flex flex-col justify-between space-y-4 group">
       <div className="space-y-3">
         {/* Badges & Meta */}
         <div className="flex flex-wrap items-center justify-between gap-2">

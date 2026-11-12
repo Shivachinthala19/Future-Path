@@ -13,37 +13,48 @@ export const StudyCard = ({ study, currentEducation }) => {
   const eligibility = study.eligibility || `Eligible after ${currentEducation || '12th / Graduation'}`;
 
   return (
-    <div className="card-clean p-6 bg-white border border-[#E2E8F0] hover:border-[#C7D2FE] flex flex-col justify-between space-y-4 group transition-all">
+    <div className="p-5 sm:p-6 bg-white border border-slate-200/90 hover:border-indigo-300 transition-all rounded-2xl flex flex-col justify-between space-y-4 shadow-2xs hover:shadow-xs group">
       <div className="space-y-3">
-        {/* Title */}
-        <div>
-          <h3 className="text-xl font-bold text-[#0F172A] group-hover:text-[#4F46E5] transition-colors">
-            {name}
-          </h3>
-          <div className="text-xs font-semibold text-[#64748B] mt-0.5">
-            {degreeLevel} · {field}
+        {/* Badges */}
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+            {degreeLevel}
+          </span>
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-600">
+            <Clock className="w-3.5 h-3.5 text-slate-400" />
+            <span>{duration}</span>
           </div>
         </div>
 
-        {/* Duration */}
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs font-semibold text-slate-700">
-          <Clock className="w-3.5 h-3.5 text-[#64748B]" />
-          <span>{duration}</span>
+        {/* Title */}
+        <div>
+          <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-indigo-600 transition-colors tracking-tight line-clamp-1">
+            {name}
+          </h3>
+          <div className="text-xs font-semibold text-slate-500 mt-1 flex items-center gap-1">
+            <BookOpen className="w-3.5 h-3.5 text-slate-400" />
+            <span>{field}</span>
+          </div>
         </div>
 
         {/* Eligibility Line */}
-        <div className="text-xs text-slate-600 font-medium pt-1">
-          {eligibility}
+        <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-600">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5">
+            Eligibility:
+          </div>
+          <p className="line-clamp-2 text-slate-800 font-medium">
+            {eligibility}
+          </p>
         </div>
       </div>
 
       {/* Action CTA */}
-      <div className="pt-3 border-t border-[#E2E8F0]">
+      <div className="pt-3 border-t border-slate-100">
         <Link
           to={`/study/${encodeURIComponent(id)}`}
-          className="w-full btn-primary !text-xs !py-2 !px-4 !rounded-xl justify-between flex items-center"
+          className="w-full px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs inline-flex items-center justify-between shadow-2xs transition-colors"
         >
-          <span>View Details</span>
+          <span>View Study Pathways</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>

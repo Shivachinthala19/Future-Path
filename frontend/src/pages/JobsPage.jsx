@@ -87,7 +87,7 @@ export const JobsPage = () => {
       </div>
 
       {/* Search & Filter Controls */}
-      <div className="card-clean p-4 sm:p-5 bg-white border border-[#E2E8F0] space-y-4">
+      <div className="p-4 sm:p-5 bg-white border border-slate-200/90 rounded-2xl shadow-2xs space-y-4">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400" />
@@ -96,7 +96,7 @@ export const JobsPage = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by job title, sector, or keyword..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#E2E8F0] text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
+              className="w-full pl-10 pr-4 py-2.5 min-h-[44px] rounded-xl border border-[#E2E8F0] text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
             />
           </div>
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1 -mx-2 px-2 sm:mx-0 sm:px-0 sm:flex-wrap">
@@ -104,7 +104,7 @@ export const JobsPage = () => {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`flex-shrink-0 px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-transform active:scale-95 cursor-pointer ${
+                className={`flex-shrink-0 min-h-[40px] px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-transform active:scale-95 cursor-pointer ${
                   selectedCategory === cat
                     ? 'bg-[#4F46E5] text-white shadow-2xs font-bold'
                     : 'bg-[#F8FAFC] text-[#64748B] hover:bg-slate-100 hover:text-[#0F172A] border border-slate-200/70'
@@ -182,8 +182,8 @@ export const JobsPage = () => {
             return (
               <div
                 key={id}
-                className={`card-clean p-6 bg-white border flex flex-col justify-between space-y-5 group transition-all ${
-                  isCurrentTarget ? 'border-[#4F46E5] ring-2 ring-[#EEF2FF]' : 'border-[#E2E8F0]'
+                className={`p-5 sm:p-6 bg-white border flex flex-col justify-between space-y-5 rounded-2xl shadow-2xs hover:shadow-md transition-all duration-200 group ${
+                  isCurrentTarget ? 'border-[#4F46E5] ring-2 ring-[#EEF2FF]' : 'border-[#E2E8F0] hover:border-indigo-200'
                 }`}
               >
                 <div className="space-y-4">
@@ -201,10 +201,10 @@ export const JobsPage = () => {
 
                   {/* Job Title */}
                   <div>
-                    <h3 className="text-xl font-bold text-[#0F172A] group-hover:text-[#4F46E5] transition-colors">
+                    <h3 className="text-lg sm:text-xl font-bold text-[#0F172A] group-hover:text-[#4F46E5] transition-colors">
                       {title}
                     </h3>
-                    <p className="text-xs text-[#64748B] line-clamp-2 mt-1">
+                    <p className="text-xs text-[#64748B] line-clamp-2 mt-1 leading-relaxed">
                       {job.overview || job.description || `Professional career opportunity in ${sector}.`}
                     </p>
                   </div>
@@ -261,14 +261,14 @@ export const JobsPage = () => {
                 <div className="pt-3 border-t border-[#E2E8F0] flex items-center justify-between gap-2">
                   <button
                     onClick={() => handleSetTarget(title, id)}
-                    className="px-3 py-1.5 rounded-xl bg-[#F8FAFC] hover:bg-[#EEF2FF] text-[#0F172A] hover:text-[#4F46E5] text-xs font-semibold border border-[#E2E8F0] transition-colors cursor-pointer"
+                    className="min-h-[40px] px-3 py-2 rounded-xl bg-[#F8FAFC] hover:bg-[#EEF2FF] text-[#0F172A] hover:text-[#4F46E5] text-xs font-semibold border border-[#E2E8F0] transition-colors cursor-pointer active:scale-98"
                   >
                     Set Target
                   </button>
 
                   <Link
                     to={`/job/${encodeURIComponent(id)}`}
-                    className="btn-primary !text-xs !py-1.5 !px-3.5 !rounded-xl"
+                    className="min-h-[40px] px-3.5 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold inline-flex items-center gap-1.5 transition-colors shadow-2xs active:scale-98"
                   >
                     <span>View Roadmap</span>
                     <ArrowRight className="w-3.5 h-3.5" />

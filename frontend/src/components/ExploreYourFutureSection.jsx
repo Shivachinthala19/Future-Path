@@ -86,13 +86,13 @@ export const ExploreYourFutureSection = () => {
   return (
     <section
       aria-labelledby="explore-heading"
-      className="card-clean p-7 sm:p-9 bg-white border border-[#E2E8F0] space-y-8 rounded-3xl shadow-xs"
+      className="p-5 sm:p-8 bg-white border border-slate-200/90 space-y-6 sm:space-y-8 rounded-2xl shadow-xs"
     >
       {/* ================================================================= */}
       {/* SECTION HEADING                                                   */}
       {/* ================================================================= */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#E2E8F0]/80 pb-6">
-        <div className="space-y-2 max-w-2xl">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#E2E8F0]/80 pb-5">
+        <div className="space-y-1.5 max-w-2xl">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold border border-indigo-100">
             <Compass className="w-3.5 h-3.5 text-[#4F46E5]" />
             <span>DISCOVERY MATRIX</span>
@@ -100,7 +100,7 @@ export const ExploreYourFutureSection = () => {
 
           <h2
             id="explore-heading"
-            className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight"
+            className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight"
           >
             Explore Your Future Pathways
           </h2>
@@ -111,7 +111,7 @@ export const ExploreYourFutureSection = () => {
         </div>
 
         {studyName && (
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-2xl bg-slate-50 border border-[#E2E8F0] text-xs text-[#0F172A] self-start sm:self-auto shadow-2xs">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-[#E2E8F0] text-xs text-[#0F172A] self-start sm:self-auto shadow-2xs">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>Tailored for <strong className="text-[#4F46E5] font-extrabold">{studyName}</strong></span>
           </div>
@@ -121,9 +121,9 @@ export const ExploreYourFutureSection = () => {
       {/* ================================================================= */}
       {/* 5 EXPLORATION CARDS (3 PRIMARY + 2 SECONDARY)                     */}
       {/* ================================================================= */}
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         {/* ROW 1: JOBS, STUDY, CAREERS (3 Columns) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           {primaryCards.map((card) => {
             const Icon = card.icon;
             return (
@@ -131,15 +131,15 @@ export const ExploreYourFutureSection = () => {
                 key={card.id}
                 to={card.to}
                 aria-label={`${card.title}: ${card.desc}`}
-                className="group relative flex flex-col justify-between p-6 sm:p-7 rounded-3xl bg-gradient-to-b from-white to-slate-50/50 border border-[#E2E8F0] hover:border-indigo-300 shadow-2xs hover:shadow-md transition-all duration-300 hover:-translate-y-1.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                className="group relative flex flex-col justify-between p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 hover:border-indigo-300 shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F46E5] active:scale-[0.99]"
               >
-                <div className="space-y-4">
+                <div className="space-y-3.5">
                   {/* Top Bar: Icon + Badge */}
                   <div className="flex items-center justify-between">
                     <div
-                      className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shadow-2xs ${card.iconBg}`}
+                      className={`w-11 h-11 rounded-xl flex items-center justify-center transition-transform duration-200 group-hover:scale-105 shadow-2xs ${card.iconBg}`}
                     >
-                      <Icon className="w-6 h-6" />
+                      <Icon className="w-5 h-5" />
                     </div>
 
                     <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${card.badgeBg}`}>
@@ -148,8 +148,8 @@ export const ExploreYourFutureSection = () => {
                   </div>
 
                   {/* Title & Description */}
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-extrabold text-[#0F172A] tracking-tight group-hover:text-[#4F46E5] transition-colors">
+                  <div className="space-y-1.5">
+                    <h3 className="text-lg font-extrabold text-[#0F172A] tracking-tight group-hover:text-[#4F46E5] transition-colors">
                       {card.title}
                     </h3>
                     <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
@@ -159,9 +159,9 @@ export const ExploreYourFutureSection = () => {
                 </div>
 
                 {/* Bottom Action CTA */}
-                <div className="pt-4 border-t border-slate-100 mt-6 flex items-center justify-between text-xs font-extrabold text-[#4F46E5] group-hover:text-[#4338CA]">
+                <div className="pt-3.5 border-t border-slate-100 mt-5 flex items-center justify-between text-xs font-extrabold text-[#4F46E5] group-hover:text-[#4338CA]">
                   <span>{card.action}</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                  <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </div>
               </Link>
             );
@@ -169,7 +169,7 @@ export const ExploreYourFutureSection = () => {
         </div>
 
         {/* ROW 2: EXAMS & SKILLS (2 Columns) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {secondaryCards.map((card) => {
             const Icon = card.icon;
             return (
@@ -177,15 +177,15 @@ export const ExploreYourFutureSection = () => {
                 key={card.id}
                 to={card.to}
                 aria-label={`${card.title}: ${card.desc}`}
-                className="group relative flex flex-col justify-between p-6 sm:p-7 rounded-3xl bg-gradient-to-b from-white to-slate-50/50 border border-[#E2E8F0] hover:border-indigo-300 shadow-2xs hover:shadow-md transition-all duration-300 hover:-translate-y-1.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F46E5]"
+                className="group relative flex flex-col justify-between p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 hover:border-indigo-300 shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F46E5] active:scale-[0.99]"
               >
-                <div className="space-y-4">
+                <div className="space-y-3.5">
                   {/* Top Bar: Icon + Badge */}
                   <div className="flex items-center justify-between">
                     <div
-                      className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shadow-2xs ${card.iconBg}`}
+                      className={`w-11 h-11 rounded-xl flex items-center justify-center transition-transform duration-200 group-hover:scale-105 shadow-2xs ${card.iconBg}`}
                     >
-                      <Icon className="w-6 h-6" />
+                      <Icon className="w-5 h-5" />
                     </div>
 
                     <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${card.badgeBg}`}>
@@ -194,8 +194,8 @@ export const ExploreYourFutureSection = () => {
                   </div>
 
                   {/* Title & Description */}
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-extrabold text-[#0F172A] tracking-tight group-hover:text-[#4F46E5] transition-colors">
+                  <div className="space-y-1.5">
+                    <h3 className="text-lg font-extrabold text-[#0F172A] tracking-tight group-hover:text-[#4F46E5] transition-colors">
                       {card.title}
                     </h3>
                     <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
@@ -205,9 +205,9 @@ export const ExploreYourFutureSection = () => {
                 </div>
 
                 {/* Bottom Action CTA */}
-                <div className="pt-4 border-t border-slate-100 mt-6 flex items-center justify-between text-xs font-extrabold text-[#4F46E5] group-hover:text-[#4338CA]">
+                <div className="pt-3.5 border-t border-slate-100 mt-5 flex items-center justify-between text-xs font-extrabold text-[#4F46E5] group-hover:text-[#4338CA]">
                   <span>{card.action}</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                  <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </div>
               </Link>
             );

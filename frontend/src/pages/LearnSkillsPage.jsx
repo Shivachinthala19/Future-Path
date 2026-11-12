@@ -104,7 +104,7 @@ export const LearnSkillsPage = () => {
   return (
     <div className="space-y-8 max-w-5xl mx-auto py-2 sm:py-6">
       {/* Header Section (Section 17) */}
-      <section className="card-clean p-6 sm:p-8 bg-white border border-[#E2E8F0] space-y-4">
+      <section className="p-5 sm:p-7 bg-white border border-slate-200/90 rounded-2xl shadow-2xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
           <div className="space-y-1">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] text-[#059669] text-xs font-bold">
@@ -208,7 +208,7 @@ export const LearnSkillsPage = () => {
         {/* Right Side: Skill Deep-Dive & Action Card */}
         <div className="lg:col-span-5">
           {selectedSkill ? (
-            <div className="card-clean p-6 bg-white border border-[#E2E8F0] space-y-5 sticky top-20">
+            <div className="p-5 sm:p-6 bg-white border border-slate-200/90 rounded-2xl shadow-sm space-y-5 sticky top-20">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span
@@ -261,7 +261,7 @@ export const LearnSkillsPage = () => {
               <div className="pt-3">
                 <Link
                   to="/ai-assistant"
-                  className="w-full btn-primary !py-2.5 text-xs font-bold justify-center"
+                  className="w-full min-h-[44px] btn-primary !py-2.5 text-xs font-bold justify-center active:scale-98"
                 >
                   <BookOpen className="w-4 h-4" />
                   <span>Start Guided Practice</span>
@@ -269,7 +269,7 @@ export const LearnSkillsPage = () => {
               </div>
             </div>
           ) : (
-            <div className="card-clean p-8 bg-white border border-[#E2E8F0] text-center space-y-2">
+            <div className="p-6 bg-white border border-slate-200/90 rounded-2xl text-center space-y-2 shadow-2xs">
               <p className="text-xs text-slate-500">Select any skill on the left to view modules and start learning.</p>
             </div>
           )}

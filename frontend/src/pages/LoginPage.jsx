@@ -148,19 +148,38 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center py-8 sm:py-12 px-4 sm:px-6">
-      <div className="w-full max-w-xl p-6 sm:p-10 rounded-3xl bg-white border border-[#E2E8F0] shadow-xl space-y-6">
+    <div className="min-h-[82vh] flex items-center justify-center py-4 sm:py-10 px-3 sm:px-6">
+      <div className="w-full max-w-lg p-5 sm:p-9 rounded-2xl bg-white border border-slate-200/90 shadow-lg space-y-5 sm:space-y-6">
+        {/* Step Progress Indicator */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between text-xs font-semibold text-slate-500">
+            <span className="flex items-center gap-1.5 text-[#4F46E5] font-bold">
+              <span className="w-5 h-5 rounded-full bg-[#EEF2FF] border border-[#C7D2FE] flex items-center justify-center text-[11px] font-extrabold text-[#4F46E5]">
+                {step}
+              </span>
+              <span>{step === 1 ? 'Step 1: Sign In' : 'Step 2: Educational Setup'}</span>
+            </span>
+            <span className="text-slate-400 text-[11px]">2 steps total</span>
+          </div>
+          <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] transition-all duration-300 rounded-full"
+              style={{ width: step === 1 ? '50%' : '100%' }}
+            />
+          </div>
+        </div>
+
         {/* Brand Header */}
-        <div className="text-center space-y-3">
+        <div className="text-center space-y-2.5">
           <div className="flex justify-center">
-            <FuturePathLogo size={46} showTagline={false} />
+            <FuturePathLogo size={42} showTagline={false} />
           </div>
 
           <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
               {step === 1 ? 'Sign In to Future Path' : `Welcome, ${getDisplayName()}!`}
             </h1>
-            <p className="text-xs sm:text-sm text-[#64748B] mt-1 max-w-md mx-auto">
+            <p className="text-xs sm:text-sm text-[#64748B] mt-1 max-w-sm mx-auto leading-relaxed">
               {step === 1
                 ? 'Enter your name or email and password to log in.'
                 : 'Enter your education details to customize your home page and career roadmap.'}
@@ -170,7 +189,7 @@ export const LoginPage = () => {
 
         {/* Error Alert */}
         {error && (
-          <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-xs text-rose-700 flex items-center gap-2 animate-in fade-in duration-200">
+          <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 flex items-center gap-2 animate-in fade-in duration-200">
             <AlertCircle className="w-4 h-4 flex-shrink-0" />
             <span>{error}</span>
           </div>
@@ -197,7 +216,7 @@ export const LoginPage = () => {
                   placeholder="Enter your name or email"
                   required
                   autoFocus
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] bg-[#F8FAFC]/50 transition-all"
+                  className="w-full pl-10 pr-4 py-3 min-h-[46px] rounded-xl border border-slate-200 text-sm text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] bg-[#F8FAFC]/50 transition-all"
                 />
               </div>
             </div>
@@ -220,12 +239,12 @@ export const LoginPage = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
                   required
-                  className="w-full pl-10 pr-11 py-3 rounded-xl border border-slate-200 text-sm text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] bg-[#F8FAFC]/50 transition-all"
+                  className="w-full pl-10 pr-11 py-3 min-h-[46px] rounded-xl border border-slate-200 text-sm text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] bg-[#F8FAFC]/50 transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
                   title={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -237,7 +256,7 @@ export const LoginPage = () => {
             <div className="pt-2">
               <button
                 type="submit"
-                className="w-full py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-extrabold text-sm flex items-center justify-center gap-2 transition-colors shadow-2xs cursor-pointer"
+                className="w-full min-h-[46px] py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-extrabold text-sm flex items-center justify-center gap-2 transition-colors shadow-2xs cursor-pointer active:scale-98"
               >
                 <span>Continue to Education Details</span>
                 <ArrowRight className="w-4 h-4" />
@@ -382,7 +401,7 @@ export const LoginPage = () => {
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="px-4 py-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
+                className="min-h-[46px] px-4 py-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors active:scale-98"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -391,7 +410,7 @@ export const LoginPage = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-extrabold text-sm flex items-center justify-center gap-2 transition-colors shadow-2xs cursor-pointer disabled:opacity-50"
+                className="flex-1 min-h-[46px] py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-extrabold text-sm flex items-center justify-center gap-2 transition-colors shadow-2xs cursor-pointer disabled:opacity-50 active:scale-98"
               >
                 <span>{loading ? 'Personalizing Dashboard...' : 'Enter Future Path'}</span>
                 <ArrowRight className="w-4 h-4" />
