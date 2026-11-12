@@ -1352,21 +1352,21 @@ export const JobRoadmapPage = () => {
   };
 
   return (
-    <div className="space-y-8 py-2 sm:py-6 max-w-4xl mx-auto">
+    <div className="space-y-4 sm:space-y-5 py-1 sm:py-4 max-w-4xl mx-auto">
       {/* ============================================================ */}
       {/* SECTION 8 & 9: ACTIVE TARGET JOB CONTROLS THE JOB SECTION     */}
       {/* ============================================================ */}
       {activeTargetJobTitle && targetDetails ? (
-        <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-300">
+        <div className="space-y-4 sm:space-y-5 animate-in fade-in duration-300">
           {/* Header Card (Section 9 Header) */}
-          <section className="card-clean p-4.5 sm:p-8 bg-white border border-indigo-200 shadow-xs space-y-4 rounded-2xl sm:rounded-3xl">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <section className="p-4 sm:p-6 bg-white border border-indigo-100 shadow-xs space-y-3.5 rounded-2xl">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
               <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase tracking-wider">
                   <Target className="w-3.5 h-3.5" />
                   <span>Target Job Master Roadmap</span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
                   YOUR TARGET JOB: {targetDetails.title.toUpperCase()}
                 </h1>
                 <div className="text-xs sm:text-sm text-slate-600 flex flex-wrap items-center gap-2 pt-0.5">
@@ -1389,16 +1389,16 @@ export const JobRoadmapPage = () => {
             </div>
 
             {/* Quick Summary Pill Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-3 text-xs pt-1">
+            <div className="flex flex-wrap items-center justify-between gap-2.5 text-xs pt-0.5">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 font-semibold border border-slate-200">
+                <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold border border-slate-200 text-xs">
                   Sector: {targetDetails.sector}
                 </span>
-                <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 font-bold border border-emerald-200 flex items-center gap-1">
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-bold border border-emerald-200 flex items-center gap-1 text-xs">
                   <DollarSign className="w-3.5 h-3.5" />
                   {targetDetails.salary}
                 </span>
-                <span className="px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 font-bold border border-indigo-200">
+                <span className="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 font-bold border border-indigo-200 text-xs">
                   {targetDetails.category} Sector
                 </span>
               </div>
@@ -1416,14 +1416,14 @@ export const JobRoadmapPage = () => {
           {/* ======================================================== */}
           {/* SECTION 9: CAN I PURSUE THIS JOB? (ELIGIBILITY CHECK)    */}
           {/* ======================================================== */}
-          <section className="card-clean p-4.5 sm:p-7 bg-white border border-slate-200 space-y-4 sm:space-y-5 rounded-2xl sm:rounded-3xl">
+          <section className="p-4 sm:p-5 bg-white border border-slate-200/90 space-y-3.5 sm:space-y-4 rounded-2xl shadow-xs">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-sm">
                   1
                 </div>
                 <div>
-                  <h2 className="text-lg sm:text-xl font-bold text-slate-900">
+                  <h2 className="text-base sm:text-lg font-bold text-slate-900">
                     Can I pursue this job?
                   </h2>
                   <p className="text-xs text-slate-500">
@@ -1513,13 +1513,13 @@ export const JobRoadmapPage = () => {
           {/* ======================================================== */}
           {/* SECTION 11: TARGET JOB ROADMAP (VISUAL PROGRESSION NODES) */}
           {/* ======================================================== */}
-          <section className="card-clean p-6 sm:p-7 bg-white border border-slate-200 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <section className="p-4 sm:p-5 bg-white border border-slate-200/90 rounded-2xl space-y-3.5 shadow-xs">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
               <div>
-                <div className="text-xs font-extrabold uppercase tracking-wider text-indigo-600">
+                <div className="text-[11px] font-extrabold uppercase tracking-wider text-indigo-600">
                   Progression Pipeline
                 </div>
-                <h2 className="text-lg sm:text-xl font-bold text-slate-900">
+                <h2 className="text-base sm:text-lg font-bold text-slate-900">
                   Target Job Roadmap
                 </h2>
               </div>
@@ -1530,7 +1530,7 @@ export const JobRoadmapPage = () => {
 
             {/* Visual Dynamic Roadmap Flow (Section 11) */}
             <div className="overflow-x-auto pb-2">
-              <div className="flex items-center gap-2 min-w-max py-2 text-xs font-bold">
+              <div className="flex items-center gap-2 min-w-max py-1.5 text-xs font-bold">
                 {targetDetails.roadmapFlow.map((step, idx) => {
                   const isFirst = idx === 0;
                   const isTarget = idx === 1;
@@ -1551,7 +1551,7 @@ export const JobRoadmapPage = () => {
 
                   return (
                     <React.Fragment key={idx}>
-                      <div className={`px-3 py-2 rounded-xl border text-center whitespace-nowrap transition-all ${nodeClass}`}>
+                      <div className={`px-3 py-1.5 rounded-xl border text-center whitespace-nowrap transition-all ${nodeClass}`}>
                         {step}
                       </div>
                       {!isLast && (
@@ -1567,12 +1567,12 @@ export const JobRoadmapPage = () => {
           {/* ======================================================== */}
           {/* SECTION 10: HOW TO CRACK THE TARGET JOB (7 MASTER STEPS) */}
           {/* ======================================================== */}
-          <section className="card-clean p-6 sm:p-8 bg-white border border-slate-200 space-y-6">
-            <div className="border-b border-slate-100 pb-4">
-              <div className="text-xs font-extrabold uppercase tracking-wider text-purple-600">
+          <section className="p-4 sm:p-5 bg-white border border-slate-200/90 rounded-2xl space-y-4 shadow-xs">
+            <div className="border-b border-slate-100 pb-3">
+              <div className="text-[11px] font-extrabold uppercase tracking-wider text-purple-600">
                 Action Plan & Preparation
               </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5">
+              <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5">
                 HOW TO GET THIS JOB
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
@@ -1906,16 +1906,16 @@ export const JobRoadmapPage = () => {
         /* ============================================================ */
         /* NO TARGET JOB SELECTED: DISPLAY ALL ELIGIBLE JOBS FOR DEGREE  */
         /* ============================================================ */
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-5">
           {/* Header Card */}
-          <section className="card-clean p-6 sm:p-7 bg-white border border-slate-200 space-y-3">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider">
+          <section className="p-4 sm:p-5 bg-white border border-slate-200/90 rounded-2xl shadow-xs space-y-2.5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="space-y-0.5">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase tracking-wider">
                   <Briefcase className="w-3.5 h-3.5" />
                   <span>Eligible Career Opportunities</span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
                   Jobs for {studyName}
                 </h1>
                 <p className="text-xs sm:text-sm text-slate-500">
@@ -1926,7 +1926,7 @@ export const JobRoadmapPage = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={openTargetJobModal}
-                  className="btn-primary text-xs px-4 py-2 inline-flex items-center gap-1.5"
+                  className="btn-primary !text-xs !px-3.5 !py-2 inline-flex items-center gap-1.5 min-h-[38px]"
                 >
                   <Target className="w-3.5 h-3.5" />
                   <span>Select Target Job</span>
@@ -1999,7 +1999,7 @@ export const JobRoadmapPage = () => {
               return (
                 <div
                   key={job.id}
-                  className="card-clean p-5 bg-white border border-slate-200 hover:border-indigo-300 hover:shadow-xs transition-all flex flex-col justify-between space-y-4"
+                  className="p-4 sm:p-5 bg-white border border-slate-200/90 rounded-2xl hover:border-indigo-300 hover:shadow-xs transition-all flex flex-col justify-between space-y-3"
                 >
                   <div className="space-y-2.5">
                     {/* Category & Salary Pill */}

@@ -193,11 +193,11 @@ export const JobDetailsPage = () => {
   };
 
   return (
-    <div className="space-y-6 sm:space-y-8 max-w-5xl mx-auto py-2 sm:py-6">
+    <div className="space-y-4 sm:space-y-5 max-w-5xl mx-auto py-1 sm:py-4">
       {/* SECTION 14: TARGET JOB HERO */}
-      <section className="card-clean p-6 sm:p-8 bg-white border border-slate-200/90 space-y-6 shadow-2xs rounded-3xl">
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-slate-100 pb-5">
-          <div className="space-y-2">
+      <section className="p-4 sm:p-6 bg-white border border-slate-200/90 space-y-4 shadow-xs rounded-2xl">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="space-y-1.5">
             <div className="flex flex-wrap items-center gap-2">
               <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${
                 isGovt ? 'bg-amber-50 text-amber-800 border-amber-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'
@@ -217,11 +217,11 @@ export const JobDetailsPage = () => {
               )}
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
               {title}
             </h1>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl pt-1">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl pt-0.5">
               {jobData.overview || jobData.description || `Comprehensive pathway analysis, qualification routes, and skills required to become a ${title}.`}
             </p>
           </div>
@@ -230,7 +230,7 @@ export const JobDetailsPage = () => {
             {!isCurrentTarget ? (
               <button
                 onClick={handleSetTarget}
-                className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition-colors shadow-2xs flex items-center gap-1.5 cursor-pointer"
+                className="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition-colors shadow-2xs flex items-center gap-1.5 cursor-pointer min-h-[38px]"
               >
                 <Target className="w-4 h-4" />
                 <span>Set as My Target Job</span>
@@ -238,7 +238,7 @@ export const JobDetailsPage = () => {
             ) : (
               <Link
                 to="/my-path"
-                className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition-colors shadow-2xs flex items-center gap-1.5"
+                className="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition-colors shadow-2xs flex items-center gap-1.5 min-h-[38px]"
               >
                 <span>Continue My Future Path</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -282,13 +282,13 @@ export const JobDetailsPage = () => {
       </section>
 
       {/* SECTION 14 & 15: CAN YOUR CURRENT EDUCATION LEAD TO THIS JOB? */}
-      <section className="card-clean p-6 sm:p-8 bg-white border border-slate-200 space-y-6 rounded-3xl shadow-2xs">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+      <section className="p-4 sm:p-6 bg-white border border-slate-200/90 space-y-4 rounded-2xl shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
           <div>
             <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Job Eligibility Engine
             </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5">
+            <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5">
               Can your current education lead to this job?
             </h2>
           </div>
@@ -346,12 +346,12 @@ export const JobDetailsPage = () => {
 
       {/* SECTION 20: MULTIPLE ROUTES TO THE SAME JOB */}
       {multipleRoutes.length > 0 && (
-        <section className="card-clean p-6 sm:p-8 bg-white border border-slate-200 space-y-5 rounded-3xl shadow-2xs">
+        <section className="p-4 sm:p-6 bg-white border border-slate-200/90 space-y-4 rounded-2xl shadow-xs">
           <div>
             <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Multiple Pathways
             </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5">
+            <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5">
               How can I become a {title}?
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
@@ -421,12 +421,12 @@ export const JobDetailsPage = () => {
 
       {/* SECTION 14 & 16: STEP-BY-STEP ROADMAP (WITH CHECKABLE PROGRESS) */}
       {roadmapSteps.length > 0 && (
-        <section className="card-clean p-6 sm:p-8 bg-white border border-slate-200 space-y-5 rounded-3xl shadow-2xs">
+        <section className="p-4 sm:p-6 bg-white border border-slate-200/90 space-y-4 rounded-2xl shadow-xs">
           <div>
             <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Preparation Strategy
             </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5">
+            <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5">
               Step-by-Step Roadmap to {title}
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
@@ -543,12 +543,12 @@ export const JobDetailsPage = () => {
 
       {/* PROJECTS & INTERVIEW PREPARATION (Section 14) */}
       {(projects.length > 0 || interviewPreparation.length > 0) && (
-        <section className="card-clean p-6 sm:p-8 bg-white border border-slate-200 space-y-6 rounded-3xl shadow-2xs">
+        <section className="p-4 sm:p-6 bg-white border border-slate-200/90 space-y-4 rounded-2xl shadow-xs">
           <div>
             <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Practical Portfolio & Interview Preparation
             </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5">
+            <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5">
               Projects to Build & Interview Questions
             </h2>
           </div>
@@ -613,12 +613,12 @@ export const JobDetailsPage = () => {
 
       {/* CAREER GROWTH & FURTHER STUDY */}
       {(careerGrowth.length > 0 || higherStudies.length > 0) && (
-        <section className="card-clean p-6 sm:p-8 bg-white border border-slate-200 space-y-5 rounded-3xl shadow-2xs">
+        <section className="p-4 sm:p-6 bg-white border border-slate-200/90 space-y-4 rounded-2xl shadow-xs">
           <div>
             <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Long-Term Outlook
             </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5">
+            <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5">
               Career Growth & Subsequent Higher Studies
             </h2>
           </div>

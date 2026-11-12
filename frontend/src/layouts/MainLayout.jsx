@@ -17,7 +17,7 @@ export const MainLayout = () => {
       <Navbar onOpenAssistant={() => setAiDrawerOpen(true)} />
 
       {/* Main Content Viewport */}
-      <main className={`flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 ${isAuthPage ? 'pb-8' : 'pb-24 md:pb-12'}`}>
+      <main className={`flex-1 w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-5 ${isAuthPage ? 'pb-8' : 'pb-24 md:pb-12'}`}>
         <Outlet context={{ openAIAssistant: () => setAiDrawerOpen(true) }} />
       </main>
 

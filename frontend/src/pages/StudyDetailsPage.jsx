@@ -136,11 +136,11 @@ export const StudyDetailsPage = () => {
   const sources = study.sources || study.officialSources || [];
 
   return (
-    <div className="space-y-6 sm:space-y-8 max-w-5xl mx-auto py-2 sm:py-6">
+    <div className="space-y-4 sm:space-y-5 max-w-5xl mx-auto py-1 sm:py-4">
       {/* SECTION 14: STUDY HERO OVERVIEW */}
-      <section className="card-clean p-6 sm:p-8 bg-white border border-slate-200/90 space-y-6 shadow-2xs rounded-3xl">
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-slate-100 pb-5">
-          <div className="space-y-2">
+      <section className="p-4 sm:p-6 bg-white border border-slate-200/90 space-y-4 shadow-xs rounded-2xl">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="space-y-1.5">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
                 {studyType}
@@ -154,11 +154,11 @@ export const StudyDetailsPage = () => {
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
               {study.name}
             </h1>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl pt-1">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl pt-0.5">
               {study.overview || study.description || `Comprehensive accredited study curriculum designed for academic and professional advancement.`}
             </p>
           </div>
@@ -166,14 +166,14 @@ export const StudyDetailsPage = () => {
           <div className="flex flex-wrap sm:flex-col gap-2 self-start flex-shrink-0">
             <button
               onClick={handleSetCurrentEducation}
-              className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition-colors shadow-2xs flex items-center gap-1.5 cursor-pointer"
+              className="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition-colors shadow-2xs flex items-center gap-1.5 cursor-pointer min-h-[38px]"
             >
               <GraduationCap className="w-4 h-4" />
               <span>Set as My Study</span>
             </button>
             <Link
               to="/my-path"
-              className="px-4 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 font-bold text-xs transition-colors shadow-2xs flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 font-bold text-xs transition-colors shadow-2xs flex items-center gap-1.5 min-h-[38px]"
             >
               <Target className="w-4 h-4" />
               <span>Add to Future Path</span>
@@ -233,7 +233,7 @@ export const StudyDetailsPage = () => {
       </section>
 
       {/* SECTION 14: WHO CAN ENTER THIS STUDY? (MULTIPLE ADMISSION ROUTES) */}
-      <section className="card-clean p-6 sm:p-8 bg-white border border-slate-200 space-y-5 rounded-3xl shadow-2xs">
+      <section className="p-4 sm:p-6 bg-white border border-slate-200/90 space-y-4 rounded-2xl shadow-xs">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
             <Compass className="w-4 h-4" />
@@ -299,7 +299,7 @@ export const StudyDetailsPage = () => {
 
       {/* SUBJECTS & SKILLS ACQUIRED */}
       {(subjects.length > 0 || skills.length > 0) && (
-        <section className="card-clean p-6 sm:p-8 bg-white border border-slate-200 space-y-5 rounded-3xl shadow-2xs">
+        <section className="p-4 sm:p-6 bg-white border border-slate-200/90 space-y-4 rounded-2xl shadow-xs">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
               <BookOpen className="w-4 h-4" />
@@ -357,12 +357,12 @@ export const StudyDetailsPage = () => {
       )}
 
       {/* SECTION 14 & 19: WHAT CAN I DO AFTER THIS STUDY? (CAREER FIELDS, JOBS, HIGHER STUDIES) */}
-      <section className="card-clean p-6 sm:p-8 bg-white border border-slate-200 space-y-6 rounded-3xl shadow-2xs">
+      <section className="p-4 sm:p-6 bg-white border border-slate-200/90 space-y-4 rounded-2xl shadow-xs">
         <div>
           <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
             Career & Academic Continuum
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5">
+          <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-0.5">
             What can I do after {study.name}?
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -469,7 +469,7 @@ export const StudyDetailsPage = () => {
 
       {/* HIGHER STUDIES (Section 14 & 19) */}
       {higherStudies.length > 0 && (
-        <section className="card-clean p-6 sm:p-8 bg-white border border-slate-200 space-y-5 rounded-3xl shadow-2xs">
+        <section className="p-4 sm:p-6 bg-white border border-slate-200/90 space-y-4 rounded-2xl shadow-xs">
           <div>
             <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
               Academic Continuum

@@ -106,19 +106,19 @@ export const CareersPage = () => {
   const activeCareer = displayCareers.find(c => (c.id === selectedCareerId || c.slug === selectedCareerId)) || displayCareers[0];
 
   return (
-    <div className="max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 py-3 sm:py-10 space-y-5 sm:space-y-8">
+    <div className="max-w-6xl mx-auto px-2 sm:px-4 lg:px-6 py-2 sm:py-4 space-y-4 sm:space-y-5">
       {/* ============================================================ */}
       {/* HEADER HERO CARD WITH USER CONTEXT                           */}
       {/* ============================================================ */}
-      <section className="p-4 sm:p-7 bg-white border border-slate-200/90 rounded-2xl shadow-xs space-y-4 sm:space-y-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold tracking-wide">
-              <Compass className="w-4 h-4 text-[#4F46E5]" />
+      <section className="p-4 sm:p-6 bg-white border border-slate-200/90 rounded-2xl shadow-2xs space-y-3.5 sm:space-y-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="space-y-1.5 max-w-2xl">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-[11px] font-bold tracking-wide">
+              <Compass className="w-3.5 h-3.5 text-[#4F46E5]" />
               <span>CAREER DOMAIN EXPLORER</span>
             </div>
 
-            <h1 className="text-2xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
               {hasTargetJob ? (
                 <>
                   Career Domains for <span className="text-[#7C3AED]">{activeTargetJobTitle}</span>
@@ -136,13 +136,13 @@ export const CareersPage = () => {
           </div>
 
           {/* User Profile Context Capsule */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-3 flex-shrink-0 min-w-[260px]">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] flex items-center justify-between">
+          <div className="p-3.5 sm:p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-2 flex-shrink-0 min-w-[240px]">
+            <div className="text-[10px] font-bold uppercase tracking-wider text-[#64748B] flex items-center justify-between">
               <span>Your Profile Context</span>
               <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
             </div>
 
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               <div className="flex items-center gap-2 text-xs font-bold text-[#0F172A]">
                 <GraduationCap className="w-4 h-4 text-[#4F46E5] flex-shrink-0" />
                 <span className="truncate">{studyName}</span>
@@ -168,11 +168,11 @@ export const CareersPage = () => {
 
         {/* Informative Guidance Banner */}
         {hasTargetJob ? (
-          <div className="p-4 rounded-2xl bg-purple-50/80 border border-purple-200 text-xs text-purple-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5">
+          <div className="p-3 sm:p-3.5 rounded-xl bg-purple-50/80 border border-purple-200 text-xs text-purple-950 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+            <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-[#7C3AED] flex-shrink-0" />
               <span>
-                Personalized for <strong>{activeTargetJobTitle}</strong>. Showing domain sectors that lead to or complement your active goal.
+                Personalized for <strong>{activeTargetJobTitle}</strong>. Showing domain sectors that complement your goal.
               </span>
             </div>
             <button
@@ -183,8 +183,8 @@ export const CareersPage = () => {
             </button>
           </div>
         ) : (
-          <div className="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200 text-xs text-indigo-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5">
+          <div className="p-3 sm:p-3.5 rounded-xl bg-indigo-50/70 border border-indigo-200 text-xs text-indigo-950 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+            <div className="flex items-center gap-2">
               <Target className="w-4 h-4 text-[#4F46E5] flex-shrink-0" />
               <span>
                 Want tailored milestone roadmaps to a specific career goal? Select an active Target Job.
@@ -192,7 +192,7 @@ export const CareersPage = () => {
             </div>
             <button
               onClick={openTargetJobModal}
-              className="btn-primary !text-xs !py-1.5 !px-3.5 !rounded-xl whitespace-nowrap cursor-pointer self-start sm:self-auto"
+              className="btn-primary !text-xs !py-1.5 !px-3 !rounded-xl whitespace-nowrap cursor-pointer self-start sm:self-auto"
             >
               Set Target Job
             </button>
@@ -203,16 +203,16 @@ export const CareersPage = () => {
       {/* ============================================================ */}
       {/* SEARCH AND CATEGORY FILTER TABS                              */}
       {/* ============================================================ */}
-      <section className="space-y-4">
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+      <section className="space-y-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
           <div className="relative flex-1">
-            <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}
               placeholder="Search career fields, executive domains, industry verticals..."
-              className="w-full pl-11 pr-4 py-3 rounded-2xl border border-[#E2E8F0] text-xs sm:text-sm text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] bg-white shadow-2xs transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#E2E8F0] text-xs sm:text-sm text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4F46E5] bg-white shadow-2xs transition-all"
             />
           </div>
 
@@ -222,15 +222,15 @@ export const CareersPage = () => {
         </div>
 
         {/* Category Pills (Mobile Horizontal Carousel) */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1 -mx-2 px-2 sm:mx-0 sm:px-0">
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth snap-x py-0.5 -mx-1 px-1 sm:mx-0 sm:px-0">
           <span className="text-xs font-semibold text-[#64748B] whitespace-nowrap mr-1 flex-shrink-0">Sector:</span>
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-transform active:scale-95 cursor-pointer ${
+              className={`flex-shrink-0 min-h-[36px] px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-transform active:scale-95 cursor-pointer ${
                 selectedCategory === cat
-                  ? 'bg-[#4F46E5] text-white shadow-xs'
+                  ? 'bg-[#4F46E5] text-white shadow-2xs'
                   : 'bg-white text-[#64748B] border border-[#E2E8F0] hover:border-[#C7D2FE] hover:text-[#0F172A]'
               }`}
             >
@@ -244,16 +244,16 @@ export const CareersPage = () => {
       {/* CONTENT: 2-COLUMN LAYOUT (5 cols left, 7 cols right)         */}
       {/* ============================================================ */}
       {loading ? (
-        <div className="p-10 sm:p-14 text-center space-y-3 bg-white border border-slate-200/90 rounded-2xl shadow-xs">
-          <RotateCw className="w-8 h-8 text-[#4F46E5] animate-spin mx-auto" />
+        <div className="p-8 sm:p-12 text-center space-y-2.5 bg-white border border-slate-200/90 rounded-2xl shadow-2xs">
+          <RotateCw className="w-6 h-6 text-[#4F46E5] animate-spin mx-auto" />
           <p className="text-xs sm:text-sm text-[#64748B] font-semibold">
             Querying career pathways and industry progression datasets...
           </p>
         </div>
       ) : displayCareers.length === 0 ? (
-        <div className="p-10 sm:p-14 text-center space-y-3 bg-white border border-slate-200/90 rounded-2xl shadow-xs">
-          <Layers className="w-10 h-10 text-slate-300 mx-auto" />
-          <p className="text-base font-bold text-[#0F172A]">No career fields matched your filter</p>
+        <div className="p-8 sm:p-12 text-center space-y-2.5 bg-white border border-slate-200/90 rounded-2xl shadow-2xs">
+          <Layers className="w-8 h-8 text-slate-300 mx-auto" />
+          <p className="text-sm font-bold text-[#0F172A]">No career fields matched your filter</p>
           <p className="text-xs text-[#64748B] max-w-sm mx-auto">
             Try adjusting your search query or reset the sector filter to explore all available domains.
           </p>
@@ -262,37 +262,37 @@ export const CareersPage = () => {
               setSearchFilter('');
               setSelectedCategory('All');
             }}
-            className="btn-primary !text-xs !py-2 !px-4 !rounded-xl mt-2 cursor-pointer"
+            className="btn-primary !text-xs !py-1.5 !px-3.5 !rounded-xl mt-2 cursor-pointer"
           >
             Reset Filters
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 lg:gap-6 items-start">
           {/* ========================================================== */}
           {/* LEFT: INTERACTIVE CAREER FIELD CARDS                       */}
           {/* ========================================================== */}
-          <div className="lg:col-span-5 space-y-3.5">
+          <div className="lg:col-span-5 space-y-2.5">
             {displayCareers.map((c) => {
               const isSelected = activeCareer && (activeCareer.id === c.id || activeCareer.slug === c.slug);
               return (
                 <div
                   key={c.id || c.slug || c.name}
                   onClick={() => setSelectedCareerId(c.id || c.slug)}
-                  className={`p-4 sm:p-5 rounded-2xl cursor-pointer transition-all border duration-200 ${
+                  className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl cursor-pointer transition-all border duration-200 ${
                     isSelected
                       ? 'border-[#4F46E5] bg-[#EEF2FF]/40 shadow-sm ring-2 ring-[#4F46E5]/20'
                       : 'border-[#E2E8F0] bg-white hover:border-[#C7D2FE] hover:shadow-xs hover:bg-slate-50/50'
                   }`}
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="space-y-2 flex-1">
+                  <div className="flex items-start justify-between gap-2.5">
+                    <div className="space-y-1.5 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="text-xs font-extrabold text-[#0F172A] hover:text-[#4F46E5] transition-colors">
                           {c.name}
                         </span>
                         {c.category && (
-                          <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-[#475569]">
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-[#475569]">
                             {c.category}
                           </span>
                         )}
@@ -302,7 +302,7 @@ export const CareersPage = () => {
                         {c.description || c.overview}
                       </p>
 
-                      <div className="flex flex-wrap items-center gap-3 pt-1 text-[11px] text-[#475569] font-medium">
+                      <div className="flex flex-wrap items-center gap-2 pt-0.5 text-[11px] text-[#475569] font-medium">
                         {c.averageSalary && (
                           <span className="inline-flex items-center gap-1 text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-md">
                             <span>₹</span>
@@ -318,8 +318,8 @@ export const CareersPage = () => {
                     </div>
 
                     <ChevronRight
-                      className={`w-5 h-5 flex-shrink-0 mt-1 transition-transform ${
-                        isSelected ? 'text-[#4F46E5] translate-x-1' : 'text-slate-400'
+                      className={`w-4 h-4 flex-shrink-0 mt-1 transition-transform ${
+                        isSelected ? 'text-[#4F46E5] translate-x-0.5' : 'text-slate-400'
                       }`}
                     />
                   </div>
@@ -333,12 +333,12 @@ export const CareersPage = () => {
           {/* ========================================================== */}
           <div className="lg:col-span-7">
             {activeCareer && (
-              <div className="p-5 sm:p-7 lg:p-8 bg-white border border-slate-200/90 rounded-2xl shadow-sm space-y-5 sticky top-24">
+              <div className="p-4 sm:p-6 bg-white border border-slate-200/90 rounded-2xl shadow-xs space-y-4 sticky top-20">
                 {/* Header Section */}
-                <div className="space-y-3 border-b border-[#E2E8F0] pb-5">
+                <div className="space-y-2 border-b border-[#E2E8F0] pb-3.5">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#EEF2FF] text-[#4F46E5]">
+                      <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#EEF2FF] text-[#4F46E5]">
                         {activeCareer.category || 'Career Field'}
                       </span>
                       <span className="text-[11px] font-semibold text-[#64748B]">
@@ -347,14 +347,14 @@ export const CareersPage = () => {
                     </div>
 
                     {activeCareer.averageSalary && (
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
+                      <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-bold border border-emerald-200">
                         <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
                         <span>Avg: {activeCareer.averageSalary.mid || activeCareer.averageSalary.entry || '₹6.5 - 12.0 LPA'}</span>
                       </div>
                     )}
                   </div>
 
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
                     {activeCareer.name}
                   </h2>
 

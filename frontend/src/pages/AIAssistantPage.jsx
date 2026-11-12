@@ -225,15 +225,15 @@ How can I help guide your future path today?`,
   };
 
   return (
-    <div className="space-y-6 py-2 sm:py-6 max-w-4xl mx-auto">
+    <div className="space-y-4 sm:space-y-5 max-w-4xl mx-auto">
       {/* Header Banner */}
-      <section className="card-clean p-6 bg-white border border-[#E2E8F0] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
+      <section className="p-4 sm:p-5 bg-white border border-slate-200/90 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-xs font-semibold mb-2">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-[11px] font-semibold mb-1.5">
             <Compass className="w-3.5 h-3.5 text-[#4F46E5]" />
             <span>AI Career & Education Intelligence Engine</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
             Future Path AI
           </h1>
           <p className="text-xs text-[#64748B] mt-1">
@@ -257,7 +257,7 @@ How can I help guide your future path today?`,
           <button
             onClick={handleClearChat}
             title="Clear Chat History"
-            className="p-2.5 rounded-xl border border-[#E2E8F0] hover:bg-slate-50 text-slate-400 hover:text-rose-600 transition-colors cursor-pointer"
+            className="p-2.5 rounded-xl border border-[#E2E8F0] hover:bg-slate-50 text-slate-400 hover:text-rose-600 transition-colors cursor-pointer min-h-[40px] min-w-[40px] flex items-center justify-center"
           >
             <Trash2 className="w-4 h-4" />
           </button>
@@ -265,7 +265,7 @@ How can I help guide your future path today?`,
       </section>
 
       {/* Suggested Inquiries with Category Tabs */}
-      <div className="card-clean p-4 sm:p-5 bg-white border border-[#E2E8F0] space-y-3 shadow-2xs">
+      <div className="p-3.5 sm:p-4 bg-white border border-slate-200/90 rounded-2xl space-y-2.5 shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B]">
             Suggested Inquiries (Click to Ask):
@@ -273,7 +273,7 @@ How can I help guide your future path today?`,
           <div className="flex flex-wrap items-center gap-1 text-xs">
             <button
               onClick={() => setActiveCategoryTab('target')}
-              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer min-h-[32px] ${
                 activeCategoryTab === 'target'
                   ? 'bg-[#4F46E5] text-white shadow-2xs'
                   : 'text-[#64748B] hover:bg-slate-100'
@@ -283,7 +283,7 @@ How can I help guide your future path today?`,
             </button>
             <button
               onClick={() => setActiveCategoryTab('comparisons')}
-              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer min-h-[32px] ${
                 activeCategoryTab === 'comparisons'
                   ? 'bg-[#4F46E5] text-white shadow-2xs'
                   : 'text-[#64748B] hover:bg-slate-100'
@@ -293,7 +293,7 @@ How can I help guide your future path today?`,
             </button>
             <button
               onClick={() => setActiveCategoryTab('studies')}
-              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer min-h-[32px] ${
                 activeCategoryTab === 'studies'
                   ? 'bg-[#4F46E5] text-white shadow-2xs'
                   : 'text-[#64748B] hover:bg-slate-100'
@@ -303,7 +303,7 @@ How can I help guide your future path today?`,
             </button>
             <button
               onClick={() => setActiveCategoryTab('skills')}
-              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer min-h-[32px] ${
                 activeCategoryTab === 'skills'
                   ? 'bg-[#4F46E5] text-white shadow-2xs'
                   : 'text-[#64748B] hover:bg-slate-100'
@@ -313,7 +313,7 @@ How can I help guide your future path today?`,
             </button>
             <button
               onClick={() => setActiveCategoryTab('exams')}
-              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg font-bold text-[11px] transition-colors cursor-pointer min-h-[32px] ${
                 activeCategoryTab === 'exams'
                   ? 'bg-[#4F46E5] text-white shadow-2xs'
                   : 'text-[#64748B] hover:bg-slate-100'
@@ -324,12 +324,12 @@ How can I help guide your future path today?`,
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 pt-1">
+        <div className="flex flex-wrap gap-1.5 pt-1">
           {promptCategories[activeCategoryTab]?.map((q, idx) => (
             <button
               key={idx}
               onClick={() => handleSend(q)}
-              className="px-3 py-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] hover:bg-[#EEF2FF] hover:border-[#C7D2FE] hover:text-[#4F46E5] text-[#0F172A] text-xs font-semibold transition-all shadow-2xs text-left cursor-pointer"
+              className="px-2.5 py-1.5 rounded-xl border border-slate-200/90 bg-[#F8FAFC] hover:bg-[#EEF2FF] hover:border-[#C7D2FE] hover:text-[#4F46E5] text-[#0F172A] text-xs font-semibold transition-all shadow-2xs text-left cursor-pointer"
             >
               {q}
             </button>
@@ -338,25 +338,25 @@ How can I help guide your future path today?`,
       </div>
 
       {/* Chat Messages Container */}
-      <div className="card-clean p-4 sm:p-6 space-y-6 bg-white border border-[#E2E8F0] min-h-[440px] max-h-[680px] overflow-y-auto shadow-2xs">
+      <div className="p-3.5 sm:p-5 space-y-4 bg-white border border-slate-200/90 rounded-2xl min-h-[380px] max-h-[640px] overflow-y-auto shadow-xs">
         {messages.map((m, idx) => (
           <div
             key={idx}
-            className={`flex items-start gap-3 text-xs sm:text-sm ${
+            className={`flex items-start gap-2.5 text-xs sm:text-sm ${
               m.role === 'user' ? 'justify-end' : 'justify-start'
             }`}
           >
             {m.role === 'assistant' && (
-              <div className="w-8 h-8 rounded-xl bg-[#4F46E5] text-white flex items-center justify-center flex-shrink-0 mt-0.5 shadow-2xs">
-                <Compass className="w-4 h-4" />
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#4F46E5] text-white flex items-center justify-center flex-shrink-0 mt-0.5 shadow-2xs">
+                <Compass className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             )}
 
             <div
               className={`relative group rounded-2xl max-w-[92%] sm:max-w-[85%] leading-relaxed ${
                 m.role === 'user'
-                  ? 'p-4 bg-[#4F46E5] text-white font-medium rounded-tr-xs shadow-2xs'
-                  : 'p-5 bg-white border border-[#E2E8F0] text-[#0F172A] rounded-tl-xs shadow-[0_8px_24px_rgba(15,23,42,0.04)]'
+                  ? 'p-3 sm:p-4 bg-[#4F46E5] text-white font-medium rounded-tr-xs shadow-2xs'
+                  : 'p-3.5 sm:p-5 bg-white border border-slate-200/90 text-[#0F172A] rounded-tl-xs shadow-xs'
               }`}
             >
               {m.role === 'assistant' ? (
@@ -423,13 +423,13 @@ How can I help guide your future path today?`,
           type="text"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
-          placeholder={`Ask any career, education, exam, comparison, eligibility, or roadmap question...`}
-          className="flex-1 px-4 py-3.5 rounded-2xl border border-[#E2E8F0] text-sm text-[#0F172A] bg-white placeholder:text-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] font-medium shadow-[0_8px_24px_rgba(15,23,42,0.06)]"
+          placeholder="Ask any career, education, exam, comparison, eligibility, or roadmap question..."
+          className="flex-1 px-3.5 sm:px-4 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl border border-slate-200/90 text-xs sm:text-sm text-[#0F172A] bg-white placeholder:text-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] font-medium shadow-xs"
         />
         <button
           type="submit"
           disabled={!inputMessage.trim() || loading}
-          className="btn-primary !text-xs !py-3.5 !px-6 disabled:opacity-40 flex items-center gap-2 shadow-2xs cursor-pointer"
+          className="btn-primary !text-xs !py-3 sm:!py-3.5 !px-4 sm:!px-6 disabled:opacity-40 flex items-center justify-center gap-1.5 shadow-xs cursor-pointer min-h-[44px] min-w-[44px]"
         >
           <Send className="w-4 h-4" />
           <span className="hidden sm:inline font-bold">Ask AI</span>

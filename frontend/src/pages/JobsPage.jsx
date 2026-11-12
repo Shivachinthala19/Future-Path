@@ -71,40 +71,40 @@ export const JobsPage = () => {
   };
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto py-2 sm:py-6">
+    <div className="space-y-4 sm:space-y-5 max-w-6xl mx-auto py-1 sm:py-4 px-1 sm:px-0">
       {/* Header Section */}
-      <div className="space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold">
+      <div className="space-y-1">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EEF2FF] text-[#4F46E5] text-[11px] font-bold">
           <Briefcase className="w-3.5 h-3.5" />
           <span>CAREER OPPORTUNITIES</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
           Find Your Next Job
         </h1>
-        <p className="text-sm sm:text-base text-[#64748B] max-w-2xl">
+        <p className="text-xs sm:text-sm text-[#64748B] max-w-2xl">
           Discover jobs you can target based on your education (<span className="font-semibold text-[#4F46E5]">{studyName}</span>) and skills.
         </p>
       </div>
 
       {/* Search & Filter Controls */}
-      <div className="p-4 sm:p-5 bg-white border border-slate-200/90 rounded-2xl shadow-2xs space-y-4">
-        <div className="flex flex-col sm:flex-row gap-3">
+      <div className="p-3.5 sm:p-5 bg-white border border-slate-200/90 rounded-2xl shadow-2xs space-y-3">
+        <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3.5 top-3 w-4 h-4 text-slate-400" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by job title, sector, or keyword..."
-              className="w-full pl-10 pr-4 py-2.5 min-h-[44px] rounded-xl border border-[#E2E8F0] text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
+              className="w-full pl-10 pr-4 py-2 min-h-[42px] rounded-xl border border-[#E2E8F0] text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
             />
           </div>
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth snap-x py-1 -mx-2 px-2 sm:mx-0 sm:px-0 sm:flex-wrap">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth snap-x py-0.5 -mx-1 px-1 sm:mx-0 sm:px-0 sm:flex-wrap">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`flex-shrink-0 min-h-[40px] px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-transform active:scale-95 cursor-pointer ${
+                className={`flex-shrink-0 min-h-[36px] px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-transform active:scale-95 cursor-pointer ${
                   selectedCategory === cat
                     ? 'bg-[#4F46E5] text-white shadow-2xs font-bold'
                     : 'bg-[#F8FAFC] text-[#64748B] hover:bg-slate-100 hover:text-[#0F172A] border border-slate-200/70'
@@ -170,7 +170,7 @@ export const JobsPage = () => {
 
       {/* Jobs Grid */}
       {!loading && !error && filteredJobs.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5">
           {filteredJobs.map((job) => {
             const id = job.slug || job.id || job._id;
             const title = job.title || job.name;
@@ -182,14 +182,14 @@ export const JobsPage = () => {
             return (
               <div
                 key={id}
-                className={`p-5 sm:p-6 bg-white border flex flex-col justify-between space-y-5 rounded-2xl shadow-2xs hover:shadow-md transition-all duration-200 group ${
+                className={`p-4 sm:p-5 bg-white border flex flex-col justify-between space-y-4 rounded-2xl shadow-2xs hover:shadow-xs transition-all duration-200 group ${
                   isCurrentTarget ? 'border-[#4F46E5] ring-2 ring-[#EEF2FF]' : 'border-[#E2E8F0] hover:border-indigo-200'
                 }`}
               >
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {/* Category & Target Status */}
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-[11px] font-bold text-[#4F46E5] bg-[#EEF2FF] px-2.5 py-0.5 rounded-full">
+                    <span className="text-[10px] font-bold text-[#4F46E5] bg-[#EEF2FF] px-2 py-0.5 rounded-full">
                       {sector}
                     </span>
                     {isCurrentTarget && (
@@ -201,10 +201,10 @@ export const JobsPage = () => {
 
                   {/* Job Title */}
                   <div>
-                    <h3 className="text-lg sm:text-xl font-bold text-[#0F172A] group-hover:text-[#4F46E5] transition-colors">
+                    <h3 className="text-base sm:text-lg font-bold text-[#0F172A] group-hover:text-[#4F46E5] transition-colors">
                       {title}
                     </h3>
-                    <p className="text-xs text-[#64748B] line-clamp-2 mt-1 leading-relaxed">
+                    <p className="text-xs text-[#64748B] line-clamp-2 mt-0.5 leading-relaxed">
                       {job.overview || job.description || `Professional career opportunity in ${sector}.`}
                     </p>
                   </div>
