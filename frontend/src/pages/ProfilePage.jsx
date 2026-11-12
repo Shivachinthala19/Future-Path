@@ -28,7 +28,7 @@ import { ChangeEducationButton, ChangeTargetJobButton } from '../components/Chan
 import api from '../services/api.js';
 
 export const ProfilePage = () => {
-  const { user, profile, saveProfile, logout, isAuthenticated } = useAuth();
+  const { user, profile, saveProfile, updateUser, logout, isAuthenticated } = useAuth();
   const {
     currentEducation,
     targetJob,
@@ -65,9 +65,22 @@ export const ProfilePage = () => {
     'Microservices'
   ];
 
+  // Helper to determine if an email is an auto-generated / inbuilt email
+  const isInbuiltEmail = (em) => {
+    if (!em) return true;
+    const lower = em.toLowerCase();
+    return lower.endsWith('@futurepath.ai') || lower.includes('futurepath.ai');
+  };
+
   // Profile Edit Form State
   const [name, setName] = useState(user?.name || profile?.name || '');
-  const [email, setEmail] = useState(user?.email || profile?.email || '');
+  // Start with empty input to fill if inbuilt or not set; not mandatory
+  const [email, setEmail] = useState(() => {
+    if (profile?.customEmail) return profile.customEmail;
+    if (user?.email && !isInbuiltEmail(user.email)) return user.email;
+    if (profile?.email && !isInbuiltEmail(profile.email)) return profile.email;
+    return '';
+  });
   const [specialization, setSpecialization] = useState(specializationVal);
   const [currentJob, setCurrentJob] = useState(profile?.currentJob || user?.currentJob || '');
   const [location, setLocation] = useState(user?.location?.city || profile?.location || '');
@@ -78,27 +91,37 @@ export const ProfilePage = () => {
     if (user?.name || profile?.name) {
       setName(user?.name || profile?.name);
     }
-    if (user?.email || profile?.email) {
-      setEmail(user?.email || profile?.email);
-    }
-  }, [user?.name, profile?.name, user?.email, profile?.email]);
+  }, [user?.name, profile?.name]);
 
   const handleSave = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    const cleanEmail = email.trim();
+
     // Save in Auth Context & local storage
     saveProfile({
       name: name.trim(),
+      email: cleanEmail,
+      customEmail: cleanEmail,
       specialization: specialization.trim(),
       currentJob: currentJob.trim(),
       location: location.trim()
     });
 
+    if (updateUser && user) {
+      updateUser({
+        ...user,
+        name: name.trim(),
+        email: cleanEmail || user.email
+      });
+    }
+
     // Sync to backend if authenticated
     try {
       await api.put('/user/profile', {
         name: name.trim(),
+        email: cleanEmail,
         specialization: specialization.trim(),
         currentJob: currentJob.trim(),
         location: { city: location.trim() }
@@ -125,20 +148,20 @@ export const ProfilePage = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-2 sm:px-4 lg:px-6 py-2 sm:py-4 space-y-4 sm:space-y-5">
+    <div className="max-w-5xl mx-auto px-1 sm:px-3 py-1 sm:py-2.5 space-y-2.5 sm:space-y-3">
       {/* ============================================================ */}
       {/* 1. PERSONAL EXPLORATION PROFILE HERO DASHBOARD CONTAINER     */}
       {/* ============================================================ */}
-      <section className="bg-gradient-to-br from-white via-slate-50/70 to-indigo-50/30 border border-slate-200/90 rounded-2xl shadow-2xs p-4 sm:p-6 space-y-4 sm:space-y-5">
+      <section className="bg-gradient-to-br from-white via-slate-50/70 to-indigo-50/30 border border-slate-200/90 rounded-2xl shadow-2xs p-3.5 sm:p-5 space-y-3 sm:space-y-3.5">
         {/* Top: User Identity & Quick Action Badges */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-slate-200/80">
-          <div className="flex items-center gap-3 sm:gap-3.5">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-[#4F46E5] to-[#7C3AED] text-white font-black flex items-center justify-center text-lg sm:text-xl shadow-md shadow-indigo-500/20 flex-shrink-0">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2.5 border-b border-slate-200/80">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-gradient-to-br from-[#4F46E5] to-[#7C3AED] text-white font-black flex items-center justify-center text-base sm:text-xl shadow-md shadow-indigo-500/20 flex-shrink-0">
               {userName.charAt(0).toUpperCase()}
             </div>
             <div className="space-y-0.5">
               <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-lg sm:text-2xl font-extrabold text-[#0F172A] tracking-tight">
+                <h1 className="text-lg sm:text-xl font-extrabold text-[#0F172A] tracking-tight">
                   {rawName}'s Exploration Profile
                 </h1>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1.5 shadow-2xs">
@@ -155,7 +178,7 @@ export const ProfilePage = () => {
           <div className="flex items-center gap-2 self-start sm:self-auto flex-shrink-0">
             <Link
               to="/my-path"
-              className="px-3.5 py-2 sm:py-2.5 min-h-[40px] rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 shadow-2xs hover:shadow-xs active:scale-95"
+              className="px-3.5 py-2 min-h-[38px] rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 shadow-2xs hover:shadow-xs active:scale-95"
             >
               <Compass className="w-4 h-4" />
               <span>My Career Roadmap</span>
@@ -165,7 +188,7 @@ export const ProfilePage = () => {
         </div>
 
         {/* Tab Switcher for User Details (Study vs Job vs Skills) */}
-        <div className="flex items-center gap-1.5 sm:gap-2 border-b border-slate-200/80 pb-2.5 overflow-x-auto no-scrollbar scroll-smooth snap-x">
+        <div className="flex items-center gap-1.5 sm:gap-2 border-b border-slate-200/80 pb-2 overflow-x-auto no-scrollbar scroll-smooth snap-x">
           <button
             type="button"
             onClick={() => setActiveTab('study')}
@@ -208,7 +231,7 @@ export const ProfilePage = () => {
 
         {/* Tab 1: STUDY PROFILE */}
         {activeTab === 'study' && (
-          <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 space-y-4 shadow-2xs animate-in fade-in duration-150">
+          <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200/90 space-y-3 shadow-2xs animate-in fade-in duration-150">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
               <div>
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#4F46E5]">
@@ -297,7 +320,7 @@ export const ProfilePage = () => {
 
         {/* Tab 2: TARGET JOB PROFILE */}
         {activeTab === 'job' && (
-          <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 space-y-4 shadow-2xs animate-in fade-in duration-150">
+          <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200/90 space-y-3 shadow-2xs animate-in fade-in duration-150">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
               <div>
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#7C3AED]">
@@ -368,7 +391,7 @@ export const ProfilePage = () => {
 
         {/* Tab 3: SKILLS & READINESS */}
         {activeTab === 'skills' && (
-          <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 space-y-4 shadow-2xs animate-in fade-in duration-150">
+          <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200/90 space-y-3 shadow-2xs animate-in fade-in duration-150">
             <div>
               <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700">
                 Competency Inventory
@@ -421,7 +444,7 @@ export const ProfilePage = () => {
       {/* ============================================================ */}
       {/* 2. ACCOUNT PREFERENCES & PROFILE EDIT FORM                   */}
       {/* ============================================================ */}
-      <section className="space-y-2.5 sm:space-y-3">
+      <section className="space-y-1.5 sm:space-y-2">
         <div className="space-y-0.5 px-0.5">
           <h2 className="text-lg sm:text-xl font-extrabold text-[#0F172A] tracking-tight">
             Account Preferences
@@ -431,10 +454,10 @@ export const ProfilePage = () => {
           </p>
         </div>
 
-        <form onSubmit={handleSave} className="bg-white border border-slate-200/90 rounded-2xl shadow-2xs p-4 sm:p-6 space-y-4 sm:space-y-5">
-          <div className="space-y-3.5 sm:space-y-4">
+        <form onSubmit={handleSave} className="bg-white border border-slate-200/90 rounded-2xl shadow-2xs p-3.5 sm:p-5 space-y-3 sm:space-y-3.5">
+          <div className="space-y-3 sm:space-y-3.5">
             {/* 2-Column Grid for Name and Email */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
               {/* Name */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-1">
@@ -450,31 +473,29 @@ export const ProfilePage = () => {
                 />
               </div>
 
-              {/* Email */}
+              {/* Email (Optional, Editable, Empty Input) */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center justify-between">
-                  <span className="flex items-center gap-1">
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1">
                     <Mail className="w-3.5 h-3.5 text-slate-400" />
                     <span>Email Address</span>
-                  </span>
-                  <span className="text-[10px] text-slate-400 font-normal flex items-center gap-1">
-                    <Lock className="w-3 h-3 text-slate-400" />
-                    Read-only
-                  </span>
-                </label>
+                  </label>
+                  <span className="text-[11px] text-slate-400 font-medium">Optional</span>
+                </div>
                 <input
                   type="email"
                   value={email}
-                  disabled
-                  className="w-full px-3.5 py-2.5 min-h-[44px] rounded-xl border border-slate-200 text-sm text-slate-500 bg-slate-50/80 cursor-not-allowed"
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email address (optional)"
+                  className="w-full px-3.5 py-2.5 min-h-[44px] rounded-xl border border-slate-200 text-sm text-[#0F172A] font-medium bg-slate-50/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5] transition-all placeholder:text-slate-400"
                 />
               </div>
             </div>
 
             {/* 2-Column Grid for Education and Target Job Quick Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3">
               {/* Education Quick Card */}
-              <div className="p-3.5 sm:p-4 rounded-xl border border-indigo-100 bg-indigo-50/40 space-y-2 flex flex-col justify-between">
+              <div className="p-3 sm:p-3.5 rounded-xl border border-indigo-100 bg-indigo-50/40 space-y-1.5 flex flex-col justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold uppercase tracking-wider text-[#4F46E5] flex items-center gap-1.5">
@@ -487,7 +508,7 @@ export const ProfilePage = () => {
                     {studyName}
                   </div>
                 </div>
-                <div className="text-xs text-[#64748B] flex flex-wrap items-center gap-2 pt-1.5 border-t border-indigo-100/80">
+                <div className="text-xs text-[#64748B] flex flex-wrap items-center gap-2 pt-1 border-t border-indigo-100/80">
                   <span className="px-2 py-0.5 rounded-md bg-white border border-indigo-200 font-semibold text-[#4F46E5] shadow-2xs text-[11px]">
                     {statusLabel}
                   </span>
@@ -496,7 +517,7 @@ export const ProfilePage = () => {
               </div>
 
               {/* Target Job Quick Card */}
-              <div className="p-3.5 sm:p-4 rounded-xl border border-purple-100 bg-purple-50/40 space-y-2 flex flex-col justify-between">
+              <div className="p-3 sm:p-3.5 rounded-xl border border-purple-100 bg-purple-50/40 space-y-1.5 flex flex-col justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold uppercase tracking-wider text-[#7C3AED] flex items-center gap-1.5">
@@ -509,14 +530,14 @@ export const ProfilePage = () => {
                     {activeTargetJobTitle}
                   </div>
                 </div>
-                <div className="text-[11px] text-[#64748B] pt-1.5 border-t border-purple-100/80">
+                <div className="text-[11px] text-[#64748B] pt-1 border-t border-purple-100/80">
                   Personalizes skills, roadmap milestones, and prep.
                 </div>
               </div>
             </div>
 
             {/* 2-Column Grid for Specialization and Current Role */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
               {/* Specialization */}
               <div>
                 <div className="flex items-center justify-between mb-1">
@@ -595,9 +616,9 @@ export const ProfilePage = () => {
       {/* ============================================================ */}
       {/* 3. DEDICATED ACCOUNT SESSION & LOG OUT CARD                  */}
       {/* ============================================================ */}
-      <section className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+      <section className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200/90 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 text-emerald-600 flex items-center justify-center flex-shrink-0 shadow-2xs">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 text-emerald-600 flex items-center justify-center flex-shrink-0 shadow-2xs">
             <ShieldCheck className="w-5 h-5 text-emerald-600" />
           </div>
           <div className="space-y-0.5">
@@ -605,7 +626,11 @@ export const ProfilePage = () => {
               Active Session for {rawName}
             </div>
             <p className="text-xs text-[#64748B]">
-              Signed in as <strong className="text-slate-800">{email}</strong>. Logging out ends this session.
+              {email ? (
+                <>Signed in with <strong className="text-slate-800">{email}</strong>.</>
+              ) : (
+                <>Signed in as <strong className="text-slate-800">{rawName}</strong>.</>
+              )} Logging out ends this session.
             </p>
           </div>
         </div>
@@ -613,7 +638,7 @@ export const ProfilePage = () => {
         <button
           type="button"
           onClick={handleLogout}
-          className="w-full sm:w-auto px-4 py-2.5 min-h-[44px] rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 hover:border-rose-300 text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs self-start sm:self-auto active:scale-95 flex-shrink-0"
+          className="w-full sm:w-auto px-4 py-2 min-h-[40px] rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 hover:border-rose-300 text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs self-start sm:self-auto active:scale-95 flex-shrink-0"
         >
           <LogOut className="w-4 h-4" />
           <span>Log Out of Future Path</span>
